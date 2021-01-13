@@ -3,7 +3,7 @@
 
 * Damià Martínez - Contacto: damiamartinez94@gmail.com
 * Jesús Salvador
-* Miguel Navarro
+* Miguel Navarro - Contacto: miguelnatr@gmail.com
 * Vicent Sargues
 * Wei Luo
 
