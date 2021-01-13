@@ -4,7 +4,7 @@
 * Damià Martínez - Contacto: damiamartinez94@gmail.com
 * Jesús Salvador
 * Miguel Navarro - Contacto: miguelnatr@gmail.com
-* Vicent Sargues
+* Vicent Sargues - Contacto: vicentsargues@gmail.com
 * Wei Luo
 
 ## Trello  📝
