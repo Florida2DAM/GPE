@@ -1,7 +1,7 @@
 # 🚚 Gestión de Pedidos y Entregas (GPE) 🚚
 ## Integrantes 👥
 
-* Damià Martínez
+* Damià Martínez - Contacto: damiamartinez94@gmail.com
 * Jesús Salvador
 * Miguel Navarro
 * Vicent Sargues
