@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GPE.Models
 {
@@ -10,10 +10,10 @@ namespace GPE.Models
 
         }
 
-        public OrderLine(int orderLineId, int orderId, int articleId, string lot, string description, double price, string brand, string category, int quantity, int iva, int discount)
+        public OrderLine(int orderId, int lineId, int articleId, string lot, string description, double price, string brand, string category, int quantity, int iva, int discount)
         {
-            OrderLineId = orderLineId;
             OrderId = orderId;
+            LineId = lineId;
             ArticleId = articleId;
             Lot = lot;
             Description = description;
@@ -25,8 +25,10 @@ namespace GPE.Models
             Discount = discount;
         }
 
-        public int OrderLineId { get; set; }
+        [Key, Column(Order = 0)]
         public int OrderId { get; set; }
+        [Key, Column(Order = 1)]
+        public int LineId { get; set; }
         public int ArticleId { get; set; }
         [Required]
         [StringLength(50)]
