@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -24,12 +25,23 @@ namespace GPE.Models
         }
 
         public int ArticleId { get; set; }
+        [Required]
+        [StringLength(100)]
         public string Description { get; set; }
+        [Required]
+        [StringLength(50)]
         public string Lot { get; set; }
+        [Required]
         public int Stock { get; set; }
+        [Required]
         public double Price { get; set; }
+        [Required]
+        [StringLength(50)]
         public string Brand { get; set; }
+        [Required]
+        [StringLength(50)]
         public string Category { get; set; }
+        [Required]
         public int Iva { get; set; }
     }
 }

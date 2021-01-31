@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GPE.Migrations
 {
     [DbContext(typeof(GPEContext))]
-    [Migration("20210131190506_gpe1")]
+    [Migration("20210131192733_gpe1")]
     partial class gpe1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,22 +26,27 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Brand")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Category")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
 
                     b.Property<int>("Iva")
                         .HasColumnType("int");
 
                     b.Property<string>("Lot")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("OrderLineId")
-                        .HasColumnType("int");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<double>("Price")
                         .HasColumnType("double");
@@ -50,8 +55,6 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ArticleId");
-
-                    b.HasIndex("OrderLineId");
 
                     b.ToTable("Articles");
 
@@ -76,34 +79,53 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
+                        .HasMaxLength(100);
 
                     b.Property<string>("City")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("ContactName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Country")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("NIF")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Phone")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(13) CHARACTER SET utf8mb4")
+                        .HasMaxLength(13);
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(5) CHARACTER SET utf8mb4")
+                        .HasMaxLength(5);
 
                     b.Property<string>("Province")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.HasKey("ClientId");
 
@@ -133,10 +155,14 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Type")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.HasKey("EmployeeId");
 
@@ -161,7 +187,8 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ContactName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -182,7 +209,8 @@ namespace GPE.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PayingMethod")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<double>("Total")
                         .HasColumnType("double");
@@ -222,13 +250,19 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Brand")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Category")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4")
+                        .HasMaxLength(150);
 
                     b.Property<int>("Discount")
                         .HasColumnType("int");
@@ -237,7 +271,9 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Lot")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -249,6 +285,8 @@ namespace GPE.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderLineId");
+
+                    b.HasIndex("ArticleId");
 
                     b.HasIndex("OrderId");
 
@@ -285,13 +323,6 @@ namespace GPE.Migrations
                         });
                 });
 
-            modelBuilder.Entity("GPE.Models.Article", b =>
-                {
-                    b.HasOne("GPE.Models.OrderLine", null)
-                        .WithMany("Articles")
-                        .HasForeignKey("OrderLineId");
-                });
-
             modelBuilder.Entity("GPE.Models.Order", b =>
                 {
                     b.HasOne("GPE.Models.Client", "Client")
@@ -309,6 +340,12 @@ namespace GPE.Migrations
 
             modelBuilder.Entity("GPE.Models.OrderLine", b =>
                 {
+                    b.HasOne("GPE.Models.Article", "Article")
+                        .WithMany()
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GPE.Models.Order", "Order")
                         .WithMany("OrderLines")
                         .HasForeignKey("OrderId")
