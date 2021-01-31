@@ -127,8 +127,8 @@ namespace GPE.Migrations
 
             migrationBuilder.InsertData(
                 table: "Articles",
-                columns: new[] { "ArticleId", "Brand", "Category", "Description", "Iva", "Lot", "OrderLineId", "Price", "Stock" },
-                values: new object[] { 1, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 21, "Lot-01", null, 10.5, 1000 });
+                columns: new[] { "ArticleId", "Brand", "Category", "Description", "Iva", "Lot", "Price", "Stock" },
+                values: new object[] { 1, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 21, "Lot-01", 10.5, 1000 });
 
             migrationBuilder.InsertData(
                 table: "Clients",
