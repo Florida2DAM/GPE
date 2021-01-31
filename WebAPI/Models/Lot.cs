@@ -10,7 +10,7 @@ namespace GPE.Models
 
         }
 
-        public Lot(int articleId, int lotId, int stock)
+        public Lot(int articleId, string lotId, int stock)
         {
             ArticleId = articleId;
             LotId = lotId;
@@ -20,7 +20,8 @@ namespace GPE.Models
         [Key, Column(Order = 0)]
         public int ArticleId { get; set; }
         [Key, Column(Order = 1)]
-        public int LotId { get; set; }
+        [StringLength(30)]
+        public string LotId { get; set; }
         [Required]
         public int Stock { get; set; }
 

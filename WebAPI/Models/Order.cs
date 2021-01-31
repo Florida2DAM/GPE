@@ -25,7 +25,6 @@ namespace GPE.Models
             EmployeeId = employeeId;
         }
 
-        [Key]
         public int OrderId { get; set; }
         public int ClientId { get; set; }
         [Required]
