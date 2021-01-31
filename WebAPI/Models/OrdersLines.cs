@@ -7,8 +7,28 @@ namespace GPE.Models
 {
     public class OrdersLines
     {
+        public OrdersLines()
+        {
+
+        }
+        public OrdersLines(int orderId, int lineId, int articleId, string lot, string description, int stock, double price, string brand, string category, int quantity, int iva, int discount)
+        {
+            OrderId = orderId;
+            LineId = lineId;
+            ArticleId = articleId;
+            Lot = lot;
+            Description = description;
+            Stock = stock;
+            Price = price;
+            Brand = brand;
+            Category = category;
+            Quantity = quantity;
+            Iva = iva;
+            Discount = discount;
+        }
+
         public int OrderId { get; set; }
-        public string LineId { get; set; }
+        public int LineId { get; set; }
         public int ArticleId { get; set; }
         public string Lot { get; set; }
         public string Description { get; set; }
@@ -20,6 +40,7 @@ namespace GPE.Models
         public int Iva { get; set; }
         public int Discount { get; set; }
 
-
+        public Orders Orders { get; set; }
+        public List<Articles> Articles { get; set; }
     }
 }
