@@ -23,7 +23,6 @@ namespace GPE.Models
             Iva = iva;
         }
 
-
         public int ArticleId { get; set; }
         public string Description { get; set; }
         public string Lot { get; set; }
@@ -32,7 +31,5 @@ namespace GPE.Models
         public string Brand { get; set; }
         public string Category { get; set; }
         public int Iva { get; set; }
-
-        public Order Orders { get; set; }
     }
 }

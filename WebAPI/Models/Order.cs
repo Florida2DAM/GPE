@@ -25,7 +25,6 @@ namespace GPE.Models
             EmployeeId = employeeId;
         }
 
-        [Key]
         public int OrderId { get; set; }
         public int ClientId { get; set; }
         public int OrderNum { get; set; }
@@ -38,8 +37,8 @@ namespace GPE.Models
         public string PayingMethod { get; set; }
         public int EmployeeId { get; set; }
 
-        public Client Clients { get; set; }
-        public Employee Employees { get; set; }
-        public List<OrderLines> OrdersLines { get; set; }
+        public Client Client { get; set; }
+        public Employee Employee { get; set; }
+        public List<OrderLine> OrderLines { get; set; }
     }
 }
