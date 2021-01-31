@@ -9,7 +9,6 @@ namespace GPE.Models
         {
 
         }
-
         public OrderLine(int orderId, int lineId, int articleId, string lot, string description, double price, string brand, string category, int quantity, int iva, int discount)
         {
             OrderId = orderId;
