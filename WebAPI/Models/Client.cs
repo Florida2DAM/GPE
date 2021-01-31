@@ -12,7 +12,7 @@ namespace GPE.Models
         {
         }
 
-        public Client(int clientId, string name, string address, string city, string postalCode, string province, string country, string phone, string email, string nIF, string contactName)
+        public Client(int clientId, string name, string address, string city, string postalCode, string province, string country, string phone, string email, string nIF, string contactName, DateTime registerDate, bool enabled)
         {
             ClientId = clientId;
             Name = name;
@@ -25,6 +25,8 @@ namespace GPE.Models
             Email = email;
             NIF = nIF;
             ContactName = contactName;
+            RegisterDate = registerDate;
+            Enabled = enabled;
         }
 
         public int ClientId { get; set; }
@@ -57,6 +59,10 @@ namespace GPE.Models
         public string NIF { get; set; }
         [StringLength(50)]
         public string ContactName { get; set; }
+        [Required]
+        public DateTime RegisterDate { get; set; }
+        [Required]
+        public bool Enabled { get; set; }
 
         public List<Order> Orders { get; set; }
     }
