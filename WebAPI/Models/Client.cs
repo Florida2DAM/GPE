@@ -5,15 +5,16 @@ using System.Web;
 
 namespace GPE.Models
 {
-    public class Clients
+    public class Client
     {
-        public Clients()
+        public Client()
         {
         }
-        public Clients(int clientId, string client, string address, string city, string postalCode, string province, string country, string phone, string email, string nIF, string contactName)
+
+        public Client(int clientId, string name, string address, string city, string postalCode, string province, string country, string phone, string email, string nIF, string contactName)
         {
             ClientId = clientId;
-            Client = client;
+            Name = name;
             Address = address;
             City = city;
             PostalCode = postalCode;
@@ -26,7 +27,7 @@ namespace GPE.Models
         }
 
         public int ClientId { get; set; }
-        public string Client { get; set; }
+        public string Name { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
@@ -37,6 +38,6 @@ namespace GPE.Models
         public string NIF { get; set; }
         public string ContactName { get; set; }
 
-        public List<Orders> Orders { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

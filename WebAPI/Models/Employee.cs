@@ -5,21 +5,22 @@ using System.Web;
 
 namespace GPE.Models
 {
-    public class Employees
+    public class Employee
     {
-        public Employees()
+        public Employee()
         {
 
         }
-        public Employees(int employeeId, string employee, string type)
+
+        public Employee(int employeeId, string name, string type)
         {
             EmployeeId = employeeId;
-            Employee = employee;
+            Name = name;
             Type = type;
         }
 
         public int EmployeeId { get; set; }
-        public string Employee { get; set; }
+        public string Name { get; set; }
         public string Type { get; set; }
     }
 }

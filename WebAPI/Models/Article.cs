@@ -5,13 +5,13 @@ using System.Web;
 
 namespace GPE.Models
 {
-    public class Articles
+    public class Article
     {
-        public Articles()
+        public Article()
         {
 
         }
-        public Articles(int articleId, string description, string lot, int stock, double price, string brand, string category, int iva)
+        public Article(int articleId, string description, string lot, int stock, double price, string brand, string category, int iva)
         {
             ArticleId = articleId;
             Description = description;
@@ -33,6 +33,6 @@ namespace GPE.Models
         public string Category { get; set; }
         public int Iva { get; set; }
 
-        public Orders Orders { get; set; }
+        public Order Orders { get; set; }
     }
 }

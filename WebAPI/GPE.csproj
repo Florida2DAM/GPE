@@ -307,12 +307,13 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Articles.cs" />
-    <Compile Include="Models\Clients.cs" />
-    <Compile Include="Models\Employees.cs" />
+    <Compile Include="Models\Article.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\GPEContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Orders.cs" />
-    <Compile Include="Models\OrdersLines.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderLines.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

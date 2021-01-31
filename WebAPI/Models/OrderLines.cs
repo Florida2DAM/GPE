@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GPE.Models
 {
-    public class OrdersLines
+    public class OrderLines
     {
-        public OrdersLines()
+        public OrderLines()
         {
 
         }
-        public OrdersLines(int orderId, int lineId, int articleId, string lot, string description, int stock, double price, string brand, string category, int quantity, int iva, int discount)
+        public OrderLines(int orderId, int lineId, int articleId, string lot, string description, int stock, double price, string brand, string category, int quantity, int iva, int discount)
         {
             OrderId = orderId;
             LineId = lineId;
@@ -27,7 +25,9 @@ namespace GPE.Models
             Discount = discount;
         }
 
+        [Key]
         public int OrderId { get; set; }
+        [Key]
         public int LineId { get; set; }
         public int ArticleId { get; set; }
         public string Lot { get; set; }
@@ -40,7 +40,7 @@ namespace GPE.Models
         public int Iva { get; set; }
         public int Discount { get; set; }
 
-        public Orders Orders { get; set; }
-        public List<Articles> Articles { get; set; }
+        public Order Orders { get; set; }
+        public List<Article> Articles { get; set; }
     }
 }
