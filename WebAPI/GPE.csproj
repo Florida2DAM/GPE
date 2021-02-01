@@ -300,11 +300,15 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Compile Include="Controllers\ArticlesController.cs" />
 =======
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Models\ClientsRepository.cs" />
 >>>>>>> origin/BE-Clientes
+=======
+    <Compile Include="Controllers\EmployeeController.cs" />
+>>>>>>> origin/BE-Empleados
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -326,6 +330,7 @@
     <Compile Include="Models\ArticlesRepository.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EmployeeRepository.cs" />
     <Compile Include="Models\GPEContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lot.cs" />
@@ -394,7 +399,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+<<<<<<< HEAD
     <Folder Include="Views\Article\" />
+=======
+    <Folder Include="Views\Employee\" />
+>>>>>>> origin/BE-Empleados
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
