@@ -310,6 +310,7 @@
     <Compile Include="Controllers\EmployeeController.cs" />
 >>>>>>> origin/BE-Empleados
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LotsController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -323,6 +324,10 @@
     <Compile Include="Migrations\20210201190104_gpe2.designer.cs">
       <DependentUpon>20210201190104_gpe2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20210201113256_gpe2.cs" />
+    <Compile Include="Migrations\20210201113256_gpe2.designer.cs">
+      <DependentUpon>20210201113256_gpe2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\GPEContextModelSnapshot.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -334,6 +339,7 @@
     <Compile Include="Models\GPEContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lot.cs" />
+    <Compile Include="Models\LotsRepository.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -400,10 +406,15 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Folder Include="Views\Article\" />
 =======
     <Folder Include="Views\Employee\" />
 >>>>>>> origin/BE-Empleados
+=======
+    <Folder Include="Views\Lots\" />
+    <Folder Include="Views\Orders\" />
+>>>>>>> origin/BE-Lots
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>

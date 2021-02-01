@@ -3,6 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GPE.Models
 {
+    /// <summary>
+    /// Have 2 key 
+    /// </summary>
+    /// PM> add-migration gpe1 -Context GPEContext 
     public class Lot
     {
         public Lot()
@@ -16,7 +20,7 @@ namespace GPE.Models
             LotId = lotId;
             Stock = stock;
         }
-
+        
         [Key, Column(Order = 0)]
         public int ArticleId { get; set; }
         [Key, Column(Order = 1)]
