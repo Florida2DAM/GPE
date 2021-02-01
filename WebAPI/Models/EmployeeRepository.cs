@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace GPE.Models
+{
+    public class EmployeeRepository
+    {
+        GPEContext context = new GPEContext();
+
+        //Show all employees
+        internal List<Employee> Retrieve()
+        {
+            List<Employee> employees = context.Employees.ToList();
+            return employees;
+        }
+
+        //Add a new employeer
+        internal void Save(Employee emp)
+        {
+
+            context.Employees.Add(emp);
+            context.SaveChanges();
+        }
+        //Delete user by id
+        internal void Delete(int id)
+        {
+            Employee emp;
+            emp = context.Employees.Where(s => s.EmployeeId == id).FirstOrDefault();
+            context.Employees.Remove(emp);
+            context.SaveChanges();
+        }
+        //Update an existent user
+        internal void Update(int id, Employee eventoBody)
+        {
+            Employee emp;
+
+            emp = context.Employees.Where(s => s.EmployeeId == id).FirstOrDefault();
+            emp.Name = eventoBody.Name;
+            emp.Type = eventoBody.Type;
+            context.SaveChanges();
+        }
+    }
+}
