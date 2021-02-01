@@ -10,7 +10,7 @@ namespace GPE.Models
 
         }
 
-        public Article(int articleId, string description, double price, string brand, string category, int iva)
+        public Article(int articleId, string description, double price, string brand, string category, double iva)
         {
             ArticleId = articleId;
             Description = description;
@@ -32,7 +32,7 @@ namespace GPE.Models
         [StringLength(50)]
         public string Category { get; set; }
         [Required]
-        public int Iva { get; set; }
+        public double Iva { get; set; }
         [Required]
         public bool Enabled { get; set; }
 
