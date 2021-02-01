@@ -311,10 +311,14 @@
 >>>>>>> origin/BE-Empleados
     <Compile Include="Controllers\HomeController.cs" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Compile Include="Controllers\LotsController.cs" />
 =======
     <Compile Include="Controllers\OrderLinesController.cs" />
 >>>>>>> origin/BE-OrderLines
+=======
+    <Compile Include="Controllers\OrdersController.cs" />
+>>>>>>> origin/BE-Orders
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -346,7 +350,6 @@
     <Compile Include="Models\GPEContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lot.cs" />
-    <Compile Include="Models\LotsRepository.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\OrderLinesRepository.cs" />
