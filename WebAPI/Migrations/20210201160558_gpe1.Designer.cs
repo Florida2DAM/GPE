@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GPE.Migrations
 {
     [DbContext(typeof(GPEContext))]
-    [Migration("20210201132455_gpe1")]
+    [Migration("20210201160558_gpe1")]
     partial class gpe1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,8 +43,8 @@ namespace GPE.Migrations
                     b.Property<bool>("Enabled")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("Iva")
-                        .HasColumnType("int");
+                    b.Property<double>("Iva")
+                        .HasColumnType("double");
 
                     b.Property<double>("Price")
                         .HasColumnType("double");
@@ -61,7 +61,7 @@ namespace GPE.Migrations
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
                             Enabled = false,
-                            Iva = 21,
+                            Iva = 21.0,
                             Price = 10.5
                         },
                         new
@@ -71,7 +71,7 @@ namespace GPE.Migrations
                             Category = "RialOne",
                             Description = "SegundoArticuloToFlama",
                             Enabled = false,
-                            Iva = 4,
+                            Iva = 4.0,
                             Price = 15.5
                         });
                 });
@@ -353,8 +353,8 @@ namespace GPE.Migrations
                     b.Property<int>("Discount")
                         .HasColumnType("int");
 
-                    b.Property<int>("Iva")
-                        .HasColumnType("int");
+                    b.Property<double>("Iva")
+                        .HasColumnType("double");
 
                     b.Property<string>("LotId")
                         .IsRequired()
@@ -386,7 +386,7 @@ namespace GPE.Migrations
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
                             Discount = 0,
-                            Iva = 21,
+                            Iva = 21.0,
                             LotId = "Lot-01",
                             Price = 10.5,
                             Quantity = 15,
@@ -401,7 +401,7 @@ namespace GPE.Migrations
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
                             Discount = 10,
-                            Iva = 21,
+                            Iva = 21.0,
                             LotId = "Lot-01",
                             Price = 10.5,
                             Quantity = 25,
@@ -416,7 +416,7 @@ namespace GPE.Migrations
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
                             Discount = 0,
-                            Iva = 4,
+                            Iva = 4.0,
                             LotId = "Lot-02",
                             Price = 15.5,
                             Quantity = 15,
@@ -431,7 +431,7 @@ namespace GPE.Migrations
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
                             Discount = 10,
-                            Iva = 4,
+                            Iva = 4.0,
                             LotId = "Lot-02",
                             Price = 15.5,
                             Quantity = 25,
