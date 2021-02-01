@@ -9,6 +9,10 @@ namespace GPE.Models
     public class OrdersRepository
     {
         public GPEContext context = new GPEContext();
+        /// <summary>
+        /// get a list of orders
+        /// </summary>
+        /// <returns></returns>
         internal List<Order> Retrieve()
         {
             List<Order> order = new List<Order>();
@@ -18,7 +22,10 @@ namespace GPE.Models
             }
             return order;
         }
-
+        /// <summary>
+        /// get a order by id
+        /// </summary>
+        /// <returns></returns>
         internal Order Retrieve(int id)
         {
             Order order;
@@ -28,13 +35,20 @@ namespace GPE.Models
             }
             return order;
         }
-
-        internal void Save(Order lot)
+        /// <summary>
+        /// add a order
+        /// </summary>
+        /// <param name="order"></param>
+        internal void Save(Order order)
         {
-            context.Orders.Add(lot);
+            context.Orders.Add(order);
             context.SaveChanges();
         }
-
+        /// <summary>
+        /// update a order by a id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="order"></param>
         internal void Update(int id, Order order)
         {
             Order order1;

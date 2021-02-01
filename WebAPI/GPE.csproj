@@ -300,7 +300,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LotsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -324,7 +323,6 @@
     <Compile Include="Models\GPEContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lot.cs" />
-    <Compile Include="Models\LotsRepository.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\OrdersRepository.cs" />

@@ -10,6 +10,7 @@ namespace GPE.Models
         {
 
         }
+        //pedido
         public Order(int orderId, int clientId, int orderNum, DateTime date, DateTime deriveryDate, string contactName, double total, bool delivered, bool paid, string payingMethod, int employeeId)
         {
             OrderId = orderId;
