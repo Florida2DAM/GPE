@@ -43,7 +43,6 @@ namespace GPE.Models
         /// <summary>
         /// Changes all article values given another article
         /// </summary>
-        /// <param name="id">The id from the article to change</param>
         /// <param name="article">The article to replace the old one</param>
         internal void Update(Article article)
         {
@@ -52,9 +51,9 @@ namespace GPE.Models
         }
 
         /// <summary>
-        /// Changes all article values given another article
+        /// Changes the article enabled option to the oposite value
         /// </summary>
-        /// <param name="id">The id from the article to change</param>
+        /// <param name="id">The id from the article to update</param>
         internal void Update(int id)
         {
             Article article = Retrieve(id);
