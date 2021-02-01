@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace GPE.Models
 {
@@ -48,6 +46,13 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// This method is used for update items from all tables which is related OrderLine, this tables are Orders and Lots. We take an OrderLine object and we charge 2 new objects
+        /// one OrderLine (the old one) and the Order with which it is related. 
+        /// If we detect that some fields are different between orderL and orderLine we start to change values from different tables as we can see down here.
+        /// For more info read the methods what's are down of the Delete method.
+        /// </summary>
+        /// <param name="orderL">Object that we need to work with the correct orderLine</param>
         internal void Put(OrderLine orderL)
         {
             OrderLine orderLine = context.OrderLines
@@ -90,6 +95,33 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Used for delete a row from the OrderLines table.
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="lineId"></param>
+        internal void Delete(int orderId, int lineId)
+        {
+            OrderLine orderLine = context.OrderLines
+                .Where(o => o.OrderId == orderId && o.LineId == lineId)
+                .FirstOrDefault();
+
+            context.OrderLines.Remove(orderLine);
+            context.SaveChanges();
+
+            changeTotalOrder(orderId);
+        }
+
+        /// <summary>
+        /// Method used in Put method for update the totalLine, here we charge an objecte with the same id and after calculate again the total, if we have a discount
+        /// we calculate the IVA after applicate the discount, if we dont have discount we just calculate IVA using the priceQuantity.
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="lineId"></param>
+        /// <param name="price"></param>
+        /// <param name="quant"></param>
+        /// <param name="discount"></param>
+        /// <param name="iva"></param>
         private void changeTotalLine(int orderId, int lineId, double price, int quant, double discount, double iva)
         {
             OrderLine orderLine = context.OrderLines
@@ -106,6 +138,11 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Method used in Put method for update the Total from the Order which we are modifying their lines, we just iterate all lines from the
+        /// order that we are working and finally we update the total order with the sum of all TotalLines.
+        /// </summary>
+        /// <param name="orderId"></param>
         private void changeTotalOrder(int orderId)
         {
             double newTotal = 0;
@@ -127,6 +164,14 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Method used in Put method, if we need to change the lot from a Line, we have to give back the old lot its stock and take the new quantity
+        /// from the new lot.
+        /// </summary>
+        /// <param name="oldLot"></param>
+        /// <param name="newLot"></param>
+        /// <param name="oldStock"></param>
+        /// <param name="newStock"></param>
         private void changeLot(string oldLot, string newLot, int oldStock, int newStock)
         {
             Lot lotOld = context.Lots
@@ -144,6 +189,11 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Method used in Put method, if we need to change the quantity from a line, we have to change it from the Lot table too.
+        /// </summary>
+        /// <param name="lotId"></param>
+        /// <param name="stock"></param>
         private void changeStock(string lotId, int stock)
         {
             Lot lot = context.Lots
@@ -154,18 +204,6 @@ namespace GPE.Models
 
             context.Lots.Update(lot);
             context.SaveChanges();
-        }
-
-        internal void Delete(int orderId, int lineId)
-        {
-            OrderLine orderLine = context.OrderLines
-                .Where(o => o.OrderId == orderId && o.LineId == lineId)
-                .FirstOrDefault();
-
-            context.OrderLines.Remove(orderLine);
-            context.SaveChanges();
-
-            changeTotalOrder(orderId);
         }
     }
 }
