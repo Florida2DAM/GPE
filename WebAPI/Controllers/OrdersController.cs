@@ -35,10 +35,10 @@ namespace GPE.Controllers
         }
 
         // PUT: api/Orders/5
-        public void Put(int id, [FromBody]Order order)
+        public void Put([FromBody]Order order)
         {
             var repo = new OrdersRepository();
-            repo.Update(id,order);
+            repo.Update(order);
         }
 
         // DELETE: api/Orders/5
