@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GPE.Migrations
 {
     [DbContext(typeof(GPEContext))]
-    [Migration("20210131231645_gpe1")]
+    [Migration("20210201104839_gpe1")]
     partial class gpe1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -435,7 +435,7 @@ namespace GPE.Migrations
             modelBuilder.Entity("GPE.Models.Lot", b =>
                 {
                     b.HasOne("GPE.Models.Article", "Article")
-                        .WithMany()
+                        .WithMany("Lots")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

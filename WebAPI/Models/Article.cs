@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GPE.Models
 {
@@ -34,5 +35,7 @@ namespace GPE.Models
         public int Iva { get; set; }
         [Required]
         public bool Enabled { get; set; }
+
+        public List<Lot> Lots { get; set; }
     }
 }
