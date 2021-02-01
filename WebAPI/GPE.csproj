@@ -310,6 +310,10 @@
     <Compile Include="Migrations\20210201104839_gpe1.designer.cs">
       <DependentUpon>20210201104839_gpe1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20210201190104_gpe2.cs" />
+    <Compile Include="Migrations\20210201190104_gpe2.designer.cs">
+      <DependentUpon>20210201190104_gpe2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\GPEContextModelSnapshot.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />

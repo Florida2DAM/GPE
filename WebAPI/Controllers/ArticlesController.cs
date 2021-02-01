@@ -33,7 +33,7 @@ namespace GPE.Controllers
         }
 
         // PUT: api/Articles/
-        [Route("updateState"), HttpPut]
+        [Route(""), HttpPut]
         public void Put([FromBody] Article article)
         {
             var repo = new ArticlesRepository();
