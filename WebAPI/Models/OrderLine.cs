@@ -10,7 +10,7 @@ namespace GPE.Models
 
         }
 
-        public OrderLine(int orderId, int lineId, int articleId, string lotId, string description, double price, string brand, string category, int quantity, int iva, int discount, double totalLine)
+        public OrderLine(int orderId, int lineId, int articleId, string lotId, string description, double price, string brand, string category, int quantity, double iva, int discount, double totalLine)
         {
             OrderId = orderId;
             LineId = lineId;
@@ -48,7 +48,7 @@ namespace GPE.Models
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public int Iva { get; set; }
+        public double Iva { get; set; }
         public int Discount { get; set; }
         public double TotalLine { get; set; }
 
