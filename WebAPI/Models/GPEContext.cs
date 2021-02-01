@@ -49,6 +49,7 @@ namespace GPE.Models
 
             // Table Lots
             modelBuilder.Entity<Lot>().HasData(new Lot(1, "Lote-01", 500));
+            modelBuilder.Entity<Lot>().HasData(new Lot(1, "Lote-02", 200));
             modelBuilder.Entity<Lot>().HasData(new Lot(2, "Lote-02", 1000));
 
             // Tabla Employees
@@ -64,10 +65,10 @@ namespace GPE.Models
             modelBuilder.Entity<Order>().HasData(new Order(2, 2, 2, Convert.ToDateTime("2021-02-02 00:00:00"), Convert.ToDateTime("2021-02-03 00:00:00"), "Damia", 2000.98, false, false, "Cash", 1));
 
             // Tabla OrderLines
-            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(1, 1, 1, "Lot-01", "PrimerArticuloToFlama", 10.5, "MarcaBuena", "RialOne", 15, 21, 0, 190.58));
-            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(1, 2, 1, "Lot-01", "PrimerArticuloToFlama", 10.5, "MarcaBuena", "RialOne", 25, 21, 10, 285.86));
-            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(2, 1, 2, "Lot-02", "PrimerArticuloToFlama", 15.5, "MarcaBuena", "RialOne", 15, 4, 0, 281.33));
-            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(2, 2, 2, "Lot-02", "PrimerArticuloToFlama", 15.5, "MarcaBuena", "RialOne", 25, 4, 10, 450.12));
+            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(1, 1, 1, "Lote-01", "PrimerArticuloToFlama", 10.5, "MarcaBuena", "RialOne", 15, 21, 0, 190.58));
+            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(1, 2, 1, "Lote-01", "PrimerArticuloToFlama", 10.5, "MarcaBuena", "RialOne", 25, 21, 10, 285.86));
+            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(2, 1, 2, "Lote-02", "PrimerArticuloToFlama", 15.5, "MarcaBuena", "RialOne", 15, 4, 0, 281.33));
+            modelBuilder.Entity<OrderLine>().HasData(new OrderLine(2, 2, 2, "Lote-02", "PrimerArticuloToFlama", 15.5, "MarcaBuena", "RialOne", 25, 4, 10, 450.12));
         }
     }
 }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GPE.Migrations
 {
     [DbContext(typeof(GPEContext))]
-    [Migration("20210201160558_gpe1")]
+    [Migration("20210201162250_gpe1")]
     partial class gpe1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -241,6 +241,12 @@ namespace GPE.Migrations
                         },
                         new
                         {
+                            ArticleId = 1,
+                            LotId = "Lote-02",
+                            Stock = 200
+                        },
+                        new
+                        {
                             ArticleId = 2,
                             LotId = "Lote-02",
                             Stock = 1000
@@ -350,8 +356,8 @@ namespace GPE.Migrations
                         .HasColumnType("varchar(150) CHARACTER SET utf8mb4")
                         .HasMaxLength(150);
 
-                    b.Property<int>("Discount")
-                        .HasColumnType("int");
+                    b.Property<double>("Discount")
+                        .HasColumnType("double");
 
                     b.Property<double>("Iva")
                         .HasColumnType("double");
@@ -385,9 +391,9 @@ namespace GPE.Migrations
                             Brand = "MarcaBuena",
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
-                            Discount = 0,
+                            Discount = 0.0,
                             Iva = 21.0,
-                            LotId = "Lot-01",
+                            LotId = "Lote-01",
                             Price = 10.5,
                             Quantity = 15,
                             TotalLine = 190.58000000000001
@@ -400,9 +406,9 @@ namespace GPE.Migrations
                             Brand = "MarcaBuena",
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
-                            Discount = 10,
+                            Discount = 10.0,
                             Iva = 21.0,
-                            LotId = "Lot-01",
+                            LotId = "Lote-01",
                             Price = 10.5,
                             Quantity = 25,
                             TotalLine = 285.86000000000001
@@ -415,9 +421,9 @@ namespace GPE.Migrations
                             Brand = "MarcaBuena",
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
-                            Discount = 0,
+                            Discount = 0.0,
                             Iva = 4.0,
-                            LotId = "Lot-02",
+                            LotId = "Lote-02",
                             Price = 15.5,
                             Quantity = 15,
                             TotalLine = 281.32999999999998
@@ -430,9 +436,9 @@ namespace GPE.Migrations
                             Brand = "MarcaBuena",
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
-                            Discount = 10,
+                            Discount = 10.0,
                             Iva = 4.0,
-                            LotId = "Lot-02",
+                            LotId = "Lote-02",
                             Price = 15.5,
                             Quantity = 25,
                             TotalLine = 450.12
