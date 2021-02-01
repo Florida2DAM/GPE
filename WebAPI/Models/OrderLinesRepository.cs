@@ -60,40 +60,74 @@ namespace GPE.Models
 
             if (orderL.LotId != orderLine.LotId)
             {
-                changeLot(orderLine.LotId, orderL.LotId, orderL.Quantity);
+                changeLot(orderLine.LotId, orderL.LotId, orderLine.Quantity, orderL.Quantity);
                 orderLine.LotId = orderL.LotId;
             }
 
             if (orderL.Price != orderLine.Price)
             {
-                double diff = orderL.Price - orderLine.Price;
+                changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
                 orderLine.Price = orderL.Price;
-                changeTotalOrder(order.OrderId, diff);
+                changeTotalOrder(order.OrderId);
             }
 
             if (orderL.Quantity != orderLine.Quantity)
             {
                 changeStock(orderL.LotId, orderL.Quantity);
                 orderLine.Quantity = orderL.Quantity;
+                changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
+                changeTotalOrder(order.OrderId);
+            }
+
+            if (orderL.Discount != orderLine.Discount)
+            {
+                changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
+                orderLine.Discount = orderL.Discount;
+                changeTotalOrder(order.OrderId);
             }
 
             context.OrderLines.Update(orderLine);
             context.SaveChanges();
         }
 
-        private void changeTotalOrder(int orderId, double difference)
+        private void changeTotalLine(int orderId, int lineId, double price, int quant, int discount, double iva)
         {
+            OrderLine orderLine = context.OrderLines
+               .Where(o => o.OrderId == orderId && o.LineId == lineId)
+               .FirstOrDefault();
+
+            double priceQuantity = price * quant;
+            double priceDiscount = quant - ((quant * (discount / 100 + 1)) - quant);
+            double priceIva = discount != 0 ? priceDiscount + (priceDiscount * (iva / 100)) : priceQuantity + (priceQuantity * (iva / 100));
+
+            orderLine.TotalLine = priceIva;
+
+            context.OrderLines.Update(orderLine);
+            context.SaveChanges();
+        }
+
+        private void changeTotalOrder(int orderId)
+        {
+            double newTotal = 0;
+
             Order order = context.Orders
                .Where(or => or.OrderId == orderId)
                .FirstOrDefault();
 
-            order.Total += difference;
+            List<OrderLine> orderLines = RetrieveByOrder(orderId);
+
+            foreach (OrderLine ol in orderLines)
+            {
+                newTotal += ol.TotalLine;
+            }
+
+            order.Total = newTotal;
 
             context.Orders.Update(order);
             context.SaveChanges();
         }
 
-        private void changeLot(string oldLot, string newLot, int stock)
+        private void changeLot(string oldLot, string newLot, int oldStock, int newStock)
         {
             Lot lotOld = context.Lots
                 .Where(lo => lo.LotId == oldLot)
@@ -103,8 +137,8 @@ namespace GPE.Models
                 .Where(ln => ln.LotId == newLot)
                 .FirstOrDefault();
 
-            lotOld.Stock += stock;
-            lotNew.Stock -= stock;
+            lotOld.Stock += oldStock;
+            lotNew.Stock -= newStock;
 
             context.Lots.UpdateRange(lotOld, lotNew);
             context.SaveChanges();
@@ -122,10 +156,8 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
-        internal void Delete (int orderId, int lineId)
+        internal void Delete(int orderId, int lineId)
         {
-            double totalRemove;
-
             OrderLine orderLine = context.OrderLines
                 .Where(o => o.OrderId == orderId && o.LineId == lineId)
                 .FirstOrDefault();
@@ -133,9 +165,7 @@ namespace GPE.Models
             context.OrderLines.Remove(orderLine);
             context.SaveChanges();
 
-
-
-            //changeTotalOrder(orderId, or)
+            changeTotalOrder(orderId);
         }
     }
 }

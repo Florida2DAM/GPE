@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Http;
+using GPE.Models;
 
 namespace GPE.Controllers
 {
-    public class OrderLinesController : Controller
+    [RoutePrefix("api/OrderLines")]
+    public class OrderLinesController : ApiController
     {
-        // GET: OrderLines
-        public ActionResult Index()
+        // PUT api/OrderLines
+        public void Put ([FromBody] OrderLine orderLine)
         {
-            return View();
+            var repo = new OrderLinesRepository();
+            repo.Put(orderLine);
         }
     }
 }
