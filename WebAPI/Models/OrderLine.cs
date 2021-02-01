@@ -9,13 +9,8 @@ namespace GPE.Models
         {
 
         }
-<<<<<<< HEAD
 
         public OrderLine(int orderId, int lineId, int articleId, string lotId, string description, double price, string brand, string category, int quantity, double iva, double discount, double totalLine)
-=======
-        //Linea de producto que contiene siguientes datos de un pedido
-        public OrderLine(int orderId, int lineId, int articleId, string lotId, string description, double price, string brand, string category, int quantity, int iva, int discount)
->>>>>>> origin/BE-Lots
         {
             OrderId = orderId;
             LineId = lineId;
@@ -30,7 +25,6 @@ namespace GPE.Models
             Discount = discount;
             TotalLine = totalLine;
         }
-
 
         [Key, Column(Order = 0)]
         public int OrderId { get; set; }
@@ -56,7 +50,6 @@ namespace GPE.Models
         [Required]
         public double Iva { get; set; }
         public double Discount { get; set; }
-        [Required]
         public double TotalLine { get; set; }
 
         public Order Order { get; set; }
