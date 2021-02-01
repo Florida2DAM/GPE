@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GPE.Migrations
 {
     [DbContext(typeof(GPEContext))]
-    [Migration("20210201104839_gpe1")]
+    [Migration("20210201132455_gpe1")]
     partial class gpe1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -367,6 +367,9 @@ namespace GPE.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<double>("TotalLine")
+                        .HasColumnType("double");
+
                     b.HasKey("OrderId", "LineId");
 
                     b.HasIndex("ArticleId");
@@ -386,7 +389,8 @@ namespace GPE.Migrations
                             Iva = 21,
                             LotId = "Lot-01",
                             Price = 10.5,
-                            Quantity = 15
+                            Quantity = 15,
+                            TotalLine = 190.58000000000001
                         },
                         new
                         {
@@ -400,7 +404,8 @@ namespace GPE.Migrations
                             Iva = 21,
                             LotId = "Lot-01",
                             Price = 10.5,
-                            Quantity = 25
+                            Quantity = 25,
+                            TotalLine = 285.86000000000001
                         },
                         new
                         {
@@ -414,7 +419,8 @@ namespace GPE.Migrations
                             Iva = 4,
                             LotId = "Lot-02",
                             Price = 15.5,
-                            Quantity = 15
+                            Quantity = 15,
+                            TotalLine = 281.32999999999998
                         },
                         new
                         {
@@ -428,7 +434,8 @@ namespace GPE.Migrations
                             Iva = 4,
                             LotId = "Lot-02",
                             Price = 15.5,
-                            Quantity = 25
+                            Quantity = 25,
+                            TotalLine = 450.12
                         });
                 });
 
