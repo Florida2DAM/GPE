@@ -305,9 +305,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20210131204548_gpe1.cs" />
-    <Compile Include="Migrations\20210131204548_gpe1.designer.cs">
-      <DependentUpon>20210131204548_gpe1.cs</DependentUpon>
+    <Compile Include="Migrations\20210131231645_gpe1.cs" />
+    <Compile Include="Migrations\20210131231645_gpe1.designer.cs">
+      <DependentUpon>20210131231645_gpe1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\GPEContextModelSnapshot.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -317,6 +317,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\GPEContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Lot.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

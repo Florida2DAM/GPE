@@ -38,19 +38,14 @@ namespace GPE.Migrations
                         .HasColumnType("varchar(100) CHARACTER SET utf8mb4")
                         .HasMaxLength(100);
 
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("Iva")
                         .HasColumnType("int");
 
-                    b.Property<string>("Lot")
-                        .IsRequired()
-                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
-                        .HasMaxLength(50);
-
                     b.Property<double>("Price")
                         .HasColumnType("double");
-
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
 
                     b.HasKey("ArticleId");
 
@@ -63,10 +58,19 @@ namespace GPE.Migrations
                             Brand = "MarcaBuena",
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
+                            Enabled = false,
                             Iva = 21,
-                            Lot = "Lot-01",
-                            Price = 10.5,
-                            Stock = 1000
+                            Price = 10.5
+                        },
+                        new
+                        {
+                            ArticleId = 2,
+                            Brand = "MarcaMala",
+                            Category = "RialOne",
+                            Description = "SegundoArticuloToFlama",
+                            Enabled = false,
+                            Iva = 4,
+                            Price = 15.5
                         });
                 });
 
@@ -100,6 +104,9 @@ namespace GPE.Migrations
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("NIF")
                         .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
@@ -125,6 +132,9 @@ namespace GPE.Migrations
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("ClientId");
 
                     b.ToTable("Clients");
@@ -135,14 +145,32 @@ namespace GPE.Migrations
                             ClientId = 1,
                             Address = "Su casa",
                             City = "Valencia",
-                            ContactName = "Tu madre",
+                            ContactName = "Su madre",
                             Country = "Españita",
                             Email = "emailflamote@gmail.com",
+                            Enabled = true,
                             NIF = "20945677-A",
                             Name = "Wei",
                             Phone = "666555444",
                             PostalCode = "46400",
-                            Province = "Valencia"
+                            Province = "Valencia",
+                            RegisterDate = new DateTime(2011, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ClientId = 2,
+                            Address = "Mi casa",
+                            City = "Cullera",
+                            ContactName = "Antonia josefa estafania aurelia",
+                            Country = "Españita",
+                            Email = "emaildamia@gmail.com",
+                            Enabled = true,
+                            NIF = "11122233-B",
+                            Name = "Damia",
+                            Phone = "666555444",
+                            PostalCode = "46400",
+                            Province = "Valencia",
+                            RegisterDate = new DateTime(2011, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -151,6 +179,9 @@ namespace GPE.Migrations
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -170,8 +201,47 @@ namespace GPE.Migrations
                         new
                         {
                             EmployeeId = 1,
+                            Enabled = false,
                             Name = "Jesus",
-                            Type = "Repartidor"
+                            Type = "Deliverer"
+                        },
+                        new
+                        {
+                            EmployeeId = 2,
+                            Enabled = false,
+                            Name = "Miguel",
+                            Type = "Comercial"
+                        });
+                });
+
+            modelBuilder.Entity("GPE.Models.Lot", b =>
+                {
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LotId")
+                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasMaxLength(30);
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticleId", "LotId");
+
+                    b.ToTable("Lots");
+
+                    b.HasData(
+                        new
+                        {
+                            ArticleId = 1,
+                            LotId = "Lote-01",
+                            Stock = 500
+                        },
+                        new
+                        {
+                            ArticleId = 2,
+                            LotId = "Lote-02",
+                            Stock = 1000
                         });
                 });
 
@@ -226,7 +296,7 @@ namespace GPE.Migrations
                         {
                             OrderId = 1,
                             ClientId = 1,
-                            ContactName = "Miguel",
+                            ContactName = "Wei",
                             Date = new DateTime(2021, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Delivered = false,
                             DeriveryDate = new DateTime(2021, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -235,15 +305,29 @@ namespace GPE.Migrations
                             Paid = false,
                             PayingMethod = "Cash",
                             Total = 1938.98
+                        },
+                        new
+                        {
+                            OrderId = 2,
+                            ClientId = 2,
+                            ContactName = "Damia",
+                            Date = new DateTime(2021, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Delivered = false,
+                            DeriveryDate = new DateTime(2021, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EmployeeId = 1,
+                            OrderNum = 2,
+                            Paid = false,
+                            PayingMethod = "Cash",
+                            Total = 2000.98
                         });
                 });
 
             modelBuilder.Entity("GPE.Models.OrderLine", b =>
                 {
-                    b.Property<int>("LineId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("LineId")
                         .HasColumnType("int");
 
                     b.Property<int>("ArticleId")
@@ -270,7 +354,7 @@ namespace GPE.Migrations
                     b.Property<int>("Iva")
                         .HasColumnType("int");
 
-                    b.Property<string>("Lot")
+                    b.Property<string>("LotId")
                         .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
@@ -281,43 +365,78 @@ namespace GPE.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("LineId", "OrderId");
+                    b.HasKey("OrderId", "LineId");
 
                     b.HasIndex("ArticleId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderLines");
 
                     b.HasData(
                         new
                         {
-                            LineId = 1,
                             OrderId = 1,
+                            LineId = 1,
                             ArticleId = 1,
                             Brand = "MarcaBuena",
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
                             Discount = 0,
                             Iva = 21,
-                            Lot = "Lot-01",
+                            LotId = "Lot-01",
                             Price = 10.5,
                             Quantity = 15
                         },
                         new
                         {
-                            LineId = 2,
                             OrderId = 1,
+                            LineId = 2,
                             ArticleId = 1,
                             Brand = "MarcaBuena",
                             Category = "RialOne",
                             Description = "PrimerArticuloToFlama",
                             Discount = 10,
                             Iva = 21,
-                            Lot = "Lot-01",
+                            LotId = "Lot-01",
                             Price = 10.5,
                             Quantity = 25
+                        },
+                        new
+                        {
+                            OrderId = 2,
+                            LineId = 1,
+                            ArticleId = 2,
+                            Brand = "MarcaBuena",
+                            Category = "RialOne",
+                            Description = "PrimerArticuloToFlama",
+                            Discount = 0,
+                            Iva = 4,
+                            LotId = "Lot-02",
+                            Price = 15.5,
+                            Quantity = 15
+                        },
+                        new
+                        {
+                            OrderId = 2,
+                            LineId = 2,
+                            ArticleId = 2,
+                            Brand = "MarcaBuena",
+                            Category = "RialOne",
+                            Description = "PrimerArticuloToFlama",
+                            Discount = 10,
+                            Iva = 4,
+                            LotId = "Lot-02",
+                            Price = 15.5,
+                            Quantity = 25
                         });
+                });
+
+            modelBuilder.Entity("GPE.Models.Lot", b =>
+                {
+                    b.HasOne("GPE.Models.Article", "Article")
+                        .WithMany()
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GPE.Models.Order", b =>

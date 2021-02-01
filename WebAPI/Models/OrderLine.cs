@@ -9,12 +9,13 @@ namespace GPE.Models
         {
 
         }
-        public OrderLine(int orderId, int lineId, int articleId, string lot, string description, double price, string brand, string category, int quantity, int iva, int discount)
+
+        public OrderLine(int orderId, int lineId, int articleId, string lotId, string description, double price, string brand, string category, int quantity, int iva, int discount)
         {
             OrderId = orderId;
             LineId = lineId;
             ArticleId = articleId;
-            Lot = lot;
+            LotId = lotId;
             Description = description;
             Price = price;
             Brand = brand;
@@ -31,7 +32,7 @@ namespace GPE.Models
         public int ArticleId { get; set; }
         [Required]
         [StringLength(50)]
-        public string Lot { get; set; }
+        public string LotId { get; set; }
         [Required]
         [StringLength(150)]
         public string Description { get; set; }
