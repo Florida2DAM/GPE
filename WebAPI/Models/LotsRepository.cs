@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace GPE.Models
 {
@@ -35,10 +32,7 @@ namespace GPE.Models
        /// <param name="lot"></param>
         internal void Update( Lot lot)
         {
-            Lot lot1;
-            lot1 = context.Lots.Where(a => (a.ArticleId == lot.ArticleId && a.LotId == lot.LotId)).FirstOrDefault();
-            lot1.Stock = lot.Stock;
-            context.Lots.Update(lot1);
+            context.Lots.Update(lot);
             context.SaveChanges();
         }
 
