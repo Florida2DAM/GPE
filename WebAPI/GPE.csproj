@@ -322,7 +322,6 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\GPEContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Lot.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderLine.cs" />
     <Compile Include="Models\OrdersRepository.cs" />
