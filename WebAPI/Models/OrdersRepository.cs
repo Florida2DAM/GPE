@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace GPE.Models
 {
@@ -40,12 +38,12 @@ namespace GPE.Models
             context.Orders.Add(order);
             context.SaveChanges();
         }
-        
+
         /// <summary>
         /// update a list
         /// </summary>
         /// <param name="order"></param>
-        internal void Update( Order order)
+        internal void Update(Order order)
         {
             context.Orders.Update(order);
             context.SaveChanges();

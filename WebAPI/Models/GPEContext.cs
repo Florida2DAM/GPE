@@ -38,7 +38,7 @@ namespace GPE.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // We declare the double key for the OrderLines table, who needs the PK from Orders table and it's own PK
-            modelBuilder.Entity<OrderLine>().HasKey(c => new { c.OrderId , c.LineId });
+            modelBuilder.Entity<OrderLine>().HasKey(c => new { c.OrderId, c.LineId });
 
             // We declare the double key for the Lot table, who needs the PK from Article table and it's own PK
             modelBuilder.Entity<Lot>().HasKey(l => new { l.ArticleId, l.LotId });

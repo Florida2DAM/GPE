@@ -4,6 +4,7 @@ using System.Web.Http;
 
 namespace GPE.Controllers
 {
+    [RoutePrefix("api/Clients")]
     public class ClientsController : ApiController
     {
         ClientsRepository model = new ClientsRepository();

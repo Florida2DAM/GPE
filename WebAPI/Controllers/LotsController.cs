@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Web.Http;
 
-
-
-
-
 namespace GPE.Controllers
 {
-   
+    [RoutePrefix("api/Lots")]
     public class LotsController : ApiController
     {
         // GET: api/Lots

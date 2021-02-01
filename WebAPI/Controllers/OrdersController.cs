@@ -1,13 +1,10 @@
 ﻿using GPE.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace GPE.Controllers
 {
+    [RoutePrefix("api/Orders")]
     public class OrdersController : ApiController
     {
         // GET: api/Orders
@@ -18,7 +15,7 @@ namespace GPE.Controllers
             return orders;
 
         }
-        
+
         // GET: api/Orders/5
         public Order Get(int id)
         {
@@ -28,14 +25,14 @@ namespace GPE.Controllers
         }
 
         // POST: api/Orders
-        public void Post([FromBody]Order order)
+        public void Post([FromBody] Order order)
         {
             var repo = new OrdersRepository();
             repo.Save(order);
         }
 
         // PUT: api/Orders/5
-        public void Put([FromBody]Order order)
+        public void Put([FromBody] Order order)
         {
             var repo = new OrdersRepository();
             repo.Update(order);
