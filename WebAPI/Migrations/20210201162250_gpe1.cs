@@ -132,7 +132,7 @@ namespace GPE.Migrations
                     Category = table.Column<string>(maxLength: 50, nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     Iva = table.Column<double>(nullable: false),
-                    Discount = table.Column<int>(nullable: false),
+                    Discount = table.Column<double>(nullable: false),
                     TotalLine = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -185,6 +185,7 @@ namespace GPE.Migrations
                 values: new object[,]
                 {
                     { 1, "Lote-01", 500 },
+                    { 1, "Lote-02", 200 },
                     { 2, "Lote-02", 1000 }
                 });
 
@@ -202,10 +203,10 @@ namespace GPE.Migrations
                 columns: new[] { "OrderId", "LineId", "ArticleId", "Brand", "Category", "Description", "Discount", "Iva", "LotId", "Price", "Quantity", "TotalLine" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 0, 21.0, "Lot-01", 10.5, 15, 190.58000000000001 },
-                    { 1, 2, 1, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 10, 21.0, "Lot-01", 10.5, 25, 285.86000000000001 },
-                    { 2, 1, 2, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 0, 4.0, "Lot-02", 15.5, 15, 281.32999999999998 },
-                    { 2, 2, 2, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 10, 4.0, "Lot-02", 15.5, 25, 450.12 }
+                    { 1, 1, 1, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 0.0, 21.0, "Lote-01", 10.5, 15, 190.58000000000001 },
+                    { 1, 2, 1, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 10.0, 21.0, "Lote-01", 10.5, 25, 285.86000000000001 },
+                    { 2, 1, 2, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 0.0, 4.0, "Lote-02", 15.5, 15, 281.32999999999998 },
+                    { 2, 2, 2, "MarcaBuena", "RialOne", "PrimerArticuloToFlama", 10.0, 4.0, "Lote-02", 15.5, 25, 450.12 }
                 });
 
             migrationBuilder.CreateIndex(
