@@ -90,7 +90,7 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
-        private void changeTotalLine(int orderId, int lineId, double price, int quant, int discount, double iva)
+        private void changeTotalLine(int orderId, int lineId, double price, int quant, double discount, double iva)
         {
             OrderLine orderLine = context.OrderLines
                .Where(o => o.OrderId == orderId && o.LineId == lineId)

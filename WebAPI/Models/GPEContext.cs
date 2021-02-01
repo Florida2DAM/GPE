@@ -49,6 +49,7 @@ namespace GPE.Models
 
             // Table Lots
             modelBuilder.Entity<Lot>().HasData(new Lot(1, "Lote-01", 500));
+            modelBuilder.Entity<Lot>().HasData(new Lot(1, "Lote-02", 200));
             modelBuilder.Entity<Lot>().HasData(new Lot(2, "Lote-02", 1000));
 
             // Tabla Employees
