@@ -433,7 +433,7 @@ namespace GPE.Migrations
             modelBuilder.Entity("GPE.Models.Lot", b =>
                 {
                     b.HasOne("GPE.Models.Article", "Article")
-                        .WithMany()
+                        .WithMany("Lots")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
