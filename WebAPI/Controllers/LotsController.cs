@@ -37,10 +37,10 @@ namespace GPE.Controllers
 
         // PUT: api/Lots/5
 
-        public void Put(int articleId,string lotId,[FromBody]Lot lot)
+        public void Put([FromBody]Lot lot)
         {
             var repo = new LotsRepository();
-            repo.Update(articleId, lotId, lot);
+            repo.Update(lot);
         }
 
     }

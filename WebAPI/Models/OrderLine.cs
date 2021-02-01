@@ -9,7 +9,7 @@ namespace GPE.Models
         {
 
         }
-
+        //Linea de producto que contiene siguientes datos de un pedido
         public OrderLine(int orderId, int lineId, int articleId, string lotId, string description, double price, string brand, string category, int quantity, int iva, int discount)
         {
             OrderId = orderId;
