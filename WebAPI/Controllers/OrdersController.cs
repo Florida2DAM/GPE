@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPE.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,30 +11,41 @@ namespace GPE.Controllers
     public class OrdersController : ApiController
     {
         // GET: api/Orders
-        public IEnumerable<string> Get()
+        public IEnumerable<Order> Get()
         {
-            return new string[] { "value1", "value2" };
+            var repo = new OrdersRepository();
+            List<Order> orders = repo.Retrieve();
+            return orders;
+
         }
 
         // GET: api/Orders/5
-        public string Get(int id)
+        public Order Get(int id)
         {
-            return "value";
+            var repo = new OrdersRepository();
+            Order order = repo.Retrieve(id);
+            return order;
         }
 
         // POST: api/Orders
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Order order)
         {
+            var repo = new OrdersRepository();
+            repo.Save(order);
         }
 
         // PUT: api/Orders/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Order order)
         {
+            var repo = new OrdersRepository();
+            repo.Update(id,order);
         }
 
         // DELETE: api/Orders/5
         public void Delete(int id)
         {
+            var repo = new OrdersRepository();
+            repo.Delete(id);
         }
     }
 }
