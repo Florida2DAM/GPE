@@ -8,7 +8,7 @@ export class PaymentPicker extends Component {
         super();
         this.state = {
             selectedMethod: '',
-            paymentMethods: ['Payment Method','Cash', 'Card', 'Pending'],
+            paymentMethods: ['Payment','Cash', 'Card', 'Pending'],
         };
     }
 
