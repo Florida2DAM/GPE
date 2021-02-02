@@ -28,7 +28,7 @@ export class BuyItem extends Component {
             <View style={styles.container}>
                 <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'column' }}>
-                        <Text style={styles.text}>{this.props.name}</Text>
+                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.name}</Text>
                         <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
                     </View>
