@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
 export class PaymentPicker extends Component {
@@ -10,15 +10,17 @@ export class PaymentPicker extends Component {
         };
     }
 
+    updateMethod = (method) => {
+        this.setState({selectedMethod: method});
+    };
+
     render() {
         const paymentMethods = ['Cash', 'Card', 'Pending'];
         return (
-            <View style={{width: '60%'}}>
-                <Picker
-                    selectedValue={this.state.selectedValue}
-                    style={{height: 50, width: 100}}
-                    onValueChange={value => this.setState({selectedMethod: value})
-                    }>
+            <View style={{alignItems: 'center'}}>
+                <Picker selectedValue={this.state.selectedMethod} onValueChange={this.updateMethod}
+                        style={styles.picker} itemStyle={styles.item}>
+
                     <Picker.Item label={paymentMethods[0]} value={paymentMethods[0]}/>
                     <Picker.Item label={paymentMethods[1]} value={paymentMethods[1]}/>
                     <Picker.Item label={paymentMethods[2]} value={paymentMethods[2]}/>
@@ -29,29 +31,13 @@ export class PaymentPicker extends Component {
 }
 
 const styles = StyleSheet.create({
-    mainStyle: {
+    picker: {
         backgroundColor: '#3b3b3b',
-        borderWidth: 2,
-        borderColor: '#ef802f',
-    },
-    dropDownStyle: {
-        backgroundColor: '#3b3b3b',
-        borderWidth: 2,
-        borderColor: '#ef802f',
-    },
-    containerStyle: {
-        height: 40,
-        backgroundColor: '#3b3b3b',
-    },
-    placeHolderStyle: {
+        height: '25%',
+        width: '30%',
         color: '#f7f7f7',
-        textAlign: 'center',
     },
-    labelStyle: {
+    item:{
         color: '#f7f7f7',
-        fontSize: 16,
-    },
-    activeLabelStyle: {
-        color: '#ef802f',
-    },
+    }
 });
