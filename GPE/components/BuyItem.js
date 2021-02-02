@@ -8,38 +8,40 @@ import {
 import { Button, Icon } from 'react-native-elements';
 
 export class BuyItem extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             units: 1,
         }
     }
 
     increaseUnits = () => {
-        this.setState({units: this.state.units+1});
+        this.setState({ units: this.state.units + 1 });
     }
 
     decreaseUnits = () => {
-        if (this.state.units > 1) this.setState({units: this.state.units-1});
+        if (this.state.units > 1) this.setState({ units: this.state.units - 1 });
     }
 
     render() {
         return (
-            <View style={styles.bet}>
-                <View style={{ flex: 2 }}>
-                    <Text style={styles.text}>{this.props.name}</Text>
-                    <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>                    
-                    <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
-                    <View style={{ flexDirection: 'row'}}>
-                        <Button title='Remove' type='clear' titleStyle={styles.button} style={{ size: 10 }}/>                        
-                    </View>                    
-                </View>
-                <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Button title='-' type='clear' titleStyle={styles.button} onPress={this.decreaseUnits}></Button>
-                        <Text style={styles.text}>{this.state.units}</Text>
-                        <Button title='+' type='clear' titleStyle={styles.button} onPress={this.increaseUnits}></Button>
+            <View style={styles.container}>
+                <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'column' }}>
+                        <Text style={styles.text}>{this.props.name}</Text>
+                        <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>
+                        <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
                     </View>
+                    <View style={{alignItems: 'flex-end'}}>
+                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                            <Button title='-' type='clear' titleStyle={styles.button} onPress={this.decreaseUnits}></Button>
+                            <Text style={styles.text}>{this.state.units}</Text>
+                            <Button title='+' type='clear' titleStyle={styles.button} onPress={this.increaseUnits}></Button>
+                        </View>
+                    </View>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Button title='Remove' type='clear' titleStyle={styles.button} style={{ flex: 1 }} />
                     <Text style={styles.text}>Total: 20€</Text>
                 </View>
             </View>
@@ -48,7 +50,8 @@ export class BuyItem extends Component {
 }
 
 const styles = StyleSheet.create({
-    bet: {
+    container: {
+        flexDirection: 'column',
         borderWidth: 2,
         borderRadius: 10,
         borderColor: '#ffcc57',
@@ -56,7 +59,6 @@ const styles = StyleSheet.create({
         height: '20%',
         width: '90%',
         alignSelf: 'center',
-        flexDirection: 'row',
         paddingTop: '2%',
         paddingBottom: '4%',
         paddingLeft: '4%',
