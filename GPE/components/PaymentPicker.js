@@ -1,29 +1,34 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
+import {Icon} from 'react-native-elements';
 
 export class PaymentPicker extends Component {
     constructor() {
         super();
         this.state = {
             selectedMethod: '',
+            paymentMethods: ['Payment Method','Cash', 'Card', 'Pending'],
         };
     }
 
-    updateMethod = (method) => {
-        this.setState({selectedMethod: method});
+    updateMethod = (e) => {
+        this.setState({selectedMethod: e});
+        this.props.getPaymentMethod(e);
     };
 
     render() {
-        const paymentMethods = ['Cash', 'Card', 'Pending'];
         return (
-            <View style={{alignItems: 'center'}}>
+            <View style={styles.view}>
+                <Icon name='payment' type='material' size={40} color={'#ef802f'}
+                      style={{marginLeft: '12%', marginTop: '7%'}}/>
                 <Picker selectedValue={this.state.selectedMethod} onValueChange={this.updateMethod}
                         style={styles.picker} itemStyle={styles.item}>
-
-                    <Picker.Item label={paymentMethods[0]} value={paymentMethods[0]}/>
-                    <Picker.Item label={paymentMethods[1]} value={paymentMethods[1]}/>
-                    <Picker.Item label={paymentMethods[2]} value={paymentMethods[2]}/>
+                    {this.state.paymentMethods.map((item, index) => {
+                        return (
+                            <Picker.Item label={item} value={item} key={index}/>
+                        );
+                    })}
                 </Picker>
             </View>
         );
@@ -33,11 +38,20 @@ export class PaymentPicker extends Component {
 const styles = StyleSheet.create({
     picker: {
         backgroundColor: '#3b3b3b',
-        height: '25%',
-        width: '30%',
+        color: '#f7f7f7',
+        width: '60%',
+        fontSize: 28,
+    },
+    item: {
         color: '#f7f7f7',
     },
-    item:{
-        color: '#f7f7f7',
-    }
+    view: {
+        borderColor: '#ef802f',
+        borderWidth: 2,
+        borderRadius: 4,
+        backgroundColor: '#3b3b3b',
+        width: '60%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
 });
