@@ -34,14 +34,14 @@ export class BuyItem extends Component {
                     </View>
                     <View style={{alignItems: 'flex-end'}}>
                         <View style={{ flexDirection: "row", alignItems: 'center', height: '50%' }}>
-                            <Button title='-' type='clear' titleStyle={[styles.button]} onPress={this.decreaseUnits}></Button>
+                            <Button title='-' type='clear' titleStyle={styles.button} onPress={this.decreaseUnits}></Button>
                             <Text style={styles.text}>{this.state.units}</Text>
-                            <Button title='+' type='clear' titleStyle={[styles.button]} onPress={this.increaseUnits}></Button>
+                            <Button title='+' type='clear' titleStyle={styles.button} onPress={this.increaseUnits}></Button>
                         </View>
                     </View>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]} />
+                    <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]} onPress={this.props.remove} />
                     <Text style={styles.text}>Total: 20€</Text>
                 </View>
             </View>
