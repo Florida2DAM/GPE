@@ -16,5 +16,4 @@ module.exports = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
     },
-
 });
