@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "GPE-tvOS.app"
-               BlueprintName = "GPE-tvOS"
-               ReferencedContainer = "container:GPE.xcodeproj">
+               BuildableName = "gpe-tvOS.app"
+               BlueprintName = "gpe-tvOS"
+               ReferencedContainer = "container:gpe.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "GPE-tvOSTests.xctest"
-               BlueprintName = "GPE-tvOSTests"
-               ReferencedContainer = "container:GPE.xcodeproj">
+               BuildableName = "gpe-tvOSTests.xctest"
+               BlueprintName = "gpe-tvOSTests"
+               ReferencedContainer = "container:gpe.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "GPE-tvOS.app"
-            BlueprintName = "GPE-tvOS"
-            ReferencedContainer = "container:GPE.xcodeproj">
+            BuildableName = "gpe-tvOS.app"
+            BlueprintName = "gpe-tvOS"
+            ReferencedContainer = "container:gpe.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "GPE-tvOS.app"
-            BlueprintName = "GPE-tvOS"
-            ReferencedContainer = "container:GPE.xcodeproj">
+            BuildableName = "gpe-tvOS.app"
+            BlueprintName = "gpe-tvOS"
+            ReferencedContainer = "container:gpe.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

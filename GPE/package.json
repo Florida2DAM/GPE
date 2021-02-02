@@ -1,5 +1,5 @@
 {
-  "name": "GPE",
+  "name": "gpe",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -20,9 +20,10 @@
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.6.3",
-    "eslint": "^7.16.0",
+    "eslint": "^7.19.0",
     "jest": "^26.6.3",
-    "metro-react-native-babel-preset": "^0.64.0",
+    "metro-react-native-babel-preset": "^0.65.0",
+    "react-native-dropdown-picker": "^3.8.0",
     "react-test-renderer": "16.13.1"
   },
   "jest": {
