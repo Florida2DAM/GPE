@@ -16,10 +16,10 @@ export class Item extends Component {
             <View style={styles.item}>
                 <View style={styles.text}>
                     <View style={styles.info}>
-                        <Text style={styles.text}>Name</Text>
+                        <Text style={styles.text}>{this.props.name}</Text>
                     </View>
-                    <View style={styles.info}>
-                        <Text style={styles.text}>Id</Text>
+                    <View style={[styles.info, {paddingBottom:"4%"} ]}>
+                        <Text style={styles.text}>{this.props.id}</Text>
                     </View>
                 </View>
                 <View style={styles.icon}>
