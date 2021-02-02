@@ -10,7 +10,7 @@ export default class MainScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <BuyItem></BuyItem>
+                <BuyItem name='Garbanzos' id='22' price='300'></BuyItem>
             </View>
         );
     }
