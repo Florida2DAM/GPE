@@ -4,19 +4,22 @@ import { Icon } from 'react-native-elements';
 
 const AddItemToCarrito = () => {
     console.log("Furula");//Cambiar por funcion para abrir el componente de añadir items
-} 
+}
 
 export class Item extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (
             <View style={styles.item}>
                 <View style={styles.text}>
                     <View style={styles.info}>
-                        <Text style={styles.text}>NAME</Text>
+                        <Text style={styles.text}>Name</Text>
                     </View>
                     <View style={styles.info}>
-                        <Text style={styles.text}>ID</Text>
+                        <Text style={styles.text}>Id</Text>
                     </View>
                 </View>
                 <View style={styles.icon}>
