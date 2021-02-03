@@ -11,10 +11,11 @@ export class Filter extends Component {
                         name='search'
                         type='material'
                         color='#98a5ad'
-                        size={40}
+                        size={30}
+                        style={{marginLeft: '3%'}}
                         onPress={this.eraseContent} />
                 </View>
-                <TextInput style={{color: 'white', fontSize: 20}} placeholder='Filter'></TextInput>                
+                <TextInput style={{color: 'white', fontSize: 20, paddingBottom: '2.5%'}} placeholder='Filter' placeholderTextColor='#7c7c7c'/>
             </View>
         );
     }
@@ -23,10 +24,10 @@ export class Filter extends Component {
 const styles = StyleSheet.create({
     input: {
         flexDirection: 'row',
-        borderRadius: 4,
+        borderRadius: 8,
         borderWidth: 1,
         borderColor: '#98a5ad',
-        padding: '2%',
-        width: '80%',        
+        width: '90%',
+        aspectRatio: 8
     }
 });
