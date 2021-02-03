@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
-import {
-    StyleSheet,
-    Image
-} from 'react-native';
-import { TextInput } from 'react-native';
+import { Image } from 'react-native';
 
 export class Logo extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <Image
-                style={styles.shield}
+                style={{width: this.props.width == "" ? "100%" : this.props.width, resizeMode: 'contain' }}
                 source={require('../assets/transparentLogo.png')}
             />
         );
     }
 }
-
-const styles = StyleSheet.create({
-    input: {
-        borderRadius: 4,
-        borderWidth: 2,
-        borderColor: '#ffcc57',
-        padding: '2%',
-        width: '80%',
-    }
-});
