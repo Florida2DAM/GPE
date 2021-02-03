@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {View,Text,FlatList} from "react-native";
-import { ElementLlista } from '../components/ElementLlista';
+import { ItemCard } from '../components/ItemCard';
 const style = require('../components/Styles');
 
 export class ItemsListScreen extends Component {
@@ -34,19 +34,19 @@ export class ItemsListScreen extends Component {
 
       }
     }
-     
+
     render() {
         return (
 
                     <View style={style.container}>
                         <Text style={{marginBottom:'30%'}}>test</Text>
-        
+
                     <View>
                         <FlatList
-                   data={this.state.dadesAMostrar} 
+                   data={this.state.dadesAMostrar}
                    keyExtractor={(item, index)=>index.toString()}
                    style={{padding:5}}
-                   renderItem={(item)=>(<ElementLlista elementAMostrar={item}/>  )}
+                   renderItem={(item)=>(<ItemCard elementAMostrar={item}/>  )}
                    />
                     </View>
                     </View>

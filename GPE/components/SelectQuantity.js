@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
-import {GpeLabel} from './GpeLabel';
-import {InputGPE} from './Input';
+import {GPELabel} from './GPELabel';
+import {GPEInput} from './GPEInput';
 import {GPEPicker} from './GPEPicker';
 
 export class SelectQuantity extends Component {
@@ -54,9 +54,9 @@ export class SelectQuantity extends Component {
                 <Modal animationType={'slide'} visible={this.state.visible} transparent={true}>
                     <Text style={styles.text}>Article: {itemInfo.name}</Text>
                     <GPEPicker sendIcon={'table-rows'} getOption={this.getLot}/>
-                    <InputGPE title={'Units'} placeholder={'0'}/>
-                    <GpeLabel title={'Unit price'} content={this.state.items[0].price.toString()}/>
-                    <InputGPE title={'Discount'} placeholder={'0'}/>
+                    <GPEInput title={'Units'} placeholder={'0'}/>
+                    <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()}/>
+                    <GPEInput title={'Discount'} placeholder={'0'}/>
                     <View style={styles.buttonView}>
                         <Pressable onPress={this.hideModal}>
                             <Text style={styles.textButton}>CANCEL</Text>

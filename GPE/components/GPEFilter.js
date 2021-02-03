@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
-import { Icon } from 'react-native-elements';
+import React, {Component} from 'react';
+import {StyleSheet, TextInput, View} from 'react-native';
+import {Icon} from 'react-native-elements';
 
-export class Filter extends Component {
+export class GPEFilter extends Component {
     render() {
         return (
             <View style={styles.input}>
@@ -13,10 +13,10 @@ export class Filter extends Component {
                         color='#98a5ad'
                         size={30}
                         style={{marginLeft: '3%'}}
-                        onPress={this.eraseContent} />
+                        onPress={this.eraseContent}/>
                 </View>
-                <TextInput style={{color: 'white', fontSize: 20, paddingBottom: '2.5%'}} placeholder='Filter' 
-                    placeholderTextColor='#7c7c7c' onChange={this.props.onChange}/>
+                <TextInput style={{color: 'white', fontSize: 20, paddingBottom: '2.5%'}} placeholder='GPEFilter'
+                           placeholderTextColor='#7c7c7c' onChange={this.props.onChange}/>
             </View>
         );
     }
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#98a5ad',
-        aspectRatio: 9
-    }
+        aspectRatio: 9,
+    },
 });

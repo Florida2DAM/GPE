@@ -1,21 +1,13 @@
-import React, { Component } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    Pressable
-} from 'react-native';
-import { TextInput } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import React, {Component} from 'react';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Icon} from 'react-native-elements';
 
-
-export class ButtonIcon extends Component {
+export class GPEButton extends Component {
     render() {
         return (
             <Pressable style={styles.button} onPress={this.props.callback}>
                 <View>
-                    <Icon name={this.props.iconName} type='material' size={this.props.iconSize} color={'#ffcc57'}
-                        style={{}} />
+                    <Icon name={this.props.iconName} type='material' size={this.props.iconSize} color={'#ffcc57'}/>
                     <Text style={styles.text}>{this.props.buttonName}</Text>
                 </View>
             </Pressable>
@@ -36,7 +28,7 @@ const styles = StyleSheet.create({
         width: '80%',
     },
     text: {
-        color: "white",
-        fontSize: 28
-    }
+        color: 'white',
+        fontSize: 28,
+    },
 });

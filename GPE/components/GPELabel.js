@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 
-export class GpeLabel extends Component {
+export class GPELabel extends Component {
     render() {
         return (
             <View style={styles.input}>

@@ -1,47 +1,47 @@
-import React, { Component } from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    Image,
-} from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Button} from 'react-native-elements';
 
-export class BuyItem extends Component {
+export class ModifyQuantity extends Component {
     constructor(props) {
         super(props);
         this.state = {
             units: 1,
-        }
+        };
     }
 
     increaseUnits = () => {
-        this.setState({ units: this.state.units + 1 });
-    }
+        this.setState({units: this.state.units + 1});
+    };
 
     decreaseUnits = () => {
-        if (this.state.units > 1) this.setState({ units: this.state.units - 1 });
-    }
+        if (this.state.units > 1) {
+            this.setState({units: this.state.units - 1});
+        }
+    };
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <View style={{ flexDirection: 'column' }}>
+                <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'column'}}>
                         <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.name}</Text>
                         <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
                     </View>
                     <View style={{alignItems: 'flex-end'}}>
-                        <View style={{ flexDirection: "row", alignItems: 'center', height: '50%' }}>
-                            <Button title='-' type='clear' titleStyle={styles.button} onPress={this.decreaseUnits}></Button>
+                        <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
+                            <Button title='-' type='clear' titleStyle={styles.button}
+                                    onPress={this.decreaseUnits}/>
                             <Text style={styles.text}>{this.state.units}</Text>
-                            <Button title='+' type='clear' titleStyle={styles.button} onPress={this.increaseUnits}></Button>
+                            <Button title='+' type='clear' titleStyle={styles.button}
+                                    onPress={this.increaseUnits}/>
                         </View>
                     </View>
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]} onPress={this.props.remove} />
+                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]}
+                            onPress={this.props.remove}/>
                     <Text style={styles.text}>Total: 20€</Text>
                 </View>
             </View>
@@ -66,13 +66,13 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#f7f7f7',
-        fontSize: 24
+        fontSize: 24,
     },
     smallText: {
-        fontSize: 18
+        fontSize: 18,
     },
     button: {
         color: '#ffcc57',
         fontSize: 50,
-    }
+    },
 });
