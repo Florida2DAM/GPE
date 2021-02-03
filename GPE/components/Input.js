@@ -25,9 +25,9 @@ export class InputGPE extends Component {
 
     render() {
         return (
-            <View style={styles.input}>
+            <View style={[styles.input, {aspectRatio: this.props.height, width: this.props.width}]}>
                 <View style={{ width: '80%' }}>
-                    <Text style={{ color: 'white', fontSize: 15 }}>{this.props.title}</Text>
+                    <Text style={{ color: 'white', fontSize: 15, marginLeft: '2%' }}>{this.props.title}</Text>
                     <TextInput id="hola" style={{ color: 'white', fontSize: 20 }} placeholder={this.props.placeholder}
                         placeholderTextColor='#7c7c7c' onChange={this.textChange} value={this.state.text} />
                 </View>
@@ -50,8 +50,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 4,
         borderWidth: 2,
-        borderColor: '#ffcc57',
-        padding: '2%',
-        width: '80%',
+        borderColor: '#ffcc57',        
     }
 });
