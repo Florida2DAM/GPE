@@ -1,11 +1,10 @@
 'use strict';
 
-import React, {Component} from 'react';
-import {View} from 'react-native';
-import {GPEPicker} from '../components/GPEPicker';
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { GPEPicker } from '../components/GPEPicker';
 
 const style = require('../components/Styles');
-
 export default class DeliverPaymentScreen extends Component {
 
     constructor() {
@@ -16,13 +15,21 @@ export default class DeliverPaymentScreen extends Component {
     }
 
     getPaymentMethod = (e) => {
-        this.setState({paymentMethod: e});
+        this.setState({ paymentMethod: e });
     };
 
     render() {
         return (
             <View style={[style.container, style.flexColumnCenter]}>
-                <GPEPicker sendIcon={'payment'} getOption={this.getPaymentMethod}/>
+
+                <View
+                    style={{
+                        height: 1.5,
+                        width: '80%',
+                        backgroundColor: 'white',
+                    }}
+                />
+                <GPEPicker sendIcon={'payment'} getOption={this.getPaymentMethod} />
             </View>
         );
     }
