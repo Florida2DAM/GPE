@@ -15,23 +15,25 @@ export class InputGPE extends Component {
         }
     }
 
-    textChange = event => {
-        this.setState({ text: event.target.value });
+    textChange = event => {        
+        this.setState({ text: event.target.value });        
+        this.props.getValue(event.target.value);
+        console.log(event.target.value);
     };
 
     eraseContent = () => {
         this.setState({ text: "" });
-    }
+    };
 
     render() {
         return (
-            <View style={[styles.input, {aspectRatio: this.props.height, width: this.props.width}]}>
+            <View style={[styles.input, { aspectRatio: this.props.height, width: this.props.width }]}>
                 <View style={{ width: '80%' }}>
                     <Text style={{ color: 'white', fontSize: 15, marginLeft: '2%' }}>{this.props.title}</Text>
-                    <TextInput id="hola" style={{ color: 'white', fontSize: 20 }} placeholder={this.props.placeholder}
-                        placeholderTextColor='#7c7c7c' onChange={this.textChange} value={this.state.text} />
+                    <TextInput style={{ color: 'white', fontSize: 20 }} placeholder={this.props.placeholder}
+                        placeholderTextColor='#7c7c7c' onChange={this.textChange} value={this.state.text} keyboardType={this.props.keyboardType}/>
                 </View>
-                <View style={{justifyContent: 'center'}}>
+                <View style={{ justifyContent: 'center' }}>
                     <Icon
                         name='cancel'
                         type='material'
@@ -50,6 +52,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 4,
         borderWidth: 2,
-        borderColor: '#ffcc57',        
+        borderColor: '#ffcc57',
     }
 });
