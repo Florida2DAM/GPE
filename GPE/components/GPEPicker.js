@@ -3,28 +3,29 @@ import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {Icon} from 'react-native-elements';
 
-export class PaymentPicker extends Component {
+export class GPEPicker extends Component {
     constructor() {
         super();
         this.state = {
-            selectedMethod: '',
-            paymentMethods: ['Payment','Cash', 'Card', 'Pending'],
+            selectedOption: '',
+            options: ['DefaultValue1', 'DefaultValue2', 'DefaultValue3'],
         };
     }
 
-    updateMethod = (e) => {
-        this.setState({selectedMethod: e});
-        this.props.getPaymentMethod(e);
+    updateSelectedOption = (e) => {
+        this.setState({selectedOption: e});
+        this.props.getOption(e);
     };
 
     render() {
         return (
             <View style={styles.view}>
-                <Icon name='payment' type='material' size={40} color={'#ef802f'}
+                <Icon name={this.props.sendIcon} type='material' size={40} color={'#ef802f'}
                       style={{marginLeft: '12%', marginTop: '7%'}}/>
-                <Picker selectedValue={this.state.selectedMethod} onValueChange={this.updateMethod}
+                <Picker selectedValue={this.state.selectedOption} onValueChange={this.updateSelectedOption}
                         style={styles.picker} itemStyle={styles.item}>
-                    {this.state.paymentMethods.map((item, index) => {
+                    <Picker.Item label={'Select An Option'}/>
+                    {this.state.options.map((item, index) => {
                         return (
                             <Picker.Item label={item} value={item} key={index}/>
                         );
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     picker: {
         backgroundColor: '#3b3b3b',
         color: '#f7f7f7',
-        width: '60%',
+        width: '70%',
         fontSize: 28,
     },
     item: {
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 4,
         backgroundColor: '#3b3b3b',
-        width: '60%',
+        width: '70%',
         flexDirection: 'row',
         justifyContent: 'space-between',
     },

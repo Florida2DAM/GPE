@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {PaymentPicker} from '../components/PaymentPicker';
+import {GPEPicker} from '../components/GPEPicker';
 
 const style = require('../components/Styles');
 
@@ -22,7 +22,7 @@ export default class DeliverPaymentScreen extends Component {
     render() {
         return (
             <View style={[style.container, style.flexColumnCenter]}>
-                <PaymentPicker getPaymentMethod={this.getPaymentMethod}/>
+                <GPEPicker sendIcon={'payment'} getOption={this.getPaymentMethod}/>
             </View>
         );
     }
