@@ -3,7 +3,11 @@
 import React, { Component } from 'react';
 import { View, Text } from "react-native";
 import { ButtonIcon } from "../components/ButtonIcon";
+import { SeparadorLlista } from '../components/SeparatorLine';
 const style = require('../components/Styles');
+
+
+
 
 export default class MainScreen extends Component {
 
@@ -14,7 +18,9 @@ export default class MainScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <View style={{ flex: 2 }}>
+                <View style={{ flex: 2 ,alignItems:"center"}}>
+                    <Text style={{fontSize:37,color:'white'}}>Pagina Principal</Text>
+                    <SeparadorLlista/>
                 </View>
                 <View style={{ margin: "10%", flex: 3, flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
                     <View style={{ flex: 1 }}>
