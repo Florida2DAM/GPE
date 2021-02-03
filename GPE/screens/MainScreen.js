@@ -14,7 +14,8 @@ export default class MainScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <InputGPE title='Units' placeholder='Units to introduce' height={6} width='100%' getValue={this.getEmployee}></InputGPE>
+                <InputGPE title='Units' placeholder='Units to introduce' height={6} width='100%' getValue={this.getEmployee}
+                    keyboardType='numeric'/>
             </View>
         );
     }

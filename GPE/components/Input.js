@@ -15,10 +15,9 @@ export class InputGPE extends Component {
         }
     }
 
-    textChange = event => {        
-        this.setState({ text: event.target.value });        
-        this.props.getValue(event.target.value);
-        console.log(event.target.value);
+    textChange = (e) => {        
+        this.setState({ text: e.value });        
+        this.props.getValue(e.value);        
     };
 
     eraseContent = () => {
