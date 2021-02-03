@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {EmployeePicker} from '../components/EmployeePicker';
+import {GPEPicker} from '../components/GPEPicker';
 
 const style = require('../components/Styles');
 
@@ -22,7 +22,7 @@ export default class SettingsScreen extends Component {
     render() {
         return (
             <View style={[style.container, style.flexColumnCenter]}>
-                <EmployeePicker getEmployee={this.getEmployee}/>
+                <GPEPicker sendIcon={'perm-identity'} getOption={this.getEmployee}/>
             </View>
         );
     }
