@@ -47,6 +47,10 @@ export class SelectQuantity extends Component {
         this.setState({visible: false});
     };
 
+    textChange = (text) => {
+        this.setState({ text }, () => { console.log(this.state.text) });
+    };
+
     render() {
         let itemInfo = this.props.getItemInfo;
         return (
@@ -54,7 +58,7 @@ export class SelectQuantity extends Component {
                 <Modal animationType={'slide'} visible={this.state.visible} transparent={true}>
                     <Text style={styles.text}>Article: {itemInfo.name}</Text>
                     <GPEPicker sendIcon={'table-rows'} getOption={this.getLot}/>
-                    <GPEInput title={'Units'} placeholder={'0'}/>
+                    <GPEInput title={'Units'} callback={this.textChange} placeholder={'0'}/>
                     <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()}/>
                     <GPEInput title={'Discount'} placeholder={'0'}/>
                     <View style={styles.buttonView}>
