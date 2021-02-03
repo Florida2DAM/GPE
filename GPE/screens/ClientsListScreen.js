@@ -56,7 +56,7 @@ export default class ClientsListScreen extends Component {
                 <View style={{ flex: 4 }}>
                     <FlatList
                         data={this.state.ClientData}
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => {
                             return (
                                 <ClientCard

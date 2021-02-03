@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {TextInput} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 export class GpeLabel extends Component {
     render() {
@@ -19,5 +18,6 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#ffcc57',
         padding: '2%',
-    }
+        backgroundColor: '#3b3b3b',
+    },
 });
