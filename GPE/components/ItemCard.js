@@ -31,15 +31,12 @@ export class ItemCard extends Component {
                         </Text>
                     </View>
                 </View>
-
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-
-
     itemFlat: {
 
         paddingTop: '3%',

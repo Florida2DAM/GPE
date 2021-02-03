@@ -27,7 +27,7 @@ export default class ClientCard extends Component {
                     </View>
                     <View style={{flex: 1}}>
                         <Text style={{fontSize: 15}}>
-                            {this.props.adress},{this.props.city},{this.props.codePostal}
+                            {this.props.address},{this.props.city},{this.props.codePostal}
                         </Text>
                     </View>
                 </View>
@@ -37,7 +37,7 @@ export default class ClientCard extends Component {
 }
 
 const styles = StyleSheet.create({
-    clientinfo: {
+    clientInfo: {
         flex: 5,
         flexDirection: 'column',
     },
@@ -45,16 +45,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         flexDirection: 'row',
-        padding: '3.5%',
-        paddingRight: '4%',
     },
     text: {
         fontSize: 17,
     },
     phoneInfo: {
         marginTop: '12%',
-        padding: 0,
-        marginLeft: 0,
         margin: '12%',
         flex: 1,
         alignItems: 'center',

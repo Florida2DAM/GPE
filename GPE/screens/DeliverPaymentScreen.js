@@ -1,8 +1,8 @@
 'use strict';
 
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { GPEPicker } from '../components/GPEPicker';
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import {GPEPicker} from '../components/GPEPicker';
 
 const style = require('../components/Styles');
 export default class DeliverPaymentScreen extends Component {
@@ -15,7 +15,7 @@ export default class DeliverPaymentScreen extends Component {
     }
 
     getPaymentMethod = (e) => {
-        this.setState({ paymentMethod: e });
+        this.setState({paymentMethod: e});
     };
 
     render() {
@@ -29,7 +29,7 @@ export default class DeliverPaymentScreen extends Component {
                         backgroundColor: 'white',
                     }}
                 />
-                <GPEPicker sendIcon={'payment'} getOption={this.getPaymentMethod} />
+                <GPEPicker sendIcon={'payment'} getOption={this.getPaymentMethod}/>
             </View>
         );
     }

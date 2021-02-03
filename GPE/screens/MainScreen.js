@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {GPEButton} from '../components/GPEButton';
-import {SeparadorLlista} from '../components/SeparatorLine';
+import {SeparatorLine} from '../components/SeparatorLine';
 
 const style = require('../components/Styles');
 
@@ -19,7 +19,7 @@ export default class MainScreen extends Component {
             <View style={style.container}>
                 <View style={{flex: 2, alignItems: 'center'}}>
                     <Text style={{fontSize: 37, color: 'white'}}>Pagina Principal</Text>
-                    <SeparadorLlista/>
+                    <SeparatorLine/>
                 </View>
                 <View style={{
                     margin: '10%',
