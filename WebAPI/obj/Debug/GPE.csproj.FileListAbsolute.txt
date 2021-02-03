@@ -193,9 +193,6 @@ D:\Anonnymous\Documentos\Clase-Cursos\DAM\Segundo\PI\Github\WebAPI\obj\Debug\GPE
 D:\Anonnymous\Documentos\Clase-Cursos\DAM\Segundo\PI\Github\WebAPI\obj\Debug\GPE.csproj.CopyComplete
 D:\Anonnymous\Documentos\Clase-Cursos\DAM\Segundo\PI\Github\WebAPI\obj\Debug\GPE.dll
 D:\Anonnymous\Documentos\Clase-Cursos\DAM\Segundo\PI\Github\WebAPI\obj\Debug\GPE.pdb
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 C:\Users\skywo\Music\PI\GPE\WebAPI\bin\GPE.dll.config
 C:\Users\skywo\Music\PI\GPE\WebAPI\bin\GPE.dll
 C:\Users\skywo\Music\PI\GPE\WebAPI\bin\GPE.pdb
@@ -391,7 +388,6 @@ C:\Users\skywo\Music\PI\GPE\WebAPI\obj\Debug\GPE.csproj.CoreCompileInputs.cache
 C:\Users\skywo\Music\PI\GPE\WebAPI\obj\Debug\GPE.csproj.CopyComplete
 C:\Users\skywo\Music\PI\GPE\WebAPI\obj\Debug\GPE.dll
 C:\Users\skywo\Music\PI\GPE\WebAPI\obj\Debug\GPE.pdb
-=======
 C:\Clase\2DAM\PI\GPE\WebAPI\bin\GPE.dll.config
 C:\Clase\2DAM\PI\GPE\WebAPI\bin\GPE.dll
 C:\Clase\2DAM\PI\GPE\WebAPI\bin\GPE.pdb
@@ -587,8 +583,6 @@ C:\Clase\2DAM\PI\GPE\WebAPI\obj\Debug\GPE.csproj.CoreCompileInputs.cache
 C:\Clase\2DAM\PI\GPE\WebAPI\obj\Debug\GPE.csproj.CopyComplete
 C:\Clase\2DAM\PI\GPE\WebAPI\obj\Debug\GPE.dll
 C:\Clase\2DAM\PI\GPE\WebAPI\obj\Debug\GPE.pdb
->>>>>>> origin/BE-Clientes
-=======
 C:\Users\vicen\Documents\GitHub\GPE\WebAPI\bin\GPE.dll.config
 C:\Users\vicen\Documents\GitHub\GPE\WebAPI\bin\GPE.dll
 C:\Users\vicen\Documents\GitHub\GPE\WebAPI\bin\GPE.pdb
@@ -783,8 +777,6 @@ C:\Users\vicen\Documents\GitHub\GPE\WebAPI\obj\Debug\GPE.csprojAssemblyReference
 C:\Users\vicen\Documents\GitHub\GPE\WebAPI\obj\Debug\GPE.csproj.CopyComplete
 C:\Users\vicen\Documents\GitHub\GPE\WebAPI\obj\Debug\GPE.dll
 C:\Users\vicen\Documents\GitHub\GPE\WebAPI\obj\Debug\GPE.pdb
->>>>>>> origin/BE-Empleados
-=======
 C:\Users\luolu\Desktop\Proyecto Integrado\WebAPI\bin\GPE.dll.config
 C:\Users\luolu\Desktop\Proyecto Integrado\WebAPI\bin\GPE.dll
 C:\Users\luolu\Desktop\Proyecto Integrado\WebAPI\bin\GPE.pdb
@@ -979,4 +971,3 @@ C:\Users\luolu\Desktop\Proyecto Integrado\WebAPI\obj\Debug\GPE.csprojAssemblyRef
 C:\Users\luolu\Desktop\Proyecto Integrado\WebAPI\obj\Debug\GPE.csproj.CopyComplete
 C:\Users\luolu\Desktop\Proyecto Integrado\WebAPI\obj\Debug\GPE.dll
 C:\Users\luolu\Desktop\Proyecto Integrado\WebAPI\obj\Debug\GPE.pdb
->>>>>>> origin/BE-Lots
