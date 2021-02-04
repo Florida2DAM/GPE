@@ -60,26 +60,16 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <View style={{flex: 1}}>
-                    <View style={{flex: 2}}>
-                        <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
-                                       pressLeftIcon={this.onPressLeftIcon}
-                                       pageName={'Item List'} rightIcon={'done'} rightIconSize={50}
-                                       pressRightIcon={this.onPressRightIcon}/>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <GPEFilter/>
-                    </View>
-                </View>
-                <View style={{flex: 4}}>
-
-                    <FlatList
-                        data={this.state.info}
-                        keyExtractor={(item, index) => index.toString()}
-                        style={{padding: 5}}
-                        renderItem={(item) => (<ItemCard element={item}/>)}
-                    />
-                </View>
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
+                               pressLeftIcon={this.onPressLeftIcon}
+                               pageName={'Item List'}
+                               pressRightIcon={this.onPressRightIcon}/>
+                <GPEFilter/>
+                <FlatList
+                    data={this.state.info}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={(item) => (<ItemCard element={item}/>)}
+                />
             </View>
 
         );
