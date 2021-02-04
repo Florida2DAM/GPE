@@ -21,7 +21,7 @@ export class GPEPicker extends Component {
         return (
             <View style={styles.view}>
                 <Icon name={this.props.sendIcon} type='material' size={40} color={'#ffcc57'}
-                      style={{marginLeft: '5%', marginTop: '7%'}}/>
+                      style={{marginLeft: '9%', marginTop: '7%'}}/>
                 <Picker selectedValue={this.state.selectedOption} onValueChange={this.updateSelectedOption}
                         style={[styles.picker, {width: this.props.pickerSize}]} itemStyle={styles.item}>
                     <Picker.Item label={'Select An Option'}/>
