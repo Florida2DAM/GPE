@@ -40,11 +40,17 @@ export default class ClientAddScreen extends Component {
     getLocation = (l) => {
         this.setState({ location: l })
     };
+    onPressLeftIcon = () => {
+        console.log("Se pulsa el de la izquierda");
+    }
+    onPressRightIcon = () => {
+        console.log("Se pulsa el de la derecha");
+    }
 
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={"navigate-before"} leftIconSize={50} pageName={"Add Client"} rightIcon={"done"} rightIconSize={50} />
+                <NavigationBar leftIcon={"navigate-before"} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon} pageName={"Add Client"} rightIcon={"done"} rightIconSize={50} pressRightIcon={this.onPressRightIcon} />
                 <View style={{alignItems: 'center'}}>
                     <GPEInput title={'Name'} placeholder={'example name'} width='90%' height={5} marginTop='10%' getValue={this.getName} />
                     <GPEInput title={'Surname'} placeholder={'example surname'} width='90%' height={5} marginTop='5%' getValue={this.getSurname} />
