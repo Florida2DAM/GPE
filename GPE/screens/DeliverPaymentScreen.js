@@ -21,7 +21,6 @@ export default class DeliverPaymentScreen extends Component {
     render() {
         return (
             <View style={[style.container, style.flexColumnCenter]}>
-
                 <View
                     style={{
                         height: 1.5,
@@ -29,7 +28,7 @@ export default class DeliverPaymentScreen extends Component {
                         backgroundColor: 'white',
                     }}
                 />
-                <GPEPicker sendIcon={'payment'} getOption={this.getPaymentMethod}/>
+                <GPEPicker pickerSize={'45%'} sendIcon={'payment'} getOption={this.getPaymentMethod}/>
             </View>
         );
     }
