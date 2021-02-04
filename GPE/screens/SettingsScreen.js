@@ -22,7 +22,7 @@ export default class SettingsScreen extends Component {
     render() {
         return (
             <View style={[style.container, style.flexColumnCenter]}>
-                <GPEPicker sendIcon={'perm-identity'} getOption={this.getEmployee}/>
+                <GPEPicker pickerSize={'45%'} sendIcon={'perm-identity'} getOption={this.getEmployee}/>
             </View>
         );
     }

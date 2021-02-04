@@ -30,7 +30,7 @@ export default class OrderArticlesScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <SelectQuantity getItemInfo={this.state.itemList[0]}/>
+                <SelectQuantity  getItemInfo={this.state.itemList[0]}/>
             </View>
         );
     }

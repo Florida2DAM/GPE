@@ -57,7 +57,7 @@ export class SelectQuantity extends Component {
             <View style={styles.defaultView}>
                 <Modal animationType={'slide'} visible={this.state.visible} transparent={true}>
                     <Text style={styles.text}>Article: {itemInfo.name}</Text>
-                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot}/>
+                    <GPEPicker pickerSize={'65%'} sendIcon={'table-rows'} getOption={this.getLot}/>
                     <GPEInput title={'Units'} callback={this.textChange} placeholder={'0'}/>
                     <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()}/>
                     <GPEInput title={'Discount'} placeholder={'0'}/>
