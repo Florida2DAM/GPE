@@ -7,6 +7,7 @@ import { NavigationBar } from '../components/NavigationBar';
 import { GPEFilter } from '../components/GPEFilter';
 import { ContactInfo } from '../components/ContactInfo';
 import { Divider } from 'react-native-elements';
+import { GPELabel } from '../components/GPELabel';
 
 const style = require('../components/Styles');
 
@@ -41,7 +42,9 @@ export default class OrderConfirmsScreen extends Component {
                         );
                     }}
                 />
-
+                <View style={{alignItems:'center'}}>
+                <GPELabel title="Total: "paddingLeft={'2%'} width={"50%"} marginBottom={'4%'} content="15000" currency='€'/>
+                </View>
             </View>
         );
     }
