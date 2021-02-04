@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
-import { Button } from 'react-native-elements';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {Button} from 'react-native-elements';
 
 export class ContactInfo extends Component {
     render() {
@@ -11,7 +11,7 @@ export class ContactInfo extends Component {
                     <Text style={styles.text}>DNI: {this.props.dni}</Text>
                 </View>
                 <Button title='CHANGE' type='clear' titleStyle={styles.textButton}
-                    onPress={this.props.change}></Button>
+                        onPress={this.props.change}/>
             </View>
         );
     }
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         borderColor: '#ffcc57',
         padding: '2%',
         backgroundColor: '#3b3b3b',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     text: {
         color: 'white',
