@@ -1,14 +1,15 @@
 'use strict';
 
-import React, { Component } from 'react';
-import { FlatList, View, Pressable } from 'react-native';
+import React, {Component} from 'react';
+import {FlatList, View} from 'react-native';
 import ClientCard from '../components/ClientCard';
-import { NavigationBar } from '../components/NavigationBar';
-import { GPEFilter } from '../components/GPEFilter';
+import {NavigationBar} from '../components/NavigationBar';
+import {GPEFilter} from '../components/GPEFilter';
+import {Divider} from 'react-native-elements';
 
 const style = require('../components/Styles');
 
-export default class VisitScreen extends Component {
+export default class ClientsListScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -27,7 +28,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 2,
-                    name: 'Sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -38,7 +39,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 3,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -49,7 +50,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 4,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -60,7 +61,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 5,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -71,7 +72,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 6,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -82,7 +83,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 7,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -93,7 +94,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 8,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -104,7 +105,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 9,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -115,7 +116,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 10,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -126,7 +127,7 @@ export default class VisitScreen extends Component {
                 },
                 {
                     id: 11,
-                    name: 'sandwhich Bar',
+                    name: 'Sanwhich Bar',
                     address: 'Calle Valencia 19',
                     city: 'Valencia',
                     province: 'Valencia',
@@ -141,28 +142,28 @@ export default class VisitScreen extends Component {
     }
 
     invisible = () => {
-        this.setState({ visible: false });
+        this.setState({visible: false});
     };
     visible = () => {
-        this.setState({ visible: true });
+        this.setState({visible: true});
     };
 
     render() {
         return (
             <>
-                <View style={[style.container, { flex: 1 }]}>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'} rightIcon={'add'}
-                        rightIconSize={50} />
-                    <GPEFilter onFocus={this.invisible} onBlur={this.visible} />
+                <View style={[style.container, {flex: 1}]}>
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'} rightIcon={'add'}
+                                   rightIconSize={50}/>
+                    <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
                 </View>
 
-                {this.state.visible ? <View style={[style.container, { flexDirection: 'column', flex: 5 }]}>
-                    <FlatList
-                        data={this.state.ClientData}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => {
-                            return (
-                                <Pressable onPress={() => console.log(item.city)}>
+                {this.state.visible ? <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
+                        <Divider style={{height: 10, backgroundColor: 'none'}}/>
+                        <FlatList
+                            data={this.state.ClientData}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({item}) => {
+                                return (
                                     <ClientCard
                                         id={item.id}
                                         name={item.name}
@@ -172,16 +173,13 @@ export default class VisitScreen extends Component {
                                         province={item.province}
                                         contactName={item.contactName}
                                         phone={item.phone}
-                                        codePos
-                                        tal={item.codePostal}
+                                        codePostal={item.codePostal}
                                     />
-                                </Pressable>
-                            );
-                        }}
-                    />
-
-                </View> :
-                    <View />}
+                                );
+                            }}
+                        />
+                    </View> :
+                    <View/>}
             </>
         );
     }

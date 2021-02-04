@@ -9,7 +9,7 @@ import {Divider} from 'react-native-elements';
 
 const style = require('../components/Styles');
 
-export default class ClientsListScreen extends Component {
+export default class VisitSalesScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -152,10 +152,9 @@ export default class ClientsListScreen extends Component {
         return (
             <>
                 <View style={[style.container, {flex: 1}]}>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'} rightIcon={'add'}
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients'} rightIcon={'add'}
                                    rightIconSize={50}/>
                     <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
-
                 </View>
 
                 {this.state.visible ? <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
@@ -179,7 +178,6 @@ export default class ClientsListScreen extends Component {
                                 );
                             }}
                         />
-
                     </View> :
                     <View/>}
             </>
