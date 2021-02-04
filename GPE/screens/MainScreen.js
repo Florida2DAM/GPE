@@ -5,7 +5,7 @@ import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {View} from "react-native";
 import { NavigationBar } from '../components/NavigationBar';
-import{ NavigationContainer} from'@react-navigation/native';
+
 
 const style = require('../components/Styles');
 
