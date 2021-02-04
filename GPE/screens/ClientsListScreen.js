@@ -152,12 +152,12 @@ export default class ClientsListScreen extends Component {
         return (
             <>
                 <View style={[style.container, {flex: 1}]}>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'} rightIcon={'add'}
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients List'} rightIcon={'add'}
                                    rightIconSize={50}/>
                     <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
-                   
+
                 </View>
-          
+
                 {this.state.visible ? <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
                 <Divider style={{height:10 ,backgroundColor:"none"}}/>
                         <FlatList
@@ -179,7 +179,6 @@ export default class ClientsListScreen extends Component {
                                 );
                             }}
                         />
-
                     </View> :
                     <View/>}
             </>
