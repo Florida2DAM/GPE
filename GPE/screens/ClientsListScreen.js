@@ -1,9 +1,10 @@
 'use strict';
 
-import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, KeyboardAvoidingView, View } from 'react-native';
 import ClientCard from '../components/ClientCard';
-
+import { NavigationBar } from '../components/NavigationBar';
+import { GPEFilter } from '../components/GPEFilter';
 const style = require('../components/Styles');
 
 export default class ClientsListScreen extends Component {
@@ -134,20 +135,31 @@ export default class ClientsListScreen extends Component {
                     contactName: 'Jesus',
                 },
             ],
+            visible: true,
         };
     }
-
+    invisible = () => {
+        this.setState({ visible: false })
+    }
+    visible = () => {
+        this.setState({ visible: true })
+    }
     render() {
         return (
             <>
-                <View style={[style.container, {flex: 1}]}>
+
+                <View style={[style.container, { flex: 1 }]}>
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'} rightIcon={'add'} rightIconSize={50} />
+
+                    <GPEFilter onFocus={this.invisible} onBlur={this.visible}></GPEFilter>
 
                 </View>
-                <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
+
+                {this.state.visible ? <View style={[style.container, { flexDirection: 'column', flex: 5 }]}>
                     <FlatList
                         data={this.state.ClientData}
                         keyExtractor={(item) => item.id.toString()}
-                        renderItem={({item}) => {
+                        renderItem={({ item }) => {
                             return (
                                 <ClientCard
                                     id={item.id}
@@ -163,7 +175,9 @@ export default class ClientsListScreen extends Component {
                             );
                         }}
                     />
-                </View>
+
+                </View> :
+                    <View></View>}
             </>
         );
     }
