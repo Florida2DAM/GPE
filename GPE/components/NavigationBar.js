@@ -6,18 +6,9 @@ import {SeparatorLine} from './SeparatorLine';
 
 // NOMBRES DE LOS ICONOS:
 // Izquierda: "navigate-before" flecha atras.  "" dejarlo en blanco
-// Derecha: "navigate-next" felcha adelante. "add" sgno suma. "" dejarlo en blanco
+// Derecha: "navigate-next" felcha adelante. "add" sgno suma. "" dejarlo en blanco. "done" para añadir clientes
 
 export class NavigationBar extends Component {
-
-    pressLeftIcon = () => {
-        console.log('Click al de la otra derecha');
-    };
-
-    pressRightIcon = () => {
-        console.log('Click al de la otra Izquierda');
-    };
-
     render() {
         return (
             <>
@@ -28,7 +19,7 @@ export class NavigationBar extends Component {
                             type='material'
                             color='#ffcc57'
                             size={this.props.leftIconSize}
-                            onPress={this.pressLeftIcon}/>
+                            onPress={this.props.pressLeftIcon}/>
                     </View>
                     <View style={styles.part}>
                         <Text style={[styles.text, {textAlign: 'center'}]}>{this.props.pageName}</Text>
@@ -39,7 +30,7 @@ export class NavigationBar extends Component {
                             type='material'
                             color='#ffcc57'
                             size={this.props.rightIconSize}
-                            onPress={this.pressRightIcon}/>
+                            onPress={this.props.pressRightIcon}/>
                     </View>
                 </View>
                 <View style={{alignItems: 'center', marginTop: '3%'}}>
