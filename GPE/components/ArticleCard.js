@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 
-export class AddItem extends Component {
+export class ArticleCard extends Component {
     constructor(props) {
         super(props);
     }

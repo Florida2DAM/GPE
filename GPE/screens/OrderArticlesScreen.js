@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {FlatList, View} from 'react-native';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
-import {AddItem} from '../components/AddItem';
+import {ArticleCard} from '../components/ArticleCard';
 
 const style = require('../components/Styles');
 
@@ -23,6 +23,42 @@ export default class OrderArticlesScreen extends Component {
                 },
                 {
                     id: 3,
+                    name: 'item3',
+                },
+                {
+                    id: 4,
+                    name: 'item1',
+                },
+                {
+                    id: 5,
+                    name: 'item2',
+                },
+                {
+                    id: 6,
+                    name: 'item3',
+                },
+                {
+                    id: 7,
+                    name: 'item1',
+                },
+                {
+                    id: 8,
+                    name: 'item2',
+                },
+                {
+                    id: 9,
+                    name: 'item3',
+                },
+                {
+                    id: 10,
+                    name: 'item1',
+                },
+                {
+                    id: 11,
+                    name: 'item2',
+                },
+                {
+                    id: 12,
                     name: 'item3',
                 },
             ],
@@ -50,7 +86,7 @@ export default class OrderArticlesScreen extends Component {
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({item}) => {
                                 return (
-                                    <AddItem selectedItem={item}/>
+                                    <ArticleCard selectedItem={item}/>
                                 );
                             }}
                         />

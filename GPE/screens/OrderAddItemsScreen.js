@@ -5,7 +5,7 @@ import {GPELabel} from '../components/GPELabel';
 import {GPEInput} from '../components/GPEInput';
 import {GPEPicker} from '../components/GPEPicker';
 
-export default class OrderAddItems extends Component {
+export default class OrderAddItemsScreen extends Component {
     constructor() {
         super();
         this.state = {
@@ -68,14 +68,11 @@ export default class OrderAddItems extends Component {
     };
 
     render() {
-        let itemInfo = this.props.getItemInfo;
+        // let itemInfo = this.props.getItemInfo;
         return (
             <View style={styles.defaultView}>
-                <Overlay isVisible={this.state.visible}
-                         overlayStyle={{backgroundColor: '#333333', borderColor: '#ffcc57', borderWidth: 2}}
-                         backdropStyle={{backgroundColor: 'rgba(255, 255, 255, 0.5)'}} onBackdropPress={this.hideModal}>
                     <View style={{alignSelf: 'center'}}>
-                        <Text style={styles.text}>Article: {itemInfo.name}</Text>
+                        <Text style={styles.text}>Article: {this.state.items[0].name}</Text>
                         <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
                         <GPEInput title={'Units'} placeholder={'0'} getValue={this.changeUnits}
                                   delete={this.deleteUnits} value={this.state.units}
@@ -93,7 +90,6 @@ export default class OrderAddItems extends Component {
                                     type='clear'/>
                         </View>
                     </View>
-                </Overlay>
             </View>
         );
     }
