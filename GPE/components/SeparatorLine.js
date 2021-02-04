@@ -6,8 +6,8 @@ export class SeparatorLine extends Component {
         return (
             <View
                 style={{
-                    height: 1.5,
-                    width: '70%',
+                    height: 0.5,
+                    width: '100%',
                     backgroundColor: 'white',
                 }}
             />

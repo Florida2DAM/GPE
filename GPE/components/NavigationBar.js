@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
+import {SeparatorLine} from './SeparatorLine';
 
 // NOMBRES DE LOS ICONOS:
 // Izquierda: "navigate-before" flecha atras.  "" dejarlo en blanco
@@ -19,14 +20,14 @@ export class NavigationBar extends Component {
 
     render() {
         return (
-            <View>
+            <>
                 <View style={styles.item}>
-                    <View style={[styles.part, {alignItems: 'flex-start'}]}>
+                    <View style={[styles.part, {alignItems: 'flex-start', marginLeft: '5%'}]}>
                         <Icon
-                            name={this.props.lIcon}
+                            name={this.props.leftIcon}
                             type='material'
                             color='#ffcc57'
-                            size={70}
+                            size={this.props.leftIconSize}
                             onPress={this.pressLeftIcon}/>
                     </View>
                     <View style={styles.part}>
@@ -34,14 +35,18 @@ export class NavigationBar extends Component {
                     </View>
                     <View style={[styles.part, {alignItems: 'flex-end'}]}>
                         <Icon
-                            name={this.props.rIcon}
+                            name={this.props.rightIcon}
                             type='material'
                             color='#ffcc57'
-                            size={70}
+                            size={this.props.rightIconSize}
                             onPress={this.pressRightIcon}/>
                     </View>
                 </View>
-            </View>
+                <View style={{alignItems: 'center', marginTop: '3%'}}>
+                    <SeparatorLine/>
+                </View>
+            </>
+
         );
     }
 }
