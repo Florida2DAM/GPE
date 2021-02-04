@@ -28,6 +28,7 @@ export default class OrderConfirmsScreen extends Component {
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                                    rightIcon={'check'} rightIconSize={48}/>
                 </View>
+                <Divider style={{height: 10, backgroundColor: 'none'}}/>
                 <ContactInfo name={'WEI Luo'} dni="w12321432"/>
                 <Divider style={{height: 10, backgroundColor: 'none'}}/>
 
