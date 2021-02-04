@@ -17,15 +17,11 @@ export class GPEButton extends Component {
 
 const styles = StyleSheet.create({
     button: {
-        paddingTop: 0,
-        flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
         borderRadius: 4,
         borderWidth: 2,
         borderColor: '#ffcc57',
-        padding: '2%',
-        width: '80%',
+        width: '40%',
     },
     text: {
         color: 'white',
