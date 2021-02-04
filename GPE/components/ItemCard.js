@@ -18,16 +18,16 @@ export class ItemCard extends Component {
                             ITEM NAME :
                         </Text>
                         <Text style={styles.fontFlat4}>
-                            {this.props.elementAMostrar.item.name}
+                            {this.props.element.item.name}
                         </Text>
                     </View>
                     <View style={styles.container2}>
 
                         <Text style={styles.fontFlat3}>
-                            ITEM BRAND : {this.props.elementAMostrar.item.brandName}
+                            ITEM BRAND : {this.props.element.item.brandName}
                         </Text>
                         <Text style={styles.fontFlat2}>
-                            ID : {this.props.elementAMostrar.item.id}
+                            ID : {this.props.element.item.id}
                         </Text>
                     </View>
                 </View>
