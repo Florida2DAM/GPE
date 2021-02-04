@@ -59,36 +59,33 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-<<<<<<< Updated upstream
-                <View style={{flex: 1}}>
-                    <Text>test</Text>
-                </View>
-                <View style={{flex: 4}}>
-=======
+
                     <View style={{ flex: 1 }}>
-                    <View style={{ flex: 1 }}>
-                        <Text>test2</Text>
+                    <View style={{ flex: 2 }}>
+
+                        <NavigationBar leftIcon={'navigate-before'} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon}
+                               pageName={'Item List'} rightIcon={'done'} rightIconSize={50}
+                               pressRightIcon={this.onPressRightIcon}/>
                         </View>
                         <View style={{ flex: 1 }}>
                         <GPEFilter/>
+                      
                         </View>
-                        <NavigationBar/>
+                       
                         </View>
+                        <Text></Text>
                         <View style={{ flex: 4 }}>
->>>>>>> Stashed changes
+
                     <FlatList
                         data={this.state.info}
                         keyExtractor={(item, index) => index.toString()}
                         style={{padding: 5}}
                         renderItem={(item) => (<ItemCard element={item}/>)}
                     />
-<<<<<<< Updated upstream
-=======
+
                     </View>
-                    
->>>>>>> Stashed changes
+          
                 </View>
-            </View>
 
         );
     }
