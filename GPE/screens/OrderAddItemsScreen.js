@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Button, Overlay} from 'react-native-elements';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import {GPELabel} from '../components/GPELabel';
 import {GPEInput} from '../components/GPEInput';
 import {GPEPicker} from '../components/GPEPicker';
+import {NavigationBar} from '../components/NavigationBar';
+
+const style = require('../components/Styles');
 
 export default class OrderAddItemsScreen extends Component {
     constructor() {
@@ -70,26 +72,21 @@ export default class OrderAddItemsScreen extends Component {
     render() {
         // let itemInfo = this.props.getItemInfo;
         return (
-            <View style={styles.defaultView}>
-                    <View style={{alignSelf: 'center'}}>
-                        <Text style={styles.text}>Article: {this.state.items[0].name}</Text>
-                        <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
-                        <GPEInput title={'Units'} placeholder={'0'} getValue={this.changeUnits}
-                                  delete={this.deleteUnits} value={this.state.units}
-                                  width='90%' height={5} marginTop='2%' keyboardType='numeric'/>
-                        <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()}
-                                  width='90%' height={5} marginTop='2%'/>
-                        <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} marginTop='2%'
-                                  marginBottom='2%'
-                                  getValue={this.changeDiscount} delete={this.deleteDiscount}
-                                  value={this.state.discount} keyboardType='numeric'/>
-                        <View style={styles.buttonView}>
-                            <Button titleStyle={styles.textButton} title='CANCEL' onPress={this.hideModal}
-                                    type='clear'/>
-                            <Button titleStyle={styles.textButton} title='ACCEPT' onPress={this.hideAndAdd}
-                                    type='clear'/>
-                        </View>
-                    </View>
+            <View style={style.container}>
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'} rightIconSize={45} pageName={'Add Item'}/>
+                <View style={{alignSelf: 'center', marginTop: '5%'}}>
+                    <Text style={styles.text}>Article: {this.state.items[0].name}</Text>
+                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
+                    <GPEInput title={'Units'} placeholder={'0'} getValue={this.changeUnits}
+                              delete={this.deleteUnits} value={this.state.units}
+                              width='90%' height={5} marginTop='2%' keyboardType='numeric'/>
+                    <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()}
+                              width='90%' height={5} marginTop='2%'/>
+                    <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} marginTop='2%'
+                              marginBottom='2%'
+                              getValue={this.changeDiscount} delete={this.deleteDiscount}
+                              value={this.state.discount} keyboardType='numeric'/>
+                </View>
             </View>
         );
     }
@@ -105,14 +102,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#f7f7f7',
         marginBottom: '2%',
-    },
-    textButton: {
-        fontSize: 20,
-        color: '#ffcc57',
-        fontWeight: 'bold',
-    },
-    buttonView: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
     },
 });
