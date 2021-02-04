@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { Button } from 'react-native-elements';
 
 export class ContactInfo extends Component {
@@ -10,7 +10,8 @@ export class ContactInfo extends Component {
                     <Text style={styles.text}>{this.props.name}</Text>
                     <Text style={styles.text}>DNI: {this.props.dni}</Text>
                 </View>
-                <Button title='CHANGE' type='clear' style={{}} titleStyle={styles.textButton} onPress={this.props.change}></Button>
+                <Button title='CHANGE' type='clear' titleStyle={styles.textButton}
+                    onPress={this.props.change}></Button>
             </View>
         );
     }
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        color: 'white', 
+        color: 'white',
         fontSize: 22,
     },
     textButton: {
