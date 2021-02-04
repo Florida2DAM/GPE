@@ -39,17 +39,17 @@ export default class ItemsListScreen extends Component {
                 {
                     name: 'Item4',
                     brandName: 'brand4',
-                    id: 4,
+                    id: 7,
                 }
                 , {
                     name: 'Item5',
                     brandName: 'brand5',
-                    id: 5,
+                    id: 8,
                 }
                 , {
                     name: 'Item6',
                     brandName: 'brand6',
-                    id: 6,
+                    id: 9,
                 },
             ],
         };
