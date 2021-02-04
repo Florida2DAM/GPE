@@ -12,14 +12,15 @@ export class AddItem extends Component {
     };
 
     render() {
+        let item = this.props.selectedItem;
         return (
             <View style={styles.item}>
                 <View style={styles.text}>
                     <View style={styles.info}>
-                        <Text style={styles.text}>{this.props.name}</Text>
+                        <Text style={styles.text}>{item.name}</Text>
                     </View>
                     <View style={[styles.info, {paddingBottom: '4%'}]}>
-                        <Text style={styles.text}>{this.props.id}</Text>
+                        <Text style={styles.text}>{item.id}</Text>
                     </View>
                 </View>
                 <View style={styles.icon}>
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
         borderColor: '#ffcc57',
         borderTopWidth: 2,
         borderBottomWidth: 2,
-        height: '12%',
         flexDirection: 'row',
     },
     icon: {

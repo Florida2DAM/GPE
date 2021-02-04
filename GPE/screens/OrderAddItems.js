@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button, Overlay} from 'react-native-elements';
-import {GPELabel} from './GPELabel';
-import {GPEInput} from './GPEInput';
-import {GPEPicker} from './GPEPicker';
+import {GPELabel} from '../components/GPELabel';
+import {GPEInput} from '../components/GPEInput';
+import {GPEPicker} from '../components/GPEPicker';
 
-export class SelectQuantity extends Component {
+export default class OrderAddItems extends Component {
     constructor() {
         super();
         this.state = {
