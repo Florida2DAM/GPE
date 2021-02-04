@@ -3,7 +3,8 @@
 import React, {Component} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import {ItemCard} from '../components/ItemCard';
-
+import {NavigationBar} from '../components/NavigationBar';
+import {GPEFilter} from '../components/GPEFilter';
 const style = require('../components/Styles');
 
 export default class ItemsListScreen extends Component {
@@ -58,18 +59,33 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <View style={{flex: 1}}>
-                    <Text>test</Text>
-                </View>
-                <View style={{flex: 4}}>
+
+                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 2 }}>
+
+                        <NavigationBar leftIcon={'navigate-before'} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon}
+                               pageName={'Item List'} rightIcon={'done'} rightIconSize={50}
+                               pressRightIcon={this.onPressRightIcon}/>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                        <GPEFilter/>
+                      
+                        </View>
+                       
+                        </View>
+                        <Text></Text>
+                        <View style={{ flex: 4 }}>
+
                     <FlatList
                         data={this.state.info}
                         keyExtractor={(item, index) => index.toString()}
                         style={{padding: 5}}
                         renderItem={(item) => (<ItemCard element={item}/>)}
                     />
+
+                    </View>
+          
                 </View>
-            </View>
 
         );
     }
