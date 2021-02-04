@@ -3,7 +3,7 @@
  */
 
 import {AppRegistry} from 'react-native';
-import ClientsListScreen from './screens/ClientsListScreen';
+import OrderArticlesScreen from './screens/OrderArticlesScreen';
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => ClientsListScreen);
+AppRegistry.registerComponent(appName, () => OrderArticlesScreen);
