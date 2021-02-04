@@ -47,18 +47,37 @@ export class SelectQuantity extends Component {
         this.setState({ visible: false });
     };
 
+    changeUnits = (units) => {
+        this.setState({ units });
+    };
+
+    changeDiscount = (discount) => {
+        this.setState({ discount });
+    };
+
+    deleteUnits = () => {
+        this.setState({ units: "" });
+    };
+
+    deleteDiscount = () => {
+        this.setState({ discount: "" });
+    };    
+
     render() {
         let itemInfo = this.props.getItemInfo;
         return (
             <View style={styles.defaultView}>
                 <Overlay isVisible={true} overlayStyle={{ backgroundColor: '#333333', borderColor: '#ffcc57', borderWidth: 2 }}
                     backdropStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
-                    <View style={{ alignSelf: 'center' }}>
+                    <View style={{ alignSelf: 'center' }}>                    
                         <Text style={styles.text}>Article: {itemInfo.name}</Text>
                         <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} />
-                        <GPEInput title={'Units'} placeholder={'0'} width='90%' height={5} />
-                        <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()} />
-                        <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} />
+                        <GPEInput title={'Units'} placeholder={'0'} width='90%' height={5} getValue={this.changeUnits}
+                            delete={this.deleteUnits}  value={this.state.units} width='90%' height={5} marginTop='2%'/>
+                        <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()} width='90%' height={5}
+                            marginTop='2%'/>
+                        <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} marginTop='2%' getValue={this.changeDiscount}
+                            delete={this.deleteDiscount} value={this.state.discount}/>
                         <View style={styles.buttonView}>
                             <Pressable onPress={this.hideModal}>
                                 <Text style={styles.textButton}>CANCEL</Text>
@@ -92,10 +111,5 @@ const styles = StyleSheet.create({
     buttonView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-
     },
 });
-
-/*<Modal animationType={'slide'} visible={this.state.visible} transparent={true}>
-
-                </Modal>*/
