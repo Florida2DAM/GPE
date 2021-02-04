@@ -38,7 +38,6 @@ export class ItemCard extends Component {
 
 const styles = StyleSheet.create({
     itemFlat: {
-
         paddingTop: '3%',
         paddingBottom: '3%',
         paddingRight: '2%',
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
 
     },
     fontFlat2: {
-
         color: '#f7f7f7',
         alignSelf: 'flex-end',
         textAlign: 'right',
@@ -81,8 +79,6 @@ const styles = StyleSheet.create({
     },
     container3: {
         flex: 4,
-
         flexDirection: 'row',
-
     },
 });

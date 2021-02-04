@@ -58,18 +58,18 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                    <View style={{ flex: 1 }}>
-                        <Text>test</Text>
-                        </View>
-                        <View style={{ flex: 4 }}>
+                <View style={{flex: 1}}>
+                    <Text>test</Text>
+                </View>
+                <View style={{flex: 4}}>
                     <FlatList
                         data={this.state.info}
                         keyExtractor={(item, index) => index.toString()}
                         style={{padding: 5}}
                         renderItem={(item) => (<ItemCard element={item}/>)}
                     />
-                    </View>
                 </View>
+            </View>
 
         );
     }
