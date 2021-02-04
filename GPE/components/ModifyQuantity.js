@@ -29,7 +29,7 @@ export class ModifyQuantity extends Component {
                         <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
                     </View>
-                    <View style={{alignItems: 'flex-end'}}>
+                    <View style={{alignItems: 'flex-end' }}>
                         <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
                             <Button title='-' type='clear' titleStyle={styles.button}
                                     onPress={this.decreaseUnits}/>
