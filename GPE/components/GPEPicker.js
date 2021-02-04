@@ -20,8 +20,6 @@ export class GPEPicker extends Component {
     render() {
         return (
             <View style={styles.view}>
-                <Icon name={this.props.sendIcon} type='material' size={40} color={'#ef802f'}
-                      style={{marginLeft: '5%', marginTop: '7%'}}/>
                 <Picker selectedValue={this.state.selectedOption} onValueChange={this.updateSelectedOption}
                         style={[styles.picker, {width: this.props.pickerSize}]} itemStyle={styles.item}>
                     <Picker.Item label={'Select An Option'}/>
@@ -40,13 +38,12 @@ const styles = StyleSheet.create({
     picker: {
         backgroundColor: '#3b3b3b',
         color: '#f7f7f7',
-        marginLeft: '5%'
     },
     item: {
         color: '#f7f7f7',
     },
     view: {
-        borderColor: '#ef802f',
+        borderColor: '#ffcc57',
         borderWidth: 2,
         borderRadius: 4,
         backgroundColor: '#3b3b3b',
