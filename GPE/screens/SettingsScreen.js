@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPELabel} from '../components/GPELabel';
@@ -10,12 +10,11 @@ import {GPELogo} from '../components/GPELogo';
 const style = require('../components/Styles');
 
 export default class SettingsScreen extends Component {
-
     constructor() {
         super();
         this.state = {
             employee: '',
-            type:'Deliveryman',
+            type: 'Deliveryman',
         };
     }
 
@@ -26,23 +25,19 @@ export default class SettingsScreen extends Component {
     render() {
         return (
             <View style={[style.container]}>
-                <View style={styles.navigationBar}>
+                <ScrollView>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}/>
-                </View>
-                <View>
-                    <GPELogo />
-                </View>
-                <View>
-                    <GPEPicker pickerSize={'50%'} sendIcon={'perm-identity'} getOption={this.getEmployee}/>
-                    <GPELabel title={'Worker Function'} content={this.state.type}/>
-                </View>
+                    <View style={{marginLeft: '5%', marginRight: '5%'}}>
+                        <View style={{margin: '10%'}}>
+                            <GPELogo/>
+                        </View>
+                        <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getOption={this.getEmployee}/>
+                    </View>
+                    <View style={{margin: '5%'}}>
+                        <GPELabel title={'Worker Function'} content={this.state.type}/>
+                    </View>
+                </ScrollView>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    navigationBar: {
-        marginTop: '1%',
-    },
-});

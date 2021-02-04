@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image} from 'react-native';
+import {Image, View} from 'react-native';
 
 export class GPELogo extends Component {
     constructor(props) {
@@ -8,10 +8,12 @@ export class GPELogo extends Component {
 
     render() {
         return (
-            <Image
-                style={{width: this.props.width === '' ? '100%' : this.props.width, resizeMode: 'contain'}}
-                source={require('../assets/transparentLogo.png')}
-            />
+            <View>
+                <Image
+                    style={{width: this.props.width === '' ? '100%' : this.props.width, resizeMode: 'contain'}}
+                    source={require('../assets/gpe_transparente_pequeño.png')}
+                />
+            </View>
         );
     }
 }

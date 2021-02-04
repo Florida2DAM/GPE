@@ -33,7 +33,7 @@ export class NavigationBar extends Component {
                     <View style={styles.part}>
                         <Text style={[styles.text, {textAlign: 'center'}]}>{this.props.pageName}</Text>
                     </View>
-                    <View style={[styles.part, {alignItems: 'flex-end'}]}>
+                    <View style={[styles.part, {alignItems: 'flex-end', marginRight: '3%'}]}>
                         <Icon
                             name={this.props.rightIcon}
                             type='material'
@@ -46,15 +46,14 @@ export class NavigationBar extends Component {
                     <SeparatorLine/>
                 </View>
             </>
-
         );
     }
 }
 
 const styles = StyleSheet.create({
     item: {
-        height: '30%',
         flexDirection: 'row',
+        marginTop: '2%',
     },
     part: {
         flex: 1,
