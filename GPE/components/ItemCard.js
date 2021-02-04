@@ -18,16 +18,16 @@ export class ItemCard extends Component {
                             ITEM NAME :
                         </Text>
                         <Text style={styles.fontFlat4}>
-                            {this.props.elementAMostrar.item.name}
+                            {this.props.element.item.name}
                         </Text>
                     </View>
                     <View style={styles.container2}>
 
                         <Text style={styles.fontFlat3}>
-                            ITEM BRAND : {this.props.elementAMostrar.item.brandName}
+                            ITEM BRAND : {this.props.element.item.brandName}
                         </Text>
                         <Text style={styles.fontFlat2}>
-                            ID : {this.props.elementAMostrar.item.id}
+                            ID : {this.props.element.item.id}
                         </Text>
                     </View>
                 </View>
@@ -38,7 +38,6 @@ export class ItemCard extends Component {
 
 const styles = StyleSheet.create({
     itemFlat: {
-
         paddingTop: '3%',
         paddingBottom: '3%',
         paddingRight: '2%',
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
 
     },
     fontFlat2: {
-
         color: '#f7f7f7',
         alignSelf: 'flex-end',
         textAlign: 'right',
@@ -81,8 +79,6 @@ const styles = StyleSheet.create({
     },
     container3: {
         flex: 4,
-
         flexDirection: 'row',
-
     },
 });
