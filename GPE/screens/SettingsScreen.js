@@ -25,7 +25,6 @@ export default class SettingsScreen extends Component {
     render() {
         return (
             <View style={[style.container]}>
-                <ScrollView>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}/>
                     <View style={{marginLeft: '5%', marginRight: '5%'}}>
                         <View style={{margin: '10%'}}>
@@ -36,7 +35,6 @@ export default class SettingsScreen extends Component {
                     <View style={{margin: '5%'}}>
                         <GPELabel title={'Worker Function'} content={this.state.type}/>
                     </View>
-                </ScrollView>
             </View>
         );
     }

@@ -44,18 +44,19 @@ export default class DeliverCheckScreen extends Component {
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} pressLeftIcon={this.onPressLeftIcon}
                                pageName={'Checkout'} rightIcon={'navigate-next'} rightIconSize={60}
                                pressRightIcon={this.onPressRightIcon}/>
-                <FlatList
-                    data={this.state.info}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => {
-                        return (
-                            <View style={{flex: 1}}>
-                                <ModifyQuantity name={item.name} price={item.price} id={item.id}/>
-                            </View>
-                        );
-                    }}
-                />
-
+                <View style={{marginTop: '5%'}}>
+                    <FlatList
+                        data={this.state.info}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({item}) => {
+                            return (
+                                <View style={{flex: 1}}>
+                                    <ModifyQuantity name={item.name} price={item.price} id={item.id}/>
+                                </View>
+                            );
+                        }}
+                    />
+                </View>
             </View>
         );
     }

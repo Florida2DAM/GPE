@@ -60,7 +60,7 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
                                pressLeftIcon={this.onPressLeftIcon}
                                pageName={'Item List'}
                                pressRightIcon={this.onPressRightIcon}/>

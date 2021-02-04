@@ -50,11 +50,11 @@ export default class ClientAddScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon}
-                               pageName={'Add Client'} rightIcon={'done'} rightIconSize={50}
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} pressLeftIcon={this.onPressLeftIcon}
+                               pageName={'Add Client'} rightIcon={'done'} rightIconSize={60}
                                pressRightIcon={this.onPressRightIcon}/>
                 <View style={{alignItems: 'center'}}>
-                    <GPEInput title={'Name'} placeholder={'example name'} width='90%' height={5} marginTop='10%'
+                    <GPEInput title={'Name'} placeholder={'example name'} width='90%' height={5} marginTop='5%'
                               getValue={this.getName}/>
                     <GPEInput title={'Surname'} placeholder={'example surname'} width='90%' height={5} marginTop='5%'
                               getValue={this.getSurname}/>
