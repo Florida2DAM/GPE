@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
-import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
-import {GPELabel} from './GPELabel';
-import {GPEInput} from './GPEInput';
-import {GPEPicker} from './GPEPicker';
+import React, { Component } from 'react';
+import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Overlay } from 'react-native-elements';
+import { GPELabel } from './GPELabel';
+import { GPEInput } from './GPEInput';
+import { GPEPicker } from './GPEPicker';
 
 export class SelectQuantity extends Component {
     constructor() {
@@ -38,38 +39,36 @@ export class SelectQuantity extends Component {
         };
     }
 
-    // Introduce here the method for charge all lots, prices and its quantities avaliables
     getLot = (e) => {
-        this.setState({selectedLot: e});
+        this.setState({ selectedLot: e });
     };
 
     hideModal = () => {
-        this.setState({visible: false});
-    };
-
-    textChange = (text) => {
-        this.setState({ text }, () => { console.log(this.state.text) });
+        this.setState({ visible: false });
     };
 
     render() {
         let itemInfo = this.props.getItemInfo;
         return (
             <View style={styles.defaultView}>
-                <Modal animationType={'slide'} visible={this.state.visible} transparent={true}>
-                    <Text style={styles.text}>Article: {itemInfo.name}</Text>
-                    <GPEPicker pickerSize={'65%'} sendIcon={'table-rows'} getOption={this.getLot}/>
-                    <GPEInput title={'Units'} callback={this.textChange} placeholder={'0'}/>
-                    <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()}/>
-                    <GPEInput title={'Discount'} placeholder={'0'}/>
-                    <View style={styles.buttonView}>
-                        <Pressable onPress={this.hideModal}>
-                            <Text style={styles.textButton}>CANCEL</Text>
-                        </Pressable>
-                        <Pressable>
-                            <Text style={styles.textButton}>ACCEPT</Text>
-                        </Pressable>
+                <Overlay isVisible={true} overlayStyle={{ backgroundColor: '#333333', borderColor: '#ffcc57', borderWidth: 2 }}
+                    backdropStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.5)' }}>
+                    <View style={{ alignSelf: 'center' }}>
+                        <Text style={styles.text}>Article: {itemInfo.name}</Text>
+                        <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} />
+                        <GPEInput title={'Units'} placeholder={'0'} width='90%' height={5} />
+                        <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()} />
+                        <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} />
+                        <View style={styles.buttonView}>
+                            <Pressable onPress={this.hideModal}>
+                                <Text style={styles.textButton}>CANCEL</Text>
+                            </Pressable>
+                            <Pressable>
+                                <Text style={styles.textButton}>ACCEPT</Text>
+                            </Pressable>
+                        </View>
                     </View>
-                </Modal>
+                </Overlay>
             </View>
         );
     }
@@ -77,6 +76,7 @@ export class SelectQuantity extends Component {
 
 const styles = StyleSheet.create({
     defaultView: {
+        flex: 1,
         marginLeft: '8%',
         marginRight: '2%',
     },
@@ -95,3 +95,7 @@ const styles = StyleSheet.create({
 
     },
 });
+
+/*<Modal animationType={'slide'} visible={this.state.visible} transparent={true}>
+
+                </Modal>*/
