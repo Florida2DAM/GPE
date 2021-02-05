@@ -5,7 +5,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {View} from 'react-native';
 import {GPEButton} from '../components/GPEButton';
 import {GPELogo} from '../components/GPELogo';
-
 import ClientAddScreen from './ClientAddScreen';
 import DeliverPaymentScreen from './DeliverPaymentScreen';
 import ItemsListScreen from './ItemsListScreen';
