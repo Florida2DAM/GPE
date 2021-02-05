@@ -39,7 +39,7 @@ export default class MainScreen extends Component {
                     <GPEButton iconName='local-shipping' iconSize={60} buttonName='VISIT'
                                onPress={() => navigation.navigate('VisitSalesScreen')}/>
                     <GPEButton iconName='contact-page' iconSize={60} buttonName='CLIENTS'
-                               onPress={() => navigation.navigate('ClientsListScreen')}/>
+                               onPress={() => navigation.navigate('ClientsListScreen',{id:"2",employeeType: this.state.employeeType,})}/>
                 </View>
                 <View style={[style.flexRowCenter, {justifyContent: 'space-evenly', marginTop: '5%'}]}>
                     <GPEButton iconName='category' iconSize={60} buttonName='ITEMS'
@@ -55,7 +55,7 @@ export default class MainScreen extends Component {
         return (
             <NavigationContainer>
                 <stack.Navigator headerMode={'none'}>
-                    <stack.Screen name='MainScreen' component={this.mainScreen}/>
+                    <stack.Screen name='Home' component={this.mainScreen}/>
                     <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
                     <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
                     <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>

@@ -25,7 +25,7 @@ export default class SettingsScreen extends Component {
     render() {
         return (
             <View style={[style.container]}>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}/>
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}   pressLeftIcon={() => this.props.navigation.goBack()}/>
                     <View style={{marginLeft: '5%', marginRight: '5%'}}>
                         <View style={{margin: '10%'}}>
                             <GPELogo/>
