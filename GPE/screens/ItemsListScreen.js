@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 
 import React, {Component} from 'react';
@@ -55,6 +56,9 @@ export default class ItemsListScreen extends Component {
                 },
             ],
         };
+    }
+    onPressLeftIcon = () => {
+        this.props.navigation.goBack();
     }
 
     render() {
