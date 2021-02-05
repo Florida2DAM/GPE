@@ -9,6 +9,7 @@ import {ArticlesView} from './components/ArticlesView';
 import {ReportsView} from './components/ReportsView';
 import {ClientsView} from './components/ClientsView';
 import {EmployeesView} from "./components/EmployeesView";
+import {OrdersView} from "./components/OrdersView";
 
 export default class App extends React.Component {
     render() {
@@ -58,7 +59,7 @@ export default class App extends React.Component {
                                 <LotsView/>
                             </Route>
                             <Route path='/orders'>
-                                <ReportsView/>
+                                <OrdersView/>
                             </Route>
                             <Route path='/clients'>
                                 <ClientsView/>

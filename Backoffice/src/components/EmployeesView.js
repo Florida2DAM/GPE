@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Fragment} from 'react';
+import {createRef, Fragment} from 'react';
 import '../App.css';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
@@ -7,178 +7,174 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Toast} from 'primereact/toast';
-import {createRef} from 'react';
 
 const axios = require('axios');
-const moment = require('moment');
-const apiPort = '44342';
+const apiPort = '44388';
 const api = 'https://localhost:' + apiPort + '/api/';
 
 export class EmployeesView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.coolToast = createRef();
+        this.GPEAlert = createRef();
         this.state = {
-            bets: [],
-            markets: [],
-            marketId: '',
-            userId: '',
-            eventId: ''
+            employees: [],
         }
     }
 
     componentDidMount() {
-        this.getBets();
-        this.getMarkets();
+        this.getEmployees();
     }
 
-    getBets = () => {
-        axios.get(api+'Apuestas').then((response) => {
+    getEmployees = () => {
+        axios.get(api + 'Employee').then((response) => {
             response.data.forEach(item => {
-                item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-                item.DineroApostado += '€';
-            })
-            this.setState({bets: response.data});
-        })
-    }
-    getMarkets = () => {
-        axios.get(api+'Mercados').then((response) => {
-            response.data.forEach(item => {
-                if (item.Bloqueado === true) {
-                    item.Bloqueado = 'Si';
+                if (item.Enabled === true) {
+                    item.Enabled = 'Yes';
                 } else {
-                    item.Bloqueado = 'No';
+                    item.Enabled = 'No';
                 }
-                item.DineroOver += '€';
-                item.DineroUnder += '€';
             });
-            this.setState({markets: response.data});
+            this.setState({employees: response.data});
         })
     }
-
-    filterMail = () => {
-        axios.get(api+'Apuestas/GetEmail?UsuarioId=' + this.state.userId).then((response) => {
-            response.data.forEach(item => {
-                item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-                item.DineroApostado = item.DineroApostado + '€';
-            })
-            this.setState({bets: response.data});
-            this.showSuccessToast();
-        })
-    }
-    filterMarket = () => {
-        axios.get(api+'Apuestas/GetMercado?MercadoId=' + this.state.marketId).then((response) => {
-            response.data.forEach(item => {
-                item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-                item.DineroApostado = item.DineroApostado + '€';
-            })
-            this.setState({bets: response.data});
-            this.showSuccessToast();
-        })
-    }
-    filterEvent = () => {
-        axios.get(api+'Apuestas/GetEvento?EventoId=' + this.state.eventId).then((response) => {
-            response.data.forEach(item => {
-                item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-                item.DineroApostado = item.DineroApostado + '€';
-            })
-            this.setState({bets: response.data});
-            this.showSuccessToast();
-        })
-    }
-    createMarkets = () => {
-        axios.post(api+'Mercados?EventoId=' + this.state.eventId).then(() => {
-            this.showInfoSuccessToast('Mercados para el evento ' + this.state.eventId + ' creados');
-            this.resetStates();
-            this.getMarkets();
-        })
-            .catch(error => {
-                this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que haya introducido el ID de Evento para realizar la inserción de nuevos mercados');
-            });
-    }
-    lockMarket = () => {
-        axios.get(api+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
-            if (response.data.Bloqueado) {
-                this.showErrorToast('Este mercado ya esta bloqueado');
-                this.resetStates();
-            } else {
-                axios.put(api+'Mercados/Lock?MercadoId=' + this.state.marketId).then(() => {
-                    this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' bloqueado');
-                    this.resetStates();
-                    this.getMarkets();
-                })
-                    .catch(error => {
-                        this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a bloquear correcto.');
-                    });
-            }
-        });
-    }
-    unlockMarket = () => {
-        axios.get(api+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
-            if (!response.data.Bloqueado) {
-                this.showErrorToast('Este mercado ya esta desbloqueado');
-                this.resetStates();
-            } else {
-                axios.put(api+'Mercados/Unlock?MercadoId=' + this.state.marketId).then(() => {
-                    this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' desbloqueado');
-                    this.resetStates();
-                    this.getMarkets();
-                })
-                    .catch(error => {
-                        this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a desbloquear correcto.');
-                    });
-            }
-        });
-    }
-
-    handlerEmail = (event) => {
-        this.setState({userId: event.target.value});
-    }
-    handlerMarketId = (event) => {
-        this.setState({marketId: event.target.value});
-    }
-    handlerEventId = (event) => {
-        this.setState({eventId: event.target.value});
-    }
-
-    resetStates = () => {
-        this.getBets();
-        this.setState({userId: ''});
-        this.setState({marketId: ''});
-        this.setState({eventId: ''});
-    }
-
-    filterButton = () => {
-        if (this.state.userId) {
-            this.filterMail();
-        }
-        if (this.state.marketId) {
-            this.filterMarket();
-        }
-        if (this.state.eventId) {
-            this.filterEvent();
-        }
-    }
-
-    showSuccessToast = () => {
-        this.coolToast.current.show({severity: 'success', summary: 'Hecho', life: 3000});
-    }
-
-    showInfoSuccessToast = (detailValue) => {
-        this.coolToast.current.show({severity: 'success', summary: 'Hecho', detail: detailValue, life: 3000});
-    }
-
-    showErrorToast = (error) => {
-        this.coolToast.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
-    }
+    // getMarkets = () => {
+    //     axios.get(api+'Mercados').then((response) => {
+    //         response.data.forEach(item => {
+    //             if (item.Bloqueado === true) {
+    //                 item.Bloqueado = 'Si';
+    //             } else {
+    //                 item.Bloqueado = 'No';
+    //             }
+    //             item.DineroOver += '€';
+    //             item.DineroUnder += '€';
+    //         });
+    //         this.setState({markets: response.data});
+    //     })
+    // }
+    //
+    // filterMail = () => {
+    //     axios.get(api+'Apuestas/GetEmail?UsuarioId=' + this.state.userId).then((response) => {
+    //         response.data.forEach(item => {
+    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
+    //             item.DineroApostado = item.DineroApostado + '€';
+    //         })
+    //         this.setState({employees: response.data});
+    //         this.showSuccessToast();
+    //     })
+    // }
+    // filterMarket = () => {
+    //     axios.get(api+'Apuestas/GetMercado?MercadoId=' + this.state.marketId).then((response) => {
+    //         response.data.forEach(item => {
+    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
+    //             item.DineroApostado = item.DineroApostado + '€';
+    //         })
+    //         this.setState({employees: response.data});
+    //         this.showSuccessToast();
+    //     })
+    // }
+    // filterEvent = () => {
+    //     axios.get(api+'Apuestas/GetEvento?EventoId=' + this.state.eventId).then((response) => {
+    //         response.data.forEach(item => {
+    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
+    //             item.DineroApostado = item.DineroApostado + '€';
+    //         })
+    //         this.setState({employees: response.data});
+    //         this.showSuccessToast();
+    //     })
+    // }
+    // createMarkets = () => {
+    //     axios.post(api+'Mercados?EventoId=' + this.state.eventId).then(() => {
+    //         this.showInfoSuccessToast('Mercados para el evento ' + this.state.eventId + ' creados');
+    //         this.resetStates();
+    //         this.getMarkets();
+    //     })
+    //         .catch(error => {
+    //             this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que haya introducido el ID de Evento para realizar la inserción de nuevos mercados');
+    //         });
+    // }
+    // lockMarket = () => {
+    //     axios.get(api+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
+    //         if (response.data.Bloqueado) {
+    //             this.showErrorToast('Este mercado ya esta bloqueado');
+    //             this.resetStates();
+    //         } else {
+    //             axios.put(api+'Mercados/Lock?MercadoId=' + this.state.marketId).then(() => {
+    //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' bloqueado');
+    //                 this.resetStates();
+    //                 this.getMarkets();
+    //             })
+    //                 .catch(error => {
+    //                     this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a bloquear correcto.');
+    //                 });
+    //         }
+    //     });
+    // }
+    // unlockMarket = () => {
+    //     axios.get(api+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
+    //         if (!response.data.Bloqueado) {
+    //             this.showErrorToast('Este mercado ya esta desbloqueado');
+    //             this.resetStates();
+    //         } else {
+    //             axios.put(api+'Mercados/Unlock?MercadoId=' + this.state.marketId).then(() => {
+    //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' desbloqueado');
+    //                 this.resetStates();
+    //                 this.getMarkets();
+    //             })
+    //                 .catch(error => {
+    //                     this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a desbloquear correcto.');
+    //                 });
+    //         }
+    //     });
+    // }
+    //
+    // handlerEmail = (event) => {
+    //     this.setState({userId: event.target.value});
+    // }
+    // handlerMarketId = (event) => {
+    //     this.setState({marketId: event.target.value});
+    // }
+    // handlerEventId = (event) => {
+    //     this.setState({eventId: event.target.value});
+    // }
+    //
+    // resetStates = () => {
+    //     this.getEmployees();
+    //     this.setState({userId: ''});
+    //     this.setState({marketId: ''});
+    //     this.setState({eventId: ''});
+    // }
+    //
+    // filterButton = () => {
+    //     if (this.state.userId) {
+    //         this.filterMail();
+    //     }
+    //     if (this.state.marketId) {
+    //         this.filterMarket();
+    //     }
+    //     if (this.state.eventId) {
+    //         this.filterEvent();
+    //     }
+    // }
+    //
+    // showSuccess = () => {
+    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
+    // }
+    //
+    // showInfoSuccess = (detailValue) => {
+    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', detail: detailValue, life: 3000});
+    // }
+    //
+    // showError = (error) => {
+    //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
+    // }
 
     render() {
         return (
             <Fragment>
-                <Toast ref={this.coolToast}/>
+                <Toast ref={this.GPEAlert}/>
                 <TabView>
-                    <TabPanel header='Filtrar Apuestas'>
+                    <TabPanel header='Employees Filter'>
                         <div className='flexCenter'>
                             <InputText value={this.state.userId} onChange={this.handlerEmail}
                                        disabled={this.state.marketId || this.state.eventId} placeholder='Email'
@@ -195,27 +191,17 @@ export class EmployeesView extends React.Component {
                                     className='p-button-secondary p-mr-2'/>
                         </div>
                         <div>
-                            <DataTable value={this.state.bets}>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='ApuestaId'
-                                        header='IDApuesta'/>
-                                <Column style={{textAlign: 'center', width: '9%'}} field='TipoApuesta' header='Tipo'/>
-                                <Column style={{textAlign: 'center', width: '11%'}} field='TipoMercado'
-                                        header='Mercado'/>
-                                <Column style={{textAlign: 'center', width: '8%'}} field='Cuota' header='Cuota'/>
-                                <Column style={{textAlign: 'center', width: '10%'}} field='DineroApostado'
-                                        header='Apuesta'/>
-                                <Column style={{textAlign: 'center', width: '16%'}} field='FechaApuesta'
-                                        header='Fecha'/>
-                                <Column style={{textAlign: 'center', width: '30%'}} field='UsuarioId'
-                                        header='Email Usuario'/>
-                                <Column style={{textAlign: 'center', width: '13%'}} field='MercadoId'
-                                        header='IDMercado'/>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='Mercado.EventoId'
-                                        header='ID Evento'/>
+                            <DataTable value={this.state.employees}>
+                                <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
+                                        header='EmployeeId'/>
+                                <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
+                                <Column style={{textAlign: 'center', width: '11%'}} field='Type'
+                                        header='Type'/>
+                                <Column style={{textAlign: 'center', width: '8%'}} field='Enabled' header='Enabled'/>
                             </DataTable>
                         </div>
                     </TabPanel>
-                    <TabPanel header='Crear/Bloquear Mercados'>
+                    <TabPanel header='New Employees'>
                         <div className='flexCenter'>
                             <div className='marketsInputs'>
                                 <InputText value={this.state.eventId} onChange={this.handlerEventId}

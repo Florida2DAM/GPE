@@ -1,109 +1,104 @@
 import * as React from 'react';
-import {Fragment} from 'react';
+import {createRef, Fragment} from 'react';
 import '../App.css';
 import {TabPanel, TabView} from 'primereact/tabview';
-import {Chart} from 'primereact/chart';
+import {Toast} from "primereact/toast";
+import {InputText} from "primereact/inputtext";
+import {Button} from "primereact/button";
+import {DataTable} from "primereact/datatable";
+import {Column} from "primereact/column";
+
 const axios = require('axios');
-const apiPort = '44342';
+const moment = require('moment');
+const apiPort = '44388';
 const api = 'https://localhost:' + apiPort + '/api/';
 
 export class OrdersView extends React.Component {
 
     constructor(props) {
         super(props);
+        this.GPEAlert = createRef();
         this.state = {
-            betsDate: [],
-            betsCount: [],
-            usersDate: [],
-            usersCount: [],
+            orders: [],
         }
-
     }
 
     componentDidMount() {
-        this.getBetsDate();
-        this.getBetsCount();
-        this.getUsersDate();
-        this.getUsersCount();
+        this.getOrders();
     }
 
-    // Llamadas Axios
-    getBetsDate = () => {
-        axios.get(api+'Apuestas/GetFechas').then((response) => {
-            this.setState({betsDate: response.data});
+    getOrders = () => {
+        axios.get(api + 'Orders').then((response) => {
+            response.data.forEach(item => {
+                item.Date = moment(item.Date).format('YYYY-MM-DD');
+                item.DeriveryDate = moment(item.Date).format('YYYY-MM-DD');
+                if (item.Delivered === true) {
+                    item.Delivered = 'Yes';
+                } else {
+                    item.Delivered = 'No';
+                }
+                if (item.Paid === true) {
+                    item.Paid = 'Yes';
+                } else {
+                    item.Paid = 'No';
+                }
+            });
+            this.setState({orders: response.data});
         })
     }
-    getBetsCount = () => {
-        axios.get(api+'Apuestas/GetAltas').then((response) => {
-            this.setState({betsCount: response.data});
-        })
-    }
-    getUsersDate = () => {
-        axios.get(api+'Usuarios/GetFechas').then((response) => {
-            this.setState({usersDate: response.data});
-        })
-    }
-    getUsersCount = () => {
-        axios.get(api+'Usuarios/GetAltas').then((response) => {
-            this.setState({usersCount: response.data});
-        })
-    }
+
+    // showSuccess = () => {
+    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
+    // }
+    //
+    // showInfoSuccess = (detailValue) => {
+    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', detail: detailValue, life: 3000});
+    // }
+    //
+    // showError = (error) => {
+    //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
+    // }
 
     render() {
-        const betsData = {
-            labels: this.state.betsDate,
-            datasets: [
-                {
-                    label: 'Apuestas',
-                    data: this.state.betsCount,
-                    fill: false,
-                    borderColor: '#42A5F5',
-                    backgroundColor: '#393e46',
-                }
-            ]
-        };
-        const usersData = {
-            labels: this.state.usersDate,
-            datasets: [
-                {
-                    label: 'Usuarios',
-                    data: this.state.usersCount,
-                    fill: false,
-                    borderColor: '#42A5F5',
-                    backgroundColor: '#393e46'
-                }
-            ]
-        };
-        const chartOptions = {
-            legend: {
-                labels: {
-                    fontColor: '#42A5F5'
-                }
-            },
-            scales: {
-                xAxes: [{
-                    ticks: {
-                        fontColor: '#00adb5'
-                    }
-                }],
-                yAxes: [{
-                    ticks: {
-                        fontColor: '#00adb5'
-                    }
-                }]
-            }
-        }
         return (
             <Fragment>
+                <Toast ref={this.GPEAlert}/>
                 <TabView>
-                    <TabPanel header='Apuestas'>
-                        <div className='chartView'>
-                            <Chart className='chart' type='line' data={betsData} options={chartOptions} width='850%'/>
+                    <TabPanel header='Orders'>
+                        <div className='flexCenter'>
+                            <InputText value={this.state.local} onChange={this.handlerLocal}
+                                       placeholder='Equipo local'/>
+                            <InputText value={this.state.visitant} onChange={this.handlerVisitant}
+                                       placeholder='Equipo visitante'/>
+                            <InputText value={this.state.date} onChange={this.handlerDate} disabled={this.state.eventId}
+                                       placeholder='Fecha: 2000-01-01 00:00:00' style={{width: '230px'}}/>
+                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{backgroundColor: '#86AEC2'}}/>
+                            <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
+                                    className='p-button-secondary p-mr-2'/>
                         </div>
-                    </TabPanel>
-                    <TabPanel header='Usuarios'>
-                        <div className='chartView'>
-                            <Chart className='chart' type='line' data={usersData} options={chartOptions} width='850%'/>
+                        <div>
+                            <DataTable value={this.state.orders}>
+                                <Column style={{textAlign: 'center', width: '15%'}} field='OrderId'
+                                        header='OrderId'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='ClientId'
+                                        header='ClientId'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='OrderNum'
+                                        header='OrderNum'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='Date'
+                                        header='Date'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='DeriveryDate'
+                                        header='DeriveryDate'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='ContactName'
+                                        header='ContactName'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='Total'
+                                        header='Total'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='Delivered' header='Delivered'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='Paid' header='Paid'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='PayingMethod' header='PayingMethod'/>
+                                <Column style={{textAlign: 'center', width: '25%'}} field='EmployeeId' header='EmployeeId'/>
+                            </DataTable>
                         </div>
                     </TabPanel>
                 </TabView>
