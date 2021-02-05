@@ -1,38 +1,80 @@
-.App {
-  text-align: center;
+html {
+    font-size: 16px;
+    color: white;
+    background-color: #1e1e1e;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.nav{
+    display: flex;
+    flex-direction: column;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navLink{
+    display: flex;
+    background-color: #78909c;
+    color: #ffffff;
+    font-size: 16px;
+    margin-left: 20%;
+    margin-bottom: 20%;
+    padding-top: 20%;
+    padding-bottom: 20%;
+    padding-left: 20%;
+    text-decoration: none;
+    border-radius: 7px;
+    border-width: 2px;
+    border-color: white;
+    width: 140%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.container {
+    display: flex;
+    flex-direction: row;
 }
 
-.App-link {
-  color: #61dafb;
+.menu {
+    position: fixed;
+    top: 38%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mainWindow {
+    padding-left: 120px;
+}
+
+.flexCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.searchEventArea {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tableReportArea {
+    display: flex;
+}
+
+.pwdArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: available;
+}
+
+.eventsArea {
+    margin-left: 15px;
+}
+
+.marketsArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chartView {
+    display: flex;
+    background-color: #393e46;
+}
+.tabReports{
+    width: 100%;
 }
