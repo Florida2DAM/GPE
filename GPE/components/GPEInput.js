@@ -16,19 +16,19 @@ export class GPEInput extends Component {
     render() {
         return (
             <View style={[styles.input, {aspectRatio: this.props.height, width: this.props.width, marginTop: this.props.marginTop,
-                marginBottom: this.props.marginBottom}]}>
+                marginBottom: this.props.marginBottom, marginLeft:this.props.marginLeft , marginRight : this.props.marginRight}]}>
                 <View style={{width: '80%'}}>
                     <Text style={{color: 'white', fontSize: 15, marginLeft: '2%'}}>{this.props.title}</Text>
                     <TextInput style={{color: 'white', fontSize: 20}} placeholder={this.props.placeholder}
                         placeholderTextColor='#7c7c7c' onChangeText={(text)=>{this.props.getValue(text)}}
                         keyboardType={this.props.keyboardType} value={this.props.value}/>
                 </View>
-                <View style={{justifyContent: 'center'}}>
+                <View style={{justifyContent: 'center', marginRight:this.props.marginR}}>
                     <Icon
                         name='cancel'
                         type='material'
                         color='#ffcc57'
-                        size={40}
+                        size={30}
                         onPress={this.props.delete}/>
                 </View>
             </View>
