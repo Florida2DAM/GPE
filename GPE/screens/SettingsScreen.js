@@ -1,15 +1,10 @@
-'use strict';
-
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPELabel} from '../components/GPELabel';
 import {GPELogo} from '../components/GPELogo';
-
-const style = require('../components/Styles');
-const axios = require('axios');
-const api = 'http://54.160.33.104:80/api/';
+import {GPEApi, axios, style} from '../components/GPEConst'
 
 export default class SettingsScreen extends Component {
     constructor() {
@@ -25,7 +20,7 @@ export default class SettingsScreen extends Component {
     }
 
     getEmployees = () => {
-        axios.get(api + 'Employee').then((response) => {
+        axios.get(GPEApi + 'Employee').then((response) => {
             this.setState({employees: response.data});
         });
     };
@@ -44,7 +39,7 @@ export default class SettingsScreen extends Component {
                         <GPELogo/>
                     </View>
                     <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getItemsList={this.state.employees}
-                               getOption={this.getEmployeeInfo}/>
+                               getOption={this.getEmployeeInfo} getScreen={'SettingsScreen'}/>
                 </View>
                 <View style={{margin: '5%'}}>
                     <GPELabel title={'Worker Function'} content={this.state.employee.Type}/>
