@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 'use strict';
 
-import React, {Component} from 'react';
-import {FlatList, Pressable, View} from 'react-native';
-import {NavigationBar} from '../components/NavigationBar';
-import {GPEFilter} from '../components/GPEFilter';
-import {ArticleCard} from '../components/ArticleCard';
+import React, { Component } from 'react';
+import { FlatList, Pressable, View } from 'react-native';
+import { NavigationBar } from '../components/NavigationBar';
+import { GPEFilter } from '../components/GPEFilter';
+import { ArticleCard } from '../components/ArticleCard';
 
 const style = require('../components/Styles');
 
@@ -83,34 +83,37 @@ export default class OrderArticlesScreen extends Component {
     }
 
     invisible = () => {
-        this.setState({visible: false});
+        this.setState({ visible: false });
     };
     visible = () => {
-        this.setState({visible: true});
+        this.setState({ visible: true });
     };
 
     render() {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Add Items'}
-                               pressLeftIcon={() => this.props.navigation.goBack()}
-                               rightIcon={'arrow-forward-ios'} rightIconSize={40}
-                               pressRightIcon={() => this.props.navigation.navigate('OrderConfirmsScreen')}/>
-                <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
+                    pressLeftIcon={() => this.props.navigation.goBack()}
+                    rightIcon={'arrow-forward-ios'} rightIconSize={40}
+                    pressRightIcon={() => this.props.navigation.navigate('OrderConfirmsScreen')} />
+                <GPEFilter onFocus={this.invisible} onBlur={this.visible} />
                 {this.state.visible ?
-                    <View style={[style.container, {flexDirection: 'column'}]}>
+                    <View style={[style.container, { flexDirection: 'column' }]}>
                         <FlatList
                             data={this.state.itemList}
                             keyExtractor={(item) => item.id.toString()}
-                            renderItem={({item}) => {
+                            renderItem={({ item }) => {
                                 return (
-                                    <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {name:this.state.itemList.name ,price: this.state.itemList.price})}>
-                                        <ArticleCard selectedItem={item}/>
+                                    <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {
+                                        name: item.name,
+                                        price: item.price,
+                                    })}>
+                                        <ArticleCard selectedItem={item} />
                                     </Pressable>
                                 );
                             }}
                         />
-                    </View> : <View/>}
+                    </View> : <View />}
             </View>
         );
     }
