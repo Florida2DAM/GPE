@@ -4,7 +4,7 @@ import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPELabel} from '../components/GPELabel';
 import {GPELogo} from '../components/GPELogo';
-import {GPEApi, axios, style} from '../components/GPEConst'
+import {GPEApi, axios, style} from '../components/GPEConst';
 
 export default class SettingsScreen extends Component {
     constructor() {
