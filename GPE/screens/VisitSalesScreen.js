@@ -170,7 +170,7 @@ export default class VisitSalesScreen extends Component {
                             renderItem={({item}) => {
                                 return (
                                     <Pressable
-                                        onPress={() => this.props.navigation.navigate('OrderArticlesScreen')}>
+                                        onPress={() => this.props.navigation.navigate('OrderArticlesScreen', {client: item})}>
                                         <ClientCard
                                             id={item.id}
                                             name={item.name}
