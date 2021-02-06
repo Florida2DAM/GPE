@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Pressable, View} from 'react-native';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {ArticleCard} from '../components/ArticleCard';
@@ -77,7 +77,9 @@ export default class OrderArticlesScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Add Items'}
-                               rightIcon={'arrow-forward-ios'} rightIconSize={40}/>
+                               pressLeftIcon={() => this.props.navigation.goBack()}
+                               rightIcon={'arrow-forward-ios'} rightIconSize={40}
+                               pressRightIcon={() => this.props.navigation.navigate('OrderConfirmsScreen')}/>
                 <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
                 {this.state.visible ?
                     <View style={[style.container, {flexDirection: 'column'}]}>
@@ -86,7 +88,9 @@ export default class OrderArticlesScreen extends Component {
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({item}) => {
                                 return (
-                                    <ArticleCard selectedItem={item}/>
+                                    <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen')}>
+                                        <ArticleCard selectedItem={item}/>
+                                    </Pressable>
                                 );
                             }}
                         />

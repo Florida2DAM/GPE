@@ -7,10 +7,6 @@ export class ArticleCard extends Component {
         super(props);
     }
 
-    AddItemToCarrito = () => {
-        console.log('Furula');//Cambiar por funcion para abrir el componente de añadir items
-    };
-
     render() {
         let item = this.props.selectedItem;
         return (
@@ -22,14 +18,6 @@ export class ArticleCard extends Component {
                     <View style={[styles.info, {paddingBottom: '4%'}]}>
                         <Text style={styles.text}>{item.id}</Text>
                     </View>
-                </View>
-                <View style={styles.icon}>
-                    <Icon
-                        name='add'
-                        type='material'
-                        color='#ffcc57'
-                        size={55}
-                        onPress={this.AddItemToCarrito}/>
                 </View>
             </View>
         );

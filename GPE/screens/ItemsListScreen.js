@@ -61,7 +61,6 @@ export default class ItemsListScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
-                               pressLeftIcon={this.onPressLeftIcon}
                                pageName={'Item List'}
                                pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={this.onPressRightIcon}/>

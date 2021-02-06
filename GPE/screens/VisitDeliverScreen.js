@@ -152,7 +152,7 @@ export default class VisitDeliverScreen extends Component {
         return (
             <>
                 <View style={[style.container, {flex: 1}]}>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'}/>
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'} pressLeftIcon={() => this.props.navigation.goBack()}/>
                     <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
                 </View>
 

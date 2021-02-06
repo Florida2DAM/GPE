@@ -45,14 +45,6 @@ export default class OrderAddItemsScreen extends Component {
         this.setState({selectedLot: e});
     };
 
-    hideModal = () => {
-        this.setState({visible: false});
-    };
-
-    hideAndAdd = () => {
-        this.setState({visible: false}, () => console.log('Guardaría el objeto.'));
-    };
-
     changeUnits = (units) => {
         this.setState({units});
     };
@@ -69,11 +61,17 @@ export default class OrderAddItemsScreen extends Component {
         this.setState({discount: ''});
     };
 
+    addItemList=()=>{
+        this.props.navigation.goBack()
+        console.log('Item añadido a la lista.');
+    }
+
     render() {
         // let itemInfo = this.props.getItemInfo;
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'} rightIconSize={45} pageName={'Add Item'}/>
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'} rightIconSize={45} pageName={'Add Item'} pressLeftIcon={() => this.props.navigation.goBack()}
+                               pressRightIcon={this.addItemList}/>
                 <View style={{alignSelf: 'center', marginTop: '5%'}}>
                     <Text style={styles.text}>Article: {this.state.items[0].name}</Text>
                     <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
