@@ -15,6 +15,7 @@ import SettingsScreen from './SettingsScreen';
 import VisitDeliverScreen from './VisitDeliverScreen';
 import VisitSalesScreen from './VisitSalesScreen';
 import ClientsListScreen from './ClientsListScreen';
+import DeliverCheckScreen from './DeliverCheckScreen';
 
 const style = require('../components/Styles');
 const stack = createStackNavigator();
@@ -59,6 +60,7 @@ export default class MainScreen extends Component {
                     <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
                     <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
                     <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>
+                    <stack.Screen name='DeliverCheckScreen' component={DeliverCheckScreen}/>
                     <stack.Screen name='ItemsListScreen' component={ItemsListScreen}/>
                     <stack.Screen name='OrderAddItemsScreen' component={OrderAddItemsScreen}/>
                     <stack.Screen name='OrderArticlesScreen' component={OrderArticlesScreen}/>

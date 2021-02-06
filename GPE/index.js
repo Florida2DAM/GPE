@@ -4,7 +4,7 @@
 
 import {AppRegistry} from 'react-native';
 
-import DeliverPaymentScreen from './screens/DeliverPaymentScreen';
+import MainScreen from './screens/MainScreen';
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => DeliverPaymentScreen);
+AppRegistry.registerComponent(appName, () => MainScreen);

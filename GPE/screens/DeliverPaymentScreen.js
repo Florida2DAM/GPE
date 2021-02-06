@@ -1,4 +1,5 @@
 'use strict';
+
 import {NavigationBar} from '../components/NavigationBar';
 import React, {Component} from 'react';
 import {View} from 'react-native';
@@ -42,7 +43,8 @@ export default class DeliverPaymentScreen extends Component {
 
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon}
                                pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
-                               pressRightIcon={this.onPressRightIcon}/>
+                               pressLeftIcon={() => this.props.navigation.goBack()}
+                               pressRightIcon={() => this.props.navigation.navigate('VisitDeliverScreen')}/>
                 <View style={style.flexColumnCenter}>
                     <GPELabel title={'Total'} content={'0.0€'} width='80%' height={5} marginTop='10%'
                               getValue={this.getTotal}/>
