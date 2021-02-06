@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {GPELabel} from '../components/GPELabel';
 import {GPEInput} from '../components/GPEInput';
 import {GPEPicker} from '../components/GPEPicker';
@@ -7,9 +8,10 @@ import {NavigationBar} from '../components/NavigationBar';
 
 const style = require('../components/Styles');
 
+
 export default class OrderAddItemsScreen extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             visible: true,
             items: [
@@ -61,24 +63,26 @@ export default class OrderAddItemsScreen extends Component {
         this.setState({discount: ''});
     };
 
-    addItemList=()=>{
-        this.props.navigation.goBack()
+    addItemList = () => {
+        this.props.navigation.goBack();
         console.log('Item añadido a la lista.');
-    }
+    };
 
     render() {
         // let itemInfo = this.props.getItemInfo;
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'} rightIconSize={45} pageName={'Add Item'} pressLeftIcon={() => this.props.navigation.goBack()}
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'}
+                               rightIconSize={45} pageName={'Add Item'}
+                               pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={this.addItemList}/>
                 <View style={{alignSelf: 'center', marginTop: '5%'}}>
-                    <Text style={styles.text}>Article: {this.state.items[0].name}</Text>
+                    <Text style={styles.text}>Article: {this.props.route.params.name}</Text>
                     <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
                     <GPEInput title={'Units'} placeholder={'0'} getValue={this.changeUnits}
                               delete={this.deleteUnits} value={this.state.units}
                               width='90%' height={5} marginTop='2%' keyboardType='numeric'/>
-                    <GPELabel title={'Unit price'} content={this.state.items[0].price.toString()}
+                    <GPELabel title={'Unit price'} content={this.props.route.params.price}
                               width='90%' height={5} marginTop='2%'/>
                     <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} marginTop='2%'
                               marginBottom='2%'
