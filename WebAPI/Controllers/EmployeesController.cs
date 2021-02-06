@@ -5,7 +5,7 @@ using GPE.Models;
 namespace GPE.Controllers
 {
     [RoutePrefix("api/Employees")]
-    public class EmployeeController : ApiController
+    public class EmployeesController : ApiController
     {
         // GET: api/Employee
         public IEnumerable<Employee> Get()
