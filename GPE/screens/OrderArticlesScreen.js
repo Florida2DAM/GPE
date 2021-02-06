@@ -68,6 +68,7 @@ export default class OrderArticlesScreen extends Component {
 
     invisible = () => {
         this.setState({visible: false});
+        console.log(this.props.route.params.client);
     };
     visible = () => {
         this.setState({visible: true});
