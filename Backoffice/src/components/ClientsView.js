@@ -11,8 +11,7 @@ import {createRef} from 'react';
 
 const axios = require('axios');
 const moment = require('moment');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+const api = 'http://54.160.33.104:80/api/';
 
 export class ClientsView extends React.Component {
 

@@ -9,8 +9,7 @@ import {TabPanel, TabView} from 'primereact/tabview';
 import {Toast} from 'primereact/toast';
 
 const axios = require('axios');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+const api = 'http://54.160.33.104:80/api/';
 
 export class LotsView extends React.Component {
 

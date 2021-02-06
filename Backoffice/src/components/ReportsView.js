@@ -5,8 +5,7 @@ import {TabPanel, TabView} from 'primereact/tabview';
 import {Chart} from 'primereact/chart';
 
 const axios = require('axios');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+const api = 'http://54.160.33.104:80/api/';
 
 export class ReportsView extends React.Component {
 
