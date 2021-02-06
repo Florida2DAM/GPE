@@ -1,5 +1,3 @@
-'use strict';
-
 import {NavigationBar} from '../components/NavigationBar';
 import React, {Component} from 'react';
 import {View} from 'react-native';
@@ -8,6 +6,7 @@ import {GPEInput} from '../components/GPEInput';
 import {GPELabel} from '../components/GPELabel';
 
 const style = require('../components/Styles');
+
 export default class DeliverPaymentScreen extends Component {
 
     constructor() {
@@ -40,8 +39,7 @@ export default class DeliverPaymentScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon}
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
                                pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
                                pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={() => this.props.navigation.navigate('VisitDeliverScreen')}/>
@@ -58,7 +56,6 @@ export default class DeliverPaymentScreen extends Component {
                               marginBottom='10%' getValue={this.getNIF}/>
                     <GPEPicker sendIcon={'payment'} pickerSize={'80%'} getOption={this.getPaymentMethod}/>
                 </View>
-
             </View>
         );
     }
