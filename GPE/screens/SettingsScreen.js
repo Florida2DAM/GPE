@@ -1,27 +1,33 @@
-'use strict';
-
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPELabel} from '../components/GPELabel';
 import {GPELogo} from '../components/GPELogo';
-
-const style = require('../components/Styles');
+import {GPEApi, axios, style} from '../components/GPEConst'
 
 export default class SettingsScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employee: '',
-            type: 'Deliveryman',
+            employees: [],
+            employee: {},
         };
     }
 
-    getEmployee = (e) => {
-        this.setState({employee: e});
+    componentDidMount() {
+        this.getEmployees();
+    }
+
+    getEmployees = () => {
+        axios.get(GPEApi + 'Employee').then((response) => {
+            this.setState({employees: response.data});
+        });
     };
 
+    getEmployeeInfo = (e) => {
+        this.setState({employee: e})
+    };
 
     render() {
         return (
@@ -32,10 +38,11 @@ export default class SettingsScreen extends Component {
                     <View style={{margin: '10%'}}>
                         <GPELogo/>
                     </View>
-                    <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getOption={this.getEmployee}/>
+                    <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getItemsList={this.state.employees}
+                               getOption={this.getEmployeeInfo} getScreen={'SettingsScreen'}/>
                 </View>
                 <View style={{margin: '5%'}}>
-                    <GPELabel title={'Worker Function'} content={this.state.type}/>
+                    <GPELabel title={'Worker Function'} content={this.state.employee.Type}/>
                 </View>
             </View>
         );
