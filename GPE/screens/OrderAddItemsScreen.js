@@ -64,7 +64,7 @@ export default class OrderAddItemsScreen extends Component {
     };
 
     addItemList=()=>{
-        this.props.navigation.goBack()
+        this.props.navigation.goBack();
         console.log('Item añadido a la lista.');
     }
 
