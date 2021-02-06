@@ -157,7 +157,6 @@ export default class VisitDeliverScreen extends Component {
                 </View>
 
                 {this.state.visible ? <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
-                        <Divider style={{height: 10, backgroundColor: 'none'}}/>
                         <FlatList
                             data={this.state.ClientData}
                             keyExtractor={(item) => item.id.toString()}
