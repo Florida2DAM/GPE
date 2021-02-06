@@ -6,9 +6,11 @@ import {StyleSheet, Text, View} from 'react-native';
 export default class ClientCard extends Component {
     render() {
         return (
-            <View style={this.props.id % 2 === 0 ? [styles.clientCard, {backgroundColor: '#ef802f'}] : [styles.clientCard, {backgroundColor: 'white'}]}>
+            <View
+                style={this.props.id % 2 === 0 ? [styles.clientCard, {backgroundColor: '#ef802f'}] : [styles.clientCard, {backgroundColor: 'white'}]}>
                 <View style={{width: '32%'}}>
-                    <View style={this.props.id % 2 === 0 ? [styles.phoneInfo, {backgroundColor: '#ef802f'}] : [styles.phoneInfo, {backgroundColor: 'white'}]}>
+                    <View
+                        style={this.props.id % 2 === 0 ? [styles.phoneInfo, {backgroundColor: '#ef802f'}] : [styles.phoneInfo, {backgroundColor: 'white'}]}>
                         <Text style={this.props.id % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text]}>
                             {this.props.contactName}
                         </Text>

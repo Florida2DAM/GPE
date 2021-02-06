@@ -63,6 +63,7 @@ export default class ItemsListScreen extends Component {
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
                                pressLeftIcon={this.onPressLeftIcon}
                                pageName={'Item List'}
+                               pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={this.onPressRightIcon}/>
                 <GPEFilter/>
                 <FlatList

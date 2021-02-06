@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Pressable, View} from 'react-native';
 import ClientCard from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
@@ -152,8 +152,7 @@ export default class VisitDeliverScreen extends Component {
         return (
             <>
                 <View style={[style.container, {flex: 1}]}>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'} rightIcon={'add'}
-                                   rightIconSize={50}/>
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'}/>
                     <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
                 </View>
 
@@ -164,17 +163,20 @@ export default class VisitDeliverScreen extends Component {
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({item}) => {
                                 return (
-                                    <ClientCard
-                                        id={item.id}
-                                        name={item.name}
-                                        address={item.address}
-                                        city={item.city}
-                                        country={item.country}
-                                        province={item.province}
-                                        contactName={item.contactName}
-                                        phone={item.phone}
-                                        codePostal={item.codePostal}
-                                    />
+                                    <Pressable
+                                        onPress={() => this.props.navigation.navigate('DeliverCheckScreen')}>
+                                        <ClientCard
+                                            id={item.id}
+                                            name={item.name}
+                                            address={item.address}
+                                            city={item.city}
+                                            country={item.country}
+                                            province={item.province}
+                                            contactName={item.contactName}
+                                            phone={item.phone}
+                                            codePostal={item.codePostal}
+                                        />
+                                    </Pressable>
                                 );
                             }}
                         />
@@ -183,4 +185,5 @@ export default class VisitDeliverScreen extends Component {
             </>
         );
     }
+
 }

@@ -15,6 +15,7 @@ import SettingsScreen from './SettingsScreen';
 import VisitDeliverScreen from './VisitDeliverScreen';
 import VisitSalesScreen from './VisitSalesScreen';
 import ClientsListScreen from './ClientsListScreen';
+import DeliverCheckScreen from './DeliverCheckScreen';
 
 const style = require('../components/Styles');
 const stack = createStackNavigator();
@@ -23,7 +24,8 @@ export default class MainScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employeeType: 'salesMan',
+            // employeeType: 'salesMan',
+            employeeType: 'deliveryMan',
         };
     }
 
@@ -37,9 +39,12 @@ export default class MainScreen extends Component {
                 </View>
                 <View style={[style.flexRowCenter, {justifyContent: 'space-evenly', marginTop: '5%'}]}>
                     <GPEButton iconName='local-shipping' iconSize={60} buttonName='VISIT'
-                               onPress={() => navigation.navigate('VisitSalesScreen')}/>
+                               onPress={this.state.employeeType === 'salesMan' ? () => navigation.navigate('VisitSalesScreen') : () => navigation.navigate('VisitDeliverScreen')}/>
                     <GPEButton iconName='contact-page' iconSize={60} buttonName='CLIENTS'
-                               onPress={() => navigation.navigate('ClientsListScreen')}/>
+                               onPress={() => navigation.navigate('ClientsListScreen', {
+                                   id: '2',
+                                   employeeType: this.state.employeeType,
+                               })}/>
                 </View>
                 <View style={[style.flexRowCenter, {justifyContent: 'space-evenly', marginTop: '5%'}]}>
                     <GPEButton iconName='category' iconSize={60} buttonName='ITEMS'
@@ -59,6 +64,7 @@ export default class MainScreen extends Component {
                     <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
                     <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
                     <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>
+                    <stack.Screen name='DeliverCheckScreen' component={DeliverCheckScreen}/>
                     <stack.Screen name='ItemsListScreen' component={ItemsListScreen}/>
                     <stack.Screen name='OrderAddItemsScreen' component={OrderAddItemsScreen}/>
                     <stack.Screen name='OrderArticlesScreen' component={OrderArticlesScreen}/>
