@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
 import {GPELabel} from '../components/GPELabel';
@@ -73,7 +74,7 @@ export default class OrderAddItemsScreen extends Component {
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'} rightIconSize={45} pageName={'Add Item'} pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={this.addItemList}/>
                 <View style={{alignSelf: 'center', marginTop: '5%'}}>
-                    <Text style={styles.text}>Article: {this.state.items[0].name}</Text>
+                    <Text style={styles.text}>Article: {this.props.route.params.name}</Text>
                     <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
                     <GPEInput title={'Units'} placeholder={'0'} getValue={this.changeUnits}
                               delete={this.deleteUnits} value={this.state.units}

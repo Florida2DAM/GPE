@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 
 import React, {Component} from 'react';
@@ -16,51 +17,66 @@ export default class OrderArticlesScreen extends Component {
                 {
                     id: 1,
                     name: 'item1',
+                    price: 75,
                 },
                 {
                     id: 2,
                     name: 'item2',
+                    price: 40,
                 },
                 {
                     id: 3,
                     name: 'item3',
+                    price: 10,
                 },
                 {
                     id: 4,
                     name: 'item1',
+                    price: 25,
                 },
                 {
                     id: 5,
                     name: 'item2',
+                    price: 89,
                 },
                 {
                     id: 6,
                     name: 'item3',
+                    price: 64,
                 },
                 {
                     id: 7,
                     name: 'item1',
+                    price: 34,
                 },
                 {
                     id: 8,
                     name: 'item2',
+                    price: 58,
                 },
                 {
                     id: 9,
                     name: 'item3',
+                    price: 10,
                 },
                 {
                     id: 10,
                     name: 'item1',
+                    price: 20,
                 },
                 {
                     id: 11,
                     name: 'item2',
+                    price: 2,
                 },
                 {
                     id: 12,
                     name: 'item3',
+                    price: 1,
                 },
+            ],
+            buyList: [
+
             ],
             visible: true,
         };
@@ -88,7 +104,7 @@ export default class OrderArticlesScreen extends Component {
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({item}) => {
                                 return (
-                                    <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen')}>
+                                    <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {name:this.state.itemList.name ,price: this.state.itemList.price})}>
                                         <ArticleCard selectedItem={item}/>
                                     </Pressable>
                                 );
