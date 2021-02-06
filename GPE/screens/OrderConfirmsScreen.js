@@ -15,9 +15,9 @@ export default class OrderConfirmsScreen extends Component {
         name: 'WEI Luo',
         dni: 'Y18273678',
         products: [
-            {name: 'CUlo', id: 2, price: 123},
+            {name: 'Test1', id: 1, price: 15},
 
-            {name: 'CUlo', id: 2, price: 123},
+            {name: 'Test2', id: 2, price: 10.5},
         ],
     };
 
@@ -26,7 +26,8 @@ export default class OrderConfirmsScreen extends Component {
             <View style={style.container}>
                 <View>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                                   rightIcon={'check'} rightIconSize={48}/>
+                                   rightIcon={'check'} rightIconSize={48} pressLeftIcon={this.props.navigation.goBack()}
+                                   pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')}/>
                 </View>
                 <ContactInfo name={'WEI Luo'} dni="w12321432"/>
                 <Divider style={{height: 10, backgroundColor: 'none'}}/>
