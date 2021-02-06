@@ -1,31 +1,35 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {Icon} from 'react-native-elements';
 
 export class GPEPicker extends Component {
     constructor() {
         super();
         this.state = {
             selectedOption: '',
-            options: ['DefaultValue1', 'DefaultValue2', 'DefaultValue3'],
         };
     }
 
     updateSelectedOption = (e) => {
         this.setState({selectedOption: e});
-        this.props.getOption(e);
+
+        this.props.getItemsList.forEach(item => {
+            if (item.Name === e) {
+                this.props.getOption(item);
+            }
+        });
     };
 
     render() {
+        let itemsList = this.props.getItemsList;
         return (
             <View style={styles.view}>
                 <Picker selectedValue={this.state.selectedOption} onValueChange={this.updateSelectedOption}
                         style={[styles.picker, {width: this.props.pickerSize}]} itemStyle={styles.item}>
                     <Picker.Item label={'Select An Option'}/>
-                    {this.state.options.map((item, index) => {
+                    {itemsList.map((item, index) => {
                         return (
-                            <Picker.Item label={item} value={item} key={index}/>
+                            <Picker.Item label={item.Name} value={item.Name} key={index}/>
                         );
                     })}
                 </Picker>
