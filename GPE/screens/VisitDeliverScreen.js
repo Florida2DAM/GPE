@@ -69,12 +69,13 @@ export default class VisitDeliverScreen extends Component {
                     <FlatList
                         data={this.state.orders}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item}) => {
+                        renderItem={({item, index}) => {
                             return (
                                 <Pressable
                                     onPress={() => this.props.navigation.navigate('DeliverCheckScreen', {item: item})}>
                                     <ClientCard
                                         client={item}
+                                        index={index}
                                     />
                                 </Pressable>
                             );
