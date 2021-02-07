@@ -16,6 +16,14 @@ namespace GPE.Models
             lots = context.Lots.ToList();
             return lots;
         }
+
+
+        internal List<Lot> Retrieve(int ArticleId)
+        {
+            List<Lot> lots = new List<Lot>();
+            lots = context.Lots.Where(l=>l.ArticleId==ArticleId).ToList();
+            return lots;
+        }
         /// <summary>
         ///  use for add new lot
         /// </summary>

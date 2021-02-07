@@ -17,9 +17,11 @@ namespace GPE.Controllers
 
 
         // GET: api/Lots/5
-        public string Get(int id)
+        public IEnumerable<Lot> Get(int ArticleId)
         {
-            return "value";
+            var repo = new LotsRepository();
+            List<Lot> lot = repo.Retrieve(ArticleId);
+            return lot;
         }
 
         // POST: api/Lots
