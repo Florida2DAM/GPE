@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GPE.Models
 {
@@ -13,11 +9,12 @@ namespace GPE.Models
 
         }
 
-        public Employee(int employeeId, string name, string type)
+        public Employee(int employeeId, string name, string type, bool enabled)
         {
             EmployeeId = employeeId;
             Name = name;
             Type = type;
+            Enabled = enabled;
         }
 
         public int EmployeeId { get; set; }

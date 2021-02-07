@@ -26,7 +26,6 @@ namespace GPE.Models
             TotalLine = totalLine;
         }
 
-
         [Key, Column(Order = 0)]
         public int OrderId { get; set; }
         [Key, Column(Order = 1)]
@@ -51,7 +50,6 @@ namespace GPE.Models
         [Required]
         public double Iva { get; set; }
         public double Discount { get; set; }
-        [Required]
         public double TotalLine { get; set; }
 
         public Order Order { get; set; }

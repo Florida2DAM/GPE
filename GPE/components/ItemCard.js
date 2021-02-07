@@ -1,0 +1,47 @@
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
+
+export class ItemCard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            total: 0,
+        };
+    }
+
+    render() {
+        return (
+            <View style={styles.mainContainer}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'column'}}>
+                    <Text style={[styles.text, {fontWeight: 'bold', fontSize: 20, marginBottom: '3%'}]}>{this.props.element.item.Description}</Text>
+                    <Text style={styles.text}>Category: {this.props.element.item.Category}</Text>
+                    <Text style={styles.text}>Brand: {this.props.element.item.Brand}</Text>
+                </View>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'column', alignContent: 'flex-end'}}>
+                    <Text style={[styles.text, {alignSelf: 'flex-end'}]}>ID: {this.props.element.item.ArticleId}</Text>
+                    <Text style={[styles.text, {fontSize: 23}]}>{this.props.element.item.Price} €</Text>
+                </View>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    mainContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: '3%',
+        paddingBottom: '3%',
+        paddingRight: '2%',
+        paddingLeft: '2%',
+        backgroundColor: '#3b3b3b',
+        borderColor: '#ffcc57',
+        borderTopWidth: 1,
+        borderBottomWidth: 2,
+    },
+    text: {
+        color: '#f7f7f7',
+        fontSize: 16,
+        marginBottom: '1%'     
+    },
+});

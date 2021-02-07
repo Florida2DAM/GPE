@@ -10,7 +10,7 @@ namespace GPE.Models
 
         }
 
-        public Article(int articleId, string description, double price, string brand, string category, double iva)
+        public Article(int articleId, string description, double price, string brand, string category, double iva, bool enabled)
         {
             ArticleId = articleId;
             Description = description;
@@ -18,6 +18,7 @@ namespace GPE.Models
             Brand = brand;
             Category = category;
             Iva = iva;
+            Enabled = enabled;
         }
 
         public int ArticleId { get; set; }
