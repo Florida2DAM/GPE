@@ -38,11 +38,8 @@ export default class ItemsListScreen extends Component {
         else {
             this.state.allItems.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) ||
-                    element.ArticleId == filterText)
-                {
-                    itemList.push(element);
-                }                
+                if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) ||element.ArticleId == filterText) 
+                    { itemList.push(element); }
             });
             this.setState({ items: itemList });
         }

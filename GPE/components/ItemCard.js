@@ -15,9 +15,6 @@ export class ItemCard extends Component {
                 <View style={styles.itemFlat}>
                     <View style={styles.container3}>
                         <Text style={styles.fontFlat}>
-                            Name:
-                        </Text>
-                        <Text style={styles.fontFlat4}>
                             {this.props.element.item.Description}
                         </Text>
                     </View>
