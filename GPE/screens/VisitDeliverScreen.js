@@ -9,7 +9,9 @@ export default class VisitDeliverScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            allOrders: [],
             orders: [],
+            filter: '',
             employee: 'Jesus',
         };
     }
@@ -19,13 +21,42 @@ export default class VisitDeliverScreen extends Component {
     }
 
     getOrders = () => {
+        let newOrders = [];
+
         axios.get(GPEApi + 'Orders/GetDeliver').then((response) => {
             response.data.forEach(item => {
                 if (item.Deliverer === this.state.employee) {
-                    this.setState({orders: response.data});
+                    newOrders.push(item);
                 }
             });
+            this.setState({allOrders: newOrders});
+            this.setState({orders: newOrders});
         });
+    };
+
+    setFilter = (filter) => {
+        this.setState({filter}, () => {
+            this.filter();
+        });
+    };
+
+    filter = () => {
+        let orderList = [];
+        if (this.state.filter === '') {
+            this.setState({orders: this.state.allOrders});
+        } else {
+            this.state.allOrders.forEach(item => {
+                const filterText = this.state.filter.toUpperCase();
+                if (item.Name.toUpperCase().includes(filterText)
+                    || item.ContactName.toUpperCase().includes(filterText)
+                    || item.Phone.includes(filterText)
+                    || item.Address.toUpperCase().includes(filterText)
+                    || item.City.toUpperCase().includes(filterText)) {
+                    orderList.push(item);
+                }
+            });
+            this.setState({orders: orderList});
+        }
     };
 
     render() {
@@ -34,7 +65,7 @@ export default class VisitDeliverScreen extends Component {
                 <View style={style.container}>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'}
                                    pressLeftIcon={() => this.props.navigation.goBack()}/>
-                    <GPEFilter/>
+                    <GPEFilter onChange={this.setFilter}/>
                     <FlatList
                         data={this.state.orders}
                         keyExtractor={(item) => item.OrderId.toString()}
