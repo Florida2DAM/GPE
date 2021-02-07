@@ -68,7 +68,7 @@ export default class VisitDeliverScreen extends Component {
                     <GPEFilter onChange={this.setFilter}/>
                     <FlatList
                         data={this.state.orders}
-                        keyExtractor={(item) => item.OrderId.toString()}
+                        keyExtractor={(item, index) => index.toString()}
                         renderItem={({item}) => {
                             return (
                                 <Pressable
