@@ -5,88 +5,50 @@ import React, { Component } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
 import { NavigationBar } from '../components/NavigationBar';
 import { GPEFilter } from '../components/GPEFilter';
-import { ArticleCard } from '../components/ArticleCard';
-
-const style = require('../components/Styles');
+import { ItemCard } from '../components/ItemCard';
+import { axios, GPEApi, style } from '../components/GPEConst';
 
 export default class OrderArticlesScreen extends Component {
     constructor() {
         super();
         this.state = {
-            itemList: [
-                {
-                    id: 1,
-                    name: 'item1',
-                    price: 75,
-                },
-                {
-                    id: 2,
-                    name: 'item2',
-                    price: 40,
-                },
-                {
-                    id: 3,
-                    name: 'item3',
-                    price: 10,
-                },
-                {
-                    id: 4,
-                    name: 'item1',
-                    price: 25,
-                },
-                {
-                    id: 5,
-                    name: 'item2',
-                    price: 89,
-                },
-                {
-                    id: 6,
-                    name: 'item3',
-                    price: 64,
-                },
-                {
-                    id: 7,
-                    name: 'item1',
-                    price: 34,
-                },
-                {
-                    id: 8,
-                    name: 'item2',
-                    price: 58,
-                },
-                {
-                    id: 9,
-                    name: 'item3',
-                    price: 10,
-                },
-                {
-                    id: 10,
-                    name: 'item1',
-                    price: 20,
-                },
-                {
-                    id: 11,
-                    name: 'item2',
-                    price: 2,
-                },
-                {
-                    id: 12,
-                    name: 'item3',
-                    price: 1,
-                },
-            ],
-            buyList: [
-
-            ],
-            visible: true,
+            allArticles: [],
+            articles: [],
         };
     }
 
-    invisible = () => {
-        this.setState({ visible: false });
+    componentDidMount() {
+        this.getArticles();
+    }
+
+    getArticles = () => {
+        axios.get(GPEApi + 'articles').then((response) => {
+            this.setState({ allArticles: response.data });
+            this.setState({ articles: response.data });
+        }, (rejectedResult) => {
+            console.error(rejectedResult.statusText);
+        });
+    }
+
+    setFilter = (filter) => {
+        this.setState({ filter }, () => {
+            this.filter();
+        });
     };
-    visible = () => {
-        this.setState({ visible: true });
+
+    filter = () => {
+        let itemList = [];
+        if (this.state.filter === '') {
+            this.setState({ items: this.state.allItems });
+        } else {
+            this.state.allItems.forEach(element => {
+                const filterText = this.state.filter.toUpperCase();
+                if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) || element.ArticleId === filterText) {
+                    itemList.push(element);
+                }
+            });
+            this.setState({ items: itemList });
+        }
     };
 
     render() {
@@ -96,24 +58,21 @@ export default class OrderArticlesScreen extends Component {
                     pressLeftIcon={() => this.props.navigation.goBack()}
                     rightIcon={'arrow-forward-ios'} rightIconSize={40}
                     pressRightIcon={() => this.props.navigation.navigate('OrderConfirmsScreen')} />
-                <GPEFilter onFocus={this.invisible} onBlur={this.visible} />
-                {this.state.visible ?
-                    <View style={[style.container, { flexDirection: 'column' }]}>
-                        <FlatList
-                            data={this.state.itemList}
-                            keyExtractor={(item) => item.id.toString()}
-                            renderItem={({ item }) => {
-                                return (
-                                    <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {
-                                        name: item.name,
-                                        price: item.price,
-                                    })}>
-                                        <ArticleCard selectedItem={item} />
-                                    </Pressable>
-                                );
-                            }}
-                        />
-                    </View> : <View />}
+                <GPEFilter />
+                <View style={[style.container, { flexDirection: 'column' }]}>
+                    <FlatList
+                        data={this.state.articles}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={(item) => (
+                            <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {
+                                article: item,
+                            })}>
+                                <ItemCard element={item} />
+                            </Pressable>
+                        )}
+                    />
+
+                </View>
             </View>
         );
     }
