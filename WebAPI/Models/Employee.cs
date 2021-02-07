@@ -9,11 +9,12 @@ namespace GPE.Models
 
         }
 
-        public Employee(int employeeId, string name, string type)
+        public Employee(int employeeId, string name, string type, bool enabled)
         {
             EmployeeId = employeeId;
             Name = name;
             Type = type;
+            Enabled = enabled;
         }
 
         public int EmployeeId { get; set; }

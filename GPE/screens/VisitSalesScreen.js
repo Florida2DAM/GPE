@@ -1,7 +1,7 @@
 'use strict';
-
+import 'react-native-gesture-handler';
 import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Pressable, View} from 'react-native';
 import ClientCard from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
@@ -14,6 +14,7 @@ export default class VisitSalesScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            employeeType: this.props.employeeType,
             ClientData: [
                 {
                     id: 1,
@@ -138,6 +139,7 @@ export default class VisitSalesScreen extends Component {
                 },
             ],
             visible: true,
+
         };
     }
 
@@ -153,7 +155,10 @@ export default class VisitSalesScreen extends Component {
             <>
                 <View style={[style.container, {flex: 1}]}>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients'} rightIcon={'add'}
-                                   rightIconSize={50}/>
+                                   rightIconSize={50}
+                                   pressLeftIcon={() => this.props.navigation.goBack()}
+                                   pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen')}
+                    />
                     <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
                 </View>
 
@@ -164,17 +169,20 @@ export default class VisitSalesScreen extends Component {
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({item}) => {
                                 return (
-                                    <ClientCard
-                                        id={item.id}
-                                        name={item.name}
-                                        address={item.address}
-                                        city={item.city}
-                                        country={item.country}
-                                        province={item.province}
-                                        contactName={item.contactName}
-                                        phone={item.phone}
-                                        codePostal={item.codePostal}
-                                    />
+                                    <Pressable
+                                        onPress={() => this.props.navigation.navigate('OrderArticlesScreen', {client: item})}>
+                                        <ClientCard
+                                            id={item.id}
+                                            name={item.name}
+                                            address={item.address}
+                                            city={item.city}
+                                            country={item.country}
+                                            province={item.province}
+                                            contactName={item.contactName}
+                                            phone={item.phone}
+                                            codePostal={item.codePostal}
+                                        />
+                                    </Pressable>
                                 );
                             }}
                         />

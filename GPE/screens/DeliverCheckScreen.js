@@ -12,11 +12,12 @@ export default class DeliverCheckScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            info: [{
-                name: 'carchofa',
-                id: 1,
-                price: 30,
-            },
+            info: [
+                {
+                    name: 'carchofa',
+                    id: 1,
+                    price: 30,
+                },
                 {
                     name: 'dffdf',
                     id: 2,
@@ -30,20 +31,12 @@ export default class DeliverCheckScreen extends Component {
         };
     }
 
-    onPressLeftIcon = () => {
-        console.log('pulsa el de la izquierda');
-    };
-
-    onPressRightIcon = () => {
-        console.log('pulsa el de la derecha');
-    };
-
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} pressLeftIcon={this.onPressLeftIcon}
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} pressLeftIcon={() => this.props.navigation.goBack()}
                                pageName={'Checkout'} rightIcon={'navigate-next'} rightIconSize={60}
-                               pressRightIcon={this.onPressRightIcon}/>
+                               pressRightIcon={() => this.props.navigation.navigate('DeliverPaymentScreen')}/>
                 <View style={{marginTop: '5%'}}>
                     <FlatList
                         data={this.state.info}
