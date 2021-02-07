@@ -28,7 +28,7 @@ export class GPEPicker extends Component {
         let itemsList = this.props.getItemsList;
         let screen = this.props.getScreen;
         return (
-            <View style={styles.view}>
+            <View style={[styles.view, {marginTop: this.props.marginTop}]}>
                 <Picker selectedValue={this.state.selectedOption} onValueChange={this.updateSelectedOption}
                         style={[styles.picker, {width: this.props.pickerSize}]} itemStyle={styles.item}>
                     <Picker.Item label={'Select An Option'}/>
@@ -44,7 +44,7 @@ export class GPEPicker extends Component {
                     })}
                     {screen === 'DeliverPaymentScreen' && this.state.paymentMethod.map((item, index) => {
                         return (
-                            <Picker.Item label={item.Name} value={item.Name} key={index}/>
+                            <Picker.Item label={item} value={item} key={index}/>
                         );
                     })}
                 </Picker>

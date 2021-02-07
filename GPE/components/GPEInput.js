@@ -7,7 +7,6 @@ export class GPEInput extends Component {
         super(props);
     }
 
-
     eraseContent = () => {
         this.setState({text: ''});
     };
