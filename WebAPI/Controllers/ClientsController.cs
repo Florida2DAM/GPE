@@ -25,6 +25,14 @@ namespace GPE.Controllers
             return clients;
         }
 
+        // GET api/Clients?clientId=value
+        public Client Get(int clientId)
+        {
+            Client client = model.GetClientById(clientId);
+
+            return client;
+        }
+
         //GET: api/ClientsRegsiter
         [Route("api/GetDates"), HttpGet]
         public IEnumerable<string> GetRegisters()

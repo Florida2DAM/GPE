@@ -52,6 +52,20 @@ namespace GPE.Models
         }
 
         /// <summary>
+        /// gets client with a certain id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>return a client</returns>
+        internal Client GetClientById(int id)
+        {
+            Client client = context.Clients
+                    .Where(c => c.ClientId == id)
+                    .FirstOrDefault();
+
+            return client;
+        }
+
+        /// <summary>
         /// gets the register date from all clients
         /// </summary>
         /// <returns>all the diferent dates</returns>

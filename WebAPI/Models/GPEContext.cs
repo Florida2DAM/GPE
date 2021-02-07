@@ -44,8 +44,8 @@ namespace GPE.Models
             modelBuilder.Entity<Lot>().HasKey(l => new { l.ArticleId, l.LotId });
 
             // Table Articles
-            modelBuilder.Entity<Article>().HasData(new Article(1, "PrimerArticuloToFlama", 10.5, "MarcaBuena", "RialOne", 21));
-            modelBuilder.Entity<Article>().HasData(new Article(2, "SegundoArticuloToFlama", 15.5, "MarcaMala", "RialOne", 4));
+            modelBuilder.Entity<Article>().HasData(new Article(1, "PrimerArticuloToFlama", 10.5, "MarcaBuena", "RialOne", 21, true));
+            modelBuilder.Entity<Article>().HasData(new Article(2, "SegundoArticuloToFlama", 15.5, "MarcaMala", "RialOne", 4, true));
 
             // Table Lots
             modelBuilder.Entity<Lot>().HasData(new Lot(1, "Lote-01", 500));
