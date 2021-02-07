@@ -61,20 +61,13 @@ export default class VisitSalesScreen extends Component {
                         <FlatList
                             data={this.state.ClientData}
                             keyExtractor={(item) => item.ClientId.toString()}
-                            renderItem={({item}) => {
+                            renderItem={({item, index}) => {
                                 return (
                                     <Pressable
                                         onPress={() => this.props.navigation.navigate('OrderArticlesScreen', {client: item})}>
                                         <ClientCard
-                                            id={item.ClientId}
-                                            name={item.Name}
-                                            address={item.Address}
-                                            city={item.City}
-                                            country={item.Country}
-                                            province={item.Province}
-                                            contactName={item.ContactName}
-                                            phone={item.Phone}
-                                            codePostal={item.PostalCode}
+                                            index={index}
+                                            client={item}
                                         />
                                     </Pressable>
                                 );
