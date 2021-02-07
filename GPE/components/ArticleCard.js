@@ -10,15 +10,17 @@ export class ArticleCard extends Component {
         let item = this.props.getItemLine;
         return (
             <View style={styles.container}>
-                <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View style={{flexDirection: 'column'}}>
-                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.name}</Text>
-                        <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>
-                        <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
+                <View style={{flexDirection: 'column'}}>
+                    <Text style={[styles.text, {fontWeight: 'bold'}]}>{item.Description}</Text>
+                        <Text style={styles.smallText}>ID: {item.ArticleId}</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.smallText}>Price: {item.Price}€</Text>
+                        <Text style={styles.text}>Quantity: {item.Quantity}</Text>
                     </View>
-                </View>
-                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-                    <Text style={styles.text}>Total: 20€</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Text style={styles.smallText}>Brand: {item.Brand}</Text>
+                        <Text style={styles.text}>Total: {item.TotalLine}€</Text>
+                    </View>
                 </View>
             </View>
         );
@@ -32,13 +34,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#ffcc57',
         backgroundColor: '#3b3b3b',
-        height: '95%',
-        width: '100%',
-        alignSelf: 'center',
-        paddingTop: '2%',
-        paddingBottom: '4%',
-        paddingLeft: '4%',
-        paddingRight: '4%',
+        padding: '4%',
+        margin: '2%',
     },
     text: {
         color: '#f7f7f7',
@@ -46,9 +43,6 @@ const styles = StyleSheet.create({
     },
     smallText: {
         fontSize: 18,
-    },
-    button: {
-        color: '#ffcc57',
-        fontSize: 50,
+        color: '#f7f7f7',
     },
 });
