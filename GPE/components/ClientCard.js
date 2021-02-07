@@ -5,6 +5,7 @@ import {StyleSheet, Text, View} from 'react-native';
 
 export default class ClientCard extends Component {
     render() {
+        let client = this.props.client;
         return (
             <View
                 style={this.props.id % 2 === 0 ? [styles.clientCard, {backgroundColor: '#ef802f'}] : [styles.clientCard, {backgroundColor: 'white'}]}>

@@ -20,7 +20,7 @@ export default class SettingsScreen extends Component {
     }
 
     getEmployees = () => {
-        axios.get(GPEApi + 'Employee').then((response) => {
+        axios.get(GPEApi + 'Employees').then((response) => {
             this.setState({employees: response.data});
         });
     };
