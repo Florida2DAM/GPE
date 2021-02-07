@@ -25,9 +25,9 @@ namespace GPE.Controllers
 
         // GET: api/OrdersByEmployeeAndId
         [Route("GetDeliver"), HttpGet]
-        public IEnumerable<DeliverOrder> GetDeliver()
+        public IEnumerable<Order> GetDeliver()
         {
-            List<DeliverOrder> orders = repo.RetrieveDelivers();
+            List<Order> orders = repo.RetrieveDelivers();
             return orders;
         }
 

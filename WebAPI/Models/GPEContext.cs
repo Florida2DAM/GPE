@@ -58,11 +58,11 @@ namespace GPE.Models
 
             // Tabla Clients
             modelBuilder.Entity<Client>().HasData(new Client(1, "Wei", "Su casa", "Valencia", "46400", "Valencia", "Españita", "666555444", "emailflamote@gmail.com", "20945677-A", "Su madre", Convert.ToDateTime("2011-01-01 00:00:00"), true));
-            modelBuilder.Entity<Client>().HasData(new Client(2, "Damia", "Mi casa", "Cullera", "46400", "Valencia", "Españita", "666555444", "emaildamia@gmail.com", "11122233-B", "Antonia josefa estafania aurelia", Convert.ToDateTime("2011-01-01 00:00:00"), true));
+            modelBuilder.Entity<Client>().HasData(new Client(2, "Damia", "Mi casa", "Cullera", "46400", "Valencia", "Españita", "666555444", "emaildamia@gmail.com", "11122233-B", "Antonia josefa", Convert.ToDateTime("2011-01-01 00:00:00"), true));
 
             // Tabla Orders
-            modelBuilder.Entity<Order>().HasData(new Order(1, 1, 1, Convert.ToDateTime("2021-02-01 00:00:00"), Convert.ToDateTime("2021-02-02 00:00:00"), "Wei", 1938.98, false, false, "Cash", "Jesus", 2));
-            modelBuilder.Entity<Order>().HasData(new Order(2, 2, 2, Convert.ToDateTime("2021-02-02 00:00:00"), Convert.ToDateTime("2021-02-03 00:00:00"), "Damia", 2000.98, false, false, "Cash", "Jesus" , 2));
+            modelBuilder.Entity<Order>().HasData(new Order(1, 1, 1, "Wei", Convert.ToDateTime("2021-02-01 00:00:00"), Convert.ToDateTime("2021-02-02 00:00:00"), "Su Madre", "Avda. Plaza España nº19", "Valencia","666555444", 1938.98, false, false, "Cash", "Jesus", 2));
+            modelBuilder.Entity<Order>().HasData(new Order(2, 2, 2, "Damia", Convert.ToDateTime("2021-02-02 00:00:00"), Convert.ToDateTime("2021-02-03 00:00:00"), "Antonia josefa", "C/ Rei en jaume nº 17", "Cullera", "666555444", 2000.98, false, false, "Cash", "Jesus" , 2));
 
             // Tabla OrderLines
             modelBuilder.Entity<OrderLine>().HasData(new OrderLine(1, 1, 1, "Lote-01", "PrimerArticuloToFlama", 10.5, "MarcaBuena", "RialOne", 15, 21, 0, 190.58));
