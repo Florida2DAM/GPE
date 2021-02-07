@@ -9,8 +9,7 @@ export default class DeliverCheckScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            order: {},
-            orderLines: [],
+            order: []
         };
     }
 
