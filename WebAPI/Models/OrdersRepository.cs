@@ -14,7 +14,11 @@ namespace GPE.Models
         internal List<Order> Retrieve()
         {
             List<Order> order = new List<Order>();
-            order = context.Orders.Include(ol => ol.OrderLines).ToList();
+            order = context.Orders
+                .Include(ol => ol.OrderLines)
+                .Include(cl => cl.Client)
+                .Include(em => em.Employee)
+                .ToList();
             return order;
         }
 
@@ -53,6 +57,16 @@ namespace GPE.Models
         /// </summary>
         /// <param name="order"></param>
         internal void Update(Order order)
+        {
+            context.Orders.Update(order);
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// update a list
+        /// </summary>
+        /// <param name="order"></param>
+        internal void UpdateDeliver(Order order)
         {
             context.Orders.Update(order);
             context.SaveChanges();
