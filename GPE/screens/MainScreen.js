@@ -25,8 +25,8 @@ export default class MainScreen extends Component {
     constructor() {
         super();
         this.state = {
-            // employeeType: 'salesMan',
-            employeeType: 'deliveryMan',
+             employeeType: 'salesMan',
+            //employeeType: 'deliveryMan',
         };
     }
 
