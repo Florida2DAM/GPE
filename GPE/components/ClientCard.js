@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
@@ -6,16 +7,16 @@ export default class ClientCard extends Component {
         let client = this.props.client;
         return (
             <View
-                style={parseInt(client.OrderId) % 2 === 0 ? [styles.clientCard, {backgroundColor: '#ef802f'}] : [styles.clientCard, {backgroundColor: 'white'}]}>
+                style={parseInt(this.props.index) % 2 === 0 ? [styles.clientCard, {backgroundColor: '#ef802f'}] : [styles.clientCard, {backgroundColor: 'white'}]}>
                 <View style={{width: '32%'}}>
                     <View
-                        style={parseInt(client.OrderId) % 2 === 0 ? [styles.phoneInfo, {backgroundColor: '#ef802f'}] : [styles.phoneInfo, {backgroundColor: 'white'}]}>
+                        style={parseInt(this.props.index) % 2 === 0 ? [styles.phoneInfo, {backgroundColor: '#ef802f'}] : [styles.phoneInfo, {backgroundColor: 'white'}]}>
                         <Text
-                            style={parseInt(client.OrderId) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text]}>
+                            style={parseInt(this.props.index) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text]}>
                             {client.ContactName}
                         </Text>
                         <Text
-                            style={parseInt(client.OrderId) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text]}>
+                            style={parseInt(this.props.index) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text]}>
                             {client.Phone}
                         </Text>
                     </View>
