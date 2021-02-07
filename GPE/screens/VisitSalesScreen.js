@@ -15,37 +15,60 @@ export default class VisitSalesScreen extends Component {
         super(props);
         this.state = {
             employeeType: this.props.employeeType,
-            ClientData: [],
+            allClients: [],
+            clients: [],
+            filter: ''
         };
     }
-    
+
     componentDidMount() {
-        this.getClient();
+        this.getClients();
     }
 
-    getClient = () => {
-        let client = [];
-
+    getClients = () => {
         axios.get(GPEApi + 'Clients').then((response) => {
-            response.data.forEach(info => {
-                client.push(info);
-            });
-            this.setState({ ClientData: client });
+            this.setState({ allClients: response.data });
+            this.setState({ clients: response.data });
         });
+    };
+
+    setFilter = (filter) => {
+        this.setState({ filter }, () => {
+            this.filter();
+        });
+    };
+
+    filter = () => {
+        let clientList = [];
+        if (this.state.filter === '') {
+            this.setState({ clients: this.state.allClients });
+        } else {
+            this.state.allClients.forEach(element => {
+                const filterText = this.state.filter.toUpperCase();
+                if (element.Name.toUpperCase().includes(filterText) 
+                    || element.Address.toUpperCase().includes(filterText) 
+                    || element.City.toUpperCase().includes(filterText)
+                    || element.Phone.toUpperCase().includes(filterText)
+                    || element.ContactName.toUpperCase().includes(filterText) ) {
+                    clientList.push(element);
+                }
+            });
+            this.setState({ clients: clientList });
+        }
     };
 
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={60} pageName={'Clients'} rightIcon={'add'}
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients'} rightIcon={'add'}
                     rightIconSize={50}
                     pressLeftIcon={() => this.props.navigation.goBack()}
                     pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen')}
                 />
-                <GPEFilter onChange={this.setFilter}/>
+                <GPEFilter onChange={this.setFilter} />
                 <View style={[style.container, { flexDirection: 'column', flex: 5 }]}>
                     <FlatList
-                        data={this.state.ClientData}
+                        data={this.state.clients}
                         keyExtractor={(item) => item.ClientId.toString()}
                         renderItem={({ item, index }) => {
                             return (
