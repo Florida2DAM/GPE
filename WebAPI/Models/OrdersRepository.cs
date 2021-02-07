@@ -36,6 +36,9 @@ namespace GPE.Models
         internal List<Order> RetrieveDelivers()
         {
             List<Order> order = context.Orders
+                .Include(ol => ol.OrderLines)
+                .Include(cl => cl.Client)
+                .Include(em => em.Employee)
                 .Where(o => o.Delivered == false)
                 .ToList();
 
