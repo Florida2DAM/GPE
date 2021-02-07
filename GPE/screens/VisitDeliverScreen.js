@@ -72,7 +72,7 @@ export default class VisitDeliverScreen extends Component {
                         renderItem={({item}) => {
                             return (
                                 <Pressable
-                                    onPress={() => this.props.navigation.navigate('DeliverCheckScreen')}>
+                                    onPress={() => this.props.navigation.navigate('DeliverCheckScreen', {item: item})}>
                                     <ClientCard
                                         client={item}
                                     />
