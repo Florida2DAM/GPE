@@ -61,7 +61,7 @@ namespace GPE.Models
         public DateTime RegisterDate { get; set; }
         [Required]
         public bool Enabled { get; set; }
-
+        
         public List<Order> Orders { get; set; }
     }
 }
