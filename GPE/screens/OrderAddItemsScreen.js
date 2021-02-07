@@ -5,6 +5,7 @@ import {GPELabel} from '../components/GPELabel';
 import {GPEInput} from '../components/GPEInput';
 import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
+import { or } from 'react-native-reanimated';
 
 const style = require('../components/Styles');
 
@@ -21,7 +22,6 @@ export default class OrderAddItemsScreen extends Component {
                     price: 10.5,
                     stock: 1000,
                     lot: 'LOT-01',
-
                 },
                 {
                     id: 1,
@@ -40,9 +40,15 @@ export default class OrderAddItemsScreen extends Component {
             ],
             selectedLot: '',
             discount: '',
+           // order:this.props.route.params.order
+            orderlines:[{},{}],
+            orderline:{}
         };
     }
 
+    componentDidMount(){
+       this.setState({orderline:this.state.orderlines[this.state.orderlines.length-1]} )
+    }
     getLot = (e) => {
         this.setState({selectedLot: e});
     };
