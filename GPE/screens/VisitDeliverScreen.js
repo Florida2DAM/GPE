@@ -16,22 +16,17 @@ export default class VisitDeliverScreen extends Component {
 
     componentDidMount() {
         this.getOrders();
-
     }
 
     getOrders = () => {
-        axios.get(GPEApi + 'Orders').then((response) => {
+        axios.get(GPEApi + 'Orders/GetDeliver').then((response) => {
             response.data.forEach(item => {
-                if (item.Delivered !== false && item.Deliverer === this.state.employee) {
+                if (item.Deliverer === this.state.employee) {
                     this.setState({orders: response.data});
                 }
             });
         });
     };
-
-    getClients = () =>{
-        axios.get(GPEApi+'Clients')
-    }
 
     render() {
         return (
@@ -42,7 +37,7 @@ export default class VisitDeliverScreen extends Component {
                     <GPEFilter/>
                     <FlatList
                         data={this.state.orders}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={(item) => item.OrderId.toString()}
                         renderItem={({item}) => {
                             return (
                                 <Pressable
