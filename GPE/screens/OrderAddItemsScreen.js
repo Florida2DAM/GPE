@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {GPELabel} from '../components/GPELabel';
-import {GPEInput} from '../components/GPEInput';
-import {GPEPicker} from '../components/GPEPicker';
-import {NavigationBar} from '../components/NavigationBar';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { GPELabel } from '../components/GPELabel';
+import { GPEInput } from '../components/GPEInput';
+import { GPEPicker } from '../components/GPEPicker';
+import { NavigationBar } from '../components/NavigationBar';
 
 const style = require('../components/Styles');
 
@@ -21,17 +21,16 @@ export default class OrderAddItemsScreen extends Component {
                     price: 10.5,
                     stock: 1000,
                     lot: 'LOT-01',
-
                 },
                 {
-                    id: 1,
+                    id: 2,
                     name: 'item1',
                     price: 10.5,
                     stock: 10,
                     lot: 'LOT-02',
                 },
                 {
-                    id: 1,
+                    id: 3,
                     name: 'item1',
                     price: 10.5,
                     stock: 5000,
@@ -40,31 +39,51 @@ export default class OrderAddItemsScreen extends Component {
             ],
             selectedLot: '',
             discount: '',
+            units: '',
+            // order:this.props.route.params.order
+            orderlines: [],
+            orderline:{},
+            article:{},
+            order:{}
         };
     }
 
+    updateOrderLines = () => {
+        let orderline={OrderId,LineId,ArticleId,LotId,Description,Price,Brand,Category,Quantity,Iva,Discout,TotalLine }
+        let orderlines=this.state.orderlines;
+        orderlines.push(orderline);
+        this.setState({orderlines})
+    }
+
+    componentDidMount() {
+        this.setState({ orderlines: this.props.route.params.orderline })
+        this.setState({ order: this.props.route.params.order })
+        this.setState({ article: this.props.route.params.article })
+    }
+
     getLot = (e) => {
-        this.setState({selectedLot: e});
+        this.setState({ selectedLot: e });
     };
 
     changeUnits = (units) => {
-        this.setState({units});
+        this.setState({ units });
     };
 
     changeDiscount = (discount) => {
-        this.setState({discount});
+        this.setState({ discount });
     };
 
     deleteUnits = () => {
-        this.setState({units: ''});
+        this.setState({ units: '' });
     };
 
     deleteDiscount = () => {
-        this.setState({discount: ''});
+        this.setState({ discount: '' });
     };
 
     addItemList = () => {
-        this.props.navigation.goBack();
+        this.updateOrderLines();
+        this.props.navigation.navigate('OrderArticlesScreen', {orderlines:this.state.orderlines,order:this.state.order});
         console.log('Item añadido a la lista.');
     };
 
@@ -73,21 +92,21 @@ export default class OrderAddItemsScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'}
-                               rightIconSize={45} pageName={'Add Item'}
-                               pressLeftIcon={() => this.props.navigation.goBack()}
-                               pressRightIcon={this.addItemList}/>
-                <View style={{alignSelf: 'center', marginTop: '5%'}}>
+                    rightIconSize={45} pageName={'Add Item'}
+                    pressLeftIcon={() => this.props.navigation.goBack()}
+                    pressRightIcon={this.addItemList} />
+                <View style={{ alignSelf: 'center', marginTop: '5%' }}>
                     <Text style={styles.text}>Article: {this.props.route.params.name}</Text>
-                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
+                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%' />
                     <GPEInput title={'Units'} placeholder={'0'} getValue={this.changeUnits}
-                              delete={this.deleteUnits} value={this.state.units}
-                              width='90%' height={5} marginTop='2%' keyboardType='numeric'/>
+                        delete={this.deleteUnits} value={this.state.units}
+                        width='90%' height={5} marginTop='2%' keyboardType='numeric' />
                     <GPELabel title={'Unit price'} content={this.props.route.params.price}
-                              width='90%' height={5} marginTop='2%'/>
+                        width='90%' height={5} marginTop='2%' />
                     <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} marginTop='2%'
-                              marginBottom='2%'
-                              getValue={this.changeDiscount} delete={this.deleteDiscount}
-                              value={this.state.discount} keyboardType='numeric'/>
+                        marginBottom='2%'
+                        getValue={this.changeDiscount} delete={this.deleteDiscount}
+                        value={this.state.discount} keyboardType='numeric' />
                 </View>
             </View>
         );
