@@ -6,7 +6,6 @@ import { FlatList, Pressable, View } from 'react-native';
 import ClientCard from '../components/ClientCard';
 import { NavigationBar } from '../components/NavigationBar';
 import { GPEFilter } from '../components/GPEFilter';
-import { Divider } from 'react-native-elements';
 import { axios, GPEApi, style } from '../components/GPEConst';
 
 export default class VisitSalesScreen extends Component {
