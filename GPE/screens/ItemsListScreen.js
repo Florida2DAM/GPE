@@ -1,12 +1,9 @@
-/* eslint-disable prettier/prettier */
-'use strict';
-
-import React, { Component } from 'react';
-import { Button, FlatList, View } from 'react-native';
-import { ItemCard } from '../components/ItemCard';
-import { NavigationBar } from '../components/NavigationBar';
-import { GPEFilter } from '../components/GPEFilter';
-import {GPEApi, axios, style} from '../components/GPEConst';
+import React, {Component} from 'react';
+import {FlatList, View} from 'react-native';
+import {ItemCard} from '../components/ItemCard';
+import {NavigationBar} from '../components/NavigationBar';
+import {GPEFilter} from '../components/GPEFilter';
+import {axios, GPEApi, style} from '../components/GPEConst';
 
 export default class ItemsListScreen extends Component {
 
@@ -15,7 +12,7 @@ export default class ItemsListScreen extends Component {
         this.state = {
             allItems: [],
             items: [],
-            filter: ""
+            filter: '',
         };
     }
 
@@ -28,26 +25,26 @@ export default class ItemsListScreen extends Component {
         });
     }
 
-    ahora = (filter) => {
-        this.setState({filter},  () => { this.filter(); });
-    }
+    setFilter = (filter) => {
+        this.setState({filter}, () => {
+            this.filter();
+        });
+    };
 
     filter = () => {
         let itemList = [];
-        if (this.state.filter === "") this.setState({ items: this.state.allItems });
-        else {
+        if (this.state.filter === '') {
+            this.setState({items: this.state.allItems});
+        } else {
             this.state.allItems.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) ||element.ArticleId == filterText) 
-                    { itemList.push(element); }
+                if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) || element.ArticleId === filterText) {
+                    itemList.push(element);
+                }
             });
-            this.setState({ items: itemList });
+            this.setState({items: itemList});
         }
-    }
-
-    onPressLeftIcon = () => {
-        this.props.navigation.goBack();
-    }    
+    };
 
     render() {
         return (
@@ -56,11 +53,11 @@ export default class ItemsListScreen extends Component {
                                pageName={'Item List'}
                                pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={this.onPressRightIcon}/>
-                <GPEFilter onChange={this.ahora}/>
+                <GPEFilter onChange={this.setFilter}/>
                 <FlatList
                     data={this.state.items}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={(item) => (<ItemCard element={item} />)}
+                    renderItem={(item) => (<ItemCard element={item}/>)}
                 />
             </View>
 
