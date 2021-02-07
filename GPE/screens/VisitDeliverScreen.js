@@ -48,10 +48,10 @@ export default class VisitDeliverScreen extends Component {
             this.state.allOrders.forEach(item => {
                 const filterText = this.state.filter.toUpperCase();
                 if (item.Name.toUpperCase().includes(filterText)
-                    || item.ContactName.toUpperCase().includes(filterText)
-                    || item.Phone.includes(filterText)
-                    || item.Address.toUpperCase().includes(filterText)
-                    || item.City.toUpperCase().includes(filterText)) {
+                    || item.Client.ContactName.toUpperCase().includes(filterText)
+                    || item.Client.Phone.includes(filterText)
+                    || item.Client.Address.toUpperCase().includes(filterText)
+                    || item.Client.City.toUpperCase().includes(filterText)) {
                     orderList.push(item);
                 }
             });
@@ -74,7 +74,7 @@ export default class VisitDeliverScreen extends Component {
                                 <Pressable
                                     onPress={() => this.props.navigation.navigate('DeliverCheckScreen', {item: item})}>
                                     <ClientCard
-                                        client={item}
+                                        client={item.Client}
                                         index={index}
                                     />
                                 </Pressable>
