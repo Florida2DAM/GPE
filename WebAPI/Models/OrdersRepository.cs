@@ -29,6 +29,27 @@ namespace GPE.Models
             return order;
         }
 
+       
+        private static DeliverOrder DeliverOrder(Order order)
+        {
+            GPEContext context = new GPEContext();
+
+            Order order1 = context.Orders
+                .Include(o => o.Client)
+                .FirstOrDefault();
+
+            return new DeliverOrder(order1.OrderId, order1.ClientId, order1.Client.Name, order1.Client.Address, order1.Client.City, order1.Client.PostalCode, order1.ContactName, order1.Total, order1.Delivered, order1.Deliverer);
+        }
+
+        internal List<DeliverOrder> RetrieveDelivers()
+        {
+            List<DeliverOrder> order = context.Orders
+                .Select(o => DeliverOrder(o))
+                .ToList();
+
+            return order;
+        }
+
         /// <summary>
         /// add a order
         /// </summary>

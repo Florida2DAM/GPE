@@ -54,4 +54,38 @@ namespace GPE.Models
         public Employee Employee { get; set; }
         public List<OrderLine> OrderLines { get; set; }
     }
+
+    public class DeliverOrder {
+        public DeliverOrder(int orderId, int clientId, string clientName, string contactName, string address, string city, string postalCode, double total, bool delivered, string deliverer)
+        {
+            OrderId = orderId;
+            ClientId = clientId;
+            ClientName = clientName;
+            ContactName = contactName;
+            Address = address;
+            City = city;
+            PostalCode = postalCode;
+            Total = total;
+            Delivered = delivered;
+            Deliverer = deliverer;
+        }
+
+        public int OrderId { get; set; }
+        public int ClientId { get; set; }
+        public string ClientName { get; set; }
+        public string ContactName { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string PostalCode { get; set; }
+        public double Total { get; set; }
+        public bool Delivered { get; set; }
+        public bool Paid { get; set; }
+        public string Deliverer { get; set; }
+        public int EmployeeId { get; set; }
+
+        public Client Client { get; set; }
+        public Employee Employee { get; set; }
+        public List<OrderLine> OrderLines { get; set; }
+    }
+
 }
