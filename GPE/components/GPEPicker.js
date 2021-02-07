@@ -7,7 +7,6 @@ export class GPEPicker extends Component {
         super();
         this.state = {
             selectedOption: '',
-            paymentMethod : ['Cash', 'Credit Card', 'Pending'],
         };
     }
 
@@ -24,6 +23,7 @@ export class GPEPicker extends Component {
         });
     };
 
+
     render() {
         let itemsList = this.props.getItemsList;
         let screen = this.props.getScreen;
@@ -32,6 +32,11 @@ export class GPEPicker extends Component {
                 <Picker selectedValue={this.state.selectedOption} onValueChange={this.updateSelectedOption}
                         style={[styles.picker, {width: this.props.pickerSize}]} itemStyle={styles.item}>
                     <Picker.Item label={'Select An Option'}/>
+                    {screen === 'DeliverPaymentScreen' && itemsList.map((item, index) => {
+                        return (
+                            <Picker.Item label={item} value={item} key={index}/>
+                        );
+                    })}
                     {screen === 'SettingsScreen' && itemsList.map((item, index) => {
                         return (
                             <Picker.Item label={item.Name} value={item.Name} key={index}/>
@@ -40,11 +45,6 @@ export class GPEPicker extends Component {
                     {screen === 'OrderAddItemsScreen' && itemsList.map((item, index) => {
                         return (
                             <Picker.Item label={item.LotId} value={item.LotId} key={index}/>
-                        );
-                    })}
-                    {screen === 'DeliverPaymentScreen' && this.state.paymentMethod.map((item, index) => {
-                        return (
-                            <Picker.Item label={item} value={item} key={index}/>
                         );
                     })}
                 </Picker>
