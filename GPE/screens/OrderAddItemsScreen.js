@@ -5,7 +5,6 @@ import { GPELabel } from '../components/GPELabel';
 import { GPEInput } from '../components/GPEInput';
 import { GPEPicker } from '../components/GPEPicker';
 import { NavigationBar } from '../components/NavigationBar';
-import { or } from 'react-native-reanimated';
 
 const style = require('../components/Styles');
 
@@ -43,19 +42,23 @@ export default class OrderAddItemsScreen extends Component {
             units: '',
             // order:this.props.route.params.order
             orderlines: [],
-            orderlines:{},
-            key: null
-
+            orderline:{},
+            article:{},
+            order:{}
         };
     }
 
     updateOrderLines = () => {
-
+        let orderline={OrderId,LineId,ArticleId,LotId,Description,Price,Brand,Category,Quantity,Iva,Discout,TotalLine }
+        let orderlines=this.state.orderlines;
+        orderlines.push(orderline);
+        this.setState({orderlines})
     }
 
     componentDidMount() {
         this.setState({ orderlines: this.props.route.params.orderline })
-        this.setState({ key: (this.state.orderlines.length - 1) })
+        this.setState({ order: this.props.route.params.order })
+        this.setState({ article: this.props.route.params.article })
     }
 
     getLot = (e) => {
@@ -63,7 +66,7 @@ export default class OrderAddItemsScreen extends Component {
     };
 
     changeUnits = (units) => {
-        this.setState({ unit });
+        this.setState({ units });
     };
 
     changeDiscount = (discount) => {
@@ -79,7 +82,8 @@ export default class OrderAddItemsScreen extends Component {
     };
 
     addItemList = () => {
-        this.props.navigation.goBack();
+        this.updateOrderLines();
+        this.props.navigation.navigate('OrderArticlesScreen', {orderlines:this.state.orderlines,order:this.state.order});
         console.log('Item añadido a la lista.');
     };
 
