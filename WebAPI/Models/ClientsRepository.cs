@@ -31,6 +31,8 @@ namespace GPE.Models
         /// <param name="c">client to add</param>
         internal void AddClient(Client c)
         {
+            c.Enabled = true;
+            c.RegisterDate = DateTime.Now();
             context.Clients.Add(c);
             context.SaveChanges();
         }
