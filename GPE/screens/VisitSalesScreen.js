@@ -13,18 +13,18 @@ export default class VisitSalesScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            employeeType: this.props.employeeType,
             allClients: [],
             clients: [],
-            order: this.props.order,
-            orderList: this.props.orderList,
-            employee: 8,
+            order: [],
+            orderLines: [],
+            employeeId: 8,
             filter: '',
         };
     }
 
     componentDidMount() {
         this.getClients();
+        this.getInfo();
     }
 
     getClients = () => {
@@ -33,6 +33,16 @@ export default class VisitSalesScreen extends Component {
             this.setState({ clients: response.data });
         });
     };
+
+    getInfo = () => {
+        //this.setState({employeeId: this.props.route.params.employeeId});
+        if (this.props.route.params.orderLines !== undefined) {
+            this.setState({ orderLines: this.props.route.params.orderLines });
+        }
+        if (this.props.route.params.order !== undefined) {
+            this.setState({ order: this.props.route.params.order });
+        }
+    }
 
     setFilter = (filter) => {
         this.setState({ filter }, () => {
@@ -75,7 +85,7 @@ export default class VisitSalesScreen extends Component {
                         renderItem={({ item, index }) => {
                             return (
                                 <Pressable
-                                    onPress={() => this.props.navigation.navigate('OrderArticlesScreen', { client: item, employeeId: this.state.employeeId, order: this.state.order, orderLines: this.state.orderList })}>
+                                    onPress={() => this.props.navigation.navigate('OrderArticlesScreen', { client: item, employeeId: this.state.employeeId, order: this.state.order, orderLines: this.state.orderLines })}>
                                     <ClientCard
                                         index={index}
                                         client={item}
