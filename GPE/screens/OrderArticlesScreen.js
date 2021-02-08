@@ -15,8 +15,8 @@ export default class OrderArticlesScreen extends Component {
             allArticles: [],
             articles: [],
             orderLines: [],
-            client: this.props.route.params.client,
-            employeeId: this.props.route.params.employeeId,
+            client: [],
+            employeeId: 0,
             order: {
                 ClientId: 0,
                 OrderNum: 0,
@@ -27,7 +27,7 @@ export default class OrderArticlesScreen extends Component {
                 Paid: 0,
                 PayingMethod: "",
                 Deliverer: "",
-                EmployeeId: this.props.route.params.employeeId
+                EmployeeId: 0
             }
         };
     }
@@ -47,6 +47,8 @@ export default class OrderArticlesScreen extends Component {
     }
 
     getInfo = () => {
+        this.setState({client: this.props.route.params.client});
+        this.setState({employeeId: this.props.route.params.employeeId});
         if (this.props.route.params.orderLines !== undefined) {
             this.setState({ orderLines: this.props.route.params.orderLines });
         }
