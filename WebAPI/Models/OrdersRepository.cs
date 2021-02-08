@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -69,8 +70,15 @@ namespace GPE.Models
         /// update a list
         /// </summary>
         /// <param name="order"></param>
-        internal void UpdateDeliver(Order order)
+        internal void UpdateDeliver(int orderId, double paid, string payingMethod)
         {
+            Order order = Retrieve(orderId);
+
+            order.Delivered = true;
+            order.Paid = paid;
+            order.PayingMethod = payingMethod;
+            order.DeliveryDate = DateTime.Now;
+
             context.Orders.Update(order);
             context.SaveChanges();
         }
