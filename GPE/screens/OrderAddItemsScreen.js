@@ -42,19 +42,29 @@ export default class OrderAddItemsScreen extends Component {
             units: '',
             // order:this.props.route.params.order
             orderlines: [],
-            orderline:{},
-            article:{},
-            order:{}
+            orderline: {},
+            article: {},
+            order: {}
         };
     }
 
     updateOrderLines = () => {
-        let orderline={OrderId,LineId,ArticleId,LotId,Description,Price,Brand,Category,Quantity,Iva,Discout,TotalLine }
-        let orderlines=this.state.orderlines;
+        let orderline = {
+            OrderId: null, LineId: null, ArticleId: this.state.article.ArticleId, LotId: this.state.selectedLot,
+            Description: this.state.article.Description, Price: this.state.article.Price, Brand:this.state.article.Brand,
+            Category:this.state.article.Category, Quantity:this.state.units,
+            Iva:this.state.article.Iva, Discout:this.state.discount, TotalLine:this.getTotalLine()
+        }
+        let orderlines = this.state.orderlines;
         orderlines.push(orderline);
-        this.setState({orderlines})
+        this.setState({ orderlines })
     }
-
+    getTotalLine=()=>{
+        let priceQuantity=this.state.article.Price*this.state.units;
+        let priceDiscount=priceQuantity-(priceQuantity*(this.state.discount/100));
+        let priceIva=  priceDiscount + (priceDiscount * (this.state.article.Iva / 100)); 
+        return priceIva;
+    }
     componentDidMount() {
         this.setState({ orderlines: this.props.route.params.orderline })
         this.setState({ order: this.props.route.params.order })
@@ -83,7 +93,7 @@ export default class OrderAddItemsScreen extends Component {
 
     addItemList = () => {
         this.updateOrderLines();
-        this.props.navigation.navigate('OrderArticlesScreen', {orderlines:this.state.orderlines,order:this.state.order});
+        this.props.navigation.navigate('OrderArticlesScreen', { orderlines: this.state.orderlines, order: this.state.order });
         console.log('Item añadido a la lista.');
     };
 
@@ -107,6 +117,10 @@ export default class OrderAddItemsScreen extends Component {
                         marginBottom='2%'
                         getValue={this.changeDiscount} delete={this.deleteDiscount}
                         value={this.state.discount} keyboardType='numeric' />
+                </View>
+                <View>
+                <GPELabel title={'Total'} content={'0.0€'} width='80%' height={5} marginTop='10%'
+                              content={this.getTotalLine}/>
                 </View>
             </View>
         );
