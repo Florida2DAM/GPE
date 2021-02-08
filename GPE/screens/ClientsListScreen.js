@@ -1,8 +1,11 @@
 'use strict';
-
+import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {FlatList, View} from 'react-native';
 import ClientCard from '../components/ClientCard';
+import {NavigationBar} from '../components/NavigationBar';
+import {GPEFilter} from '../components/GPEFilter';
+import {Divider} from 'react-native-elements';
 
 const style = require('../components/Styles');
 
@@ -134,37 +137,50 @@ export default class ClientsListScreen extends Component {
                     contactName: 'Jesus',
                 },
             ],
+            visible: true,
         };
     }
 
+    invisible = () => {
+        this.setState({visible: false});
+    };
+    visible = () => {
+        this.setState({visible: true});
+    };
+
     render() {
         return (
-            <>
-                <View style={[style.container, {flex: 1}]}>
-
-                </View>
-                <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
-                    <FlatList
-                        data={this.state.ClientData}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({item}) => {
-                            return (
-                                <ClientCard
-                                    id={item.id}
-                                    name={item.name}
-                                    address={item.address}
-                                    city={item.city}
-                                    country={item.country}
-                                    province={item.province}
-                                    contactName={item.contactName}
-                                    phone={item.phone}
-                                    codePostal={item.codePostal}
-                                />
-                            );
-                        }}
-                    />
-                </View>
-            </>
+            <View style={[style.container]}>
+                <NavigationBar leftIcon={'arrow-back-ios'}
+                               leftIconSize={40}
+                               pageName={'Client List'}
+                               rightIcon={'add'}
+                               rightIconSize={50}
+                               pressLeftIcon={() => this.props.navigation.navigate('MainScreen')}
+                               pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen')}
+                />
+                <GPEFilter onFocus={this.invisible} onBlur={this.visible}/>
+                <Divider style={{height: 10, backgroundColor: 'none'}}/>
+                <FlatList
+                    data={this.state.ClientData}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({item}) => {
+                        return (
+                            <ClientCard
+                                id={item.id}
+                                name={item.name}
+                                address={item.address}
+                                city={item.city}
+                                country={item.country}
+                                province={item.province}
+                                contactName={item.contactName}
+                                phone={item.phone}
+                                codePostal={item.codePostal}
+                            />
+                        );
+                    }}
+                />
+            </View>
         );
     }
 }

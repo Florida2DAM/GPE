@@ -1,42 +1,49 @@
-'use strict';
-
 import React, {Component} from 'react';
-import {ScrollView, View} from 'react-native';
+import {View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPELabel} from '../components/GPELabel';
 import {GPELogo} from '../components/GPELogo';
-
-const style = require('../components/Styles');
+import {GPEApi, axios, style} from '../components/GPEConst';
 
 export default class SettingsScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employee: '',
-            type: 'Deliveryman',
+            employees: [],
+            employee: {},
         };
     }
 
-    getEmployee = (e) => {
-        this.setState({employee: e});
+    componentDidMount() {
+        this.getEmployees();
+    }
+
+    getEmployees = () => {
+        axios.get(GPEApi + 'Employees').then((response) => {
+            this.setState({employees: response.data});
+        });
+    };
+
+    getEmployeeInfo = (e) => {
+        this.setState({employee: e})
     };
 
     render() {
         return (
             <View style={[style.container]}>
-                <ScrollView>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}/>
-                    <View style={{marginLeft: '5%', marginRight: '5%'}}>
-                        <View style={{margin: '10%'}}>
-                            <GPELogo/>
-                        </View>
-                        <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getOption={this.getEmployee}/>
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}
+                               pressLeftIcon={() => this.props.navigation.goBack()}/>
+                <View style={{marginLeft: '5%', marginRight: '5%'}}>
+                    <View style={{margin: '10%'}}>
+                        <GPELogo/>
                     </View>
-                    <View style={{margin: '5%'}}>
-                        <GPELabel title={'Worker Function'} content={this.state.type}/>
-                    </View>
-                </ScrollView>
+                    <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getItemsList={this.state.employees}
+                               getOption={this.getEmployeeInfo} getScreen={'SettingsScreen'}/>
+                </View>
+                <View style={{margin: '5%'}}>
+                    <GPELabel title={'Worker Function'} content={this.state.employee.Type}/>
+                </View>
             </View>
         );
     }

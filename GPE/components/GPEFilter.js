@@ -15,8 +15,8 @@ export class GPEFilter extends Component {
                         style={{marginLeft: '3%'}}
                         onPress={this.eraseContent}/>
                 </View>
-                <TextInput style={{color: 'white', fontSize: 20, paddingBottom: '2.5%'}} placeholder='GPEFilter'
-                           placeholderTextColor='#7c7c7c' onChange={this.props.onChange}/>
+                <TextInput style={{flex: 1, color: 'white', fontSize: 20, paddingBottom: '2.5%'}} placeholder='Filter'
+                           placeholderTextColor='#7c7c7c' onChangeText={(text) => this.props.onChange(text)}/>
             </View>
         );
     }

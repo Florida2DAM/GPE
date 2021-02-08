@@ -29,7 +29,7 @@ export class ModifyQuantity extends Component {
                         <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
                     </View>
-                    <View style={{alignItems: 'flex-end'}}>
+                    <View style={{alignItems: 'flex-end' }}>
                         <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
                             <Button title='-' type='clear' titleStyle={styles.button}
                                     onPress={this.decreaseUnits}/>
@@ -55,9 +55,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 10,
         borderColor: '#ffcc57',
-        backgroundColor: '#2a2a2a',
-        height: '20%',
-        width: '90%',
+        backgroundColor: '#3b3b3b',
+        height: '95%',
+        width: '100%',
         alignSelf: 'center',
         paddingTop: '2%',
         paddingBottom: '4%',

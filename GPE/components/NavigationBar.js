@@ -13,7 +13,7 @@ export class NavigationBar extends Component {
         return (
             <>
                 <View style={styles.item}>
-                    <View style={[styles.part, {alignItems: 'flex-start', marginLeft: '5%'}]}>
+                    <View style={[styles.part, {alignItems: 'flex-start', marginLeft: '2%'}]}>
                         <Icon
                             name={this.props.leftIcon}
                             type='material'
