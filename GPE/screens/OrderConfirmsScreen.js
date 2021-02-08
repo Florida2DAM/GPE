@@ -8,8 +8,7 @@ import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
 import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
-
-const style = require('../components/Styles');
+import { axios, GPEApi, style } from '../components/GPEConst';
 
 export default class OrderConfirmsScreen extends Component {
     constructor(props) {
@@ -22,8 +21,25 @@ export default class OrderConfirmsScreen extends Component {
 
                 { name: 'Test2', id: 2, price: 10.5 },
             ],
+            client: this.props.client
         };
 
+    }
+
+    addOrder = () => {
+        axios.post(GPEApi + '/Orders', {
+            ClientId: 1,
+            OrderNum: 1,
+            Date: "2021-02-01T00:00:00",
+            DeliveryDate: "1900-01-01T00:00:00",
+            Total: 1938.98,
+            Delivered: false,
+            Paid: 0.0,
+            PayingMethod: null,
+            Deliverer: "Jesus",
+            EmployeeId: 2,
+        })
+        this.props.navigation.navigate('VisitSalesScreen');
     }
 
     render() {
@@ -32,10 +48,10 @@ export default class OrderConfirmsScreen extends Component {
                 <View>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                         rightIcon={'check'} rightIconSize={48} pressLeftIcon={this.props.navigation.goBack()}
-                        pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
+                        pressRightIcon={ } />
                 </View>
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <ContactInfo name={'WEI Luo'} dni="w12321432" />
+                <ContactInfo name={this.state.name} dni={this.state.dni} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
 
                 <FlatList
