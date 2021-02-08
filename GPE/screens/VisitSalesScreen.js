@@ -16,8 +16,10 @@ export default class VisitSalesScreen extends Component {
             employeeType: this.props.employeeType,
             allClients: [],
             clients: [],
+            order: this.props.order,
+            orderList: this.props.orderList,
             employee: 8,
-            filter: ''
+            filter: '',
         };
     }
 
@@ -73,7 +75,7 @@ export default class VisitSalesScreen extends Component {
                         renderItem={({ item, index }) => {
                             return (
                                 <Pressable
-                                    onPress={() => this.props.navigation.navigate('OrderArticlesScreen', { client: item, employeeId: this.state.employee })}>
+                                    onPress={() => this.props.navigation.navigate('OrderArticlesScreen', { client: item, employeeId: this.state.employeeId, order: this.state.order, orderLines: this.state.orderList })}>
                                     <ClientCard
                                         index={index}
                                         client={item}
