@@ -12,15 +12,7 @@ export class GPEPicker extends Component {
 
     updateSelectedOption = (e) => {
         this.setState({selectedOption: e});
-
-        this.props.getItemsList.forEach(item => {
-            if (item.Name === e) {
-                this.props.getOption(item);
-            }
-            if (e === undefined || e === 'Select An Option') {
-                this.props.getOption('');
-            }
-        });
+        this.props.getOption(e);
     };
 
 

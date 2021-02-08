@@ -20,24 +20,23 @@ export default class DeliverPaymentScreen extends Component {
     }
 
     componentDidMount() {
-        this.setState({order: this.props.route.params.item}, () => this.setState({isReady : true}));
+        this.setState({order: this.props.route.params.item}, () => this.setState({isReady: true}));
     }
 
     updateOrderState = () => {
-        let updatedOrder = this.state.order;
-        updatedOrder.Paid = this.state.paidAmout;
-        updatedOrder.PayingMethod = this.state.methodSelected;
-        updatedOrder.Delivered = true;
+        console.log(this.state.order.OrderId);
+        console.log(this.state.paidAmout);
+        console.log(this.state.methodSelected);
 
-        axios.put(GPEApi + 'Orders' + updatedOrder).then(r => Alert.alert('Order Delivered.'));
+        axios.put(GPEApi + 'Orders/Deliver?OrderId' + this.state.order.OrderId + 'Paid' + this.state.paidAmout + 'PayingMethod' + this.state.methodSelected);
     };
 
     eraseContent = () => {
         this.setState({paidAmount: ''});
     };
 
-    paidAmoutChange = (e) => {
-        this.setState({paidAmount: e});
+    onChangeText = (text) => {
+        this.setState({paidAmount: text},()=>console.log(this.state.paidAmout));
     };
 
     getOption = (e) => {
@@ -45,12 +44,23 @@ export default class DeliverPaymentScreen extends Component {
     };
 
     checkFields = () => {
-        console.log(this.state.methodSelected.toString());
-        console.log(this.state.paidAmout.toString());
-        if (this.state.methodSelected === '' || this.state.paidAmount === '' || (this.state.methodSelected === 'Cash' || this.state.methodSelected === 'Credit Card') && this.state.paidAmout === '0') {
-            Alert.alert('Please fill all fields first');
+        let flag = true;
+
+        if (this.state.methodSelected === undefined) {
+            flag = false;
+        }
+        if (this.state.paidAmount === undefined) {
+            flag = false;
+        }
+        if ((this.state.methodSelected === 'Cash' || this.state.methodSelected === 'Credit Card') && this.state.paidAmout === '0') {
+            flag = false;
+        }
+
+        if (flag) {
+            this.updateOrderState();
+            this.props.navigation.navigate('VisitDeliverScreen');
         } else {
-            Alert.alert('Todo okey');
+            Alert.alert('Please fill all fields first');
         }
     };
 
@@ -58,19 +68,17 @@ export default class DeliverPaymentScreen extends Component {
         return (
             <View style={style.container}>
                 {this.state.isReady === true ?
-                    <View >
+                    <View>
                         <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
                                        pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
                                        pressLeftIcon={() => this.props.navigation.goBack()}
-                                       pressRightIcon={() => this.props.navigation.navigate('VisitDeliverScreen', () => {
-                                           this.updateOrderState();
-                                       })}/>
+                                       pressRightIcon={this.checkFields}/>
                         <ScrollView>
                             <View style={style.flexColumnCenter}>
                                 <GPEPicker pickerSize={'80%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
                                            getItemsList={this.state.paymentMethod} getOption={this.getOption}/>
                                 <GPEInput title={'Paid'} placeholder={'0.0€'} width='80%' height={5} marginTop='10%'
-                                          onChange={this.paidAmoutChange} keyboardType={'numeric'}
+                                          onChangeText={(text)=>this.onChangeText(text)}
                                           delete={this.eraseContent}/>
                                 <GPELabel title={'Total'} content={this.state.order.Total} width='80%' height={5}
                                           marginTop='10%'/>

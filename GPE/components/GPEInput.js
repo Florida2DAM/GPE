@@ -20,7 +20,7 @@ export class GPEInput extends Component {
                 <View style={{width: '80%'}}>
                     <Text style={{color: 'white', fontSize: 15, marginLeft: '2%'}}>{this.props.title}</Text>
                     <TextInput style={{color: 'white', fontSize: 20}} placeholder={this.props.placeholder}
-                               placeholderTextColor='#7c7c7c' onChangeText={(text) => {this.props.onChange(text);}}
+                               placeholderTextColor='#7c7c7c' onChangeText={(text) => this.props.onChangeText(text)}
                                keyboardType={this.props.keyboardType}/>
                 </View>
                 <View style={{justifyContent: 'center', marginRight: '2%'}}>
