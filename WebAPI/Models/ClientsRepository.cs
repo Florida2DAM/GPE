@@ -32,7 +32,7 @@ namespace GPE.Models
         internal void AddClient(Client c)
         {
             c.Enabled = true;
-            c.RegisterDate = DateTime.Now();
+            c.RegisterDate = DateTime.Now;
             context.Clients.Add(c);
             context.SaveChanges();
         }
