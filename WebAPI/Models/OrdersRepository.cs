@@ -67,7 +67,7 @@ namespace GPE.Models
         }
 
         /// <summary>
-        /// update a list
+        /// Update from device when our deliver had delivered the order
         /// </summary>
         /// <param name="order"></param>
         internal void UpdateDeliver(int orderId, double paid, string payingMethod)
