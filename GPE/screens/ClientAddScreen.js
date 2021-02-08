@@ -1,13 +1,11 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEInput} from '../components/GPEInput';
-<<<<<<< Updated upstream
-=======
 import { axios, GPEApi, style } from '../components/GPEConst';
->>>>>>> Stashed changes
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default class ClientAddScreen extends Component {
@@ -16,22 +14,26 @@ export default class ClientAddScreen extends Component {
         super(props);
         this.state = {
             name: '',
-            surname: '',
-            barName: '',
+            email: '',
+            conName: '',
             nif: '',
             phone: '',
-            location: '',
+            address: '',
+            province: '',
+            postalCode: '',
+            city: '',
+
         };
     }
 
     getName = (n) => {
         this.setState({name: n});
     };
-    getSurname = (s) => {
-        this.setState({surname: s});
+    getEmail = (s) => {
+        this.setState({email: s});
     };
-    getBarName = (b) => {
-        this.setState({barName: b});
+    getConName = (b) => {
+        this.setState({conName: b});
     };
     getNif = (n) => {
         this.setState({nif: n});
@@ -39,30 +41,51 @@ export default class ClientAddScreen extends Component {
     getPhone = (p) => {
         this.setState({phone: p});
     };
-    getLocation = (l) => {
-        this.setState({location: l});
+    getAddress = (l) => {
+        this.setState({address: l});
+    };
+    getCity = (l) => {
+        this.setState({city: l});
+    };
+    getPostalCode = (l) => {
+        this.setState({postalCode: l});
+    };
+    getProvince = (l) => {
+        this.setState({province: l});
     };
     onPressLeftIcon = () => {
         console.log('Se pulsa el de la izquierda');
     };
     onPressRightIcon = () => {
         console.log('Se pulsa el de la derecha');
+        if(this.state.name==''||this.state.name==''||this.state.name==''||this.state.name==''||this.state.name==''||this.state.name==''||this.state.name==''||this.state.name==''||this.state.name==''){
+            Alert.alert('You have empty inputs');
+        }
+        else{
+                this.initAxios();
+        }
+
+
+    };
+
+
+    initAxios = () => {
+        console.log('Se a enviado el post');
         axios.post(GPEApi + 'Clients', {
 
-            Name : '',
-            Address :'' ,
-            City :'' ,
-            PostalCode : '',
-            Province :'' ,
-            Country :'' ,
-            Phone : '',
-            Email : '',
-            NIF : '' ,
-            ContactName :'' ,
-            RegisterDate :'' ,
+            Name : this.state.name,
+            Address : this.state.address,
+            City : this.state.city ,
+            PostalCode :  this.state.postalCode,
+            Province : this.state.province ,
+            Phone : this.state.phone,
+            Email :  this.state.email,
+            NIF : this.state.nif ,
+            ContactName :this.state.barName ,
+
+            
  
           });
-
     };
 
     render() {
@@ -72,18 +95,26 @@ export default class ClientAddScreen extends Component {
                                pageName={'Add Client'} rightIcon={'done'} rightIconSize={50}
                                pressRightIcon={this.onPressRightIcon}/>
                 <View style={{alignItems: 'center'}}>
+                    <ScrollView>
                     <GPEInput title={'Name'} placeholder={'example name'} width='90%' height={5} marginTop='10%'
                               getValue={this.getName}/>
-                    <GPEInput title={'Surname'} placeholder={'example surname'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getSurname}/>
-                    <GPEInput title={'Bar Name'} placeholder={'example bar name'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getBarName}/>
+                    <GPEInput title={'Email'} placeholder={'example email'} width='90%' height={5} marginTop='5%'
+                              getValue={this.getEmail}/>
+                    <GPEInput title={'Contact Name'} placeholder={'example contact name'} width='90%' height={5} marginTop='5%'
+                              getValue={this.getConName}/>
                     <GPEInput title={'NIF/NIE'} placeholder={'example nif/nie'} width='90%' height={5} marginTop='5%'
                               getValue={this.getNif}/>
                     <GPEInput title={'Phone number'} placeholder={'example phone number'} width='90%' height={5}
                               marginTop='5%' getValue={this.getPhone}/>
-                    <GPEInput title={'Location'} placeholder={'example location'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getLocation}/>
+                    <GPEInput title={'City'} placeholder={'example city'} width='90%' height={5} marginTop='5%'
+                              getValue={this.getCity}/>
+                    <GPEInput title={'Postal Code'} placeholder={'example postal Code'} width='90%' height={5} marginTop='5%'
+                              getValue={this.getPostalCode}/>
+                    <GPEInput title={'Province'} placeholder={'example province'} width='90%' height={5} marginTop='5%'
+                              getValue={this.getProvince}/>
+                    <GPEInput title={'Adress'} placeholder={'example adress'} width='90%' height={5} marginTop='5%'
+                              getValue={this.getAddress}/>
+                              </ScrollView>
                 </View>
             </View>
         );
