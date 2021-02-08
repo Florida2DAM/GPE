@@ -70,9 +70,7 @@ export default class ClientAddScreen extends Component {
 
 
     initAxios = () => {
-        console.log('Se a enviado el post');
-        axios.post(GPEApi + 'Clients', {
-
+        let client ={
             Name : this.state.name,
             Address : this.state.address,
             City : this.state.city ,
@@ -83,9 +81,9 @@ export default class ClientAddScreen extends Component {
             NIF : this.state.nif ,
             ContactName :this.state.barName ,
 
-            
- 
-          });
+        }
+        console.log('Se a enviado el post');
+        axios.post(GPEApi + 'Clients', client).then(console.log(axios.post(GPEApi + 'Clients', client)));
     };
 
     render() {
@@ -97,26 +95,30 @@ export default class ClientAddScreen extends Component {
                 <View style={{alignItems: 'center'}}>
                     <ScrollView>
                     <GPEInput title={'Name'} placeholder={'example name'} width='90%' height={5} marginTop='10%'
-                              getValue={this.getName}/>
+                              onChangeText={this.getName}/>
                     <GPEInput title={'Email'} placeholder={'example email'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getEmail}/>
+                              onChangeText={this.getEmail}/>
                     <GPEInput title={'Contact Name'} placeholder={'example contact name'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getConName}/>
+                              onChangeText={this.getConName}/>
                     <GPEInput title={'NIF/NIE'} placeholder={'example nif/nie'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getNif}/>
+                              onChangeText={this.getNif}/>
                     <GPEInput title={'Phone number'} placeholder={'example phone number'} width='90%' height={5}
-                              marginTop='5%' getValue={this.getPhone}/>
+                              marginTop='5%' onChangeText={this.getPhone}/>
                     <GPEInput title={'City'} placeholder={'example city'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getCity}/>
+                              onChangeText={this.getCity}/>
                     <GPEInput title={'Postal Code'} placeholder={'example postal Code'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getPostalCode}/>
+                              onChangeText={this.getPostalCode}/>
                     <GPEInput title={'Province'} placeholder={'example province'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getProvince}/>
+                              onChangeText={this.getProvince}/>
                     <GPEInput title={'Adress'} placeholder={'example adress'} width='90%' height={5} marginTop='5%'
-                              getValue={this.getAddress}/>
+                              onChangeText={this.getAddress}/>
                               </ScrollView>
                 </View>
             </View>
         );
     }
 }
+
+
+
+

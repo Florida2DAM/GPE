@@ -1,5 +1,4 @@
 
-
 /* eslint-disable prettier/prettier */
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
@@ -44,10 +43,7 @@ export default class MainScreen extends Component {
                     <GPEButton iconName='local-shipping' iconSize={60} buttonName='VISIT'
                                onPress={this.state.employeeType === 'salesMan' ? () => navigation.navigate('VisitSalesScreen') : () => navigation.navigate('VisitDeliverScreen')}/>
                     <GPEButton iconName='contact-page' iconSize={60} buttonName='CLIENTS'
-                               onPress={() => navigation.navigate('ClientsListScreen', {
-                                   id: '2',
-                                   employeeType: this.state.employeeType,
-                               })}/>
+                               onPress={() => navigation.navigate('ClientAddScreen')}/>
                 </View>
                 <View style={[style.flexRowCenter, {justifyContent: 'space-evenly', marginTop: '5%'}]}>
                     <GPEButton iconName='category' iconSize={60} buttonName='ITEMS'
@@ -80,3 +76,4 @@ export default class MainScreen extends Component {
         );
     }
 }
+
