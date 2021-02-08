@@ -4,9 +4,11 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEInput} from '../components/GPEInput';
+<<<<<<< Updated upstream
+=======
+import { axios, GPEApi, style } from '../components/GPEConst';
+>>>>>>> Stashed changes
 
-
-const style = require('../components/Styles');
 
 export default class ClientAddScreen extends Component {
 
@@ -45,6 +47,22 @@ export default class ClientAddScreen extends Component {
     };
     onPressRightIcon = () => {
         console.log('Se pulsa el de la derecha');
+        axios.post(GPEApi + 'Clients', {
+
+            Name : '',
+            Address :'' ,
+            City :'' ,
+            PostalCode : '',
+            Province :'' ,
+            Country :'' ,
+            Phone : '',
+            Email : '',
+            NIF : '' ,
+            ContactName :'' ,
+            RegisterDate :'' ,
+ 
+          });
+
     };
 
     render() {

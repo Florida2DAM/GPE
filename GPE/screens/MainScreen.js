@@ -1,5 +1,17 @@
+<<<<<<< Updated upstream
 'use strict';
 
+=======
+/*
+{() => navigation.navigate('ClientsListScreen', {
+                                   id: '2',
+                                   employeeType: this.state.employeeType,
+                               })}
+                               
+
+eslint-disable prettier/prettier */
+import 'react-native-gesture-handler';
+>>>>>>> Stashed changes
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {GPEButton} from '../components/GPEButton';
@@ -21,6 +33,7 @@ export default class MainScreen extends Component {
                     <Text style={{fontSize: 37, color: 'white'}}>Pagina Principal</Text>
                     <SeparatorLine/>
                 </View>
+<<<<<<< Updated upstream
                 <View style={{
                     margin: '10%',
                     flex: 3,
@@ -38,6 +51,14 @@ export default class MainScreen extends Component {
                         <GPEButton/>
                         <GPEButton/>
                     </View>
+=======
+                <View style={[style.flexRowCenter, {justifyContent: 'space-evenly', marginTop: '5%'}]}>
+                    <GPEButton iconName='local-shipping' iconSize={60} buttonName='VISIT'
+                               onPress={this.state.employeeType === 'salesMan' ? () => navigation.navigate('VisitSalesScreen') : () => navigation.navigate('VisitDeliverScreen')}/>
+                    <GPEButton iconName='contact-page' iconSize={60} buttonName='CLIENTS'
+                               onPress={() => navigation.navigate('ClientAddScreen')}/>
+                               
+>>>>>>> Stashed changes
                 </View>
                 <View style={{flex: 2}}>
 
