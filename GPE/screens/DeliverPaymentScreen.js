@@ -20,7 +20,7 @@ export default class DeliverPaymentScreen extends Component {
     }
 
     componentDidMount() {
-        this.setState({order: this.props.route.params.item});
+        this.setState({order: this.props.route.params.item}, () => this.setState({isReady : true}));
     }
 
     updateOrderState = () => {
@@ -56,9 +56,9 @@ export default class DeliverPaymentScreen extends Component {
 
     render() {
         return (
-            <View>
-                {this.state.order !== undefined ?
-                    <View style={style.container}>
+            <View style={style.container}>
+                {this.state.isReady === true ?
+                    <View >
                         <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
                                        pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
                                        pressLeftIcon={() => this.props.navigation.goBack()}
