@@ -14,8 +14,21 @@ export default class OrderArticlesScreen extends Component {
         this.state = {
             allArticles: [],
             articles: [],
-            clientId: 0,
-            employeeId: 0
+            orderLines: [],
+            client: this.props.route.params.client,
+            employeeId: this.props.route.params.employeeId,
+            order: {
+                ClientId: 0,
+                OrderNum: 0,
+                Date: "",
+                DeliveryDate: "",
+                Total: 0,
+                Delivered: false,
+                Paid: 0,
+                PayingMethod: "",
+                Deliverer: "",
+                EmployeeId: this.props.route.params.employeeId
+            }
         };
     }
 
@@ -34,8 +47,12 @@ export default class OrderArticlesScreen extends Component {
     }
 
     getInfo = () => {
-        this.setState({client: this.props.route.params.clientId});
-        this.setState({employee: this.props.route.params.employeeId});
+        if (this.props.route.params.orderLines !== undefined) {
+            this.setState({ orderLines: this.props.route.params.orderLines });
+        }
+        if (this.props.route.params.order !== undefined) {
+            this.setState({ order: this.props.route.params.order });
+        }
     }
 
     setFilter = (filter) => {
@@ -63,9 +80,17 @@ export default class OrderArticlesScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Add Items'}
-                    pressLeftIcon={() => this.props.navigation.goBack()}
+                    pressLeftIcon={() => this.props.navigation.navigate('VisitSalesScreen', {
+                        orderLines: this.state.orderLines, 
+                        order: this.state.order,
+                        client: this.state.client,
+                        employeeId: this.state.employeeId})}
                     rightIcon={'arrow-forward-ios'} rightIconSize={40}
-                    pressRightIcon={() => this.props.navigation.navigate('OrderConfirmsScreen')} />
+                    pressRightIcon={() => this.props.navigation.navigate('OrderConfirmsScreen', {
+                        orderLines: this.state.orderLines, 
+                        order: this.state.order,
+                        client: this.state.client,
+                        employeeId: this.state.employeeId})} />
                 <GPEFilter />
                 <View style={[style.container, { flexDirection: 'column' }]}>
                     <FlatList
@@ -74,6 +99,7 @@ export default class OrderArticlesScreen extends Component {
                         renderItem={(item) => (
                             <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {
                                 article: item,
+                                orderLines: this.state.orderLines
                             })}>
                                 <ItemCard element={item} />
                             </Pressable>
