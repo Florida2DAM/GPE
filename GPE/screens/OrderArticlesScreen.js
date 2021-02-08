@@ -14,11 +14,14 @@ export default class OrderArticlesScreen extends Component {
         this.state = {
             allArticles: [],
             articles: [],
+            clientId: 0,
+            employeeId: 0
         };
     }
 
     componentDidMount() {
         this.getArticles();
+        this.getInfo();
     }
 
     getArticles = () => {
@@ -28,6 +31,11 @@ export default class OrderArticlesScreen extends Component {
         }, (rejectedResult) => {
             console.error(rejectedResult.statusText);
         });
+    }
+
+    getInfo = () => {
+        this.setState({client: this.props.route.params.clientId});
+        this.setState({employee: this.props.route.params.employeeId});
     }
 
     setFilter = (filter) => {
