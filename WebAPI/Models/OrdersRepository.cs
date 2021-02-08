@@ -85,5 +85,13 @@ namespace GPE.Models
             context.Orders.Remove(order);
             context.SaveChanges();
         }
+
+        internal int GetLastOrderId()
+        {
+            Order order = context.Orders
+                .LastOrDefault();
+
+            return order.OrderId;
+        }
     }
 }

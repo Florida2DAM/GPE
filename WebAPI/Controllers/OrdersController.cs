@@ -23,6 +23,13 @@ namespace GPE.Controllers
             return order;
         }
 
+        // GET: 
+        [Route("GetLast"), HttpGet]
+        public int GetLast()
+        {
+            return repo.GetLastOrderId();
+        }
+
         // GET: api/OrdersByEmployeeAndId
         [Route("GetDeliver"), HttpGet]
         public IEnumerable<Order> GetDeliver()
@@ -48,5 +55,7 @@ namespace GPE.Controllers
         {
             repo.Delete(id);
         }
+
+        
     }
 }
