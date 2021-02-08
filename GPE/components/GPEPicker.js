@@ -17,7 +17,7 @@ export class GPEPicker extends Component {
             if (item.Name === e) {
                 this.props.getOption(item);
             }
-            if (e === undefined) {
+            if (e === undefined || e === 'Select An Option') {
                 this.props.getOption('');
             }
         });
