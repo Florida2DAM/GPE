@@ -50,6 +50,13 @@ namespace GPE.Controllers
             repo.Update(order);
         }
 
+        // PUT: api/Orders/5
+        [Route("Deliver"), HttpPut]
+        public void PutDeliver(int orderId, double paid, string payingMethod)
+        {
+            repo.UpdateDeliver(orderId, paid, payingMethod);
+        }
+
         // DELETE: api/Orders/5
         public void Delete(int id)
         {
