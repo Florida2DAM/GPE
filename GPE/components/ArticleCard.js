@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Icon} from 'react-native-elements';
 
 export class ArticleCard extends Component {
     constructor(props) {
@@ -8,15 +7,19 @@ export class ArticleCard extends Component {
     }
 
     render() {
-        let item = this.props.selectedItem;
+        let item = this.props.getItemLine;
         return (
-            <View style={styles.item}>
-                <View style={styles.text}>
-                    <View style={styles.info}>
-                        <Text style={styles.text}>{item.name}</Text>
+            <View style={styles.container}>
+                <View style={{flexDirection: 'column'}}>
+                    <Text style={[styles.text, {fontWeight: 'bold'}]}>{item.Description}</Text>
+                        <Text style={styles.smallText}>ID: {item.ArticleId}</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                        <Text style={styles.smallText}>Price: {item.Price}€</Text>
+                        <Text style={styles.text}>Quantity: {item.Quantity}</Text>
                     </View>
-                    <View style={[styles.info, {paddingBottom: '4%'}]}>
-                        <Text style={styles.text}>{item.id}</Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Text style={styles.smallText}>Brand: {item.Brand}</Text>
+                        <Text style={styles.text}>Total: {item.TotalLine}€</Text>
                     </View>
                 </View>
             </View>
@@ -25,28 +28,21 @@ export class ArticleCard extends Component {
 }
 
 const styles = StyleSheet.create({
-    item: {
-        borderColor: '#ffcc57',
-        borderTopWidth: 2,
-        borderBottomWidth: 2,
-        flexDirection: 'row',
-    },
-    icon: {
-        flex: 1,
+    container: {
         flexDirection: 'column',
-        alignSelf: 'center',
-        alignItems: 'flex-end',
-        paddingRight: '5%',
-    },
-    info: {
-        flex: 1,
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: '#ffcc57',
+        backgroundColor: '#3b3b3b',
+        padding: '4%',
+        margin: '2%',
     },
     text: {
-        flex: 1,
-        fontSize: 20,
         color: '#f7f7f7',
-        textAlignVertical: 'center',
-        paddingLeft: '5%',
+        fontSize: 24,
     },
-
+    smallText: {
+        fontSize: 18,
+        color: '#f7f7f7',
+    },
 });

@@ -1,62 +1,90 @@
-'use strict';
 import {NavigationBar} from '../components/NavigationBar';
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {Alert, ScrollView, View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {GPEInput} from '../components/GPEInput';
+import {axios, GPEApi, style} from '../components/GPEConst';
 import {GPELabel} from '../components/GPELabel';
 
-const style = require('../components/Styles');
 export default class DeliverPaymentScreen extends Component {
 
     constructor() {
         super();
         this.state = {
-            paymentMethod: '',
-            total: 0,
-            paid: 0,
-            contractName: '',
-            NIF: '',
+            order: [],
+            paidAmount: '',
+            methodSelected: '',
+            paymentMethod: ['Cash', 'Credit Card', 'Pending'],
+            isReady: false,
         };
     }
 
-    getPaymentMethod = (e) => {
-        this.setState({paymentMethod: e});
+    componentDidMount() {
+        this.setState({order: this.props.route.params.item}, () => this.setState({isReady: true}));
+    }
+
+    updateOrderState = () => {
+        axios.put(GPEApi + 'Orders/Deliver?OrderId=' + this.state.order.OrderId + '&Paid=' + this.state.paidAmount + '&PayingMethod=' + this.state.methodSelected);
     };
-    getName = (n) => {
-        this.setState({contractName: n});
+
+    eraseContent = () => {
+        this.setState({paidAmount: ''});
     };
-    getNIF = (n) => {
-        this.setState({NIF: n});
+
+    getPaidAmound = (text) => {
+        this.setState({paidAmount: text});
     };
-    getTotal = (n) => {
-        this.setState({total: n});
+
+    getOption = (e) => {
+        this.setState({methodSelected: e});
     };
-    getPaid = (n) => {
-        this.setState({paid: n});
+
+    checkFields = () => {
+        let flag = true;
+
+        if (this.state.methodSelected === undefined) {
+            flag = false;
+        }
+        if (this.state.paidAmount === undefined) {
+            flag = false;
+        }
+        if ((this.state.methodSelected === 'Cash' || this.state.methodSelected === 'Credit Card') && this.state.paidAmount === '0') {
+            flag = false;
+        }
+
+        if (flag) {
+            this.updateOrderState();
+            this.props.navigation.navigate('VisitDeliverScreen');
+        } else {
+            Alert.alert('Please fill all fields first');
+        }
     };
 
     render() {
         return (
             <View style={style.container}>
-
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon}
-                               pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
-                               pressRightIcon={this.onPressRightIcon}/>
-                <View style={style.flexColumnCenter}>
-                    <GPELabel title={'Total'} content={'0.0€'} width='80%' height={5} marginTop='10%'
-                              getValue={this.getTotal}/>
-                    <GPEInput title={'Paid'} placeholder={'0.0€'} width='80%' height={5} marginTop='10%'
-                              getValue={this.getPaid}/>
-
-                    <GPEInput title={'Contract Name'} placeholder={'example name'} width='80%' height={5}
-                              marginTop='10%'
-                              getValue={this.getName}/>
-                    <GPEInput title={'NIF'} placeholder={'3236273'} width='80%' height={5} marginTop='10%'
-                              marginBottom='10%' getValue={this.getNIF}/>
-                    <GPEPicker sendIcon={'payment'} pickerSize={'80%'} getOption={this.getPaymentMethod}/>
-                </View>
-
+                {this.state.isReady === true ?
+                    <View>
+                        <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
+                                       pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
+                                       pressLeftIcon={() => this.props.navigation.goBack()}
+                                       pressRightIcon={this.checkFields}/>
+                        <ScrollView>
+                            <View style={style.flexColumnCenter}>
+                                <GPEPicker pickerSize={'80%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
+                                           getItemsList={this.state.paymentMethod} getOption={this.getOption}/>
+                                <GPEInput title={'Paid'} placeholder={'0.0€'} width='80%' height={5} marginTop='10%'
+                                          onChangeText={this.getPaidAmound} keyboardType={'numeric'}
+                                          delete={this.eraseContent}/>
+                                <GPELabel title={'Total'} content={this.state.order.Total} width='80%' height={5}
+                                          marginTop='10%'/>
+                                <GPELabel title={'Client'} width='80%' height={5} marginTop='10%'
+                                          content={this.state.order.Client.Name}/>
+                                <GPELabel title={'Contact Name'} width='80%' height={5} marginTop='10%'
+                                          content={this.state.order.Client.ContactName}/>
+                            </View>
+                        </ScrollView>
+                    </View> : <View/>}
             </View>
         );
     }
