@@ -24,11 +24,7 @@ export default class DeliverPaymentScreen extends Component {
     }
 
     updateOrderState = () => {
-        console.log(this.state.order.OrderId);
-        console.log(this.state.paidAmount);
-        console.log(this.state.methodSelected);
-
-        axios.put(GPEApi + 'Orders/Deliver?OrderId' + this.state.order.OrderId + 'Paid' + this.state.paidAmout + 'PayingMethod' + this.state.methodSelected);
+        axios.put(GPEApi + 'Orders/Deliver?OrderId=' + this.state.order.OrderId + '&Paid=' + this.state.paidAmount + '&PayingMethod=' + this.state.methodSelected);
     };
 
     eraseContent = () => {
@@ -36,7 +32,7 @@ export default class DeliverPaymentScreen extends Component {
     };
 
     getPaidAmound = (text) => {
-        this.setState({paidAmount: text},()=>console.log(this.state.paidAmount));
+        this.setState({paidAmount: text});
     };
 
     getOption = (e) => {
@@ -52,7 +48,7 @@ export default class DeliverPaymentScreen extends Component {
         if (this.state.paidAmount === undefined) {
             flag = false;
         }
-        if ((this.state.methodSelected === 'Cash' || this.state.methodSelected === 'Credit Card') && this.state.paidAmout === '0') {
+        if ((this.state.methodSelected === 'Cash' || this.state.methodSelected === 'Credit Card') && this.state.paidAmount === '0') {
             flag = false;
         }
 
@@ -78,7 +74,7 @@ export default class DeliverPaymentScreen extends Component {
                                 <GPEPicker pickerSize={'80%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
                                            getItemsList={this.state.paymentMethod} getOption={this.getOption}/>
                                 <GPEInput title={'Paid'} placeholder={'0.0€'} width='80%' height={5} marginTop='10%'
-                                          onChangeText={this.getPaidAmound}
+                                          onChangeText={this.getPaidAmound} keyboardType={'numeric'}
                                           delete={this.eraseContent}/>
                                 <GPELabel title={'Total'} content={this.state.order.Total} width='80%' height={5}
                                           marginTop='10%'/>
