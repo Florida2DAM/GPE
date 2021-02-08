@@ -12,7 +12,7 @@ export default class DeliverPaymentScreen extends Component {
         super();
         this.state = {
             order: [],
-            paidAmout: '',
+            paidAmount: '',
             methodSelected: '',
             paymentMethod: ['Cash', 'Credit Card', 'Pending'],
             isReady: false,
@@ -25,7 +25,7 @@ export default class DeliverPaymentScreen extends Component {
 
     updateOrderState = () => {
         console.log(this.state.order.OrderId);
-        console.log(this.state.paidAmout);
+        console.log(this.state.paidAmount);
         console.log(this.state.methodSelected);
 
         axios.put(GPEApi + 'Orders/Deliver?OrderId' + this.state.order.OrderId + 'Paid' + this.state.paidAmout + 'PayingMethod' + this.state.methodSelected);
@@ -35,8 +35,8 @@ export default class DeliverPaymentScreen extends Component {
         this.setState({paidAmount: ''});
     };
 
-    onChangeText = (text) => {
-        this.setState({paidAmount: text},()=>console.log(this.state.paidAmout));
+    getPaidAmound = (text) => {
+        this.setState({paidAmount: text},()=>console.log(this.state.paidAmount));
     };
 
     getOption = (e) => {
@@ -78,7 +78,7 @@ export default class DeliverPaymentScreen extends Component {
                                 <GPEPicker pickerSize={'80%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
                                            getItemsList={this.state.paymentMethod} getOption={this.getOption}/>
                                 <GPEInput title={'Paid'} placeholder={'0.0€'} width='80%' height={5} marginTop='10%'
-                                          onChangeText={(text)=>this.onChangeText(text)}
+                                          onChangeText={this.getPaidAmound}
                                           delete={this.eraseContent}/>
                                 <GPELabel title={'Total'} content={this.state.order.Total} width='80%' height={5}
                                           marginTop='10%'/>
