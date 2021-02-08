@@ -129,7 +129,7 @@ namespace GPE.Models
                .FirstOrDefault();
 
             double priceQuantity = price * quant;
-            double priceDiscount = priceQuantity - ((priceQuantity * (discount / 100 + 1)) - priceQuantity);
+            double priceDiscount = priceQuantity - (priceQuantity * (discount / 100));
             double priceIva = discount != 0 ? priceDiscount + (priceDiscount * (iva / 100)) : priceQuantity + (priceQuantity * (iva / 100));
 
             orderLine.TotalLine = priceIva;
