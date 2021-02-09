@@ -5,9 +5,7 @@ import { GPELabel } from '../components/GPELabel';
 import { GPEInput } from '../components/GPEInput';
 import { GPEPicker } from '../components/GPEPicker';
 import { NavigationBar } from '../components/NavigationBar';
-
-const style = require('../components/Styles');
-
+import { axios, GPEApi, style } from '../components/GPEConst';
 
 export default class OrderAddItemsScreen extends Component {
     constructor(props) {
@@ -20,13 +18,27 @@ export default class OrderAddItemsScreen extends Component {
             orderlines: [],
             orderline: {},
             article: {},
-            order: {}
+            order: {},
+            lots: []
         };
     }
 
-    componentDidMount() {
-        this.setState({ orderlines: this.props.route.params.orderLines })
-        this.setState({ order: this.props.route.params.order })
+    componentDidMount() {  
+        this.getInfo();
+        this.getArticles();
+    }
+
+    getArticles = () => {
+        axios.get(GPEApi + 'lots').then((response) => {
+            this.setState({ lots: response.data });
+        }, (rejectedResult) => {
+            console.error(rejectedResult.statusText);
+        });
+    }
+
+    getInfo = () => {
+        this.setState({ orderlines: this.props.route.params.orderLines });
+        this.setState({ order: this.props.route.params.order });
         this.setState({ article: this.props.route.params.article });
     }
 
@@ -35,18 +47,14 @@ export default class OrderAddItemsScreen extends Component {
             OrderId: null, LineId: null, ArticleId: this.state.article.ArticleId, LotId: this.state.selectedLot,
             Description: this.state.article.Description, Price: this.state.article.Price, Brand: this.state.article.Brand,
             Category: this.state.article.Category, Quantity: this.state.units,
-            Iva: this.state.article.Iva, Discout: this.state.discount, TotalLine: this.state.total
+            Iva: this.state.article.Iva, Discount: this.state.discount, TotalLine: this.state.total
         }
-        console.log("---------------------------------------------------------------");
-        console.log("Sing: " + orderline); 
         let orderlines;
         if (this.state.orderlines !== undefined) {
             orderlines = this.state.orderlines;
         }
         else orderlines = [];        
-        console.log("Plur 1: " + orderlines);
         orderlines.push(orderline);
-        console.log("Plur 2: " + orderlines);
         this.setState({ orderlines })
     }
 
@@ -95,7 +103,8 @@ export default class OrderAddItemsScreen extends Component {
                     pressRightIcon={this.addItemList} />
                 <View style={{ alignSelf: 'center', marginTop: '5%' }}>
                     <Text style={styles.text}>{this.state.article.Description}</Text>
-                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%' />
+                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%' 
+                        getScreen={'OrderAddItemsScreen'} getItemsList={this.state.lots}/>
                     <GPEInput title={'Units'} placeholder={'0'} onChangeText={this.changeUnits}
                         delete={this.deleteUnits} value={this.state.units}
                         width='90%' height={5} marginTop='2%' keyboardType='numeric' />

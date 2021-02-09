@@ -28,16 +28,15 @@ export default class OrderConfirmsScreen extends Component {
                     rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
                     pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <ContactInfo name={'WEI Luo'} dni="w12321432" />
+                <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-
                 <FlatList
                     data={this.state.products}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity name={item.Description} price={item.Price} id={item.ArticleId} units={item.Quantity} />
+                                <ModifyQuantity orderLine={item} />
                             </View>
                         );
                     }}
