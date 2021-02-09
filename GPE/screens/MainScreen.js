@@ -25,7 +25,7 @@ export default class MainScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employee:{},
+            employee: {},
             isReady: false,
         };
     }
@@ -35,14 +35,17 @@ export default class MainScreen extends Component {
             this.setState({employee: response}, () =>console.log(this.getName())  && console.log(this.state.employee))
         })
 
-    }
-    getName=()=>{
-        return this.state.employee.Name
+
+    componentDidMount() {
+        this.restoreEmployee();
+
     }
 
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
-        return jsonValue != null ? JSON.parse(jsonValue): null;
+        this.setState({employee: JSON.parse(jsonValue)});
+        this.setState({isReady: true});
+
     };
 
     mainScreen = ({navigation},{employee}) => {
@@ -68,31 +71,33 @@ export default class MainScreen extends Component {
                 <View style={{justifyContent: 'flex-end'}}>
                     <Text style={{color: 'white', fontSize: 20}}>Employee:{employee.Name}</Text>
                 </View>
-
             </View>
         );
     };
 
 
     render() {
-        let name=this.state.employee;
-        return (
-            <NavigationContainer>
-                <stack.Navigator headerMode={'none'}>
-                    <stack.Screen name='MainScreen' component={this.mainScreen({navigation},{Name:name})}/>
-                    <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
-                    <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
-                    <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>
-                    <stack.Screen name='DeliverCheckScreen' component={DeliverCheckScreen}/>
-                    <stack.Screen name='ItemsListScreen' component={ItemsListScreen}/>
-                    <stack.Screen name='OrderAddItemsScreen' component={OrderAddItemsScreen}/>
-                    <stack.Screen name='OrderArticlesScreen' component={OrderArticlesScreen}/>
-                    <stack.Screen name='OrderConfirmsScreen' component={OrderConfirmsScreen}/>
-                    <stack.Screen name='SettingsScreen' component={SettingsScreen}/>
-                    <stack.Screen name='VisitDeliverScreen' component={VisitDeliverScreen}/>
-                    <stack.Screen name='VisitSalesScreen' component={VisitSalesScreen}/>
-                </stack.Navigator>
-            </NavigationContainer>
-        );
+        if (this.state.isReady) {
+            return (
+                <NavigationContainer>
+                    <stack.Navigator headerMode={'none'}>
+                        <stack.Screen name='MainScreen' component={this.mainScreen}/>
+                        <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
+                        <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
+                        <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>
+                        <stack.Screen name='DeliverCheckScreen' component={DeliverCheckScreen}/>
+                        <stack.Screen name='ItemsListScreen' component={ItemsListScreen}/>
+                        <stack.Screen name='OrderAddItemsScreen' component={OrderAddItemsScreen}/>
+                        <stack.Screen name='OrderArticlesScreen' component={OrderArticlesScreen}/>
+                        <stack.Screen name='OrderConfirmsScreen' component={OrderConfirmsScreen}/>
+                        <stack.Screen name='SettingsScreen' component={SettingsScreen}/>
+                        <stack.Screen name='VisitDeliverScreen' component={VisitDeliverScreen}/>
+                        <stack.Screen name='VisitSalesScreen' component={VisitSalesScreen}/>
+                    </stack.Navigator>
+                </NavigationContainer>
+            );
+        }
+        return <View/>;
+
     }
 }
