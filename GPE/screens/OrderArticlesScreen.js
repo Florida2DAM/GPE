@@ -100,7 +100,7 @@ export default class OrderArticlesScreen extends Component {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={(item) => (
                             <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {
-                                article: item,
+                                article: item.item,
                                 orderLines: this.state.orderLines
                             })}>
                                 <ItemCard element={item} />
