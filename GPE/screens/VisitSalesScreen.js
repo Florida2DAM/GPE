@@ -44,8 +44,8 @@ export default class VisitSalesScreen extends Component {
         } else {
             this.state.allClients.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Name.toUpperCase().includes(filterText) 
-                    || element.Address.toUpperCase().includes(filterText) 
+                if (element.Name.toUpperCase().includes(filterText)
+                    || element.Address.toUpperCase().includes(filterText)
                     || element.City.toUpperCase().includes(filterText)
                     || element.Phone.toUpperCase().includes(filterText)
                     || element.ContactName.toUpperCase().includes(filterText) ) {
