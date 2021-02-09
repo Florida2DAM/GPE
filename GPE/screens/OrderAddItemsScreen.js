@@ -12,7 +12,7 @@ const style = require('../components/Styles');
 export default class OrderAddItemsScreen extends Component {
     constructor(props) {
         super(props);
-        this.state = {            
+        this.state = {
             selectedLot: '',
             discount: 0,
             units: 0,
@@ -23,7 +23,7 @@ export default class OrderAddItemsScreen extends Component {
             order: {}
         };
     }
-    
+
     componentDidMount() {
         this.setState({ orderlines: this.props.route.params.orderline })
         this.setState({ order: this.props.route.params.order })
@@ -36,25 +36,26 @@ export default class OrderAddItemsScreen extends Component {
             Description: this.state.article.Description, Price: this.state.article.Price, Brand: this.state.article.Brand,
             Category: this.state.article.Category, Quantity: this.state.units,
             Iva: this.state.article.Iva, Discout: this.state.discount, TotalLine: this.getTotal()
-        }    
+        }
         let orderlines = this.state.orderlines;
         orderlines.push(orderline);
         this.setState({ orderlines })
-    }    
+    }
 
     getTotal = () => {
         let priceQuantity = this.state.article.Price * this.state.units;
         let priceDiscount = priceQuantity - (priceQuantity * (this.state.discount / 100));
         let priceIva = priceDiscount + (priceDiscount * (this.state.article.Iva / 100));
-        this.setState({total: priceIva}, () => console.log(this.state.total));
-    } 
+        let priceDecimals = Math.trunc(priceIva * 100) / 100;
+        this.setState({ total: priceDecimals }, () => console.log(this.state.total));
+    }
 
     getLot = (e) => {
         this.setState({ selectedLot: e });
     };
 
     changeUnits = (units) => {
-        this.setState({ units }, () => this.getTotal());        
+        this.setState({ units }, () => this.getTotal());
     };
 
     changeDiscount = (discount) => {
@@ -62,11 +63,11 @@ export default class OrderAddItemsScreen extends Component {
     };
 
     deleteUnits = () => {
-        this.setState({ units: "" }, () => this.getTotal());
+        this.setState({ units: 0 }, () => this.getTotal());
     };
 
     deleteDiscount = () => {
-        this.setState({ discount: "" }, () => this.getTotal());
+        this.setState({ discount: 0 }, () => this.getTotal());
     };
 
     addItemList = () => {
@@ -94,7 +95,7 @@ export default class OrderAddItemsScreen extends Component {
                         marginBottom='2%'
                         onChangeText={this.changeDiscount} delete={this.deleteDiscount}
                         value={this.state.discount} keyboardType='numeric' />
-                    <GPELabel title={'Total (IVA applied)'} content={this.state.total}
+                    <GPELabel title={'Total (IVA applied: ' + this.state.article.Iva + '%)'} content={this.state.total}
                         width='90%' height={5} marginTop='10%' />
                 </View>
             </View>
