@@ -16,7 +16,7 @@ export default class OrderConfirmsScreen extends Component {
         this.state = {
             orderLines: [],
             totalPrice: 0,
-            client: this.props.client,
+            client: '',
             orderId: 0,
         };
 
@@ -24,7 +24,7 @@ export default class OrderConfirmsScreen extends Component {
 
     addOrder = () => {
         axios.post(GPEApi + '/Orders', {
-            ClientId: this.state.client.ClientId,
+            ClientId: 100,
             Date: '',
             DeliveryDate: '',
             Total: 1938.98,
@@ -62,7 +62,13 @@ export default class OrderConfirmsScreen extends Component {
 
     componentDidMount() {
         this.setState({ orderLines: this.props.route.params.orderLines });
+        this.setState({ client: this.props.client});
         //calculateTotalPrice();
+    }
+
+    pressRightIcon = () => {
+        this.addOrder();
+        this.props.navigation.navigate('VisitSalesScreen');
     }
 
     render() {
@@ -71,7 +77,7 @@ export default class OrderConfirmsScreen extends Component {
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                     rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
 
-                    pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
+                    pressRightIcon={this.pressRightIcon} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={'WEI Luo'} dni="w12321432" />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
