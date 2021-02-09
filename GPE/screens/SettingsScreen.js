@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPELabel} from '../components/GPELabel';
 import {GPELogo} from '../components/GPELogo';
-import {GPEApi, axios, style} from '../components/GPEConst';
+import {axios, GPEApi, style} from '../components/GPEConst';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class SettingsScreen extends Component {
     constructor() {
@@ -17,6 +18,8 @@ export default class SettingsScreen extends Component {
 
     componentDidMount() {
         this.getEmployees();
+        this.getEmployeeInfo();
+        this.restoreEmployee();
     }
 
     getEmployees = () => {
@@ -26,7 +29,24 @@ export default class SettingsScreen extends Component {
     };
 
     getEmployeeInfo = (e) => {
-        this.setState({employee: e})
+        this.state.employees.forEach(item => {
+            if (item.Name === e) {
+                this.setState({employee: item},()=>this.storeEmployee(this.state.employee));
+            }
+        });
+    };
+
+    async storeEmployee (value) {
+        try {
+            await AsyncStorage.setItem('employee', JSON.stringify(value));
+        } catch (e) {
+            Alert.alert('Something went wront, try again.');
+        }
+    };
+
+    async restoreEmployee () {
+        const jsonValue = await AsyncStorage.getItem('employee');
+        jsonValue != null ? this.setState({employee:JSON.parse(jsonValue)}) : null;
     };
 
     render() {
