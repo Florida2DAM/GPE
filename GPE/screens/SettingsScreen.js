@@ -62,7 +62,10 @@ export default class SettingsScreen extends Component {
                                getOption={this.getEmployeeInfo} getScreen={'SettingsScreen'}/>
                 </View>
                 <View style={{margin: '5%'}}>
-                    <GPELabel title={'Worker Function'} content={this.state.employee.Type}/>
+                    <GPELabel title={'Worker\'s name'} content={this.state.employee.Name}/>
+                </View>
+                <View style={{marginLeft: '5%', marginRight: '5%'}}>
+                    <GPELabel title={'Worker\'s function'} content={this.state.employee.Type}/>
                 </View>
             </View>
         );
