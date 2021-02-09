@@ -45,7 +45,7 @@ export class ModifyQuantity extends Component {
     }
 
     /*juanjo = () => {
-        (item) => this.props.itemChange();
+        (item) => this.props.itemChange(item);
     }*/
 
     render() {

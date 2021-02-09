@@ -7,6 +7,7 @@ import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
 import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
+import { Button } from 'react-native';
 
 const style = require('../components/Styles');
 
@@ -18,8 +19,22 @@ export default class OrderConfirmsScreen extends Component {
     };
 
     componentDidMount() {
-        this.setState({ products: this.props.route.params.orderLines })
+        this.setState({ products: this.props.route.params.orderLines }, () => this.setProductsId());
     }
+
+    setProductsId = () => {
+        let i = 1;
+        this.state.products.forEach(element => {            
+            element.ArticleId = i++;;
+        });
+    }
+
+    removeProduct = (id) => {
+        this.setState({products: this.state.products.filter(function(person) {
+            return id !== person.ArticleId;            
+        })});
+    }
+
 
     render() {
         return (
@@ -36,7 +51,7 @@ export default class OrderConfirmsScreen extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity orderLine={item} />
+                                <ModifyQuantity orderLine={item} remove={() => this.removeProduct(item.ArticleId)}/>
                             </View>
                         );
                     }}

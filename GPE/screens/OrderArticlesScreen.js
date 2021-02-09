@@ -116,9 +116,7 @@ export default class OrderArticlesScreen extends Component {
                             </Pressable>
                         )}
                     />
-
-                </View>
-                <Button title='Prueba' onPress={this.juanjo}></Button>
+                </View>                
             </View>
         );
     }
