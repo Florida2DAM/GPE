@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPELabel} from '../components/GPELabel';
 import {GPELogo} from '../components/GPELogo';
-import {axios, GPEApi, style} from '../components/GPEConst';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {axios, GPEApi, style, } from '../components/GPEConst';
 
 export default class SettingsScreen extends Component {
     constructor() {
@@ -16,10 +15,9 @@ export default class SettingsScreen extends Component {
         };
     }
 
+
     componentDidMount() {
         this.getEmployees();
-        this.getEmployeeInfo();
-        this.restoreEmployee();
     }
 
     getEmployees = () => {
@@ -31,33 +29,16 @@ export default class SettingsScreen extends Component {
     getEmployeeInfo = (e) => {
         this.state.employees.forEach(item => {
             if (item.Name === e) {
-                this.setState({employee: item}, () => this.storeEmployee(this.state.employee));
+                this.setState({employee: item});
             }
         });
     };
 
-    async storeEmployee(value) {
-        try {
-            await AsyncStorage.setItem('employee', JSON.stringify(value));
-        } catch (e) {
-            Alert.alert('Something went wront, try again.');
-        }
-    };
-
-    async restoreEmployee() {
-        const jsonValue = await AsyncStorage.getItem('employee');
-        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
-    };
-
     render() {
-        const receivedValue = this.props.navigation.state.params.receivedValue;
         return (
             <View style={[style.container]}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}
-                               pressLeftIcon={() => {
-                                   receivedValue(this.state.employee);
-                                   this.props.navigation.goBack();
-                               }}/>
+                               pressLeftIcon={() => this.props.navigation.goBack()}/>
                 <View style={{marginLeft: '5%', marginRight: '5%'}}>
                     <View style={{margin: '10%'}}>
                         <GPELogo/>

@@ -16,7 +16,6 @@ import VisitDeliverScreen from './VisitDeliverScreen';
 import VisitSalesScreen from './VisitSalesScreen';
 import ClientsListScreen from './ClientsListScreen';
 import DeliverCheckScreen from './DeliverCheckScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {style} from '../components/GPEConst';
 
 const stack = createStackNavigator();
@@ -26,35 +25,13 @@ export default class MainScreen extends Component {
         super();
         this.state = {
             employee: {},
-            isReady: false,
+            isReady: true,
         };
     }
 
     componentDidMount() {
-        this.restoreEmployee().then(response => {
-            this.setState({employee: response});
-            this.setState({isReady: true});
-        });
+
     }
-
-    async restoreEmployee() {
-        const jsonValue = await AsyncStorage.getItem('employee');
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-    };
-
-    // componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
-    //     this.restoreEmployee().then(response => {
-    //         console.log("Previo"+prevState.employee.Name);
-    //         console.log("Nuevo"+response.Name);
-    //         if (prevState.employee.Name !== response.Name) {
-    //             this.setState({employee: response});
-    //         }
-    //     });
-    // }
-    receivedValue = (value) => {
-        this.setState({employee: value})
-    }
-
 
     mainScreen = ({navigation}) => {
         return (
