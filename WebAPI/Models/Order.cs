@@ -42,7 +42,6 @@ namespace GPE.Models
         [StringLength(50)]
         [Required]
         public string Deliverer { get; set; }
-        [StringLength(50)]
         [Required]
         public int EmployeeId { get; set; }
 
