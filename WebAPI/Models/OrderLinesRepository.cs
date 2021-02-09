@@ -40,9 +40,9 @@ namespace GPE.Models
         /// Used for save a OrderLine
         /// </summary>
         /// <param name="orderL">This method needs the OrderLine object for save</param>
-        internal void Save(OrderLine orderL)
+        internal void Save(List<OrderLine> orderLines)
         {
-            context.OrderLines.Add(orderL);
+            context.OrderLines.AddRange(orderLines);
             context.SaveChanges();
         }
 

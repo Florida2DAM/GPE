@@ -24,10 +24,10 @@ namespace GPE.Controllers
         }
 
         // POST api/OrderLines
-        public void Post([FromBody] OrderLine orderLine)
+        public void Post([FromBody] List<OrderLine> orderLines)
         {
             var repo = new OrderLinesRepository();
-            repo.Save(orderLine);
+            repo.Save(orderLines);
         }
 
         // PUT api/OrderLines
