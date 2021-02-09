@@ -50,49 +50,39 @@ export default class ClientAddScreen extends Component {
         this.setState({province: l});
     };
     onPressLeftIcon = () => {
-        console.log('Se pulsa el de la izquierda');
-        this.props.navigation.goBack()
+        this.props.navigation.goBack();
     };
     onPressRightIcon = () => {
-        console.log('Se pulsa el de la derecha');
-       
-        if (this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '') {
+        if (this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '') {
             Alert.alert('You have empty inputs');
         } else {
-            if(this.state.postalCode.length!=5){
+            if (this.state.postalCode.length !== 5) {
                 Alert.alert('Postal code must have 5 digits');
-            }else{
-                if( this.nifTest(this.state.nif)==false){
+            } else {
+                if (this.nifTest(this.state.nif) === false) {
                     Alert.alert('Write a correct Nif');
-                }
-                else{
+                } else {
                     this.initAxios();
                 }
-                
             }
         }
     };
 
     nifTest = (nif) => {
 
-        var dni = nif;
-        var letraDNI = dni.substring(8, 9);
-        var numDNI = parseInt(dni.substring(0, 8));
-        var letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E', 'T'];
-        var letraCorrecta = letras[numDNI % 23];
- 
-        if(letraDNI.toUpperCase() != letraCorrecta){
-        console.log("Has introducido una letra incorrecta" + "\n" + "Tu letra debería ser: " + letraCorrecta);
-        return false;
-        }
-         else{
-         console.log("Enhorabuena hemos podido validar tu DNI");
-         return true;
-         }
-        
-    };
-    //Se pide el número completo del DNI (12345678X)
+        const NIF = nif;
+        const NIFLetter = NIF.substring(8, 9);
+        const NIFNumber = parseInt(NIF.substring(0, 8));
+        const letters = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E', 'T'];
+        const rightLetter = letters[NIFNumber % 23];
 
+        if (NIFLetter.toUpperCase() !== rightLetter) {
+            Alert.alert('Letter incorrect' + '\n' + 'Maybe the right one is this: ' + rightLetter);
+            return false;
+        } else {
+            return true;
+        }
+    };
 
     initAxios = () => {
         axios.post(GPEApi + 'Clients', {
@@ -106,8 +96,7 @@ export default class ClientAddScreen extends Component {
             'Email': this.state.email,
             'NIF': this.state.nif,
             'ContactName': this.state.conName,
-        });
-        this.props.navigation.goBack()
+        }).then(this.props.navigation.goBack());
     };
 
     render() {
@@ -118,27 +107,27 @@ export default class ClientAddScreen extends Component {
                                pressRightIcon={this.onPressRightIcon}/>
                 <ScrollView>
                     <View style={{alignItems: 'center'}}>
-                        <GPEInput title={'Name'} placeholder={'example name'} width='90%' height={5} marginTop='10%'
+                        <GPEInput title={'Name'} placeholder={'Name'} width='90%' height={5} marginTop='10%'
                                   onChangeText={this.getName}/>
-                        <GPEInput title={'Email'} placeholder={'example email'} width='90%' height={5} marginTop='5%'
+                        <GPEInput title={'Email'} placeholder={'Email'} width='90%' height={5} marginTop='5%'
                                   onChangeText={this.getEmail}/>
-                        <GPEInput title={'Contact Name'} placeholder={'example contact name'} width='90%' height={5}
+                        <GPEInput title={'Contact Name'} placeholder={'Contact name'} width='90%' height={5}
                                   marginTop='5%'
                                   onChangeText={this.getConName}/>
-                        <GPEInput title={'NIF/NIE'} placeholder={'example nif/nie'} width='90%' height={5}
+                        <GPEInput title={'NIF'} placeholder={'NIF'} width='90%' height={5}
                                   marginTop='5%'
                                   onChangeText={this.getNif}/>
-                        <GPEInput title={'Phone number'} placeholder={'example phone number'} width='90%' height={5}
+                        <GPEInput title={'Phone number'} placeholder={'Phone number'} width='90%' height={5}
                                   marginTop='5%' keyboardType='numeric' onChangeText={this.getPhone}/>
-                        <GPEInput title={'City'} placeholder={'example city'} width='90%' height={5} marginTop='5%'
+                        <GPEInput title={'City'} placeholder={'City'} width='90%' height={5} marginTop='5%'
                                   onChangeText={this.getCity}/>
-                        <GPEInput title={'Postal Code'} placeholder={'example postal Code'} width='90%' height={5}
+                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'} width='90%' height={5}
                                   marginTop='5%' keyboardType='numeric'
                                   onChangeText={this.getPostalCode}/>
-                        <GPEInput title={'Province'} placeholder={'example province'} width='90%' height={5}
+                        <GPEInput title={'Province'} placeholder={'Province'} width='90%' height={5}
                                   marginTop='5%'
                                   onChangeText={this.getProvince}/>
-                        <GPEInput title={'Adress'} placeholder={'example adress'} width='90%' height={5} marginTop='5%'
+                        <GPEInput title={'Address'} placeholder={'Address'} width='90%' height={5} marginTop='5%'
                                   onChangeText={this.getAddress}/>
                     </View>
                 </ScrollView>
