@@ -21,7 +21,7 @@ export default class OrderConfirmsScreen extends Component {
 
                 { name: 'Test2', id: 2, price: 10.5 },
             ],
-            client: this.props.client
+            client: this.props.client;
         };
 
     }
@@ -45,11 +45,10 @@ export default class OrderConfirmsScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <Overlay></Overlay>
                 <View>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                         rightIcon={'check'} rightIconSize={48} pressLeftIcon={this.props.navigation.goBack()}
-                        pressRightIcon={ } />
+                        pressRightIcon={this.addOrder} />
                 </View>
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={this.state.name} dni={this.state.dni} />

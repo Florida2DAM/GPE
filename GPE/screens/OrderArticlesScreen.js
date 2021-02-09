@@ -108,7 +108,7 @@ export default class OrderArticlesScreen extends Component {
                                         name: item.name,
                                         price: item.price,
                                     })}>
-                                        <ArticleCard selectedItem={item} />
+                                        <ArticleCard getItemLine={item} />
                                     </Pressable>
                                 );
                             }}
