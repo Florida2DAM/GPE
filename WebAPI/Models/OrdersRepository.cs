@@ -96,7 +96,7 @@ namespace GPE.Models
 
         internal int GetLastOrderId()
         {
-            Order order = context.Orders
+            Order order = Retrieve()
                 .LastOrDefault();
 
             return order.OrderId;
