@@ -45,8 +45,11 @@ export default class OrderConfirmsScreen extends Component {
 
     addOrderLines = () => {
         let products = [];
+        let assignId = 1;
         this.state.orderLines.forEach(item => {
             item.OrderId = this.state.orderId;
+            item.LineId = assignId;
+            assignId += 1;
             products.push(item);
             console.log(item);
         });
@@ -58,7 +61,7 @@ export default class OrderConfirmsScreen extends Component {
     calculateTotalPrice = () => {
         let total;
         this.state.orderLines.forEach(product => {
-            total =+ product.Price
+            total += product.Price
         });
     }
 

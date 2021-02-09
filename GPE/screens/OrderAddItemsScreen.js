@@ -20,7 +20,7 @@ export default class OrderAddItemsScreen extends Component {
             orderlines: [],
             orderline: {},
             article: {},
-            order: {}
+            order: {},
         };
     }
 
