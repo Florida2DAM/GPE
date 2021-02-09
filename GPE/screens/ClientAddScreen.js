@@ -51,19 +51,13 @@ export default class ClientAddScreen extends Component {
     };
     onPressLeftIcon = () => {
         console.log('Se pulsa el de la izquierda');
-        this.props.navigation.goBack()
     };
     onPressRightIcon = () => {
         console.log('Se pulsa el de la derecha');
         if (this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '') {
             Alert.alert('You have empty inputs');
         } else {
-            if(this.state.postalCode.length!=5){
-                Alert.alert('Postal code must have 5 digits');
-            }else{
-                this.initAxios();
-            }
-           
+            this.initAxios();
         }
     };
 
@@ -81,7 +75,6 @@ export default class ClientAddScreen extends Component {
             'NIF': this.state.nif,
             'ContactName': this.state.conName,
         });
-        this.props.navigation.goBack()
     };
 
     render() {
