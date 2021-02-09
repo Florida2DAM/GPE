@@ -15,15 +15,17 @@ export default class OrderConfirmsScreen extends Component {
         name: 'WEI Luo',
         dni: 'Y18273678',
         products: [],
+        total: 0
     };
 
     componentDidMount() {
-        this.setState({ products: this.props.route.params.orderLines }, () => this.setProductsId());
+        this.setState({ products: this.props.route.params.orderLines }, 
+            () => {this.updateInfo([{LineId: -1}]);  this.setProductsId();});
     }
 
     setProductsId = () => {
         let i = 1;
-        this.state.products.forEach(element => {            
+        this.state.products.forEach(element => {                        
             element.LineId = i++;;
         });
     }
@@ -34,10 +36,15 @@ export default class OrderConfirmsScreen extends Component {
         })});
     }
 
-    changeProductInfo = (product) => {
+    updateInfo = (product) => {
+        let total = 0;
         this.state.products.forEach(element => {
             if (element.LineId === product.LineId) element = product;
+            console.log(element.TotalLine);
+            total += element.TotalLine;
         });
+        total = Math.trunc(total * 100) / 100;
+        this.setState({total});
     }
 
     render() {
@@ -55,13 +62,14 @@ export default class OrderConfirmsScreen extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity orderLine={item} remove={() => this.removeProduct(item.LineId)} itemChange={this.changeProductInfo}/>
+                                <ModifyQuantity orderLine={item} remove={() => this.removeProduct(item.LineId)} 
+                                    itemChange={this.updateInfo}/>
                             </View>
                         );
                     }}
                 />
                 <View style={{ alignItems: 'center' }}>
-                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content="15000"
+                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content={this.state.total}
                         currency='€' />
                 </View>
             </View>
