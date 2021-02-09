@@ -6,11 +6,14 @@ export class ModifyQuantity extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orderLine: [],
         };
     }
 
     componentDidMount() {
+        this.getInfo();
+    }
+
+    getInfo() {
         this.setState({ orderLine: this.props.orderLine });
         this.setState({ units: this.props.orderLine.Quantity });
         this.setState({ price: this.props.orderLine.Price });
@@ -18,30 +21,30 @@ export class ModifyQuantity extends Component {
     }
 
     increaseUnits = () => {
-        this.changeOrderLine(parseInt(this.state.orderLine.Quantity) + 1);
+        this.changeOrderLine(parseInt(this.props.orderLine.Quantity) + 1);
         this.updateTotal();
-        this.props.itemChange(this.state.orderLine);
+        this.props.itemChange(this.props.orderLine);
     };
 
     decreaseUnits = () => {
-        if (this.state.orderLine.Quantity > 1) {
-            this.changeOrderLine(this.state.orderLine.Quantity - 1);
+        if (this.props.orderLine.Quantity > 1) {
+            this.changeOrderLine(this.props.orderLine.Quantity - 1);
             this.updateTotal();
-            this.props.itemChange(this.state.orderLine);
+            this.props.itemChange(this.props.orderLine);
         }
     };
 
     updateTotal = () => {
-        const priceQuantity = this.state.orderLine.Price * this.state.orderLine.Quantity;
-        const priceDiscount = priceQuantity - (priceQuantity * (this.state.orderLine.Discount / 100));
-        const priceIva = priceDiscount + (priceDiscount * (this.state.orderLine.Iva / 100));
-        let orderLine = this.state.orderLine;
+        const priceQuantity = this.props.orderLine.Price * this.props.orderLine.Quantity;
+        const priceDiscount = priceQuantity - (priceQuantity * (this.props.orderLine.Discount / 100));
+        const priceIva = priceDiscount + (priceDiscount * (this.props.orderLine.Iva / 100));
+        let orderLine = this.props.orderLine;
         orderLine.TotalLine = Math.trunc(priceIva * 100) / 100;
         this.setState({ orderLine });
     }
 
     changeOrderLine = (quantity) => {
-        let orderLine = this.state.orderLine;
+        let orderLine = this.props.orderLine;
         orderLine.Quantity = quantity;
         this.setState({ orderLine });
     }
@@ -59,7 +62,7 @@ export class ModifyQuantity extends Component {
                         <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
                             <Button title='-' type='clear' titleStyle={styles.button}
                                 onPress={this.decreaseUnits}/>
-                            <Text style={styles.text}>{this.state.orderLine.Quantity}</Text>
+                            <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
                             <Button title='+' type='clear' titleStyle={styles.button}
                                 onPress={this.increaseUnits}/>
                         </View>
@@ -68,7 +71,7 @@ export class ModifyQuantity extends Component {
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]}
                             onPress={this.props.remove}/>
-                    <Text style={styles.text}>Total: {this.state.orderLine.TotalLine}€</Text>
+                    <Text style={styles.text}>Total: {this.props.orderLine.TotalLine}€</Text>
                 </View>
             </View>
         );
