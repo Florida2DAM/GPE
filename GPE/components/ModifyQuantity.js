@@ -20,12 +20,14 @@ export class ModifyQuantity extends Component {
     increaseUnits = () => {
         this.changeOrderLine(parseInt(this.state.orderLine.Quantity) + 1);
         this.updateTotal();
+        this.props.itemChange(this.state.orderLine);
     };
 
     decreaseUnits = () => {
         if (this.state.orderLine.Quantity > 1) {
             this.changeOrderLine(this.state.orderLine.Quantity - 1);
             this.updateTotal();
+            this.props.itemChange(this.state.orderLine);
         }
     };
 
@@ -44,10 +46,6 @@ export class ModifyQuantity extends Component {
         this.setState({ orderLine });
     }
 
-    /*juanjo = () => {
-        (item) => this.props.itemChange(item);
-    }*/
-
     render() {
         return (
             <View style={styles.container}>
@@ -60,10 +58,10 @@ export class ModifyQuantity extends Component {
                     <View style={{alignItems: 'flex-end' }}>
                         <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
                             <Button title='-' type='clear' titleStyle={styles.button}
-                                    onPress={this.decreaseUnits}/>
+                                onPress={this.decreaseUnits}/>
                             <Text style={styles.text}>{this.state.orderLine.Quantity}</Text>
                             <Button title='+' type='clear' titleStyle={styles.button}
-                                    onPress={this.increaseUnits}/>
+                                onPress={this.increaseUnits}/>
                         </View>
                     </View>
                 </View>
