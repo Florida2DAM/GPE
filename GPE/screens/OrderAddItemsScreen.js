@@ -25,21 +25,21 @@ export default class OrderAddItemsScreen extends Component {
 
     componentDidMount() {
         this.getInfo();
-        this.getArticles();
-    }
-
-    getArticles = () => {
-        axios.get(GPEApi + 'lots').then((response) => {
-            this.setState({ lots: response.data });
-        }, (rejectedResult) => {
-            console.error(rejectedResult.statusText);
-        });
     }
 
     getInfo = () => {
+        let lots = [];
         this.setState({ orderlines: this.props.route.params.orderLines });
         this.setState({ order: this.props.route.params.order });
-        this.setState({ article: this.props.route.params.article });
+        this.setState({ article: this.props.route.params.article }, () => {console.log(this.state.article.Lots);
+            
+            this.state.article.Lots.forEach(lot => {
+            lots.push(lot.LotId);
+            console.log(lots);
+        });
+        this.setState({lots});
+        console.log(lots);
+    });
     }
 
     updateOrderLines = () => {
@@ -47,15 +47,15 @@ export default class OrderAddItemsScreen extends Component {
             OrderId: null, LineId: null, ArticleId: this.state.article.ArticleId, LotId: this.state.selectedLot,
             Description: this.state.article.Description, Price: this.state.article.Price, Brand: this.state.article.Brand,
             Category: this.state.article.Category, Quantity: this.state.units,
-            Iva: this.state.article.Iva, Discount: this.state.discount, TotalLine: this.state.total
-        }
+            Iva: this.state.article.Iva, Discount: this.state.discount, TotalLine: this.state.total,
+        };
         let orderlines;
         if (this.state.orderlines !== undefined) {
             orderlines = this.state.orderlines;
         }
         else orderlines = [];
         orderlines.push(orderline);
-        this.setState({ orderlines })
+        this.setState({ orderlines });
     }
 
     getTotal = () => {
@@ -67,7 +67,7 @@ export default class OrderAddItemsScreen extends Component {
     }
 
     getLot = (e) => {
-        this.setState({ selectedLot: e });
+        this.setState({ selectedLot: e },()=>console.log(e));
     };
 
     changeUnits = (units) => {
@@ -104,7 +104,7 @@ export default class OrderAddItemsScreen extends Component {
                 <View style={{ alignSelf: 'center', marginTop: '5%' }}>
                     <Text style={styles.text}>{this.state.article.Description}</Text>
                     <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'
-                        getScreen={'OrderAddItemsScreen'} getItemsList={this.state.lots} />
+                        getScreen={'OrderAddItemsScreen'} getItemsList={this.state.lots}/>
                     <GPEInput title={'Units'} placeholder={'0'} onChangeText={this.changeUnits}
                         delete={this.deleteUnits} value={this.state.units}
                         width='90%' height={5} marginTop='2%' keyboardType='numeric' />
