@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {Icon} from 'react-native-elements';
@@ -36,6 +37,7 @@ export class GPEInput extends Component {
     }
 }
 
+
 const styles = StyleSheet.create({
     input: {
         flexDirection: 'row',
@@ -46,3 +48,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#3b3b3b',
     },
 });
+
+
