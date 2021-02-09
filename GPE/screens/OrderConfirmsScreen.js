@@ -69,7 +69,7 @@ export default class OrderConfirmsScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                    rightIcon={'navigate-next'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
+                    rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
 
                     pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
