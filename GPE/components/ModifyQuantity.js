@@ -9,26 +9,15 @@ export class ModifyQuantity extends Component {
         };
     }
 
-    componentDidMount() {
-        this.getInfo();
-    }
-
-    getInfo() {
-        this.setState({ orderLine: this.props.orderLine });
-        this.setState({ units: this.props.orderLine.Quantity });
-        this.setState({ price: this.props.orderLine.Price });
-        this.setState({ id: this.props.orderLine.ArticleId });
-    }
-
     increaseUnits = () => {
-        this.changeOrderLine(parseInt(this.props.orderLine.Quantity) + 1);
+        this.props.orderLine.Quantity += 1;
         this.updateTotal();
         this.props.itemChange(this.props.orderLine);
     };
 
     decreaseUnits = () => {
         if (this.props.orderLine.Quantity > 1) {
-            this.changeOrderLine(this.props.orderLine.Quantity - 1);
+            this.props.orderLine.Quantity -= 1;
             this.updateTotal();
             this.props.itemChange(this.props.orderLine);
         }
@@ -38,15 +27,7 @@ export class ModifyQuantity extends Component {
         const priceQuantity = this.props.orderLine.Price * this.props.orderLine.Quantity;
         const priceDiscount = priceQuantity - (priceQuantity * (this.props.orderLine.Discount / 100));
         const priceIva = priceDiscount + (priceDiscount * (this.props.orderLine.Iva / 100));
-        let orderLine = this.props.orderLine;
-        orderLine.TotalLine = Math.trunc(priceIva * 100) / 100;
-        this.setState({ orderLine });
-    }
-
-    changeOrderLine = (quantity) => {
-        let orderLine = this.props.orderLine;
-        orderLine.Quantity = quantity;
-        this.setState({ orderLine });
+        this.props.orderLine.TotalLine = Math.trunc(priceIva * 100) / 100;
     }
 
     render() {
