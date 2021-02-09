@@ -37,12 +37,24 @@ export default class MainScreen extends Component {
         });
     }
 
-
-
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     };
+
+    // componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
+    //     this.restoreEmployee().then(response => {
+    //         console.log("Previo"+prevState.employee.Name);
+    //         console.log("Nuevo"+response.Name);
+    //         if (prevState.employee.Name !== response.Name) {
+    //             this.setState({employee: response});
+    //         }
+    //     });
+    // }
+    receivedValue = (value) => {
+        this.setState({employee: value})
+    }
+
 
     mainScreen = ({navigation}) => {
         return (

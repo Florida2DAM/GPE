@@ -22,14 +22,6 @@ export default class SettingsScreen extends Component {
         this.restoreEmployee();
     }
 
-    componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
-        this.restoreEmployee().then(response => {
-            if (prevState.employee.Name !== response.Name) {
-                this.setState({employee: response});
-            }
-        });
-    }
-
     getEmployees = () => {
         axios.get(GPEApi + 'Employees').then((response) => {
             this.setState({employees: response.data});
@@ -58,10 +50,14 @@ export default class SettingsScreen extends Component {
     };
 
     render() {
+        const receivedValue = this.props.navigation.state.params.receivedValue;
         return (
             <View style={[style.container]}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Settings'}
-                               pressLeftIcon={() => this.props.navigation.goBack()}/>
+                               pressLeftIcon={() => {
+                                   receivedValue(this.state.employee);
+                                   this.props.navigation.goBack();
+                               }}/>
                 <View style={{marginLeft: '5%', marginRight: '5%'}}>
                     <View style={{margin: '10%'}}>
                         <GPELogo/>
