@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {GPELabel} from '../components/GPELabel';
-import {GPEInput} from '../components/GPEInput';
-import {GPEPicker} from '../components/GPEPicker';
-import {NavigationBar} from '../components/NavigationBar';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { GPELabel } from '../components/GPELabel';
+import { GPEInput } from '../components/GPEInput';
+import { GPEPicker } from '../components/GPEPicker';
+import { NavigationBar } from '../components/NavigationBar';
 
 const style = require('../components/Styles');
 
@@ -13,39 +13,20 @@ export default class OrderAddItemsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: true,
-            items: [
-                {
-                    id: 1,
-                    name: 'item1',
-                    price: 10.5,
-                    stock: 1000,
-                    lot: 'LOT-01',
-
-                },
-                {
-                    id: 1,
-                    name: 'item1',
-                    price: 10.5,
-                    stock: 10,
-                    lot: 'LOT-02',
-                },
-                {
-                    id: 1,
-                    name: 'item1',
-                    price: 10.5,
-                    stock: 5000,
-                    lot: 'LOT-03',
-                },
-            ],
             selectedLot: '',
-            discount: '',
+            discount: 0,
+            units: 0,
+            total: 0,
+            orderlines: [],
+            orderline: {},
+            article: {},
+            order: {}
         };
     }
 
     componentDidMount() {
-        this.setState({ orderlines: this.props.route.params.orderLines }),
-        this.setState({ order: this.props.route.params.order }),
+        this.setState({ orderlines: this.props.route.params.orderLines })
+        this.setState({ order: this.props.route.params.order })
         this.setState({ article: this.props.route.params.article });
     }
 
@@ -57,12 +38,12 @@ export default class OrderAddItemsScreen extends Component {
             Iva: this.state.article.Iva, Discout: this.state.discount, TotalLine: this.state.total
         }
         console.log("---------------------------------------------------------------");
-        console.log("Sing: " + orderline);
+        console.log("Sing: " + orderline); 
         let orderlines;
         if (this.state.orderlines !== undefined) {
             orderlines = this.state.orderlines;
         }
-        else orderlines = [];
+        else orderlines = [];        
         console.log("Plur 1: " + orderlines);
         orderlines.push(orderline);
         console.log("Plur 2: " + orderlines);
@@ -78,50 +59,54 @@ export default class OrderAddItemsScreen extends Component {
     }
 
     getLot = (e) => {
-        this.setState({selectedLot: e});
+        this.setState({ selectedLot: e });
     };
 
     changeUnits = (units) => {
-        this.setState({units});
+        this.setState({ units }, () => this.getTotal());
     };
 
     changeDiscount = (discount) => {
-        this.setState({discount});
+        this.setState({ discount }, () => this.getTotal());
     };
 
+    //------------------------------------------------------NO VA------------------------------------------------------
     deleteUnits = () => {
-        this.setState({units: ''});
+        this.setState({ units: 0 }, () => this.getTotal());
     };
 
+    //------------------------------------------------------NO VA------------------------------------------------------
     deleteDiscount = () => {
-        this.setState({discount: ''});
+        this.setState({ discount: 0 }, () => this.getTotal());
     };
 
     addItemList = () => {
-        this.props.navigation.goBack();
+        this.updateOrderLines();
+        this.props.navigation.navigate('OrderArticlesScreen', { orderlines: this.state.orderlines, order: this.state.order });
         console.log('Item añadido a la lista.');
     };
 
     render() {
-        // let itemInfo = this.props.getItemInfo;
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'}
-                               rightIconSize={45} pageName={'Add Item'}
-                               pressLeftIcon={() => this.props.navigation.goBack()}
-                               pressRightIcon={this.addItemList}/>
-                <View style={{alignSelf: 'center', marginTop: '5%'}}>
-                    <Text style={styles.text}>Article: {this.props.route.params.name}</Text>
-                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'/>
-                    <GPEInput title={'Units'} placeholder={'0'} getValue={this.changeUnits}
-                              delete={this.deleteUnits} value={this.state.units}
-                              width='90%' height={5} marginTop='2%' keyboardType='numeric'/>
-                    <GPELabel title={'Unit price'} content={this.props.route.params.price}
-                              width='90%' height={5} marginTop='2%'/>
+                    rightIconSize={45} pageName={'Add Item'}
+                    pressLeftIcon={() => this.props.navigation.goBack()}
+                    pressRightIcon={this.addItemList} />
+                <View style={{ alignSelf: 'center', marginTop: '5%' }}>
+                    <Text style={styles.text}>{this.state.article.Description}</Text>
+                    <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%' />
+                    <GPEInput title={'Units'} placeholder={'0'} onChangeText={this.changeUnits}
+                        delete={this.deleteUnits} value={this.state.units}
+                        width='90%' height={5} marginTop='2%' keyboardType='numeric' />
+                    <GPELabel title={'Unit price'} content={this.state.article.Price}
+                        width='90%' height={5} marginTop='2%' />
                     <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} marginTop='2%'
-                              marginBottom='2%'
-                              getValue={this.changeDiscount} delete={this.deleteDiscount}
-                              value={this.state.discount} keyboardType='numeric'/>
+                        marginBottom='2%'
+                        onChangeText={this.changeDiscount} delete={this.deleteDiscount}
+                        value={this.state.discount} keyboardType='numeric' />
+                    <GPELabel title={'Total (IVA applied: ' + this.state.article.Iva + '%)'} content={this.state.total}
+                        width='90%' height={5} marginTop='10%' />
                 </View>
             </View>
         );
@@ -135,7 +120,7 @@ const styles = StyleSheet.create({
         marginRight: '2%',
     },
     text: {
-        fontSize: 20,
+        fontSize: 25,
         color: '#f7f7f7',
         marginBottom: '2%',
     },

@@ -16,12 +16,8 @@ export default class OrderConfirmsScreen extends Component {
         this.state = {
             name: 'Juan',//this.props.client.Name,
             dni: 'muchosnumeros',//this.props.client.Nie,
-            products: [
-                { name: 'Test1', id: 1, price: 15 },
-
-                { name: 'Test2', id: 2, price: 10.5 },
-            ],
-            client: this.props.client,
+            products: [],
+            //client: this.props.client,
         };
 
     }
