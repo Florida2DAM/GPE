@@ -24,14 +24,14 @@ export default class OrderConfirmsScreen extends Component {
 
     addOrder = () => {
         axios.post(GPEApi + '/Orders', {
-            ClientId: 100,
-            Date: '',
+            ClientId: 2,
+            Date: '2021-02-09',
             DeliveryDate: '',
             Total: 1938.98,
             Delivered: false,
             Paid: 0.0,
             PayingMethod: null,
-            Deliverer: "Jesus",
+            Deliverer: 'Jesus',
             EmployeeId: 2,
         }).then(this.getOrderId);
     }
@@ -40,9 +40,11 @@ export default class OrderConfirmsScreen extends Component {
         axios.get(GPEApi + 'Orders/GetLast').then((response) => {
             this.setState({OrderId: response.OrderId}, () => {this.addOrderLines();});
         });
+        console.log("Gets new id")
     }
 
     addOrderLines = () => {
+        console.log(this.state.orderId);
         let products = [];
         this.state.orderLines.forEach(item => {
             item.OrderId = this.state.orderId;
@@ -67,7 +69,7 @@ export default class OrderConfirmsScreen extends Component {
     }
 
     pressRightIcon = () => {
-        this.addOrder();
+        this.getOrderId();
         this.props.navigation.navigate('VisitSalesScreen');
     }
 
