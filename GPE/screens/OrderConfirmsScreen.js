@@ -6,7 +6,7 @@ import { FlatList, View } from 'react-native';
 import { ModifyQuantity } from '../components/ModifyQuantity';
 import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
-import { Divider } from 'react-native-elements';
+import { Divider, Overlay } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
 import { axios, GPEApi, style } from '../components/GPEConst';
 
@@ -45,6 +45,7 @@ export default class OrderConfirmsScreen extends Component {
     render() {
         return (
             <View style={style.container}>
+                <Overlay></Overlay>
                 <View>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                         rightIcon={'check'} rightIconSize={48} pressLeftIcon={this.props.navigation.goBack()}
