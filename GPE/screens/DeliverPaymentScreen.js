@@ -44,10 +44,10 @@ export default class DeliverPaymentScreen extends Component {
     checkFields = () => {
         let flag = true;
 
-        if (this.state.methodSelected === "" || this.state.methodSelected ===undefined) {
+        if (this.state.methodSelected === '' || this.state.methodSelected ===undefined) {
             flag = false;
         }
-        if (this.state.paidAmount === "" || this.state.paidAmount === undefined) {
+        if (this.state.paidAmount === '' || this.state.paidAmount === undefined) {
             flag = false;
         }
         if ((this.state.methodSelected === 'Cash' || this.state.methodSelected === 'Credit Card') && this.state.paidAmount === '0') {
@@ -80,9 +80,9 @@ export default class DeliverPaymentScreen extends Component {
                             pressLeftIcon={() => this.props.navigation.goBack()}
                             pressRightIcon={this.visible} />
 
-                        <GPEModal isVisible={this.state.visible} content="Are you sure to continue?" 
-                        leftButtonTitle="cancel" leftButtonPress={this.unVisible}
-                        rightButtonTitle="continue" rightButtonPress={this.checkFields}
+                        <GPEModal isVisible={this.state.visible} content='Are you sure to continue?'
+                        leftButtonTitle='cancel' leftButtonPress={this.unVisible}
+                        rightButtonTitle='continue' rightButtonPress={this.checkFields}
                         />
 
                         <ScrollView>
