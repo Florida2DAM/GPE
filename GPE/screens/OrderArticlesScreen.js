@@ -55,6 +55,10 @@ export default class OrderArticlesScreen extends Component {
         if (this.props.route.params.order !== undefined) {
             this.setState({ order: this.props.route.params.order });
         }
+        console.log("Order: " + this.state.order);
+        console.log("OrderLines: " + this.state.orderLines);
+        console.log("Employee: " + this.state.employeeId);
+        console.log("Client: " + this.state.client);
     }
 
     setFilter = (filter) => {

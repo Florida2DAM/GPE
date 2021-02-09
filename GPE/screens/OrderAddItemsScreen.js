@@ -35,10 +35,17 @@ export default class OrderAddItemsScreen extends Component {
             OrderId: null, LineId: null, ArticleId: this.state.article.ArticleId, LotId: this.state.selectedLot,
             Description: this.state.article.Description, Price: this.state.article.Price, Brand: this.state.article.Brand,
             Category: this.state.article.Category, Quantity: this.state.units,
-            Iva: this.state.article.Iva, Discout: this.state.discount, TotalLine: this.getTotal()
+            Iva: this.state.article.Iva, Discout: this.state.discount, TotalLine: this.state.total
         }
-        let orderlines = this.state.orderlines;
+        console.log("Sing: " + orderline); 
+        let orderlines;
+        if (this.state.orderlines !== undefined) {
+            orderlines = this.state.orderlines;
+        }
+        else orderlines = [];        
+        console.log("Plur 1: " + orderlines);
         orderlines.push(orderline);
+        console.log("Plur 2: " + orderlines);
         this.setState({ orderlines })
     }
 
@@ -47,7 +54,7 @@ export default class OrderAddItemsScreen extends Component {
         let priceDiscount = priceQuantity - (priceQuantity * (this.state.discount / 100));
         let priceIva = priceDiscount + (priceDiscount * (this.state.article.Iva / 100));
         let priceDecimals = Math.trunc(priceIva * 100) / 100;
-        this.setState({ total: priceDecimals }, () => console.log(this.state.total));
+        this.setState({ total: priceDecimals });
     }
 
     getLot = (e) => {
@@ -62,10 +69,12 @@ export default class OrderAddItemsScreen extends Component {
         this.setState({ discount }, () => this.getTotal());
     };
 
+    //------------------------------------------------------NO VA------------------------------------------------------
     deleteUnits = () => {
         this.setState({ units: 0 }, () => this.getTotal());
     };
 
+    //------------------------------------------------------NO VA------------------------------------------------------
     deleteDiscount = () => {
         this.setState({ discount: 0 }, () => this.getTotal());
     };
