@@ -16,6 +16,7 @@ import VisitDeliverScreen from './VisitDeliverScreen';
 import VisitSalesScreen from './VisitSalesScreen';
 import ClientsListScreen from './ClientsListScreen';
 import DeliverCheckScreen from './DeliverCheckScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {style} from '../components/GPEConst';
 
 const stack = createStackNavigator();
@@ -25,13 +26,21 @@ export default class MainScreen extends Component {
         super();
         this.state = {
             employee: {},
-            isReady: true,
+            isReady: false,
         };
     }
 
     componentDidMount() {
-
+        this.restoreEmployee().then(response => {
+            this.setState({employee: response});
+            this.setState({isReady: true});
+        });
     }
+
+    async restoreEmployee() {
+        const jsonValue = await AsyncStorage.getItem('employee');
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    };
 
     mainScreen = ({navigation}) => {
         return (
@@ -53,8 +62,9 @@ export default class MainScreen extends Component {
                     <GPEButton iconName='settings' iconSize={60} buttonName='SETTINGS'
                                onPress={() => navigation.navigate('SettingsScreen')}/>
                 </View>
-                <View style={{justifyContent: 'flex-end'}}>
-                    <Text style={{color: 'white', fontSize: 20}}>Employee:{this.state.employee.Name}</Text>
+                <View style={{flexDirection:'row', paddingTop:'25%', justifyContent:'space-evenly'}}>
+                    <Text style={{color: 'white', fontSize: 30}}>{this.state.employee.Name}</Text>
+                    <Text style={{color: 'white', fontSize: 30}}>{this.state.employee.Type}</Text>
                 </View>
             </View>
         );
