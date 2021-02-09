@@ -17,7 +17,7 @@ export default class OrderConfirmsScreen extends Component {
             orderLines: [],
             totalPrice: 0,
             client: '',
-            orderId: 0,
+            orderId: '',
         };
 
     }
@@ -38,17 +38,17 @@ export default class OrderConfirmsScreen extends Component {
 
     getOrderId = () => {
         axios.get(GPEApi + 'Orders/GetLast').then((response) => {
-            this.setState({OrderId: response.OrderId}, () => {this.addOrderLines();});
+            console.log(response.data);
+            this.setState({orderId: response.data}, () => {this.addOrderLines();});
         });
-        console.log("Gets new id")
     }
 
     addOrderLines = () => {
-        console.log(this.state.orderId);
         let products = [];
         this.state.orderLines.forEach(item => {
             item.OrderId = this.state.orderId;
             products.push(item);
+            console.log(item);
         });
         this.setState({orderLines: products});
         console.log(this.state.orderLines);
@@ -63,7 +63,7 @@ export default class OrderConfirmsScreen extends Component {
     }
 
     componentDidMount() {
-        this.setState({ orderLines: this.props.route.params.orderLines });
+        this.setState({ orderLines: this.props.route.params.orderLines }, console.log(this.props.route.params.orderLines));
         this.setState({ client: this.props.client});
         //calculateTotalPrice();
     }
