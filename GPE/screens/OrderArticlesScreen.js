@@ -28,7 +28,7 @@ export default class OrderArticlesScreen extends Component {
                 Paid: 0,
                 PayingMethod: "",
                 Deliverer: "",
-                EmployeeId: 0
+                EmployeeId: 0,
             }
         };
     }
