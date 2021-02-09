@@ -31,13 +31,15 @@ export default class MainScreen extends Component {
     }
 
     componentDidMount() {
-        this.restoreEmployee();
+        this.restoreEmployee().then(response => {
+            this.setState({employee: response});
+            this.setState({isReady: true});
+        });
     }
 
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
-        this.setState({employee: JSON.parse(jsonValue)});
-        this.setState({isReady: true});
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
     };
 
     mainScreen = ({navigation}) => {
@@ -67,9 +69,11 @@ export default class MainScreen extends Component {
         );
     };
 
-
     render() {
         if (this.state.isReady) {
+            this.restoreEmployee().then(response => {
+                this.setState({employee: response});
+            });
             return (
                 <NavigationContainer>
                     <stack.Navigator headerMode={'none'}>
