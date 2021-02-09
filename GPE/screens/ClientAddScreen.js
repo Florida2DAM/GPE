@@ -55,16 +55,43 @@ export default class ClientAddScreen extends Component {
     };
     onPressRightIcon = () => {
         console.log('Se pulsa el de la derecha');
+       
         if (this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '') {
             Alert.alert('You have empty inputs');
         } else {
             if(this.state.postalCode.length!=5){
                 Alert.alert('Postal code must have 5 digits');
             }else{
-                this.initAxios();
+                if( this.nifTest(this.state.nif)==false){
+                    Alert.alert('Write a correct Nif');
+                }
+                else{
+                    this.initAxios();
+                }
+                
             }
         }
     };
+
+    nifTest = (nif) => {
+
+        var dni = nif;
+        var letraDNI = dni.substring(8, 9);
+        var numDNI = parseInt(dni.substring(0, 8));
+        var letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E', 'T'];
+        var letraCorrecta = letras[numDNI % 23];
+ 
+        if(letraDNI.toUpperCase() != letraCorrecta){
+        console.log("Has introducido una letra incorrecta" + "\n" + "Tu letra debería ser: " + letraCorrecta);
+        return false;
+        }
+         else{
+         console.log("Enhorabuena hemos podido validar tu DNI");
+         return true;
+         }
+        
+    };
+    //Se pide el número completo del DNI (12345678X)
 
 
     initAxios = () => {
