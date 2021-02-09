@@ -6,7 +6,7 @@ import { FlatList, View } from 'react-native';
 import { ModifyQuantity } from '../components/ModifyQuantity';
 import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
-import { Divider, Overlay } from 'react-native-elements';
+import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
 import { axios, GPEApi, style } from '../components/GPEConst';
 
@@ -21,16 +21,14 @@ export default class OrderConfirmsScreen extends Component {
 
                 { name: 'Test2', id: 2, price: 10.5 },
             ],
-            client: this.props.client;
+            client: this.props.client,
         };
 
     }
 
     addOrder = () => {
         axios.post(GPEApi + '/Orders', {
-            ClientId: 1,
-            OrderNum: 1,
-            Date: "2021-02-01T00:00:00",
+            Date: Date,
             DeliveryDate: "1900-01-01T00:00:00",
             Total: 1938.98,
             Delivered: false,
@@ -45,11 +43,9 @@ export default class OrderConfirmsScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <View>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                        rightIcon={'check'} rightIconSize={48} pressLeftIcon={this.props.navigation.goBack()}
-                        pressRightIcon={this.addOrder} />
-                </View>
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
+                    rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
+                    pressRightIcon={this.addOrder} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={this.state.name} dni={this.state.dni} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
@@ -60,7 +56,7 @@ export default class OrderConfirmsScreen extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity name={item.name} price={item.price} id={item.id} />
+                                <ModifyQuantity name={item.Description} price={item.Price} id={item.ArticleId} />
                             </View>
                         );
                     }}
