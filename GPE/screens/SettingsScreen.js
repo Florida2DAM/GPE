@@ -49,11 +49,6 @@ export default class SettingsScreen extends Component {
         jsonValue != null ? this.setState({employee:JSON.parse(jsonValue)}) : null;
     };
 
-    // goBack=()=>{
-    //     this.props.navigation.goBack();
-    //     this.props.navigation.params.employee({item:this.state.employee});
-    // }
-
     render() {
         return (
             <View style={[style.container]}>

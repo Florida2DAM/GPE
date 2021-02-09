@@ -25,7 +25,7 @@ export default class MainScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employee: {},
+            employee: this.restoreEmployee,
             isReady: false,
         };
     }
@@ -71,9 +71,6 @@ export default class MainScreen extends Component {
 
     render() {
         if (this.state.isReady) {
-            this.restoreEmployee().then(response => {
-                this.setState({employee: response});
-            });
             return (
                 <NavigationContainer>
                     <stack.Navigator headerMode={'none'}>
