@@ -2,11 +2,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import {  FlatList, Text, View } from 'react-native';
 import { ModifyQuantity } from '../components/ModifyQuantity';
 import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
-import { Divider, Overlay } from 'react-native-elements';
+import { Button, Divider, Overlay } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
 import { axios, GPEApi, style } from '../components/GPEConst';
 
@@ -21,7 +21,8 @@ export default class OrderConfirmsScreen extends Component {
 
                 { name: 'Test2', id: 2, price: 10.5 },
             ],
-            client: this.props.client
+            client: this.props.client,
+            visible: false
         };
 
     }
@@ -41,15 +42,38 @@ export default class OrderConfirmsScreen extends Component {
         })
         this.props.navigation.navigate('VisitSalesScreen');
     }
+    visible = () => {
+        this.setState({ visible: true })
+    }
+
+    invisible = () => {
+        this.setState({ visible: false })
+    }
 
     render() {
         return (
             <View style={style.container}>
-                <Overlay></Overlay>
+                <Overlay isVisible={this.state.visible} overlayStyle={{ width: "80%", height: "30%",alignItems:"center",justifyContent:"center"}}>
+                    <View style={{flexDirection:"column",justifyContent:"space-between"}}>
+                        <View style={{ alignSelf: 'center' }}>
+                            <Text style={{ fontSize: 20 }}>Are you sure to continue?</Text>
+                        </View>
+                        <View style={{ flexDirection: "row", justifyContent: 'space-around' ,alignItems:"flex-end"}}>
+                            <View>
+                                <Button title="cancel" onPress={this.invisible} containerStyle={{paddingRight:"4%"}} />
+                            </View>
+                            <View style={{paddingRight:"10%"}}>
+                                <Button title="ok" onPress={this.invisible} />
+                            </View>
+                        </View>
+                    </View>
+                </Overlay>
+
+
                 <View>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                        rightIcon={'check'} rightIconSize={48} pressLeftIcon={this.props.navigation.goBack()}
-                        pressRightIcon={ } />
+                        rightIcon={'check'} rightIconSize={48}
+                        pressRightIcon={this.visible} />
                 </View>
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={this.state.name} dni={this.state.dni} />
