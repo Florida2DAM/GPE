@@ -37,8 +37,7 @@ export default class MainScreen extends Component {
         });
     }
 
-    componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
-    }
+
 
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');

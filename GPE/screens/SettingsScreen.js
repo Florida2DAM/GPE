@@ -22,6 +22,14 @@ export default class SettingsScreen extends Component {
         this.restoreEmployee();
     }
 
+    componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
+        this.restoreEmployee().then(response => {
+            if (prevState.employee.Name !== response.Name) {
+                this.setState({employee: response});
+            }
+        });
+    }
+
     getEmployees = () => {
         axios.get(GPEApi + 'Employees').then((response) => {
             this.setState({employees: response.data});
