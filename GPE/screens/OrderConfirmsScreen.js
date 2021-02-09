@@ -14,37 +14,62 @@ export default class OrderConfirmsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'Juan',//this.props.client.Name,
-            dni: 'muchosnumeros',//this.props.client.Nie,
-            products: [],
-            //client: this.props.client,
+            orderLines: [],
+            totalPrice: 0,
+            client: this.props.client,
+            orderId: 0,
         };
 
     }
 
     addOrder = () => {
         axios.post(GPEApi + '/Orders', {
-            Date: Date,
-            DeliveryDate: "1900-01-01T00:00:00",
+            ClientId: this.state.client.ClientId,
+            Date: '',
+            DeliveryDate: '',
             Total: 1938.98,
             Delivered: false,
             Paid: 0.0,
             PayingMethod: null,
             Deliverer: "Jesus",
             EmployeeId: 2,
-        })
-        this.props.navigation.navigate('VisitSalesScreen');
+        }).then(this.getOrderId);
+    }
+
+    getOrderId = () => {
+        axios.get(GPEApi + 'Orders/GetLast').then((response) => {
+            this.setState({OrderId: response.OrderId}, () => {this.addOrderLines();});
+        });
+    }
+
+    addOrderLines = () => {
+        let products = [];
+        this.state.orderLines.forEach(item => {
+            item.OrderId = this.state.orderId;
+            products.push(item);
+        });
+        this.setState({orderLines: products});
+        console.log(this.state.orderLines);
+        axios.post(GPEApi + '/OrderLines', {orderLines: this.state.orderLines});
+    }
+
+    calculateTotalPrice = () => {
+        let total;
+        this.state.orderLines.forEach(product => {
+            total =+ product.Price
+        });
     }
 
     componentDidMount() {
-        this.setState({ products: this.props.route.params.orderLines })
+        this.setState({ orderLines: this.props.route.params.orderLines });
+        //calculateTotalPrice();
     }
 
     render() {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                    rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
+                    rightIcon={'navigate-next'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
 
                     pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
@@ -52,7 +77,7 @@ export default class OrderConfirmsScreen extends Component {
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
 
                 <FlatList
-                    data={this.state.products}
+                    data={this.state.orderLines}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => {
                         return (
@@ -63,7 +88,7 @@ export default class OrderConfirmsScreen extends Component {
                     }}
                 />
                 <View style={{ alignItems: 'center' }}>
-                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content="15000"
+                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content={this.state.totalPrice}
                         currency='€' />
                 </View>
             </View>
