@@ -25,23 +25,27 @@ export default class MainScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employee: this.restoreEmployee(),
+            employee:{},
             isReady: false,
         };
     }
+    
+    componentWillMount() {
+        this.restoreEmployee().then(response=>{
+            this.setState({employee: response}, () =>console.log(this.getName())  && console.log(this.state.employee))
+        })
 
-    componentDidMount() {
-        this.restoreEmployee().then(response => {
-            this.setState({employee: response}, () => console.log(response) && this.setState({isReady: true}));
-        });
+    }
+    getName=()=>{
+        return this.state.employee.Name
     }
 
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
+        return jsonValue != null ? JSON.parse(jsonValue): null;
     };
 
-    mainScreen = ({navigation}) => {
+    mainScreen = ({navigation},{employee}) => {
         return (
             <View style={style.container}>
                 <View style={{marginLeft: '5%', marginRight: '5%'}}>
@@ -62,7 +66,7 @@ export default class MainScreen extends Component {
                                onPress={() => navigation.navigate('SettingsScreen')}/>
                 </View>
                 <View style={{justifyContent: 'flex-end'}}>
-                    <Text style={{color: 'white', fontSize: 20}}>Employee:{this.state.employee.Name}</Text>
+                    <Text style={{color: 'white', fontSize: 20}}>Employee:{employee.Name}</Text>
                 </View>
 
             </View>
@@ -71,10 +75,11 @@ export default class MainScreen extends Component {
 
 
     render() {
+        let name=this.state.employee;
         return (
             <NavigationContainer>
                 <stack.Navigator headerMode={'none'}>
-                    <stack.Screen name='MainScreen' component={this.mainScreen}/>
+                    <stack.Screen name='MainScreen' component={this.mainScreen({navigation},{Name:name})}/>
                     <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
                     <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
                     <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>
