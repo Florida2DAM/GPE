@@ -58,13 +58,6 @@ export default class OrderConfirmsScreen extends Component {
         axios.post(GPEApi + '/OrderLines', {orderLines: this.state.orderLines});
     }
 
-    calculateTotalPrice = () => {
-        let total;
-        this.state.orderLines.forEach(product => {
-            total += product.Price
-        });
-    }
-
     componentDidMount() {
         this.setState({ orderLines: this.props.route.params.orderLines }, console.log(this.props.route.params.orderLines));
         this.setState({ client: this.props.client});
@@ -72,7 +65,7 @@ export default class OrderConfirmsScreen extends Component {
     }
 
     pressRightIcon = () => {
-        this.getOrderId();
+        this.addOrder();
         this.props.navigation.navigate('VisitSalesScreen');
     }
 
