@@ -51,6 +51,7 @@ export default class ClientAddScreen extends Component {
     };
     onPressLeftIcon = () => {
         console.log('Se pulsa el de la izquierda');
+        this.props.navigation.goBack()
     };
     onPressRightIcon = () => {
         console.log('Se pulsa el de la derecha');
@@ -75,6 +76,7 @@ export default class ClientAddScreen extends Component {
             'NIF': this.state.nif,
             'ContactName': this.state.conName,
         });
+        this.props.navigation.goBack()
     };
 
     render() {
