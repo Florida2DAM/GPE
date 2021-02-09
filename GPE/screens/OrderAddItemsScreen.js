@@ -25,9 +25,9 @@ export default class OrderAddItemsScreen extends Component {
     }
 
     componentDidMount() {
-        this.setState({ orderlines: this.props.route.params.orderline })
+        this.setState({ orderlines: this.props.route.params.orderLines })
         this.setState({ order: this.props.route.params.order })
-        this.setState({ article: this.props.route.params.article }, () => console.log(this.state.article));
+        this.setState({ article: this.props.route.params.article });
     }
 
     updateOrderLines = () => {
@@ -37,6 +37,7 @@ export default class OrderAddItemsScreen extends Component {
             Category: this.state.article.Category, Quantity: this.state.units,
             Iva: this.state.article.Iva, Discout: this.state.discount, TotalLine: this.state.total
         }
+        console.log("---------------------------------------------------------------");
         console.log("Sing: " + orderline); 
         let orderlines;
         if (this.state.orderlines !== undefined) {

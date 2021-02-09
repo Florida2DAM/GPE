@@ -7,6 +7,7 @@ import { NavigationBar } from '../components/NavigationBar';
 import { GPEFilter } from '../components/GPEFilter';
 import { ItemCard } from '../components/ItemCard';
 import { axios, GPEApi, style } from '../components/GPEConst';
+import { Button } from 'react-native';
 
 export default class OrderArticlesScreen extends Component {
     constructor() {
@@ -54,11 +55,7 @@ export default class OrderArticlesScreen extends Component {
         }
         if (this.props.route.params.order !== undefined) {
             this.setState({ order: this.props.route.params.order });
-        }
-        console.log("Order: " + this.state.order);
-        console.log("OrderLines: " + this.state.orderLines);
-        console.log("Employee: " + this.state.employeeId);
-        console.log("Client: " + this.state.client);
+        }        
     }
 
     setFilter = (filter) => {
@@ -81,6 +78,14 @@ export default class OrderArticlesScreen extends Component {
             this.setState({ items: itemList });
         }
     };
+
+    juanjo = () => {
+        console.log("---------------------------------------------------------------");
+        console.log("Order: " + this.state.order);
+        console.log("OrderLines: " + this.state.orderLines);
+        console.log("Employee: " + this.state.employeeId);
+        console.log("Client: " + this.state.client);
+    }
 
     render() {
         return (
@@ -113,6 +118,7 @@ export default class OrderArticlesScreen extends Component {
                     />
 
                 </View>
+                <Button title='Prueba' onPress={this.juanjo}></Button>
             </View>
         );
     }
