@@ -58,7 +58,11 @@ export default class ClientAddScreen extends Component {
         if (this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '' || this.state.name == '') {
             Alert.alert('You have empty inputs');
         } else {
-            this.initAxios();
+            if(this.state.postalCode.length!=5){
+                Alert.alert('Postal code must have 5 digits');
+            }else{
+                this.initAxios();
+            }
         }
     };
 
