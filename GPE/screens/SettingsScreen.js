@@ -31,12 +31,12 @@ export default class SettingsScreen extends Component {
     getEmployeeInfo = (e) => {
         this.state.employees.forEach(item => {
             if (item.Name === e) {
-                this.setState({employee: item},()=>this.storeEmployee(this.state.employee));
+                this.setState({employee: item}, () => this.storeEmployee(this.state.employee));
             }
         });
     };
 
-    async storeEmployee (value) {
+    async storeEmployee(value) {
         try {
             await AsyncStorage.setItem('employee', JSON.stringify(value));
         } catch (e) {
@@ -44,9 +44,9 @@ export default class SettingsScreen extends Component {
         }
     };
 
-    async restoreEmployee () {
+    async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
-        jsonValue != null ? this.setState({employee:JSON.parse(jsonValue)}) : null;
+        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
     };
 
     render() {

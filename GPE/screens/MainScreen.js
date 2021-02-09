@@ -16,8 +16,8 @@ import VisitDeliverScreen from './VisitDeliverScreen';
 import VisitSalesScreen from './VisitSalesScreen';
 import ClientsListScreen from './ClientsListScreen';
 import DeliverCheckScreen from './DeliverCheckScreen';
-import {style} from '../components/GPEConst';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {style} from '../components/GPEConst';
 
 const stack = createStackNavigator();
 
@@ -25,7 +25,7 @@ export default class MainScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employee: this.restoreEmployee,
+            employee: {},
             isReady: false,
         };
     }
