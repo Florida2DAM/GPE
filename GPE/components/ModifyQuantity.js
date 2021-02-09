@@ -47,7 +47,7 @@ export class ModifyQuantity extends Component {
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]}
                             onPress={this.props.remove}/>
-                    <Text style={styles.text}>Total: 20€</Text>
+                    <Text style={styles.text}>Total: {this.props.total}</Text>
                 </View>
             </View>
         );
