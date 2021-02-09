@@ -2,11 +2,15 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
+import {  FlatList, Text, View } from 'react-native';
 import { ModifyQuantity } from '../components/ModifyQuantity';
 import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
+<<<<<<< HEAD
 import { Divider } from 'react-native-elements';
+=======
+import { Button, Divider, Overlay } from 'react-native-elements';
+>>>>>>> c7ea33721580b22885d0d40bce7c48091272f4bd
 import { GPELabel } from '../components/GPELabel';
 import { axios, GPEApi, style } from '../components/GPEConst';
 
@@ -69,6 +73,13 @@ export default class OrderConfirmsScreen extends Component {
     pressRightIcon = () => {
         this.addOrder();
         this.props.navigation.navigate('VisitSalesScreen');
+    }
+    visible = () => {
+        this.setState({ visible: true })
+    }
+
+    invisible = () => {
+        this.setState({ visible: false })
     }
 
     render() {
