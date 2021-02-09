@@ -43,6 +43,40 @@ export default class OrderAddItemsScreen extends Component {
         };
     }
 
+    componentDidMount() {
+        this.setState({ orderlines: this.props.route.params.orderLines })
+        this.setState({ order: this.props.route.params.order })
+        this.setState({ article: this.props.route.params.article });
+    }
+
+    updateOrderLines = () => {
+        let orderline = {
+            OrderId: null, LineId: null, ArticleId: this.state.article.ArticleId, LotId: this.state.selectedLot,
+            Description: this.state.article.Description, Price: this.state.article.Price, Brand: this.state.article.Brand,
+            Category: this.state.article.Category, Quantity: this.state.units,
+            Iva: this.state.article.Iva, Discout: this.state.discount, TotalLine: this.state.total
+        }
+        console.log("---------------------------------------------------------------");
+        console.log("Sing: " + orderline); 
+        let orderlines;
+        if (this.state.orderlines !== undefined) {
+            orderlines = this.state.orderlines;
+        }
+        else orderlines = [];        
+        console.log("Plur 1: " + orderlines);
+        orderlines.push(orderline);
+        console.log("Plur 2: " + orderlines);
+        this.setState({ orderlines })
+    }
+
+    getTotal = () => {
+        let priceQuantity = this.state.article.Price * this.state.units;
+        let priceDiscount = priceQuantity - (priceQuantity * (this.state.discount / 100));
+        let priceIva = priceDiscount + (priceDiscount * (this.state.article.Iva / 100));
+        let priceDecimals = Math.trunc(priceIva * 100) / 100;
+        this.setState({ total: priceDecimals });
+    }
+
     getLot = (e) => {
         this.setState({selectedLot: e});
     };

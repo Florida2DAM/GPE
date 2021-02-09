@@ -10,6 +10,10 @@ export class ModifyQuantity extends Component {
         };
     }
 
+    componentDidMount() {
+        this.setState({ units: this.props.units });
+    }
+
     increaseUnits = () => {
         this.setState({units: this.state.units + 1});
     };

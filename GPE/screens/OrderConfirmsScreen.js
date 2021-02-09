@@ -40,14 +40,19 @@ export default class OrderConfirmsScreen extends Component {
         this.props.navigation.navigate('VisitSalesScreen');
     }
 
+    componentDidMount() {
+        this.setState({ products: this.props.route.params.orderLines })
+    }
+
     render() {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                     rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
-                    pressRightIcon={this.addOrder} />
+
+                    pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <ContactInfo name={this.state.name} dni={this.state.dni} />
+                <ContactInfo name={'WEI Luo'} dni="w12321432" />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
 
                 <FlatList
@@ -56,7 +61,7 @@ export default class OrderConfirmsScreen extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity name={item.Description} price={item.Price} id={item.ArticleId} />
+                                <ModifyQuantity name={item.Description} price={item.Price} id={item.ArticleId} units={item.Quantity} />
                             </View>
                         );
                     }}
