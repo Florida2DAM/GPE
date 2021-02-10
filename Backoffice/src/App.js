@@ -4,12 +4,12 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import * as React from 'react';
 import {HashRouter, NavLink, Route, Switch} from 'react-router-dom';
-import {LotsView} from './components/LotsView';
-import {ArticlesView} from './components/ArticlesView';
-import {ReportsView} from './components/ReportsView';
-import {ClientsView} from './components/ClientsView';
-import {EmployeesView} from "./components/EmployeesView";
-import {OrdersView} from "./components/OrdersView";
+import {LotsView} from './screens/LotsView';
+import {ArticlesView} from './screens/ArticlesView';
+import {ReportsView} from './screens/ReportsView';
+import {ClientsView} from './screens/ClientsView';
+import {EmployeesView} from "./screens/EmployeesView";
+import {OrdersView} from "./screens/OrdersView";
 
 export default class App extends React.Component {
     render() {

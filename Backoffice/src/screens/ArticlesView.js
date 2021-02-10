@@ -180,23 +180,7 @@ export class ArticlesView extends React.Component {
                             <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
                                     className='p-button-secondary p-mr-2'/>
                         </div>
-                        <div>
-                            <DataTable value={this.state.articles}>
-                                <Column style={{textAlign: 'center', width: '15%'}} field='ArticleId'
-                                        header='Id'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Description'
-                                        header='Description'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Brand'
-                                        header='Brand'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Category'
-                                        header='Category'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Price'
-                                        header='Price'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Iva'
-                                        header='IVA'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Enabled' header='Enabled'/>
-                            </DataTable>
-                        </div>
+
                     </TabPanel>
                     <TabPanel header='New Articles'>
                         <div className='flexCenter'>
@@ -261,6 +245,23 @@ export class ArticlesView extends React.Component {
                             </DataTable>
                         </div>
                     </TabPanel>
+                    <div>
+                        <DataTable value={this.state.articles}>
+                            <Column style={{textAlign: 'center', width: '15%'}} field='ArticleId'
+                                    header='Id'/>
+                            <Column style={{textAlign: 'center', width: '25%'}} field='Description'
+                                    header='Description'/>
+                            <Column style={{textAlign: 'center', width: '25%'}} field='Brand'
+                                    header='Brand'/>
+                            <Column style={{textAlign: 'center', width: '25%'}} field='Category'
+                                    header='Category'/>
+                            <Column style={{textAlign: 'center', width: '25%'}} field='Price'
+                                    header='Price'/>
+                            <Column style={{textAlign: 'center', width: '25%'}} field='Iva'
+                                    header='IVA'/>
+                            <Column style={{textAlign: 'center', width: '25%'}} field='Enabled' header='Enabled'/>
+                        </DataTable>
+                    </div>
                 </TabView>
             </Fragment>
         )
