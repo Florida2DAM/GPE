@@ -16,7 +16,7 @@ export default class OrderArticlesScreen extends Component {
             allArticles: [],
             articles: [],
             orderLines: [],
-            client: [],
+            client: {},
             employeeId: 0,
             order: {
                 ClientId: 0,
@@ -43,6 +43,12 @@ export default class OrderArticlesScreen extends Component {
         if (this.props.route.params.newOrderLines !== undefined) {
             if (this.props.route.params.newOrderLines !== this.state.orderLines) this.setState({ orderLines: this.props.route.params.newOrderLines });
         }
+        if (this.props.route.params !== undefined) {
+            if (this.props.route.params.client !== undefined && this.state.client.length === 0) {
+                console.log("Tu puta madre");
+                this.setState({ client: this.props.route.params.client });
+            }
+        }
     }
 
     getArticles = () => {
@@ -59,12 +65,10 @@ export default class OrderArticlesScreen extends Component {
         this.setState({ employeeId: this.props.route.params.employeeId });
         if (this.props.route.params.orderLines !== undefined) {
             this.setState({ orderLines: this.props.route.params.orderLines });
-            console.log("Funciona");
         }
         if (this.props.route.params.order !== undefined) {
             this.setState({ order: this.props.route.params.order });
         }
-        console.log("Tal vez");
     }
 
     setFilter = (filter) => {

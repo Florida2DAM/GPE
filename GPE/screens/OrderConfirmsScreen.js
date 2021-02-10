@@ -66,7 +66,8 @@ export default class OrderConfirmsScreen extends Component {
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF} 
                     change={()=>{ this.setState({juanjo: this.state.juanjo++});
-                        this.props.navigation.navigate('VisitSalesScreen', {juanjo: this.state.juanjo, orderLines: this.props.route.params.orderLines});}}/>
+                        this.props.navigation.navigate('VisitSalesScreen', {juanjo: this.state.juanjo, 
+                            orderLines: this.props.route.params.orderLines, client: this.props.route.params.client });}}/>
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <FlatList
                     data={this.props.route.params.orderLines}
