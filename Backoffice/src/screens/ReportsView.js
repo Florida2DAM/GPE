@@ -3,10 +3,7 @@ import {Fragment} from 'react';
 import '../App.css';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Chart} from 'primereact/chart';
-
-const axios = require('axios');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+import {axios, GPEApi} from '../components/GPEConst'
 
 export class ReportsView extends React.Component {
 
