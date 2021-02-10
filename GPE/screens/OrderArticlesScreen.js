@@ -74,17 +74,17 @@ export default class OrderArticlesScreen extends Component {
     };
 
     filter = () => {
-        let itemList = [];
+        let articlesList = [];
         if (this.state.filter === '') {
-            this.setState({ items: this.state.allItems });
+            this.setState({ articles: this.state.allArticles });
         } else {
-            this.state.allItems.forEach(element => {
+            this.state.allArticles.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
                 if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) || element.ArticleId === filterText) {
-                    itemList.push(element);
+                    articlesList.push(element);
                 }
             });
-            this.setState({ items: itemList });
+            this.setState({ articles: articlesList });
         }
     };
 
@@ -105,7 +105,7 @@ export default class OrderArticlesScreen extends Component {
                         client: this.state.client,
                         employeeId: this.state.employeeId
                     })} />
-                <GPEFilter />
+                <GPEFilter onChange={this.setFilter}/>
                 <View style={[style.container, { flexDirection: 'column' }]}>
                     <FlatList
                         data={this.state.articles}
