@@ -16,7 +16,6 @@ export class GPEPicker extends Component {
         this.props.getOption(e);
     };
 
-
     render() {
         let itemsList = this.props.getItemsList;
         let screen = this.props.getScreen;
@@ -35,7 +34,7 @@ export class GPEPicker extends Component {
                             <Picker.Item label={item.Name} value={item.Name} key={index}/>
                         );
                     })}
-                    {screen === 'OrderAddItemsScreen' && itemsList.map((item, index) => {
+                    {screen === 'OrderAddItemsScreen' &&  itemsList.map((item, index) => {
                         return (
                             <Picker.Item label={item.LotId} value={item.LotId} key={index}/>
                         );
