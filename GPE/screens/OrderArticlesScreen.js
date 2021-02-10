@@ -30,6 +30,7 @@ export default class OrderArticlesScreen extends Component {
                 Deliverer: "",
                 EmployeeId: 0
             }
+
         };
     }
 
@@ -47,15 +48,17 @@ export default class OrderArticlesScreen extends Component {
         });
     }
 
-    getInfo = () => {
+    getInfo = () => {        
         this.setState({client: this.props.route.params.client});
         this.setState({employeeId: this.props.route.params.employeeId});
         if (this.props.route.params.orderLines !== undefined) {
             this.setState({ orderLines: this.props.route.params.orderLines });
+            console.log("Funciona");
         }
         if (this.props.route.params.order !== undefined) {
             this.setState({ order: this.props.route.params.order });
-        }        
+        }
+        console.log("Tal vez");
     }
 
     setFilter = (filter) => {
@@ -116,7 +119,7 @@ export default class OrderArticlesScreen extends Component {
                             </Pressable>
                         )}
                     />
-                </View>                
+                </View>
             </View>
         );
     }

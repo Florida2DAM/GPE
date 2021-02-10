@@ -91,7 +91,6 @@ export default class OrderAddItemsScreen extends Component {
     addItemList = () => {
         this.updateOrderLines();
         this.props.navigation.navigate('OrderArticlesScreen', { orderlines: this.state.orderlines, order: this.state.order });
-        console.log('Item añadido a la lista.');
     };
 
     render() {

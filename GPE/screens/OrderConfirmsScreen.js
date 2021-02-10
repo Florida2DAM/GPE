@@ -18,32 +18,57 @@ export default class OrderConfirmsScreen extends Component {
     };
 
     componentDidMount() {
-        this.setState({ orderLines: this.props.route.params.orderLines }, 
-            () => {this.updateInfo([{LineId: -1}]);  this.setProductsId();});
+
+        //this.props.route.params.orderLines
+        this.updateInfo([{LineId: -1}]);  
+        this.setProductsId();
+        /*this.setState({ orderLines: this.props.route.params.orderLines }, 
+            () => {this.updateInfo([{LineId: -1}]);  this.setProductsId();});*/
     }
 
     setProductsId = () => {
         let i = 1;
-        this.state.orderLines.forEach(element => {                        
+        this.props.route.params.orderLines.forEach(element => {                        
             element.LineId = i++;;
         });
+        
+        /*let i = 1;
+        this.state.orderLines.forEach(element => {                        
+            element.LineId = i++;;
+        });*/
     }
 
-    removeProduct = (id) => {
-        this.setState({orderLines: this.state.orderLines.filter(function(article) {
+    removeProduct = (id) => {     
+        this.props.route.params.orderLines = this.props.route.params.orderLines.filter(function(article) {
+            console.log(id +"---"+article.LineId); 
+            console.log(id !== article.LineId);  
+            return id !== article.LineId;     
+        });
+
+        console.log(this.props.route.params.orderLines);
+        //console.log(newOrderLines);
+        this.updateInfo(this.props.route.params.orderLines);
+        /*this.setState({orderLines: this.state.orderLines.filter(function(article) {
             return id !== article.LineId;            
-        })}, () => this.updateInfo(this.state.orderLines));        
+        })}, () => this.updateInfo(this.state.orderLines));*/
     }
 
     updateInfo = (product) => {
         let total = 0;
+        this.props.route.params.orderLines.forEach(element => {
+            if (element.LineId === product.LineId) element = product;
+            total += element.TotalLine;
+        });
+        total = Math.trunc(total * 100) / 100;
+        this.setState({total});
+        /*let total = 0;
         this.state.orderLines.forEach(element => {
             if (element.LineId === product.LineId) element = product;
             total += element.TotalLine;
         });
         total = Math.trunc(total * 100) / 100;
         this.setState({total});
-        console.log(this.state.orderLines);
+        console.log(this.state.orderLines);*/
     }
 
     render() {
@@ -51,14 +76,14 @@ export default class OrderConfirmsScreen extends Component {
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                     rightIcon={'check'} rightIconSize={48} 
-                    pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {
-                        orderLines: this.state.orderLines})}
+                    pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen'
+                        )}
                     pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <FlatList
-                    data={this.state.orderLines}
+                    data={this.props.route.params.orderLines}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => {
                         return (
