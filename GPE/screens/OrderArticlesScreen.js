@@ -28,7 +28,7 @@ export default class OrderArticlesScreen extends Component {
                 Paid: 0,
                 PayingMethod: "",
                 Deliverer: "",
-                EmployeeId: 0
+                EmployeeId: 0,
             }
 
         };
@@ -37,6 +37,12 @@ export default class OrderArticlesScreen extends Component {
     componentDidMount() {
         this.getArticles();
         this.getInfo();
+    }
+
+    componentDidUpdate() {
+        if (this.props.route.params.newOrderLines !== undefined) {
+            if (this.props.route.params.newOrderLines !== this.state.orderLines) this.setState({ orderLines: this.props.route.params.newOrderLines });
+        }
     }
 
     getArticles = () => {
@@ -48,9 +54,9 @@ export default class OrderArticlesScreen extends Component {
         });
     }
 
-    getInfo = () => {        
-        this.setState({client: this.props.route.params.client});
-        this.setState({employeeId: this.props.route.params.employeeId});
+    getInfo = () => {
+        this.setState({ client: this.props.route.params.client });
+        this.setState({ employeeId: this.props.route.params.employeeId });
         if (this.props.route.params.orderLines !== undefined) {
             this.setState({ orderLines: this.props.route.params.orderLines });
             console.log("Funciona");
@@ -82,29 +88,23 @@ export default class OrderArticlesScreen extends Component {
         }
     };
 
-    juanjo = () => {
-        console.log("---------------------------------------------------------------");
-        console.log("Order: " + this.state.order);
-        console.log("OrderLines: " + this.state.orderLines);
-        console.log("Employee: " + this.state.employeeId);
-        console.log("Client: " + this.state.client);
-    }
-
     render() {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Add Items'}
                     pressLeftIcon={() => this.props.navigation.navigate('VisitSalesScreen', {
-                        orderLines: this.state.orderLines, 
+                        orderLines: this.state.orderLines,
                         order: this.state.order,
                         client: this.state.client,
-                        employeeId: this.state.employeeId})}
+                        employeeId: this.state.employeeId
+                    })}
                     rightIcon={'arrow-forward-ios'} rightIconSize={40}
                     pressRightIcon={() => this.props.navigation.navigate('OrderConfirmsScreen', {
-                        orderLines: this.state.orderLines, 
+                        orderLines: this.state.orderLines,
                         order: this.state.order,
                         client: this.state.client,
-                        employeeId: this.state.employeeId})} />
+                        employeeId: this.state.employeeId
+                    })} />
                 <GPEFilter />
                 <View style={[style.container, { flexDirection: 'column' }]}>
                     <FlatList
