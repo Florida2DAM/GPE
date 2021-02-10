@@ -1,107 +1,91 @@
-/* eslint-disable prettier/prettier */
 'use strict';
 
 import React, { Component } from 'react';
-import {  FlatList, Text, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { ModifyQuantity } from '../components/ModifyQuantity';
 import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
 import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
+import { GPEModal } from '../components/GPEModal';
 import { axios, GPEApi, style } from '../components/GPEConst';
+import { Button } from 'react-native';
 
 export default class OrderConfirmsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orderLines: [],
-            totalPrice: 0,
-            client: '',
-            orderId: '',
+            total: 0,
+            itemIdRemove: -1,
+            visibleRemove: false,
+            juanjo: 0
         };
-
-    }
-
-    addOrder = () => {
-        axios.post(GPEApi + '/Orders', {
-            ClientId: 2,
-            Date: '2021-02-09',
-            DeliveryDate: '',
-            Total: 1938.98,
-            Delivered: false,
-            Paid: 0.0,
-            PayingMethod: null,
-            Deliverer: 'Jesus',
-            EmployeeId: 2,
-        }).then(this.getOrderId);
-    }
-
-    getOrderId = () => {
-        axios.get(GPEApi + 'Orders/GetLast').then((response) => {
-            console.log(response.data);
-            this.setState({ orderId: response.data }, () => { this.addOrderLines(); });
-        });
-    }
-
-    addOrderLines = () => {
-        let products = [];
-        let assignId = 1;
-        this.state.orderLines.forEach(item => {
-            item.OrderId = this.state.orderId;
-            console.log("AH");
-            item.LineId = assignId;
-            assignId += 1;
-            products.push(item);
-            console.log(item);
-        });
-        this.setState({ orderLines: products });
-        console.log(this.state.orderLines);
-        let orderLines = this.state.orderLines;
-        axios.post(GPEApi + '/OrderLines', { orderLines });
-    }
+    }    
 
     componentDidMount() {
-        this.setState({ orderLines: this.props.route.params.orderLines }, console.log(this.props.route.params.orderLines));
-        this.setState({ client: this.props.client });
-        //calculateTotalPrice();
+        this.updateInfo();  
+        this.setProductsId();
     }
 
-    pressRightIcon = () => {
-        this.addOrder();
-        this.props.navigation.navigate('VisitSalesScreen');
-    }
-    visible = () => {
-        this.setState({ visible: true })
+    setProductsId = () => {
+        let i = 1;
+        this.props.route.params.orderLines.forEach(element => {                        
+            element.LineId = i++;;
+        });
     }
 
-    invisible = () => {
-        this.setState({ visible: false })
+    removeProduct = () => {         
+        this.props.route.params.orderLines = this.props.route.params.orderLines.filter((article) => {
+            return this.state.itemIdRemove !== article.LineId;     
+        });
+        this.updateInfo();
+    }
+
+    updateInfo = () => {
+        let total = 0;
+        this.props.route.params.orderLines.forEach(element => {
+            total += element.TotalLine;
+        });
+        total = Math.trunc(total * 100) / 100;
+        this.setState({total});
+    }
+
+    changeVisibleRemove = () => {
+        this.setState({visibleRemove: !this.state.visibleRemove});
     }
 
     render() {
         return (
             <View style={style.container}>
+                <GPEModal isVisible={this.state.visibleRemove} content='Do you want to delete the item?' leftButtonTitle='Cancel' 
+                    rightButtonTitle='Confirm' leftButtonPress={this.changeVisibleRemove} 
+                    rightButtonPress={() => { this.changeVisibleRemove(); this.removeProduct();}}/>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                    rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
-
-                    pressRightIcon={this.pressRightIcon} />
+                    rightIcon={'check'} rightIconSize={48} 
+                    pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {newOrderLines: this.props.route.params.orderLines, 
+                        client: this.props.route.params.client})}
+                    pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <ContactInfo name={'WEI Luo'} dni="w12321432" />
+                <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF} 
+                    change={()=>{ this.setState({juanjo: this.state.juanjo++});
+                        this.props.navigation.navigate('VisitSalesScreen', {juanjo: this.state.juanjo, 
+                            orderLines: this.props.route.params.orderLines, client: this.props.route.params.client });}}/>
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-
                 <FlatList
-                    data={this.state.orderLines}
+                    data={this.props.route.params.orderLines}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity name={item.Description} price={item.Price} id={item.ArticleId} units={item.Quantity} />
+                                <ModifyQuantity orderLine={item} remove={() => {this.changeVisibleRemove();
+                                    this.setState({itemIdRemove: item.LineId}); }} 
+                                    itemChange={this.updateInfo}/>
                             </View>
                         );
                     }}
                 />
                 <View style={{ alignItems: 'center' }}>
-                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content={this.state.totalPrice}
+                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content={this.state.total}
                         currency='€' />
                 </View>
             </View>
