@@ -1,8 +1,9 @@
+/* eslint-disable prettier/prettier */
 import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {GPEButton} from '../components/GPEButton';
 import {GPELogo} from '../components/GPELogo';
 import ClientAddScreen from './ClientAddScreen';
@@ -16,31 +17,18 @@ import VisitDeliverScreen from './VisitDeliverScreen';
 import VisitSalesScreen from './VisitSalesScreen';
 import ClientsListScreen from './ClientsListScreen';
 import DeliverCheckScreen from './DeliverCheckScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {style} from '../components/GPEConst';
 
+const style = require('../components/Styles');
 const stack = createStackNavigator();
 
 export default class MainScreen extends Component {
     constructor() {
         super();
         this.state = {
-            employee: {},
-            isReady: false,
+            // employeeType: 'salesMan',
+            employeeType: 'deliveryMan',
         };
     }
-
-    componentDidMount() {
-        this.restoreEmployee().then(response => {
-            this.setState({employee: response});
-            this.setState({isReady: true});
-        });
-    }
-
-    async restoreEmployee() {
-        const jsonValue = await AsyncStorage.getItem('employee');
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-    };
 
     mainScreen = ({navigation}) => {
         return (
@@ -52,9 +40,12 @@ export default class MainScreen extends Component {
                 </View>
                 <View style={[style.flexRowCenter, {justifyContent: 'space-evenly', marginTop: '5%'}]}>
                     <GPEButton iconName='local-shipping' iconSize={60} buttonName='VISIT'
-                               onPress={this.state.employee.Type === 'Salesman' ? () => navigation.navigate('VisitSalesScreen') : () => navigation.navigate('VisitDeliverScreen')}/>
+                               onPress={this.state.employeeType === 'salesMan' ? () => navigation.navigate('VisitSalesScreen') : () => navigation.navigate('VisitDeliverScreen')}/>
                     <GPEButton iconName='contact-page' iconSize={60} buttonName='CLIENTS'
-                               onPress={() => navigation.navigate('ClientsListScreen')}/>
+                               onPress={() => navigation.navigate('ClientsListScreen', {
+                                   id: '2',
+                                   employeeType: this.state.employeeType,
+                               })}/>
                 </View>
                 <View style={[style.flexRowCenter, {justifyContent: 'space-evenly', marginTop: '5%'}]}>
                     <GPEButton iconName='category' iconSize={60} buttonName='ITEMS'
@@ -62,35 +53,28 @@ export default class MainScreen extends Component {
                     <GPEButton iconName='settings' iconSize={60} buttonName='SETTINGS'
                                onPress={() => navigation.navigate('SettingsScreen')}/>
                 </View>
-                <View style={{flexDirection:'row', paddingTop:'25%', justifyContent:'space-evenly'}}>
-                    <Text style={{color: 'white', fontSize: 30}}>{this.state.employee.Name}</Text>
-                    <Text style={{color: 'white', fontSize: 30}}>{this.state.employee.Type}</Text>
-                </View>
             </View>
         );
     };
 
     render() {
-        if (this.state.isReady) {
-            return (
-                <NavigationContainer>
-                    <stack.Navigator headerMode={'none'}>
-                        <stack.Screen name='MainScreen' component={this.mainScreen}/>
-                        <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
-                        <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
-                        <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>
-                        <stack.Screen name='DeliverCheckScreen' component={DeliverCheckScreen}/>
-                        <stack.Screen name='ItemsListScreen' component={ItemsListScreen}/>
-                        <stack.Screen name='OrderAddItemsScreen' component={OrderAddItemsScreen}/>
-                        <stack.Screen name='OrderArticlesScreen' component={OrderArticlesScreen}/>
-                        <stack.Screen name='OrderConfirmsScreen' component={OrderConfirmsScreen}/>
-                        <stack.Screen name='SettingsScreen' component={SettingsScreen}/>
-                        <stack.Screen name='VisitDeliverScreen' component={VisitDeliverScreen}/>
-                        <stack.Screen name='VisitSalesScreen' component={VisitSalesScreen}/>
-                    </stack.Navigator>
-                </NavigationContainer>
-            );
-        }
-        return <View/>;
+        return (
+            <NavigationContainer>
+                <stack.Navigator headerMode={'none'}>
+                    <stack.Screen name='MainScreen' component={this.mainScreen}/>
+                    <stack.Screen name='ClientAddScreen' component={ClientAddScreen}/>
+                    <stack.Screen name='ClientsListScreen' component={ClientsListScreen}/>
+                    <stack.Screen name='DeliverPaymentScreen' component={DeliverPaymentScreen}/>
+                    <stack.Screen name='DeliverCheckScreen' component={DeliverCheckScreen}/>
+                    <stack.Screen name='ItemsListScreen' component={ItemsListScreen}/>
+                    <stack.Screen name='OrderAddItemsScreen' component={OrderAddItemsScreen}/>
+                    <stack.Screen name='OrderArticlesScreen' component={OrderArticlesScreen}/>
+                    <stack.Screen name='OrderConfirmsScreen' component={OrderConfirmsScreen}/>
+                    <stack.Screen name='SettingsScreen' component={SettingsScreen}/>
+                    <stack.Screen name='VisitDeliverScreen' component={VisitDeliverScreen}/>
+                    <stack.Screen name='VisitSalesScreen' component={VisitSalesScreen}/>
+                </stack.Navigator>
+            </NavigationContainer>
+        );
     }
 }
