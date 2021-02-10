@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEInput} from '../components/GPEInput';
 import {axios, GPEApi, style} from '../components/GPEConst';
@@ -54,13 +54,13 @@ export default class ClientAddScreen extends Component {
     };
     onPressRightIcon = () => {
         if (this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '' || this.state.name === '') {
-            Alert.alert('You have empty inputs');
+            alert('You have empty inputs');
         } else {
             if (this.state.postalCode.length !== 5) {
-                Alert.alert('Postal code must have 5 digits');
+                alert('Postal code must have 5 digits');
             } else {
                 if (this.nifTest(this.state.nif) === false) {
-                    Alert.alert('Write a correct Nif');
+                    alert('Write a correct Nif');
                 } else {
                     this.initAxios();
                 }
@@ -77,7 +77,7 @@ export default class ClientAddScreen extends Component {
         const rightLetter = letters[NIFNumber % 23];
 
         if (NIFLetter.toUpperCase() !== rightLetter) {
-            Alert.alert('Letter incorrect' + '\n' + 'Maybe the right one is this: ' + rightLetter);
+            alert('Letter incorrect' + '\n' + 'Maybe the right one is this: ' + rightLetter);
             return false;
         } else {
             return true;
@@ -107,27 +107,27 @@ export default class ClientAddScreen extends Component {
                                pressRightIcon={this.onPressRightIcon}/>
                 <ScrollView>
                     <View style={{alignItems: 'center'}}>
-                        <GPEInput title={'Name'} placeholder={'Name'} width='90%' height={5} marginTop='10%'
+                        <GPEInput title={'Name'} placeholder={'Name'} height={5} marginTop='10%'
                                   onChangeText={this.getName}/>
-                        <GPEInput title={'Email'} placeholder={'Email'} width='90%' height={5} marginTop='5%'
+                        <GPEInput title={'Email'} placeholder={'Email'} height={5} marginTop='5%'
                                   onChangeText={this.getEmail}/>
-                        <GPEInput title={'Contact Name'} placeholder={'Contact name'} width='90%' height={5}
+                        <GPEInput title={'Contact Name'} placeholder={'Contact name'} height={5}
                                   marginTop='5%'
                                   onChangeText={this.getConName}/>
-                        <GPEInput title={'NIF'} placeholder={'NIF'} width='90%' height={5}
+                        <GPEInput title={'NIF'} placeholder={'NIF'} height={5}
                                   marginTop='5%'
                                   onChangeText={this.getNif}/>
-                        <GPEInput title={'Phone number'} placeholder={'Phone number'} width='90%' height={5}
+                        <GPEInput title={'Phone number'} placeholder={'Phone number'} height={5}
                                   marginTop='5%' keyboardType='numeric' onChangeText={this.getPhone}/>
-                        <GPEInput title={'City'} placeholder={'City'} width='90%' height={5} marginTop='5%'
+                        <GPEInput title={'City'} placeholder={'City'} height={5} marginTop='5%'
                                   onChangeText={this.getCity}/>
-                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'} width='90%' height={5}
+                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'} height={5}
                                   marginTop='5%' keyboardType='numeric'
                                   onChangeText={this.getPostalCode}/>
-                        <GPEInput title={'Province'} placeholder={'Province'} width='90%' height={5}
+                        <GPEInput title={'Province'} placeholder={'Province'} height={5}
                                   marginTop='5%'
                                   onChangeText={this.getProvince}/>
-                        <GPEInput title={'Address'} placeholder={'Address'} width='90%' height={5} marginTop='5%'
+                        <GPEInput title={'Address'} placeholder={'Address'} height={5} marginTop='5%'
                                   onChangeText={this.getAddress}/>
                     </View>
                 </ScrollView>
