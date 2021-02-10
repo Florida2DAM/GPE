@@ -1,6 +1,6 @@
 import {NavigationBar} from '../components/NavigationBar';
 import React, {Component} from 'react';
-import {Alert, ScrollView, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {GPEPicker} from '../components/GPEPicker';
 import {GPEInput} from '../components/GPEInput';
 import {axios, GPEApi, style} from '../components/GPEConst';
@@ -26,8 +26,16 @@ export default class DeliverPaymentScreen extends Component {
     }
 
     updateOrderState = () => {
-        axios.put(GPEApi + 'Orders/Deliver?OrderId=' + this.state.order.OrderId + '&Paid=' + this.state.paidAmount + '&PayingMethod=' + this.state.methodSelected);
-        console.log(GPEApi + 'Orders/Deliver?OrderId=' + this.state.order.OrderId + '&Paid=' + this.state.paidAmount + '&PayingMethod=' + this.state.methodSelected);
+        const deliverPending = GPEApi + 'Orders/Deliver?OrderId=' + this.state.order.OrderId + '&Paid=0&PayingMethod=' + this.state.methodSelected;
+        const deliver = GPEApi + 'Orders/Deliver?OrderId=' + this.state.order.OrderId + '&Paid=' + this.state.paidAmount + '&PayingMethod=' + this.state.methodSelected;
+
+        if (this.checkFields()) {
+            this.state.methodSelected === 'Pending'
+                ? axios.put(deliverPending).then(this.props.navigation.navigate('VisitDeliverScreen'))
+                : axios.put(deliver).then(this.props.navigation.navigate('VisitDeliverScreen'));
+        } else {
+            alert('Please fill all fields first');
+        }
     };
 
     eraseContent = () => {
@@ -42,34 +50,25 @@ export default class DeliverPaymentScreen extends Component {
         this.setState({methodSelected: e});
     };
 
-    checkFields = () => {
+    checkFields() {
         let flag = true;
 
-        if (this.state.methodSelected === '' || this.state.methodSelected === undefined) {
+        if (this.state.methodSelected === '' || this.state.methodSelected === undefined || this.state.methodSelected === null) {
             flag = false;
         }
-        if (this.state.paidAmount === '' && this.state.methodSelected !== 'Pending' || this.state.paidAmount === undefined) {
+        if ((this.state.paidAmount === '' || this.state.paidAmount === undefined || this.state.paidAmount === null) && this.state.methodSelected !== 'Pending') {
             flag = false;
         }
         if ((this.state.methodSelected === 'Cash' || this.state.methodSelected === 'Credit Card') && this.state.paidAmount === '0') {
             flag = false;
         }
-        if (this.state.methodSelected.includes('Pending')) {
-            this.setState({paidAmount: '0'});
-        }
-        if (flag) {
-            this.updateOrderState();
-            this.props.navigation.navigate('VisitDeliverScreen');
-        } else {
-            Alert.alert('Please fill all fields first');
-        }
+        return flag;
     };
-
 
     visible = () => {
         this.setState({visible: true});
     };
-    unVisible = () => {
+    invisible = () => {
         this.setState({visible: false});
     };
 
@@ -82,12 +81,9 @@ export default class DeliverPaymentScreen extends Component {
                                        pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
                                        pressLeftIcon={() => this.props.navigation.goBack()}
                                        pressRightIcon={this.visible}/>
-
                         <GPEModal isVisible={this.state.visible} content='Are you sure to continue?'
-                                  leftButtonTitle='cancel' leftButtonPress={this.unVisible}
-                                  rightButtonTitle='continue' rightButtonPress={this.checkFields}
-                        />
-
+                                  leftButtonTitle='Cancel' leftButtonPress={this.invisible}
+                                  rightButtonTitle='Continue' rightButtonPress={this.updateOrderState}/>
                         <ScrollView>
                             <View style={style.flexColumnCenter}>
                                 <GPEPicker pickerSize={'80%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
