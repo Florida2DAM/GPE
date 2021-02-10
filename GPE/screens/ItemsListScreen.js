@@ -55,7 +55,7 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={40}
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
                                pageName={'Item List'}
                                pressLeftIcon={() => this.props.navigation.goBack()}/>
                 <GPEFilter onChange={this.setFilter}/>

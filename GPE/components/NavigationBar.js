@@ -8,7 +8,7 @@ export class NavigationBar extends Component {
         return (
             <>
                 <View style={styles.item}>
-                    <View style={[styles.part, {alignItems: 'flex-start', marginLeft: '2%'}]}>
+                    <View style={[styles.part, {alignItems: 'flex-start', marginLeft: this.props.marginLeft}]}>
                         <Icon
                             name={this.props.leftIcon}
                             type='material'
@@ -19,7 +19,7 @@ export class NavigationBar extends Component {
                     <View style={styles.part}>
                         <Text style={[styles.text, {textAlign: 'center'}]}>{this.props.pageName}</Text>
                     </View>
-                    <View style={[styles.part, {alignItems: 'flex-end', marginRight: '3%'}]}>
+                    <View style={[styles.part, {alignItems: 'flex-end', marginRight: this.props.marginRight}]}>
                         <Icon
                             name={this.props.rightIcon}
                             type='material'
