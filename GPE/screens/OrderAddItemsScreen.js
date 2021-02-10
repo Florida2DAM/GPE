@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert,StyleSheet, Text, View} from 'react-native';
 import {GPELabel} from '../components/GPELabel';
 import {GPEInput} from '../components/GPEInput';
 import {GPEPicker} from '../components/GPEPicker';
@@ -66,6 +66,24 @@ export default class OrderAddItemsScreen extends Component {
         let priceIva = priceDiscount + (priceDiscount * (this.state.article.Iva / 100));
         let priceDecimals = Math.trunc(priceIva * 100) / 100;
         this.setState({total: priceDecimals});
+    };
+    
+    checkFields = () => {
+        let flag = true;
+
+        if (this.state.units === null || this.state.units ===undefined) {
+            flag = false;
+        }
+
+        if (this.state.selectedLot === '' || this.state.selectedLot === undefined) {
+            flag = false;
+        }
+        console.log("Check , "+ flag);
+        if (flag) {     
+          this.addItemList();
+        } else {
+            Alert.alert('Please fill units fields and pick a lot.');
+        }
     };
 
     getLot = (e) => {
