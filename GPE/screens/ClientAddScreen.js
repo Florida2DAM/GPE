@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import { NavigationBar } from '../components/NavigationBar';
-import { GPEInput } from '../components/GPEInput';
-import { GPEModal } from '../components/GPEModal';
-import { axios, GPEApi, style } from '../components/GPEConst';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import {NavigationBar} from '../components/NavigationBar';
+import {GPEInput} from '../components/GPEInput';
+import {GPEModal} from '../components/GPEModal';
+import {axios, GPEApi, style} from '../components/GPEConst';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export default class ClientAddScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             name: '',
             email: '',
-            conName: '',
+            contact: '',
             nif: '',
             phone: '',
             address: '',
@@ -23,70 +22,74 @@ export default class ClientAddScreen extends Component {
             visible: false
         };
     }
-    getName = (n) => {
-        this.setState({ name: n });
+
+    // All handlers used for save/remove the states inserted by the user
+    nameHandler = (n) => {
+        this.setState({name: n});
     };
-    getEmail = (s) => {
-        this.setState({ email: s });
+    emailHandler = (s) => {
+        this.setState({email: s});
     };
-    getConName = (b) => {
-        this.setState({ conName: b });
+    contactHandler = (b) => {
+        this.setState({contact: b});
     };
-    getNif = (n) => {
-        this.setState({ nif: n });
+    nifHandler = (n) => {
+        this.setState({nif: n});
     };
-    getPhone = (p) => {
-        this.setState({ phone: p });
+    phoneHandler = (p) => {
+        this.setState({phone: p});
     };
-    getAddress = (l) => {
-        this.setState({ address: l });
+    addressHandler = (l) => {
+        this.setState({address: l});
     };
-    getCity = (l) => {
-        this.setState({ city: l });
+    cityHandler = (l) => {
+        this.setState({city: l});
     };
-    getPostalCode = (l) => {
-        this.setState({ postalCode: l });
+    postalCodeHandler = (l) => {
+        this.setState({postalCode: l});
     };
-    getProvince = (l) => {
-        this.setState({ province: l });
+    provinceHandler = (l) => {
+        this.setState({province: l});
     };
 
-
-    delName = () => {
-        this.setState({ name: '' });
+    nameRemove = () => {
+        this.setState({name: ''});
     };
-    delEmail = () => {
-        this.setState({ email: '' });
+    emailRemove = () => {
+        this.setState({email: ''});
     };
-    delConName = () => {
-        this.setState({ conName: '' });
+    contactRemove = () => {
+        this.setState({contact: ''});
     };
-    delNif = () => {
-        this.setState({ nif: '' });
+    nifRemove = () => {
+        this.setState({nif: ''});
     };
-    delPhone = () => {
-        this.setState({ phone: '' });
+    phoneRemove = () => {
+        this.setState({phone: ''});
     };
-    delAddress = () => {
-        this.setState({ address: '' });
+    addressRemove = () => {
+        this.setState({address: ''});
     };
-    delCity = () => {
-        this.setState({ city: '' });
+    cityRemove = () => {
+        this.setState({city: ''});
     };
-    delPostalCode = () => {
-        this.setState({ postalCode: '' });
+    postalCodeRemove = () => {
+        this.setState({postalCode: ''});
     };
-    delProvince = () => {
-        this.setState({ province: '' });
-    };
-
-    onPressLeftIcon = () => {
-        this.props.navigation.goBack();
+    provinceRemove = () => {
+        this.setState({province: ''});
     };
 
+    // Handlers used for hide/show our dialog to finally insert the new client
+    showConfirm = () => {
+        this.setState({visible: true});
+    }
+    hideConfirm = () => {
+        this.setState({visible: false});
+    }
 
-    nifTest = (nif) => {
-
+    // Method used for check if the NIF is right
+    checkNIF = (nif) => {
         const NIF = nif;
         const NIFLetter = NIF.substring(8, 9);
         const NIFNumber = parseInt(NIF.substring(0, 8));
@@ -101,6 +104,7 @@ export default class ClientAddScreen extends Component {
         }
     };
 
+    // Promise for insert in the remote server the new client and go back in navigation if this promise worked
     addNewClient = () => {
         axios.post(GPEApi + 'Clients', {
             'Name': this.state.name,
@@ -112,83 +116,79 @@ export default class ClientAddScreen extends Component {
             'Phone': this.state.phone,
             'Email': this.state.email,
             'NIF': this.state.nif,
-            'ContactName': this.state.conName,
+            'ContactName': this.state.contact,
         }).then(this.props.navigation.goBack());
     };
 
+    // Checking empty/filled inputs, if all inputs are filled it shows a dialog to confirm if we are sure about
+    // send the new client
     checkFields = () => {
         let flag = true;
         if (this.state.name === '') {
             flag = false;
-        }else if (this.state.email === '') {
+        } else if (this.state.email === '') {
             flag = false;
-        }else if (this.state.conName === '') {
+        } else if (this.state.contact === '') {
             flag = false;
-        }else if (this.state.nif === '' || this.nifTest(this.state.nif) === false) {
+        } else if (this.state.nif === '' || this.checkNIF(this.state.nif) === false) {
             flag = false;
             alert('Write a correct Nif');
-        }else if (this.state.phone === '') {
+        } else if (this.state.phone === '') {
             flag = false;
-        }else if (this.state.address === '') {
+        } else if (this.state.address === '') {
             flag = false;
-        }else if (this.state.province === '') {
+        } else if (this.state.province === '') {
             flag = false;
-        }else if (this.state.postalCode === '' || this.state.postalCode.length !== 5) {
+        } else if (this.state.postalCode === '' || this.state.postalCode.length !== 5) {
             alert("Postal code requires 5 numbers")
             flag = false;
-        }else if (this.state.city === '') {
+        } else if (this.state.city === '') {
             flag = false;
         }
-        
+
         if (flag) {
-            this.visible()
+            this.showConfirm()
         } else {
             alert('Please fill all fields first');
         }
     };
 
-
-    visible = () => {
-        this.setState({ visible: true });
-    }
-    invisible = () => {
-        this.setState({ visible: false });
-    }
-
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50} pressLeftIcon={this.onPressLeftIcon}
-                    pageName={'Add Client'} rightIcon={'done'} rightIconSize={50} 
-                    pressRightIcon={this.checkFields} />
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
+                               pressLeftIcon={() => this.props.navigation.goBack()}
+                               pageName={'Add Client'} rightIcon={'done'} rightIconSize={50}
+                               pressRightIcon={this.checkFields}/>
                 <GPEModal isVisible={this.state.visible} content='Do you want to add a new client?'
-                    leftButtonTitle='Cancel' leftButtonPress={this.invisible}
-                    rightButtonTitle='Continue' rightButtonPress={this.addNewClient}
-                />
+                          leftButtonTitle='Cancel' leftButtonPress={this.hideConfirm}
+                          rightButtonTitle='Continue' rightButtonPress={this.addNewClient}/>
                 <ScrollView>
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={{alignItems: 'center'}}>
                         <GPEInput title={'Name'} placeholder={'Name'} height={5} marginTop='10%'
-                            onChangeText={this.getName} delete={this.delName} value={this.state.name}/>
+                                  onChangeText={this.nameHandler} delete={this.nameRemove} value={this.state.name}/>
                         <GPEInput title={'Email'} placeholder={'Email'} height={5} marginTop='5%'
-                            onChangeText={this.getEmail} delete={this.delEmail} value={this.state.email}/>
-                        <GPEInput title={'Contact Name'} placeholder={'Contact name'} height={5}
-                            marginTop='5%'
-                            onChangeText={this.getConName} delete={this.delConName} value={this.state.conName}/>
-                        <GPEInput title={'NIF'} placeholder={'NIF'} height={5}
-                            marginTop='5%'
-                            onChangeText={this.getNif} delete={this.delNif} value={this.state.nif}/>
-                        <GPEInput title={'Phone number'} placeholder={'Phone number'} height={5}
-                            marginTop='5%' keyboardType='numeric' onChangeText={this.getPhone} delete={this.delPhone} value={this.state.phone}/>
+                                  onChangeText={this.emailHandler} delete={this.emailRemove} value={this.state.email}/>
+                        <GPEInput title={'Contact Name'} placeholder={'Contact name'} height={5} marginTop='5%'
+                                  onChangeText={this.contactHandler} delete={this.contactRemove}
+                                  value={this.state.contact}/>
+                        <GPEInput title={'NIF'} placeholder={'NIF'} height={5} marginTop='5%'
+                                  onChangeText={this.nifHandler} delete={this.nifRemove} value={this.state.nif}/>
+                        <GPEInput title={'Phone number'} placeholder={'Phone number'} height={5} marginTop='5%'
+                                  keyboardType='numeric' onChangeText={this.phoneHandler}
+                                  delete={this.phoneRemove} value={this.state.phone}/>
                         <GPEInput title={'City'} placeholder={'City'} height={5} marginTop='5%'
-                            onChangeText={this.getCity} delete={this.delCity} value={this.state.city}/>
-                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'} height={5}
-                            marginTop='5%' keyboardType='numeric'
-                            onChangeText={this.getPostalCode} delete={this.delPostalCode} value={this.state.postalCode}/>
-                        <GPEInput title={'Province'} placeholder={'Province'} height={5}
-                            marginTop='5%'
-                            onChangeText={this.getProvince} delete={this.delProvince} value={this.state.province}/>
+                                  onChangeText={this.cityHandler} delete={this.cityRemove} value={this.state.city}/>
+                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'} height={5} marginTop='5%'
+                                  keyboardType='numeric'
+                                  onChangeText={this.postalCodeHandler} delete={this.postalCodeRemove}
+                                  value={this.state.postalCode}/>
+                        <GPEInput title={'Province'} placeholder={'Province'} height={5} marginTop='5%'
+                                  onChangeText={this.provinceHandler} delete={this.provinceRemove}
+                                  value={this.state.province}/>
                         <GPEInput title={'Address'} placeholder={'Address'} height={5} marginTop='5%'
-                            onChangeText={this.getAddress} delete={this.delAddress} value={this.state.address}/>
+                                  onChangeText={this.addressHandler} delete={this.addressRemove}
+                                  value={this.state.address}/>
                     </View>
                 </ScrollView>
             </View>
