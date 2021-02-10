@@ -12,8 +12,8 @@ export default class OrderAddItemsScreen extends Component {
         super(props);
         this.state = {
             selectedLot: '',
-            discount: 0,
-            units: 0,
+            discount: '',
+            units: '',
             total: 0,
             orderLines: [],
             orderLine: {},
@@ -69,7 +69,7 @@ export default class OrderAddItemsScreen extends Component {
     };
 
     getLot = (e) => {
-        this.setState({ selectedLot: e }, () => console.log(e));
+        this.setState({ selectedLot: e });
     };
 
     changeUnits = (units) => {
@@ -81,11 +81,11 @@ export default class OrderAddItemsScreen extends Component {
     };
 
     deleteUnits = () => {
-        this.setState({ units: 0 }, () => this.getTotal());
+        this.setState({ units: '' }, () => this.getTotal());
     };
 
     deleteDiscount = () => {
-        this.setState({ discount: 0 }, () => this.getTotal());
+        this.setState({ discount: '' }, () => this.getTotal());
     };
 
     addItemList = () => {
@@ -94,30 +94,21 @@ export default class OrderAddItemsScreen extends Component {
             orderLines: this.state.orderLines,
             order: this.state.order,
         });
-        console.log('Item añadido a la lista.');
     };
-
-    //____________________________________________________-
 
     checkFields = () => {
         let flag = true;
-        console.log(this.state.units + ":: " + this.state.selectedLot)
-
         if (this.state.selectedLot === '') {
             alert("You have to select a lot ");
             flag = false;
-        } else if (this.state.units <= 0 || !Number.isInteger(this.state.units)) {
+        } else if (this.state.units <= 0 || !Number.isInteger(parseInt(this.state.units))) {
             alert("You have to introduce a number over 0 in Units");
             flag = false;
-        } else if (this.state.discount < 0 || this.state.discount > 100 ||!Number.isInteger(this.state.discount)) {
+        } else if (this.state.discount < 0 || this.state.discount > 100 ||!Number.isInteger(parseInt(this.state.discount))) {
             flag = false;
             alert("You have to introduce a number between 0-100 in discount");
         }
-        
-
-        if (flag) {
-            this.addItemList();
-        }
+        if (flag) this.addItemList();
     };
 
     render() {
