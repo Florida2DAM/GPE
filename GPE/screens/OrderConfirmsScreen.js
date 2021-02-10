@@ -54,17 +54,12 @@ export default class OrderConfirmsScreen extends Component {
         this.setState({visibleRemove: !this.state.visibleRemove});
     }
 
-    merendola = () => {
-        this.changeVisibleRemove();
-        this.removeProduct();
-    }
-
     render() {
         return (
             <View style={style.container}>
                 <GPEModal isVisible={this.state.visibleRemove} content='Do you want to delete the item?' leftButtonTitle='Cancel' 
                     rightButtonTitle='Confirm' leftButtonPress={this.changeVisibleRemove} 
-                    rightButtonPress={this.merendola}/>
+                    rightButtonPress={() => { this.changeVisibleRemove(); this.removeProduct();}}/>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                     rightIcon={'check'} rightIconSize={48} 
                     pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {newOrderLines: this.props.route.params.orderLines, 
@@ -93,7 +88,6 @@ export default class OrderConfirmsScreen extends Component {
                     <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content={this.state.total}
                         currency='€' />
                 </View>
-                <Button title='Hola' onPress={() => console.log(this.props.route.params.client)}></Button>
             </View>
         );
     }
