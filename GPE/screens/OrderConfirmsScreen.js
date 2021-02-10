@@ -7,13 +7,16 @@ import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
 import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
+import { GPEModal } from '../components/GPEModal';
 import { axios, GPEApi, style } from '../components/GPEConst';
 
 export default class OrderConfirmsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            total: 0
+            total: 0,
+            itemIdRemove: -1,
+            visibleRemove: false
         };
     }    
 
@@ -29,11 +32,10 @@ export default class OrderConfirmsScreen extends Component {
         });
     }
 
-    removeProduct = (id) => {     
+    removeProduct = () => {         
         this.props.route.params.orderLines = this.props.route.params.orderLines.filter((article) => {
-            return id !== article.LineId;     
+            return this.state.itemIdRemove !== article.LineId;     
         });
-        console.log(this.props.route.params.orderLines);
         this.updateInfo();
     }
 
@@ -46,9 +48,16 @@ export default class OrderConfirmsScreen extends Component {
         this.setState({total});
     }
 
+    changeVisibleRemove = () => {
+        this.setState({visibleRemove: !this.state.visibleRemove});
+    }
+
     render() {
         return (
             <View style={style.container}>
+                <GPEModal isVisible={this.state.visibleRemove} content='Do you want to delete the item?' leftButtonTitle='Cancel' 
+                    rightButtonTitle='Confirm' leftButtonPress={this.changeVisibleRemove} 
+                    rightButtonPress={()=> {this.changeVisibleRemove(); this.removeProduct(); }}/>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
                     rightIcon={'check'} rightIconSize={48} 
                     pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {newOrderLines: this.props.route.params.orderLines})}
@@ -62,7 +71,8 @@ export default class OrderConfirmsScreen extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity orderLine={item} remove={() => this.removeProduct(item.LineId)} 
+                                <ModifyQuantity orderLine={item} remove={() => {this.changeVisibleRemove();
+                                    this.setState({itemIdRemove: item.LineId}); }} 
                                     itemChange={this.updateInfo}/>
                             </View>
                         );
