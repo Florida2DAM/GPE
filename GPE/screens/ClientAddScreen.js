@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
-import {View} from 'react-native';
+import React, {Component,} from 'react';
+import {ScrollView, View} from 'react-native';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEInput} from '../components/GPEInput';
 import {GPEModal} from '../components/GPEModal';
 import {axios, GPEApi, style} from '../components/GPEConst';
-import {ScrollView} from 'react-native-gesture-handler';
 
 export default class ClientAddScreen extends Component {
     constructor(props) {
