@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
@@ -29,7 +28,7 @@ export class GPEPicker extends Component {
                             <Picker.Item label={item} value={item} key={index}/>
                         );
                     })}
-                    {screen === 'SettingsScreen' && itemsList.map((item, index) => {
+                    {screen === 'LoggingScreen' && itemsList.map((item, index) => {
                         return (
                             <Picker.Item label={item.Name} value={item.Name} key={index}/>
                         );
