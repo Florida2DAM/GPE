@@ -104,7 +104,7 @@ export default class OrderAddItemsScreen extends Component {
         } else if (this.state.units <= 0 || !Number.isInteger(parseInt(this.state.units))) {
             alert("You have to introduce a number over 0 in Units");
             flag = false;
-        } else if (this.state.discount < 0 || this.state.discount > 100 ||!Number.isInteger(parseInt(this.state.discount))) {
+        } else if (this.state.discount < 0 || this.state.discount > 100 || this.state.discount !== '' && !Number.isInteger(parseInt(this.state.discount))) {
             flag = false;
             alert("You have to introduce a number between 0-100 in discount");
         }
