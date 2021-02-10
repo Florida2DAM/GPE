@@ -1,12 +1,7 @@
-/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SeparatorLine} from './SeparatorLine';
-
-// NOMBRES DE LOS ICONOS:
-// Izquierda: "navigate-before" flecha atras.  "" dejarlo en blanco
-// Derecha: "navigate-next" felcha adelante. "add" sgno suma. "" dejarlo en blanco. "done" para añadir clientes
 
 export class NavigationBar extends Component {
     render() {

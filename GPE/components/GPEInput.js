@@ -1,4 +1,4 @@
-
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {Icon} from 'react-native-elements';
@@ -48,5 +48,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#3b3b3b',
     },
 });
-
-
