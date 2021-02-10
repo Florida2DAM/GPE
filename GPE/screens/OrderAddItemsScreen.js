@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert,StyleSheet, Text, View} from 'react-native';
 import {GPELabel} from '../components/GPELabel';
 import {GPEInput} from '../components/GPEInput';
 import {GPEPicker} from '../components/GPEPicker';
@@ -67,6 +67,24 @@ export default class OrderAddItemsScreen extends Component {
         let priceDecimals = Math.trunc(priceIva * 100) / 100;
         this.setState({total: priceDecimals});
     };
+    
+    checkFields = () => {
+        let flag = true;
+
+        if (this.state.units === null || this.state.units ===undefined) {
+            flag = false;
+        }
+
+        if (this.state.selectedLot === '' || this.state.selectedLot === undefined) {
+            flag = false;
+        }
+        console.log("Check , "+ flag);
+        if (flag) {     
+          this.addItemList();
+        } else {
+            Alert.alert('Please fill units fields and pick a lot.');
+        }
+    };
 
     getLot = (e) => {
         this.setState({selectedLot: e}, () => console.log(e));
@@ -106,7 +124,7 @@ export default class OrderAddItemsScreen extends Component {
                     <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'}
                                    rightIconSize={45} pageName={'Add Item'}
                                    pressLeftIcon={() => this.props.navigation.goBack()}
-                                   pressRightIcon={this.addItemList}/>
+                                   pressRightIcon={this.checkFields}/>
                     <View style={{alignSelf: 'center', marginTop: '5%'}}>
                         <Text style={styles.text}>{this.state.article.Description}</Text>
                         <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'
