@@ -16,7 +16,8 @@ export default class OrderConfirmsScreen extends Component {
         this.state = {
             total: 0,
             itemIdRemove: -1,
-            visibleRemove: false
+            visibleRemove: false,
+            juanjo: 0
         };
     }    
 
@@ -63,7 +64,9 @@ export default class OrderConfirmsScreen extends Component {
                     pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {newOrderLines: this.props.route.params.orderLines})}
                     pressRightIcon={() => this.props.navigation.navigate('VisitSalesScreen')} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF} />
+                <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF} 
+                    change={()=>{ this.setState({juanjo: this.state.juanjo++});
+                        this.props.navigation.navigate('VisitSalesScreen', {juanjo: this.state.juanjo, orderLines: this.props.route.params.orderLines});}}/>
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <FlatList
                     data={this.props.route.params.orderLines}
