@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
@@ -14,7 +15,6 @@ export class GPEPicker extends Component {
         this.setState({selectedOption: e});
         this.props.getOption(e);
     };
-
 
     render() {
         let itemsList = this.props.getItemsList;
@@ -34,7 +34,7 @@ export class GPEPicker extends Component {
                             <Picker.Item label={item.Name} value={item.Name} key={index}/>
                         );
                     })}
-                    {screen === 'OrderAddItemsScreen' && itemsList.map((item, index) => {
+                    {screen === 'OrderAddItemsScreen' &&  itemsList.map((item, index) => {
                         return (
                             <Picker.Item label={item.LotId} value={item.LotId} key={index}/>
                         );

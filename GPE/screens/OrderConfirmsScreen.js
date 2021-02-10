@@ -6,7 +6,7 @@ import {  FlatList, Text, View } from 'react-native';
 import { ModifyQuantity } from '../components/ModifyQuantity';
 import { NavigationBar } from '../components/NavigationBar';
 import { ContactInfo } from '../components/ContactInfo';
-import { Button, Divider, Overlay } from 'react-native-elements';
+import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
 import { axios, GPEApi, style } from '../components/GPEConst';
 
@@ -14,32 +14,60 @@ export default class OrderConfirmsScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'Juan',//this.props.client.Name,
-            dni: 'muchosnumeros',//this.props.client.Nie,
-            products: [
-                { name: 'Test1', id: 1, price: 15 },
-
-                { name: 'Test2', id: 2, price: 10.5 },
-            ],
-            client: this.props.client,
-            visible: false
+            orderLines: [],
+            totalPrice: 0,
+            client: '',
+            orderId: '',
         };
 
     }
 
     addOrder = () => {
         axios.post(GPEApi + '/Orders', {
-            ClientId: 1,
-            OrderNum: 1,
-            Date: "2021-02-01T00:00:00",
-            DeliveryDate: "1900-01-01T00:00:00",
+            ClientId: 2,
+            Date: '2021-02-09',
+            DeliveryDate: '',
             Total: 1938.98,
             Delivered: false,
             Paid: 0.0,
             PayingMethod: null,
-            Deliverer: "Jesus",
+            Deliverer: 'Jesus',
             EmployeeId: 2,
-        })
+        }).then(this.getOrderId);
+    }
+
+    getOrderId = () => {
+        axios.get(GPEApi + 'Orders/GetLast').then((response) => {
+            console.log(response.data);
+            this.setState({ orderId: response.data }, () => { this.addOrderLines(); });
+        });
+    }
+
+    addOrderLines = () => {
+        let products = [];
+        let assignId = 1;
+        this.state.orderLines.forEach(item => {
+            item.OrderId = this.state.orderId;
+            console.log("AH");
+            item.LineId = assignId;
+            assignId += 1;
+            products.push(item);
+            console.log(item);
+        });
+        this.setState({ orderLines: products });
+        console.log(this.state.orderLines);
+        let orderLines = this.state.orderLines;
+        axios.post(GPEApi + '/OrderLines', { orderLines });
+    }
+
+    componentDidMount() {
+        this.setState({ orderLines: this.props.route.params.orderLines }, console.log(this.props.route.params.orderLines));
+        this.setState({ client: this.props.client });
+        //calculateTotalPrice();
+    }
+
+    pressRightIcon = () => {
+        this.addOrder();
         this.props.navigation.navigate('VisitSalesScreen');
     }
     visible = () => {
@@ -53,45 +81,27 @@ export default class OrderConfirmsScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <Overlay isVisible={this.state.visible} overlayStyle={{ width: "80%", height: "30%",alignItems:"center",justifyContent:"center"}}>
-                    <View style={{flexDirection:"column",justifyContent:"space-between"}}>
-                        <View style={{ alignSelf: 'center' }}>
-                            <Text style={{ fontSize: 20 }}>Are you sure to continue?</Text>
-                        </View>
-                        <View style={{ flexDirection: "row", justifyContent: 'space-around' ,alignItems:"flex-end"}}>
-                            <View>
-                                <Button title="cancel" onPress={this.invisible} containerStyle={{paddingRight:"4%"}} />
-                            </View>
-                            <View style={{paddingRight:"10%"}}>
-                                <Button title="ok" onPress={this.invisible} />
-                            </View>
-                        </View>
-                    </View>
-                </Overlay>
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
+                    rightIcon={'check'} rightIconSize={48} pressLeftIcon={() => this.props.navigation.goBack()}
 
-
-                <View>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                        rightIcon={'check'} rightIconSize={48}
-                        pressRightIcon={this.visible} />
-                </View>
+                    pressRightIcon={this.pressRightIcon} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <ContactInfo name={this.state.name} dni={this.state.dni} />
+                <ContactInfo name={'WEI Luo'} dni="w12321432" />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
 
                 <FlatList
-                    data={this.state.products}
+                    data={this.state.orderLines}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <ModifyQuantity name={item.name} price={item.price} id={item.id} />
+                                <ModifyQuantity name={item.Description} price={item.Price} id={item.ArticleId} units={item.Quantity} />
                             </View>
                         );
                     }}
                 />
                 <View style={{ alignItems: 'center' }}>
-                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content="15000"
+                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content={this.state.totalPrice}
                         currency='€' />
                 </View>
             </View>
