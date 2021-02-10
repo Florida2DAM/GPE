@@ -61,7 +61,7 @@ export default class ClientsListScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients'} rightIcon={'add'}
-                    rightIconSize={50}
+                    rightIconSize={50} marginLeft={'2%'}
                     pressLeftIcon={() => this.props.navigation.goBack()}
                     pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen')}
                 />
