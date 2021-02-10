@@ -18,23 +18,9 @@ export default class LoggingScreen extends Component {
 
     componentDidMount() {
         this.getEmployees();
-        this.getEmployeeInfo();
     }
 
-    getEmployees = () => {
-        axios.get(GPEApi + 'Employees').then((response) => {
-            this.setState({employees: response.data});
-        });
-    };
-
-    getEmployeeInfo = (e) => {
-        this.state.employees.forEach(item => {
-            if (item.Name === e) {
-                this.setState({employee: item});
-            }
-        });
-    };
-
+    // Using the AsyncStorage we save our employee object which we use to asign a certain navigation in MainScreen
     async storeEmployee(value) {
         try {
             await AsyncStorage.setItem('employee', JSON.stringify(value));
@@ -47,6 +33,22 @@ export default class LoggingScreen extends Component {
         this.storeEmployee(this.state.employee).then(this.props.navigation.navigate('MainScreen'));
     };
 
+    // Promise to get all employees and asign it to an array object
+    getEmployees = () => {
+        axios.get(GPEApi + 'Employees').then((response) => {
+            this.setState({employees: response.data});
+        });
+    };
+
+    // When the picker option is selected we save the entire object depending of the employee's name
+    employeeHandler = (e) => {
+        this.state.employees.forEach(item => {
+            if (item.Name === e) {
+                this.setState({employee: item});
+            }
+        });
+    };
+
     render() {
         return (
             <View style={[style.container]}>
@@ -55,7 +57,7 @@ export default class LoggingScreen extends Component {
                         <GPELogo/>
                     </View>
                     <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getItemsList={this.state.employees}
-                               getOption={this.getEmployeeInfo} getScreen={'LoggingScreen'}/>
+                               getOption={this.employeeHandler} getScreen={'LoggingScreen'}/>
                 </View>
                 <View style={{margin: '5%'}}>
                     <GPELabel title={'Worker\'s name'} content={this.state.employee.Name}/>
