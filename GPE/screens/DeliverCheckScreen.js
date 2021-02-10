@@ -5,7 +5,6 @@ import {style} from '../components/GPEConst';
 import {ArticleCard} from '../components/ArticleCard';
 
 export default class DeliverCheckScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -13,6 +12,7 @@ export default class DeliverCheckScreen extends Component {
         };
     }
 
+    // We get from VisitSalesScreen the full filled order object, which will use to render all items from the OrderLines
     componentDidMount() {
         this.setState({order: this.props.route.params.item});
     }
