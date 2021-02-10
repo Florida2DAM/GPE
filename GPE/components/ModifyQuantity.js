@@ -10,7 +10,7 @@ export class ModifyQuantity extends Component {
     }
 
     increaseUnits = () => {
-        this.props.orderLine.Quantity += 1;
+        this.props.orderLine.Quantity = parseInt(this.props.orderLine.Quantity) + 1;
         this.updateTotal();
         this.props.itemChange(this.props.orderLine);
     };
