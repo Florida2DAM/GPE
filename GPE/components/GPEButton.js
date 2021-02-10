@@ -5,7 +5,7 @@ import {Icon} from 'react-native-elements';
 export class GPEButton extends Component {
     render() {
         return (
-            <Pressable style={styles.button} onPress={this.props.callback}>
+            <Pressable style={styles.button} onPress={this.props.onPress}>
                 <View>
                     <Icon name={this.props.iconName} type='material' size={this.props.iconSize} color={'#ffcc57'}/>
                     <Text style={styles.text}>{this.props.buttonName}</Text>
