@@ -69,7 +69,7 @@ export default class OrderAddItemsScreen extends Component {
     };
 
     getLot = (e) => {
-        this.setState({selectedLot: e}, () => console.log(e));
+        this.setState({selectedLot: e});
     };
 
     changeUnits = (units) => {
@@ -96,7 +96,23 @@ export default class OrderAddItemsScreen extends Component {
             orderLines: this.state.orderLines,
             order: this.state.order,
         });
-        console.log('Item añadido a la lista.');
+    };
+
+    checkFields = () => {
+        let flag = true;
+
+        if (this.state.selectedLot === '') {
+            flag = false;
+        }
+        if (this.state.units === '' || this.state.units === '0') {
+            flag = false;
+        }
+
+        if (flag) {
+            this.addItemList();
+        } else {
+            alert('Please fill all fields first');
+        }
     };
 
     render() {
@@ -106,7 +122,7 @@ export default class OrderAddItemsScreen extends Component {
                     <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'}
                                    rightIconSize={45} pageName={'Add Item'}
                                    pressLeftIcon={() => this.props.navigation.goBack()}
-                                   pressRightIcon={this.addItemList}/>
+                                   pressRightIcon={this.checkFields}/>
                     <View style={{alignSelf: 'center', marginTop: '5%'}}>
                         <Text style={styles.text}>{this.state.article.Description}</Text>
                         <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'
