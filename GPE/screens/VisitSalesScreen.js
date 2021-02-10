@@ -75,7 +75,6 @@ export default class VisitSalesScreen extends Component {
         if (this.state.toConfirm) screen = 'OrderConfirmsScreen';
         else screen = 'OrderArticlesScreen';
         this.setState({ toConfirm: false });
-        console.log(screen);
         this.props.navigation.navigate(screen, { client: item, orderLines: this.state.orderLines });
     }
 
