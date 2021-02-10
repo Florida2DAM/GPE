@@ -156,74 +156,56 @@ export class ClientsView extends React.Component {
             <Fragment>
                 <Toast ref={this.GPEAlert}/>
                 <TabView>
-                    <TabPanel header='Users'>
+                    <TabPanel header='Clients'>
                         <div className='flexCenter'>
                             <InputText value={this.state.email} onChange={this.handlerEmail}
                                        disabled={this.state.name || this.state.surname} placeholder='Email'
-                                       style={{width: '40%'}}/>
-                            <InputText value={this.state.name} onChange={this.handlerName}
-                                       disabled={this.state.email || this.state.surname} placeholder='Nombre'
-                                       style={{width: '20%'}}/>
-                            <InputText value={this.state.surname} onChange={this.handlerSurname}
-                                       disabled={this.state.name || this.state.email} placeholder='Apellidos'
-                                       style={{width: '30%'}}/>
-                            <Button icon='pi pi-refresh' onClick={this.resetStates}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{backgroundColor: '#86AEC2'}}/>
+                                       style={{width: '40%', marginLeft: '1%'}}/>
+
+                            <Button icon='pi pi-refresh' onClick={this.resetStates} variant="outlined"
+                                    className='p-button-warning'
+                            />
                             <Button label='Filtrar' icon='pi pi-filter' onClick={this.buttonFilter}
-                                    className='p-button-secondary p-mr-2' style={{width: '15%'}}/>
+                                    className='p-button-warning' style={{width: '15%', marginLeft: '1%', marginRight: '1%'}}/>
                         </div>
-                        <div>
-                            <DataTable value={this.state.clients}>
-                                <Column field='ClientId' header='ClientId'
-                                        style={{textAlign: 'center'}}/>
-                                <Column field='Name' header='Name' style={{textAlign: 'center'}}/>
-                                <Column field='Address' header='Address'
-                                        style={{textAlign: 'center'}}/>
-                                <Column field='City' header='City' style={{textAlign: 'center'}}/>
-                                <Column field='Province' header='Province' style={{textAlign: 'center'}}/>
-                                <Column field='Phone' header='Phone' style={{textAlign: 'center'}}/>
-                                <Column field='NIF' header='NIF' style={{textAlign: 'center'}}/>
-                                <Column field='ContactName' header='ContactName' style={{textAlign: 'center'}}/>
-                                <Column field='RegisterDate' header='RegisterDate' style={{textAlign: 'center'}}/>
-                                <Column field='Enabled' header='Enabled' style={{textAlign: 'center'}}/>
-                            </DataTable>
-                        </div>
+
                     </TabPanel>
-                    <TabPanel header='New User'>
+                    <TabPanel header='Add New Client'>
                         <div className='flexCenter'>
                             <InputText value={this.state.email} onChange={this.handlerEmail}
                                        placeholder='Email' style={{width: '40%'}}/>
                             <Button label='Eliminar' icon='pi pi-trash' onClick={this.deleteUsers}
                                     className='p-button-secondary p-mr-2'/>
                         </div>
-                        <div>
-                            <DataTable value={this.state.clients}>
-                                <Column field='EmailId' header='Email Usuario'
-                                        style={{textAlign: 'center', width: '30%'}}/>
-                                <Column field='Nombre' header='Nombre' style={{textAlign: 'center'}}/>
-                                <Column field='Apellidos' header='Apellidos'
-                                        style={{textAlign: 'center'}}/>
-                                <Column field='Edad' header='Edad' style={{textAlign: 'center'}}/>
-                                <Column field='FechaAlta' header='Fecha Registro' style={{textAlign: 'center'}}/>
-                            </DataTable>
-                        </div>
+
                     </TabPanel>
-                    <TabPanel header='Modify User'>
-                        <div className='pwdArea'>
+                    <TabPanel header='Modify Client'>
+                        <div className='flexCenter'>
                             <InputText value={this.state.email} onChange={this.handlerEmail}
-                                       placeholder='Email'/>
+                                       placeholder='Email' style={{width: '30%'}}/>
                             <InputText type='password' value={this.state.oldPwd} onChange={this.handlerOldPwd}
-                                       placeholder='Contraseña anterior'/>
-                            <InputText type='password' value={this.state.newPwd} onChange={this.handlerNewPwd}
-                                       placeholder='Contraseña nueva'/>
-                            <InputText type='password' value={this.state.confirmPwd} onChange={this.handlerConfirmPwd}
-                                       placeholder='Confirmar contraseña'/>
+                                       placeholder='Contraseña anterior' style={{width: '30%'}}/>
                             <Button label='Confirmar' onClick={this.changePassword}
-                                    className='p-button-secondary p-mr-2'/>
+                                    className='p-button-secondary p-mr-2' style={{width: '30%'}}/>
                         </div>
                     </TabPanel>
                 </TabView>
+                <div>
+                    <DataTable value={this.state.clients}>
+                        <Column field='ClientId' header='ClientId'
+                                style={{textAlign: 'center'}}/>
+                        <Column field='Name' header='Name' style={{textAlign: 'center'}}/>
+                        <Column field='Address' header='Address'
+                                style={{textAlign: 'center'}}/>
+                        <Column field='City' header='City' style={{textAlign: 'center'}}/>
+                        <Column field='Province' header='Province' style={{textAlign: 'center'}}/>
+                        <Column field='Phone' header='Phone' style={{textAlign: 'center'}}/>
+                        <Column field='NIF' header='NIF' style={{textAlign: 'center'}}/>
+                        <Column field='ContactName' header='ContactName' style={{textAlign: 'center'}}/>
+                        <Column field='RegisterDate' header='RegisterDate' style={{textAlign: 'center'}}/>
+                        <Column field='Enabled' header='Enabled' style={{textAlign: 'center'}}/>
+                    </DataTable>
+                </div>
             </Fragment>
         )
     }
