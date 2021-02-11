@@ -11,7 +11,8 @@ html {
 
 .navLink{
     display: flex;
-    background-color: #78909c;
+    color: #1e1e1e;
+    background-color: #ffcc57;
     justify-content: center;
     color: #ffffff;
     font-size: 16px;
