@@ -1,4 +1,4 @@
-﻿    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GPE.Models
@@ -42,8 +42,15 @@ namespace GPE.Models
         /// <param name="orderL">This method needs the OrderLine object for save</param>
         internal void Save(List<OrderLine> orderLines)
         {
+            LotsRepository lotsRepository = new LotsRepository();
+
             context.OrderLines.AddRange(orderLines);
             context.SaveChanges();
+
+            foreach (OrderLine orderLine in orderLines)
+            {
+                lotsRepository.UpdateStock(orderLine.ArticleId, orderLine.LotId, orderLine.Quantity);
+            }
         }
 
         /// <summary>

@@ -7,41 +7,30 @@ namespace GPE.Controllers
     [RoutePrefix("api/Employees")]
     public class EmployeesController : ApiController
     {
+        EmployeesRepository employeesRepository = new EmployeesRepository();
         // GET: api/Employee
         public IEnumerable<Employee> Get()
         {
-            var repo = new EmployeesRepository();
-            List<Employee> emp = repo.Retrieve();
+            List<Employee> emp = employeesRepository.Retrieve();
             return emp;
-        }
-
-        // GET: api/Employee/5
-        public string Get(int id)
-        {
-            return "value";
         }
 
         // POST: api/Employee
         public void Post([FromBody]Employee emp)
         {
-            var repo = new EmployeesRepository();
-            repo.Save(emp);
-
+            employeesRepository.Save(emp);
         }
 
         // PUT: api/Employee/5
         public void Put(int id, [FromBody]Employee emp)
         {
-            var repo = new EmployeesRepository();
-            repo.Update(id,emp);
+            employeesRepository.Update(id,emp);
         }
 
         // DELETE: api/Employee/5
         public void Delete(int id)
         {
-            var repo = new EmployeesRepository();
-            repo.Delete(id);
-
+            employeesRepository.Delete(id);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace GPE.Models
         internal List<Article> Retrieve()
         {
             List<Article> articles = context.Articles
-                .Include(l => l.Lots)
+                .Include(l=>l.Lots)
                 .ToList();
             return articles;
         }

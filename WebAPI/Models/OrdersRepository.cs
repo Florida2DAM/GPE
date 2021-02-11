@@ -52,6 +52,8 @@ namespace GPE.Models
         /// <param name="order"></param>
         internal void Save(Order order)
         {
+            order.Date = DateTime.Now;
+
             context.Orders.Add(order);
             context.SaveChanges();
         }

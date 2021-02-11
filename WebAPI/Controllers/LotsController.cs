@@ -7,38 +7,33 @@ namespace GPE.Controllers
     [RoutePrefix("api/Lots")]
     public class LotsController : ApiController
     {
+        LotsRepository lotsRepository = new LotsRepository();
+
         // GET: api/Lots
         public IEnumerable<Lot> Get()
         {
-            var repo = new LotsRepository();
-            List<Lot> lot = repo.Retrieve();
+            List<Lot> lot = lotsRepository.Retrieve();
             return lot;
         }
-
 
         // GET: api/Lots/5
         public IEnumerable<Lot> Get(int ArticleId)
         {
-            var repo = new LotsRepository();
-            List<Lot> lot = repo.Retrieve(ArticleId);
+            List<Lot> lot = lotsRepository.Retrieve(ArticleId);
             return lot;
         }
 
         // POST: api/Lots
         public void Post([FromBody]Lot lot)
         {
-
-            var repo = new LotsRepository();
-            repo.Save(lot);
+            lotsRepository.Save(lot);
 
         }
 
         // PUT: api/Lots/5
-
         public void Put([FromBody]Lot lot)
         {
-            var repo = new LotsRepository();
-            repo.Update(lot);
+            lotsRepository.Update(lot);
         }
 
     }

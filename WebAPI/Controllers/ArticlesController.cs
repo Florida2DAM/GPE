@@ -7,37 +7,38 @@ namespace GPE.Controllers
     [RoutePrefix("api/Articles")]
     public class ArticlesController : ApiController
     {
+        ArticlesRepository articlesRepository = new ArticlesRepository();
+
         // GET: api/Article
-        [Route(""), HttpGet]
         public IEnumerable<Article> Get()
         {
-            var repo = new ArticlesRepository();
-            List<Article> articles = repo.Retrieve();
+            List<Article> articles = articlesRepository.Retrieve();
             return articles;
         }
 
+        // GET: api/Article
+        public Article Get(int articleId)
+        {
+            Article article = articlesRepository.Retrieve(articleId);
+            return article;
+        }
+
         // POST: api/Article
-        [Route(""), HttpPost]
         public void Post(Article article)
         {
-            var repo = new ArticlesRepository();
-            repo.Save(article);
+            articlesRepository.Save(article);
         }
 
         // PUT: api/Article/ID_Number
-        [Route(""), HttpPut]
         public void Put(int id)
         {
-            var repo = new ArticlesRepository();
-            repo.Update(id);
+            articlesRepository.Update(id);
         }
 
         // PUT: api/Articles/
-        [Route(""), HttpPut]
         public void Put([FromBody] Article article)
         {
-            var repo = new ArticlesRepository();
-            repo.Update(article);
+            articlesRepository.Update(article);
         }
     }
 }
