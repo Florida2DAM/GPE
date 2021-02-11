@@ -18,7 +18,6 @@ namespace GPE.Models
             order = context.Orders
                 .Include(ol => ol.OrderLines)
                 .Include(cl => cl.Client)
-                .Include(em => em.Employee)
                 .ToList();
             return order;
         }
@@ -39,7 +38,6 @@ namespace GPE.Models
             List<Order> order = context.Orders
                 .Include(ol => ol.OrderLines)
                 .Include(cl => cl.Client)
-                .Include(em => em.Employee)
                 .Where(o => o.Delivered == false)
                 .ToList();
 

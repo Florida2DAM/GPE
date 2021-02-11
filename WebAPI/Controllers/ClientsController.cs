@@ -16,6 +16,14 @@ namespace GPE.Controllers
             return clients;
         }
 
+        // GET api/Clients
+        [Route("BackOffice"),HttpGet]
+        public IEnumerable<Client> GetBackoffice()
+        {
+            List<Client> clients = clientsRepository.GetBackoffice();
+            return clients;
+        }
+
         // GET api/Clients?name=value
         public IEnumerable<Client> Get(string name)
         {

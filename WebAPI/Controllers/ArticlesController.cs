@@ -16,6 +16,14 @@ namespace GPE.Controllers
             return articles;
         }
 
+        [Route("BackOffice"),HttpGet]
+        // GET: api/Article
+        public IEnumerable<Article> GetBackoffice()
+        {
+            List<Article> articles = articlesRepository.RetrieveBackoffice();
+            return articles;
+        }
+
         // GET: api/Article
         public Article Get(int articleId)
         {

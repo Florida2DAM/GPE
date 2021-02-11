@@ -16,6 +16,14 @@ namespace GPE.Models
             return employees;
         }
 
+        //Show all employees
+        internal List<Employee> RetrieveBackoffice()
+        {
+            List<Employee> employees = context.Employees
+                .ToList();
+            return employees;
+        }
+
         //Add a new employeer
         internal void Save(Employee emp)
         {

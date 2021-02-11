@@ -20,7 +20,22 @@ namespace GPE.Models
         internal List<Client> GetClients()
         {
             List<Client> clients = new List<Client>();
-            clients = context.Clients.ToList();
+            clients = context.Clients
+                .Where(c => c.Enabled)
+                .ToList();
+
+            return clients;
+        }
+
+        /// <summary>
+        /// Gets all clientes
+        /// </summary>
+        /// <returns>Lis of all clients</returns>
+        internal List<Client> GetBackoffice()
+        {
+            List<Client> clients = new List<Client>();
+            clients = context.Clients
+                .ToList();
 
             return clients;
         }
@@ -43,7 +58,7 @@ namespace GPE.Models
         /// </summary>
         /// <param name="n">name to filter</param>
         /// <returns>lis of filtered clients</returns>
-        internal List<Client> GetClientsByName(String n)
+        internal List<Client> GetClientsByName(string n)
         {
             List<Client> clients = new List<Client>();
 

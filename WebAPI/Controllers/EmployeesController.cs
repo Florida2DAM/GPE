@@ -15,16 +15,24 @@ namespace GPE.Controllers
             return emp;
         }
 
+        [Route("BackOffice"), HttpGet]
+        // GET: api/Employee
+        public IEnumerable<Employee> GetBackoffice()
+        {
+            List<Employee> emp = employeesRepository.RetrieveBackoffice();
+            return emp;
+        }
+
         // POST: api/Employee
-        public void Post([FromBody]Employee emp)
+        public void Post([FromBody] Employee emp)
         {
             employeesRepository.Save(emp);
         }
 
         // PUT: api/Employee/5
-        public void Put(int id, [FromBody]Employee emp)
+        public void Put(int id, [FromBody] Employee emp)
         {
-            employeesRepository.Update(id,emp);
+            employeesRepository.Update(id, emp);
         }
 
         // DELETE: api/Employee/5

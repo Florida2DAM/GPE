@@ -16,6 +16,19 @@ namespace GPE.Models
         {
             List<Article> articles = context.Articles
                 .Include(l=>l.Lots)
+                .Where(a => a.Enabled)
+                .ToList();
+            return articles;
+        }
+
+        /// <summary>
+        /// Gives every database article
+        /// </summary>
+        /// <returns>List of articles</returns>
+        internal List<Article> RetrieveBackoffice()
+        {
+            List<Article> articles = context.Articles
+                .Include(l => l.Lots)
                 .ToList();
             return articles;
         }
