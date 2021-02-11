@@ -10,7 +10,7 @@ namespace GPE.Models
         {
 
         }
-        public Order(int orderId, int clientId, int orderNum, DateTime date, DateTime deliveryDate, double total, bool delivered, double paid, string payingMethod, string deliverer, int employeeId)
+        public Order(int orderId, int clientId, string orderNum, DateTime date, DateTime deliveryDate, double total, bool delivered, double paid, string payingMethod, string deliverer, int employeeId)
         {
             OrderId = orderId;
             ClientId = clientId;
@@ -27,7 +27,7 @@ namespace GPE.Models
 
         public int OrderId { get; set; }
         public int ClientId { get; set; }
-        public int OrderNum { get; set; }
+        public string OrderNum { get; set; }
         public DateTime Date { get; set; }
         [Required]
         public DateTime DeliveryDate { get; set; }

@@ -122,8 +122,8 @@ namespace GPE.Models
             modelBuilder.Entity<Client>().HasData(new Client(5, "Vicent Sargues", "C/ Señera", "Albal", "46470", "Valencia", "Spain", "677987409", "emaildamia@gmail.com", "49345715C", "Antonia", Convert.ToDateTime("2021-02-02 00:00:00"), true));
 
             // Tabla Orders
-            modelBuilder.Entity<Order>().HasData(new Order(1, 1, 1, Convert.ToDateTime("2021-02-01 00:00:00"), Convert.ToDateTime("1900-01-01 00:00:00"), 1938.98, false, 0, null, "Jesus", 2));
-            modelBuilder.Entity<Order>().HasData(new Order(2, 2, 2, Convert.ToDateTime("2021-02-02 00:00:00"), Convert.ToDateTime("1900-01-01 00:00:00"), 2000.98, false, 0, null, "Damià", 4));
+            modelBuilder.Entity<Order>().HasData(new Order(1, 1, "2021/00001", Convert.ToDateTime("2021-02-01 00:00:00"), Convert.ToDateTime("1900-01-01 00:00:00"), 1938.98, false, 0, null, "Jesus", 2));
+            modelBuilder.Entity<Order>().HasData(new Order(2, 2, "2021/00002", Convert.ToDateTime("2021-02-02 00:00:00"), Convert.ToDateTime("1900-01-01 00:00:00"), 2000.98, false, 0, null, "Damià", 4));
 
             // Tabla OrderLines
             modelBuilder.Entity<OrderLine>().HasData(new OrderLine(1, 1, 1, "Lot-01", "Aquabona 33cl pack 6", 6.5, "Aquabona", "Water", 15, 4, 0, 190.58));
