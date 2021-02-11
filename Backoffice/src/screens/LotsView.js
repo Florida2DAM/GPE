@@ -9,6 +9,9 @@ import { TabPanel, TabView } from 'primereact/tabview';
 import { Toast } from 'primereact/toast';
 import { GPEApi, axios, moment } from '../components/GPEConst'
 import GPEDatePiker from '../components/GPEDatePicker';
+import { GPEInput } from '../components/GPEInput';
+import Picker from 'react-picker';
+import { Dropdown } from 'primereact/dropdown';
 
 export class LotsView extends React.Component {
 
@@ -17,21 +20,37 @@ export class LotsView extends React.Component {
         this.GPEAlert = createRef();
         this.state = {
             lots: [],
-            date:""
+            allLots: [],
+            date: '',
+            filter: '',
+            lotId:'',
+            articleId:'',
+            allArticleId:[]
         }
     }
 
     componentDidMount() {
         this.getLots();
+      
     }
 
     getLots = () => {
         axios.get(GPEApi + 'Lots').then((response) => {
-            this.setState({ bets: response.data });
+            this.setState({ allLots: response.data });
+            this.setState({ lots: response.data });
+        })
+        this.getArticleIds();
+    }
+    getArticleIds = () => {
+        axios.get(GPEApi + 'Articles').then((response) => {
+            let articleIds=[];
+            response.data.forEach(e=>{articleIds.push(e.ArticleId)})
+            this.setState({ allArticleId: articleIds });
+            console.log(articleIds)
         })
     }
 
-    
+
     // getMarkets = () => {
     //     axios.get(GPEApi+'Mercados').then((response) => {
     //         response.data.forEach(item => {
@@ -154,21 +173,36 @@ export class LotsView extends React.Component {
     //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
     // }
 
+    lotIdHandler= (e) => {
+        this.setState({ lotId: e.target.value });
+    };
 
-    handlerEmail = (event) => {
-        this.setState({ userId: event.target.value });
+    articleIdHandler=(e)=>{
+        this.setState({ articleId: e.target.value },console.log(e.target.value));
     }
-    handlerMarketId = (event) => {
-        this.setState({ marketId: event.target.value });
-    }
-    handlerEventId = (event) => {
-        this.setState({ eventId: event.target.value });
-    }
+    filterHandler = (e) => {
+        this.setState({ filter: e.target.value }, () => {
+            this.filter();
+            console.log(this.state.filter);
+        });
+    };
 
-    handlerDate = (dateTime) => {
-        this.setState({date:moment(dateTime).format('DD/MM/YYYY HH:mm').toString() },()=>console.log(this.state.date));
-    }
-
+    filter = () => {
+        console.log('DEsde filter');
+        let lotList = [];
+        if (this.state.filter === '') {
+            this.setState({ lots: this.state.allLots });
+        } else {
+            this.state.allLots.forEach(element => {
+                const filterText = this.state.filter.toUpperCase();
+                if (element.ArticleId == (filterText)
+                    || element.LotId.toUpperCase().includes(filterText)) {
+                    lotList.push(element);
+                }
+            });
+            this.setState({ lots: lotList });
+        }
+    };
     render() {
         return (
             <Fragment>
@@ -176,33 +210,28 @@ export class LotsView extends React.Component {
                 <TabView>
                     <TabPanel header='Lots'>
                         <div className='flexCenter'>
-                            <GPEDatePiker title="Date Time :" getDate={this.handlerDate}></GPEDatePiker>
-                            <InputText value={this.state.userId} onChange={this.handlerEmail}
-                                disabled={this.state.marketId || this.state.eventId} placeholder='Email'
-                                style={{ width: '40%' }} />
-                            <InputText value={this.state.marketId} onChange={this.handlerMarketId}
-                                disabled={this.state.userId || this.state.eventId} placeholder='Id Mercado' />
-                            <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                disabled={this.state.marketId || this.state.userId}
-                                placeholder='ID Evento' style={{ width: '15%' }} />
-                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
+                            <GPEInput title='Filter : ' onChange={this.filterHandler} />
+                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getLots}
                                 className='p-button-secondary p-mr-2'
                                 style={{ backgroundColor: '#86AEC2' }} />
-                            <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
-                                className='p-button-secondary p-mr-2' />
                         </div>
-
+                        <div >
+                            <DataTable value={this.state.lots}>
+                                <Column style={{ textAlign: 'center', width: '12%' }} field='ArticleId'
+                                    header='ArticleId' />
+                                <Column style={{ textAlign: 'center', width: '9%' }} field='LotId' header='LotId' />
+                                <Column style={{ textAlign: 'center', width: '11%' }} field='Stock'
+                                    header='Stock' />
+                            </DataTable>
+                        </div>
                     </TabPanel>
                     <TabPanel header='New Lot'>
                         <div className='flexCenter'>
-                            <div className='marketsInputs'>
-                                <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                    disabled={this.state.marketId}
-                                    placeholder='ID Evento' style={{ width: '220px' }} />
-                                <div className='flexCenter'>
-                                    <Button label='Crear Mercados' icon='pi pi-plus' onClick={this.createMarkets}
-                                        className='p-button-secondary p-mr-2' style={{ width: '220px' }} />
-                                </div>
+                            <div >
+                            <Dropdown  value={this.state.articleId}  options={this.state.allArticleId} 
+                                    onChange={this.articleIdHandler}  placeholder="Select a Id" />
+                                <InputText value={this.state.LotId} onChange={this.lotIdHandler}
+                                    placeholder='Lot Id' style={{ width: '220px' }} />
                             </div>
                             <div className='marketsInputs'>
                                 <InputText value={this.state.marketId} onChange={this.handlerMarketId}
@@ -219,15 +248,7 @@ export class LotsView extends React.Component {
                         </div>
                     </TabPanel>
                 </TabView>
-                <div >
-                    <DataTable value={this.state.bets}>
-                        <Column style={{ textAlign: 'center', width: '12%' }} field='ArticleId'
-                            header='ArticleId' />
-                        <Column style={{ textAlign: 'center', width: '9%' }} field='LotId' header='LotId' />
-                        <Column style={{ textAlign: 'center', width: '11%' }} field='Stock'
-                            header='Stock' />
-                    </DataTable>
-                </div>
+
             </Fragment>
         )
     }
