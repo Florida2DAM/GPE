@@ -18,17 +18,22 @@ export default class MainScreen extends Component {
         };
     }
 
+    // When we navigate to this screen we restore the object employee, which we use to give a functionality depending
+    // of the employeeType
     componentDidMount() {
-        this.restoreEmployee().then(response => {
-            this.setState({employee: response});
-        });
+        this.restoreEmployee();
     }
 
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
+        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
     };
 
+    // Depending of the employeeType when we press the VISIT button we navigate to VisitSalesScreen or VisitDeliverScreen
+    // employees with employeeType 'Salesman' access to VisitSalesScreen, there we have all our clients and we can create new
+    // orders. Employees with employeeType 'Deliver' access to VisitDeliverScreen, there depending of the field 'Deliverer' and
+    // the field 'Delivered' our employee will see orders to deliver or not, there the employee only can see the orders which
+    // his name is in the field 'Deliverer' and 'Delivered' field is false.
     render() {
         return (
             <View style={style.container}>
