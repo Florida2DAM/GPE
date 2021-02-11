@@ -30,8 +30,10 @@ export class ClientCard extends Component {
                         </Text>
                     </View>
                     <View style={{flex: 1}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginLeft: '5%'}}>
-                            <Text style={{fontSize: 15}}>{client.Address}</Text>
+                        <View style={{flexDirection: 'row', marginLeft: '5%'}}>
+                            <View style={{marginRight: '5%'}}>
+                                <Text style={{fontSize: 15}}>{client.Address}</Text>
+                            </View>
                             <Text style={{fontSize: 15}}>{client.City}</Text>
                         </View>
                     </View>
