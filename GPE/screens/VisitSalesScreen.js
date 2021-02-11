@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
-import ClientCard from '../components/ClientCard';
+import {ClientCard} from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {axios, GPEApi, style} from '../components/GPEConst';
@@ -35,6 +35,10 @@ export default class VisitSalesScreen extends Component {
                 }
             }
         }
+    }
+
+    componentWillUnmount() {
+
     }
 
     // Restro from storage the employee object
@@ -92,7 +96,7 @@ export default class VisitSalesScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients'} rightIcon={'add'}
-                               rightIconSize={50}
+                               rightIconSize={50} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen')}
                 />

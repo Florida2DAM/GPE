@@ -20,9 +20,9 @@ export default class DeliverCheckScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.goBack()}
-                               pageName={'Checkout'} rightIcon={'navigate-next'} rightIconSize={60}
+                               pageName={'Checkout'} rightIcon={'arrow-forward-ios'} rightIconSize={40}
                                pressRightIcon={() => this.props.navigation.navigate('DeliverPaymentScreen', {item: this.state.order})}/>
                 <View style={{marginTop: '5%'}}>
                     <FlatList

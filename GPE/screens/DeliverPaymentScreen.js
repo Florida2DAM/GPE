@@ -82,8 +82,8 @@ export default class DeliverPaymentScreen extends Component {
             <View style={style.container}>
                 {this.state.isReady === true ?
                     <View>
-                        <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
-                                       pageName={'Payment'} rightIcon={'done'} rightIconSize={50}
+                        <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} marginLeft={'2%'}
+                                       pageName={'Payment'} rightIcon={'done'} rightIconSize={50} marginRight={'1%'}
                                        pressLeftIcon={() => this.props.navigation.goBack()}
                                        pressRightIcon={this.showConfirm}/>
                         <GPEModal isVisible={this.state.visible} content='Are you sure to continue?'

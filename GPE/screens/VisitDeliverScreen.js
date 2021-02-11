@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
-import ClientCard from '../components/ClientCard';
+import {ClientCard} from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {axios, GPEApi, style} from '../components/GPEConst';
@@ -73,7 +73,7 @@ export default class VisitDeliverScreen extends Component {
         return (
             <>
                 <View style={style.container}>
-                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'}
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'} marginLeft={'2%'}
                                    pressLeftIcon={() => this.props.navigation.goBack()}/>
                     <GPEFilter onChange={this.setFilter}/>
                     <FlatList

@@ -23,13 +23,13 @@ export default class ItemsListScreen extends Component {
     getArticles = () => {
         axios.get(GPEApi + 'Articles').then((response) => {
             this.setState({allItems: response.data});
-            this.setState({items: this.state.allItems});
+            this.setState({items: response.data});
         });
     };
 
     // Methods used to filter items in the screen using the GPEFiler component
-    setFilter = (e) => {
-        this.setState({e}, () => {
+    setFilter = (filter) => {
+        this.setState({filter}, () => {
             this.filter();
         });
     };
@@ -55,8 +55,8 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
-                               pageName={'Item List'}
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40}
+                               pageName={'Item List'} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.goBack()}/>
                 <GPEFilter onChange={this.setFilter}/>
                 <FlatList
