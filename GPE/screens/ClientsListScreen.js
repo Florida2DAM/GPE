@@ -3,9 +3,7 @@ import {FlatList, View} from 'react-native';
 import ClientCard from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
-import {axios, GPEApi} from '../components/GPEConst';
-
-const style = require('../components/Styles');
+import {axios, GPEApi, style} from '../components/GPEConst';
 
 export default class ClientsListScreen extends Component {
 
@@ -14,7 +12,7 @@ export default class ClientsListScreen extends Component {
         this.state = {
             allClients: [],
             clients: [],
-            filter: ''
+            filter: '',
         };
     }
 
@@ -22,6 +20,7 @@ export default class ClientsListScreen extends Component {
         this.getClients();
     }
 
+    // Promise used to get all clients and save them into our states to show them as a clientsList
     getClients = () => {
         axios.get(GPEApi + 'Clients').then((response) => {
             this.setState({allClients: response.data});
@@ -29,6 +28,7 @@ export default class ClientsListScreen extends Component {
         });
     };
 
+    // Methods used to filter items in the screen using the GPEFiler component
     setFilter = (filter) => {
         this.setState({filter}, () => {
             this.filter();
