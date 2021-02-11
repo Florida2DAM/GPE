@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
+// Component used to recieve an array object and a screen as props, then the picker depending of the screen which we
+// send will show a list which we can choose only 1 item and this item will be returned to the parent and work with it
 export class GPEPicker extends Component {
     constructor() {
         super();
@@ -10,6 +12,7 @@ export class GPEPicker extends Component {
         };
     }
 
+    // When the option is changed we show and send it to teh parent
     updateSelectedOption = (e) => {
         this.setState({selectedOption: e});
         this.props.getOption(e);

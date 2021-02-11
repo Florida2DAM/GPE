@@ -10,7 +10,6 @@ export class GPEInput extends Component {
         };
     }
 
-
     render() {
         return (
             <View style={[styles.input, {

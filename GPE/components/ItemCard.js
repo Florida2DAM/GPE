@@ -1,24 +1,22 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
+// Component used to show articles in a FlatList. We get an article object using props from the parent to show the client info
 export class ItemCard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            total: 0,
-        };
-    }
-
     render() {
         let article = this.props.getArticle;
         return (
             <View style={styles.mainContainer}>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'column'}}>
-                    <Text style={[styles.text, {fontWeight: 'bold', fontSize: 20, marginBottom: '3%'}]}>{article.Description}</Text>
+                <View style={{justifyContent: 'space-between', flexDirection: 'column'}}>
+                    <Text style={[styles.text, {
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        marginBottom: '3%',
+                    }]}>{article.Description}</Text>
                     <Text style={styles.text}>Category: {article.Category}</Text>
                     <Text style={styles.text}>Brand: {article.Brand}</Text>
                 </View>
-                <View style={{ justifyContent: 'space-between', flexDirection: 'column', alignContent: 'flex-end'}}>
+                <View style={{justifyContent: 'space-between', flexDirection: 'column', alignContent: 'flex-end'}}>
                     <Text style={[styles.text, {alignSelf: 'flex-end'}]}>ID: {article.ArticleId}</Text>
                     <Text style={[styles.text, {fontSize: 23}]}>{article.Price} €</Text>
                 </View>
@@ -43,6 +41,6 @@ const styles = StyleSheet.create({
     text: {
         color: '#f7f7f7',
         fontSize: 16,
-        marginBottom: '1%'
+        marginBottom: '1%',
     },
 });

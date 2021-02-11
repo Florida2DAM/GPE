@@ -3,6 +3,8 @@ import {StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {SeparatorLine} from './SeparatorLine';
 
+// This is the navigation bar, this component is used in all our screens, we can choose the icons and the text of the
+// navigation bar.
 export class NavigationBar extends Component {
     render() {
         return (

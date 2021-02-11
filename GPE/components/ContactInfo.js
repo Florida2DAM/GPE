@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
 
+// Component used to change the client when we are in the OrderConfirm, it shows the new client selected when we choose
+// the new client.
 export class ContactInfo extends Component {
     render() {
         return (

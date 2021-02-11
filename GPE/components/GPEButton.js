@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 
+// A simple pressable view created for the GPE project, using props we can
 export class GPEButton extends Component {
     render() {
         return (

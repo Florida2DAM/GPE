@@ -1,8 +1,9 @@
-/* eslint-disable prettier/prettier */
 import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-export default class ClientCard extends Component {
+// Component used to show clients in a FlatList, depending of their index we show them with background orange or white.
+// We get a client object using props from the parent to show the client info
+export class ClientCard extends Component {
     render() {
         let client = this.props.client;
         return (

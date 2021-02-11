@@ -2,13 +2,9 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
 
+// This component is used in the OrderConfirmScreen, here we can increase/decrease the total units we have in our OrderLines
+// and it changes the orderLines total and the order total.
 export class ModifyQuantity extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-
     increaseUnits = () => {
         this.props.orderLine.Quantity = parseInt(this.props.orderLine.Quantity) + 1;
         this.updateTotal();
@@ -28,7 +24,7 @@ export class ModifyQuantity extends Component {
         const priceDiscount = priceQuantity - (priceQuantity * (this.props.orderLine.Discount / 100));
         const priceIva = priceDiscount + (priceDiscount * (this.props.orderLine.Iva / 100));
         this.props.orderLine.TotalLine = Math.trunc(priceIva * 100) / 100;
-    }
+    };
 
     render() {
         return (
@@ -39,13 +35,13 @@ export class ModifyQuantity extends Component {
                         <Text style={[styles.text, styles.smallText]}>ID: {this.props.orderLine.ArticleId}</Text>
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.orderLine.Price}€</Text>
                     </View>
-                    <View style={{alignItems: 'flex-end' }}>
+                    <View style={{alignItems: 'flex-end'}}>
                         <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
                             <Button title='-' type='clear' titleStyle={styles.button}
-                                onPress={this.decreaseUnits}/>
+                                    onPress={this.decreaseUnits}/>
                             <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
                             <Button title='+' type='clear' titleStyle={styles.button}
-                                onPress={this.increaseUnits}/>
+                                    onPress={this.increaseUnits}/>
                         </View>
                     </View>
                 </View>

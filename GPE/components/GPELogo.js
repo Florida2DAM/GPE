@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import {Image, View} from 'react-native';
 
 export class GPELogo extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <View>

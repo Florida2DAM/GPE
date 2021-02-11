@@ -17,7 +17,9 @@ import MainScreen from '../screens/MainScreen';
 
 const stack = createStackNavigator();
 
-export default class GPENavigation extends Component {
+// This is the component used to create the stack navigation, here we have all our screens imported and asigned them
+// a certain name, like the .js
+export class GPENavigation extends Component {
     render() {
         return (
             <NavigationContainer>
