@@ -8,10 +8,7 @@ import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Toast} from 'primereact/toast';
 
-const axios = require('axios');
-
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+import {GPEApi,axios,moment} from '../components/GPEConst'
 
 export class ArticlesView extends React.Component {
 
@@ -28,7 +25,7 @@ export class ArticlesView extends React.Component {
     }
 
     getArticles = () => {
-        axios.get(api + 'Articles').then((response) => {
+        axios.get(GPEApi + 'Articles').then((response) => {
             response.data.forEach(item => {
                 if (item.Enabled === true) {
                     item.Enabled = 'Yes';
@@ -40,7 +37,7 @@ export class ArticlesView extends React.Component {
         })
     }
     // articleById = () => {
-    //     axios.get(api + 'Articles/GetLocal?Local=' + this.state.local).then((response) => {
+    //     axios.get(GPEApi + 'Articles/GetLocal?Local=' + this.state.local).then((response) => {
     //         response.data.forEach(item => {
     //             item.Fecha = moment(item.Fecha).format('YYYY-MM-DD HH:mm:ss');
     //         })
@@ -49,7 +46,7 @@ export class ArticlesView extends React.Component {
     //     })
     // }
     // articleByDescrip = () => {
-    //     axios.get(api + 'Articles/GetVisitante?Visitante=' + this.state.visitant).then((response) => {
+    //     axios.get(GPEApi + 'Articles/GetVisitante?Visitante=' + this.state.visitant).then((response) => {
     //         response.data.forEach(item => {
     //             item.Fecha = moment(item.Fecha).format('YYYY-MM-DD HH:mm:ss');
     //         })
@@ -59,7 +56,7 @@ export class ArticlesView extends React.Component {
     // }
     // articleByBrand
     //     = () => {
-    //     axios.get(api + 'Articles/GetDate?Fecha=' + this.state.date).then((response) => {
+    //     axios.get(GPEApi + 'Articles/GetDate?Fecha=' + this.state.date).then((response) => {
     //         response.data.forEach(item => {
     //             item.Fecha = moment(item.Fecha).format('YYYY-MM-DD HH:mm:ss');
     //         })
@@ -69,7 +66,7 @@ export class ArticlesView extends React.Component {
     // }
     // articleEnabled
     //     = () => {
-    //     axios.get(api + 'Articles/GetDate?Fecha=' + this.state.date).then((response) => {
+    //     axios.get(GPEApi + 'Articles/GetDate?Fecha=' + this.state.date).then((response) => {
     //         response.data.forEach(item => {
     //             item.Fecha = moment(item.Fecha).format('YYYY-MM-DD HH:mm:ss');
     //         })
@@ -84,7 +81,7 @@ export class ArticlesView extends React.Component {
     //             Visitante: this.state.visitant,
     //             Fecha: moment(this.state.date).format('YYYY-MM-DD HH:mm:ss')
     //         }
-    //         axios.post(api + 'Articles', createEvent).then((response) => {
+    //         axios.post(GPEApi + 'Articles', createEvent).then((response) => {
     //             this.showInfoSuccess('Evento creado');
     //         })
     //             .then(this.resetStates)
@@ -96,7 +93,7 @@ export class ArticlesView extends React.Component {
     //     }
     // }
     // deleteEvents = () => {
-    //     axios.delete(api + 'Articles?EventoId=' + this.state.eventId).then((response) => {
+    //     axios.delete(GPEApi + 'Articles?EventoId=' + this.state.eventId).then((response) => {
     //         this.showInfoSuccess('Evento: ' + this.state.eventId + ' eliminado.');
     //     })
     //         .then(this.resetStates)
@@ -106,7 +103,7 @@ export class ArticlesView extends React.Component {
     // }
     // updateDate = () => {
     //     let dateFormated = moment(this.state.date).format('YYYY-MM-DD HH:mm:ss');
-    //     axios.put(api + 'Articles/NewDate?EventoId=' + this.state.eventId + '&Fecha=' + dateFormated).then((response) => {
+    //     axios.put(GPEApi + 'Articles/NewDate?EventoId=' + this.state.eventId + '&Fecha=' + dateFormated).then((response) => {
     //         this.showInfoSuccess('Fecha actualizada para el evento: ' + this.state.eventId);
     //     })
     //         .then(this.resetStates)

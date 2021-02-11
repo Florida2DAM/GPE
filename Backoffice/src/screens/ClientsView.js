@@ -8,11 +8,9 @@ import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Toast} from 'primereact/toast';
 import {createRef} from 'react';
+import {GPEApi,axios,moment} from '../components/GPEConst'
 
-const axios = require('axios');
-const moment = require('moment');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+
 
 export class ClientsView extends React.Component {
 
@@ -29,7 +27,7 @@ export class ClientsView extends React.Component {
     }
 
     getClients = () => {
-        axios.get(api+'Clients').then((response) => {
+        axios.get(GPEApi+'Clients').then((response) => {
             response.data.forEach(item => {
                 item.RegisterDate = moment(item.RegisterDate).format('YYYY-MM-DD');
                 if (item.Enabled === true) {
@@ -42,7 +40,7 @@ export class ClientsView extends React.Component {
         })
     }
     // filterMail = () => {
-    //     axios.get(api+'Usuarios/GetEmail?EmailId=' + this.state.email).then((response) => {
+    //     axios.get(GPEApi+'Usuarios/GetEmail?EmailId=' + this.state.email).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaAlta = moment(item.FechaAlta).format('YYYY-MM-DD');
     //         });
@@ -51,7 +49,7 @@ export class ClientsView extends React.Component {
     //     })
     // }
     // filterName = () => {
-    //     axios.get(api+'Usuarios/GetNombre?Nombre=' + this.state.name).then((response) => {
+    //     axios.get(GPEApi+'Usuarios/GetNombre?Nombre=' + this.state.name).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaAlta = moment(item.FechaAlta).format('YYYY-MM-DD');
     //         });
@@ -60,7 +58,7 @@ export class ClientsView extends React.Component {
     //     })
     // }
     // filterSurname = () => {
-    //     axios.get(api+'Usuarios/GetApellidos?Apellidos=' + this.state.surname).then((response) => {
+    //     axios.get(GPEApi+'Usuarios/GetApellidos?Apellidos=' + this.state.surname).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaAlta = moment(item.FechaAlta).format('YYYY-MM-DD');
     //         });
@@ -70,7 +68,7 @@ export class ClientsView extends React.Component {
     // }
     // deleteUsers = () => {
     //     if(this.state.email){
-    //         axios.delete(api+'Usuarios?EmailId=' + this.state.email).then((response) => {
+    //         axios.delete(GPEApi+'Usuarios?EmailId=' + this.state.email).then((response) => {
     //             this.showInfoSuccessToast('Usuario ' + this.state.email + ' eliminado.')
     //         })
     //             .then(this.resetStates)
@@ -88,7 +86,7 @@ export class ClientsView extends React.Component {
     //         NewPassword: this.state.newPwd,
     //         ConfirmPassword: this.state.confirmPwd
     //     };
-    //     axios.post(api+'Account/NewPassword?Email=' + this.state.email, pwd).then((response) => {
+    //     axios.post(GPEApi+'Account/NewPassword?Email=' + this.state.email, pwd).then((response) => {
     //         this.showInfoSuccessToast('Contraseña modificada correctamente para el email:  ' + this.state.email);
     //     })
     //         .then(this.resetStates)

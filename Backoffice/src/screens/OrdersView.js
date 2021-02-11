@@ -7,11 +7,7 @@ import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
-
-const axios = require('axios');
-const moment = require('moment');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+import {GPEApi,axios,moment} from '../components/GPEConst'
 
 export class OrdersView extends React.Component {
 
@@ -28,7 +24,7 @@ export class OrdersView extends React.Component {
     }
 
     getOrders = () => {
-        axios.get(api + 'Orders').then((response) => {
+        axios.get(GPEApi + 'Orders').then((response) => {
             response.data.forEach(item => {
                 item.Date = moment(item.Date).format('YYYY-MM-DD');
                 item.DeriveryDate = moment(item.Date).format('YYYY-MM-DD');

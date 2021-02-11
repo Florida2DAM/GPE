@@ -7,10 +7,8 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Toast} from 'primereact/toast';
+import {GPEApi,axios,moment} from '../components/GPEConst'
 
-const axios = require('axios');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
 
 export class EmployeesView extends React.Component {
 
@@ -27,7 +25,7 @@ export class EmployeesView extends React.Component {
     }
 
     getEmployees = () => {
-        axios.get(api + 'Employee').then((response) => {
+        axios.get(GPEApi + 'Employee').then((response) => {
             response.data.forEach(item => {
                 if (item.Enabled === true) {
                     item.Enabled = 'Yes';
@@ -39,7 +37,7 @@ export class EmployeesView extends React.Component {
         })
     }
     // getMarkets = () => {
-    //     axios.get(api+'Mercados').then((response) => {
+    //     axios.get(GPEApi+'Mercados').then((response) => {
     //         response.data.forEach(item => {
     //             if (item.Bloqueado === true) {
     //                 item.Bloqueado = 'Si';
@@ -54,7 +52,7 @@ export class EmployeesView extends React.Component {
     // }
     //
     // filterMail = () => {
-    //     axios.get(api+'Apuestas/GetEmail?UsuarioId=' + this.state.userId).then((response) => {
+    //     axios.get(GPEApi+'Apuestas/GetEmail?UsuarioId=' + this.state.userId).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
     //             item.DineroApostado = item.DineroApostado + '€';
@@ -64,7 +62,7 @@ export class EmployeesView extends React.Component {
     //     })
     // }
     // filterMarket = () => {
-    //     axios.get(api+'Apuestas/GetMercado?MercadoId=' + this.state.marketId).then((response) => {
+    //     axios.get(GPEApi+'Apuestas/GetMercado?MercadoId=' + this.state.marketId).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
     //             item.DineroApostado = item.DineroApostado + '€';
@@ -74,7 +72,7 @@ export class EmployeesView extends React.Component {
     //     })
     // }
     // filterEvent = () => {
-    //     axios.get(api+'Apuestas/GetEvento?EventoId=' + this.state.eventId).then((response) => {
+    //     axios.get(GPEApi+'Apuestas/GetEvento?EventoId=' + this.state.eventId).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
     //             item.DineroApostado = item.DineroApostado + '€';
@@ -84,7 +82,7 @@ export class EmployeesView extends React.Component {
     //     })
     // }
     // createMarkets = () => {
-    //     axios.post(api+'Mercados?EventoId=' + this.state.eventId).then(() => {
+    //     axios.post(GPEApi+'Mercados?EventoId=' + this.state.eventId).then(() => {
     //         this.showInfoSuccessToast('Mercados para el evento ' + this.state.eventId + ' creados');
     //         this.resetStates();
     //         this.getMarkets();
@@ -94,12 +92,12 @@ export class EmployeesView extends React.Component {
     //         });
     // }
     // lockMarket = () => {
-    //     axios.get(api+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
+    //     axios.get(GPEApi+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
     //         if (response.data.Bloqueado) {
     //             this.showErrorToast('Este mercado ya esta bloqueado');
     //             this.resetStates();
     //         } else {
-    //             axios.put(api+'Mercados/Lock?MercadoId=' + this.state.marketId).then(() => {
+    //             axios.put(GPEApi+'Mercados/Lock?MercadoId=' + this.state.marketId).then(() => {
     //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' bloqueado');
     //                 this.resetStates();
     //                 this.getMarkets();
@@ -111,12 +109,12 @@ export class EmployeesView extends React.Component {
     //     });
     // }
     // unlockMarket = () => {
-    //     axios.get(api+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
+    //     axios.get(GPEApi+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
     //         if (!response.data.Bloqueado) {
     //             this.showErrorToast('Este mercado ya esta desbloqueado');
     //             this.resetStates();
     //         } else {
-    //             axios.put(api+'Mercados/Unlock?MercadoId=' + this.state.marketId).then(() => {
+    //             axios.put(GPEApi+'Mercados/Unlock?MercadoId=' + this.state.marketId).then(() => {
     //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' desbloqueado');
     //                 this.resetStates();
     //                 this.getMarkets();
