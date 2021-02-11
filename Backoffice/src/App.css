@@ -34,10 +34,11 @@ html {
 .menu {
     position: fixed;
     top: 25%;
+
 }
 
 .mainWindow {
-    margin-left: 7%;
+    margin-left: 10%;
 }
 
 .flexCenter {

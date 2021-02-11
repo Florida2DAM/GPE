@@ -5,6 +5,7 @@ import {TabPanel, TabView} from 'primereact/tabview';
 import {Chart} from 'primereact/chart';
 import {axios, GPEApi} from '../components/GPEConst'
 
+
 export class ReportsView extends React.Component {
 
     constructor(props) {
@@ -27,22 +28,22 @@ export class ReportsView extends React.Component {
 
     // Llamadas Axios
     getBetsDate = () => {
-        axios.get(api+'Apuestas/GetFechas').then((response) => {
+        axios.get(GPEApi+'Apuestas/GetFechas').then((response) => {
             this.setState({betsDate: response.data});
         })
     }
     getBetsCount = () => {
-        axios.get(api+'Apuestas/GetAltas').then((response) => {
+        axios.get(GPEApi+'Apuestas/GetAltas').then((response) => {
             this.setState({betsCount: response.data});
         })
     }
     getUsersDate = () => {
-        axios.get(api+'Usuarios/GetFechas').then((response) => {
+        axios.get(GPEApi+'Usuarios/GetFechas').then((response) => {
             this.setState({usersDate: response.data});
         })
     }
     getUsersCount = () => {
-        axios.get(api+'Usuarios/GetAltas').then((response) => {
+        axios.get(GPEApi+'Usuarios/GetAltas').then((response) => {
             this.setState({usersCount: response.data});
         })
     }

@@ -4,15 +4,13 @@ import '../App.css';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
+import {GPEButton} from '../components/GPEButton';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Toast} from 'primereact/toast';
 import {createRef} from 'react';
-
-const axios = require('axios');
+import {axios, GPEApi} from '../components/GPEConst'
 const moment = require('moment');
-const apiPort = '44388';
-const api = 'https://localhost:' + apiPort + '/api/';
+
 
 export class ClientsView extends React.Component {
 
@@ -29,7 +27,7 @@ export class ClientsView extends React.Component {
     }
 
     getClients = () => {
-        axios.get(api+'Clients').then((response) => {
+        axios.get(GPEApi+'Clients').then((response) => {
             response.data.forEach(item => {
                 item.RegisterDate = moment(item.RegisterDate).format('YYYY-MM-DD');
                 if (item.Enabled === true) {
@@ -42,7 +40,7 @@ export class ClientsView extends React.Component {
         })
     }
     // filterMail = () => {
-    //     axios.get(api+'Usuarios/GetEmail?EmailId=' + this.state.email).then((response) => {
+    //     axios.get(GPEApi+'Usuarios/GetEmail?EmailId=' + this.state.email).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaAlta = moment(item.FechaAlta).format('YYYY-MM-DD');
     //         });
@@ -51,7 +49,7 @@ export class ClientsView extends React.Component {
     //     })
     // }
     // filterName = () => {
-    //     axios.get(api+'Usuarios/GetNombre?Nombre=' + this.state.name).then((response) => {
+    //     axios.get(GPEApi+'Usuarios/GetNombre?Nombre=' + this.state.name).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaAlta = moment(item.FechaAlta).format('YYYY-MM-DD');
     //         });
@@ -60,7 +58,7 @@ export class ClientsView extends React.Component {
     //     })
     // }
     // filterSurname = () => {
-    //     axios.get(api+'Usuarios/GetApellidos?Apellidos=' + this.state.surname).then((response) => {
+    //     axios.get(GPEApi+'Usuarios/GetApellidos?Apellidos=' + this.state.surname).then((response) => {
     //         response.data.forEach(item => {
     //             item.FechaAlta = moment(item.FechaAlta).format('YYYY-MM-DD');
     //         });
@@ -70,7 +68,7 @@ export class ClientsView extends React.Component {
     // }
     // deleteUsers = () => {
     //     if(this.state.email){
-    //         axios.delete(api+'Usuarios?EmailId=' + this.state.email).then((response) => {
+    //         axios.delete(GPEApi+'Usuarios?EmailId=' + this.state.email).then((response) => {
     //             this.showInfoSuccessToast('Usuario ' + this.state.email + ' eliminado.')
     //         })
     //             .then(this.resetStates)
@@ -88,7 +86,7 @@ export class ClientsView extends React.Component {
     //         NewPassword: this.state.newPwd,
     //         ConfirmPassword: this.state.confirmPwd
     //     };
-    //     axios.post(api+'Account/NewPassword?Email=' + this.state.email, pwd).then((response) => {
+    //     axios.post(GPEApi+'Account/NewPassword?Email=' + this.state.email, pwd).then((response) => {
     //         this.showInfoSuccessToast('Contraseña modificada correctamente para el email:  ' + this.state.email);
     //     })
     //         .then(this.resetStates)
@@ -127,7 +125,7 @@ export class ClientsView extends React.Component {
     //     this.setState({confirmPwd: ''});
     // }
     //
-    // buttonFilter = () => {
+    // GPEButtonFilter = () => {
     //     if (this.state.email) {
     //         this.filterMail();
     //     }
@@ -162,11 +160,11 @@ export class ClientsView extends React.Component {
                                        disabled={this.state.name || this.state.surname} placeholder='Email'
                                        style={{width: '40%', marginLeft: '1%'}}/>
 
-                            <Button icon='pi pi-refresh' onClick={this.resetStates} variant="outlined"
-                                    className='p-button-warning'
+                            <GPEButton GetIcon='pi pi-refresh' onClick={this.resetStates} variant="outlined"
+                                    className='p-GPEButton-warning'
                             />
-                            <Button label='Filtrar' icon='pi pi-filter' onClick={this.buttonFilter}
-                                    className='p-button-warning' style={{width: '15%', marginLeft: '1%', marginRight: '1%'}}/>
+                            <GPEButton GetLabel='Filtrar' icon='pi pi-filter' onClick={this.GPEButtonFilter}
+                                    className='p-GPEButton-warning' style={{width: '15%', marginLeft: '1%', marginRight: '1%'}}/>
                         </div>
 
                     </TabPanel>
@@ -174,8 +172,8 @@ export class ClientsView extends React.Component {
                         <div className='flexCenter'>
                             <InputText value={this.state.email} onChange={this.handlerEmail}
                                        placeholder='Email' style={{width: '40%'}}/>
-                            <Button label='Eliminar' icon='pi pi-trash' onClick={this.deleteUsers}
-                                    className='p-button-secondary p-mr-2'/>
+                            <GPEButton GetLabel='Eliminar' icon='pi pi-trash' onClick={this.deleteUsers}
+                                    className='p-GPEButton-secondary p-mr-2'/>
                         </div>
 
                     </TabPanel>
@@ -185,8 +183,8 @@ export class ClientsView extends React.Component {
                                        placeholder='Email' style={{width: '30%'}}/>
                             <InputText type='password' value={this.state.oldPwd} onChange={this.handlerOldPwd}
                                        placeholder='Contraseña anterior' style={{width: '30%'}}/>
-                            <Button label='Confirmar' onClick={this.changePassword}
-                                    className='p-button-secondary p-mr-2' style={{width: '30%'}}/>
+                            <GPEButton label='Confirmar' onClick={this.changePassword}
+                                    className='p-GPEButton-secondary p-mr-2' style={{width: '30%'}}/>
                         </div>
                     </TabPanel>
                 </TabView>
