@@ -53,8 +53,8 @@ namespace GPE.Models
             modelBuilder.Entity<Lot>().HasData(new Lot(2, "Lote-02", 1000));
 
             // Tabla Employees
-            modelBuilder.Entity<Employee>().HasData(new Employee(1, "Jesus", "Deliverer", true));
-            modelBuilder.Entity<Employee>().HasData(new Employee(2, "Miguel", "Salesman", true));
+            modelBuilder.Entity<Employee>().HasData(new Employee(1, "Jesus", "Deliverer", null, true));
+            modelBuilder.Entity<Employee>().HasData(new Employee(2, "Miguel", "Salesman", "Jesus", true));
 
             // Tabla Clients
             modelBuilder.Entity<Client>().HasData(new Client(1, "Wei", "Su casa", "Valencia", "46400", "Valencia", "Españita", "666555444", "emailflamote@gmail.com", "20945677-A", "Su madre", Convert.ToDateTime("2011-01-01 00:00:00"), true));
