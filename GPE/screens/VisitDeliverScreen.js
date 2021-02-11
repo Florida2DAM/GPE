@@ -4,6 +4,7 @@ import ClientCard from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {axios, GPEApi, style} from '../components/GPEConst';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class VisitDeliverScreen extends Component {
     constructor(props) {
@@ -12,20 +13,28 @@ export default class VisitDeliverScreen extends Component {
             allOrders: [],
             orders: [],
             filter: '',
-            employee: 'Jesus',
+            employee: {},
         };
     }
 
+    // When the screen is mounted we get from the storage the logged employee and after that we charge his orders.
     componentDidMount() {
-        this.getOrders();
+        this.restoreEmployee().then(this.getOrders());
     }
 
+    async restoreEmployee() {
+        const jsonValue = await AsyncStorage.getItem('employee');
+        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
+    };
+
+    // Here we push into our orders objects only the orders which our employee has to deliver checking the Deliverer field
+    // from Order
     getOrders = () => {
         let newOrders = [];
 
         axios.get(GPEApi + 'Orders/GetDeliver').then((response) => {
             response.data.forEach(item => {
-                if (item.Deliverer === this.state.employee) {
+                if (item.Deliverer === this.state.employee.Name) {
                     newOrders.push(item);
                 }
             });
@@ -34,6 +43,7 @@ export default class VisitDeliverScreen extends Component {
         });
     };
 
+    // Methods used to filter items in the screen using the GPEFiler component
     setFilter = (filter) => {
         this.setState({filter}, () => {
             this.filter();
