@@ -13,18 +13,29 @@ export default class VisitSalesScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            employeeType: this.props.employeeType,
             allClients: [],
             clients: [],
-            order: [],
-            orderLines: [],
-            employeeId: 8,
             filter: '',
+            juanjo: -1,
+            toConfirm: false,
+            orderLines: []
         };
     }
 
     componentDidMount() {
         this.getClients();
-        this.getInfo();
+    }
+
+    componentDidUpdate() {
+        if (this.props.route.params !== undefined) {
+            if (this.props.route.params.juanjo !== undefined && this.state.toConfirm === false) {                
+                if (this.props.route.params.juanjo !== this.state.juanjo) {
+                    this.setState({ toConfirm: true });
+                    this.setState({ orderLines: this.props.route.params.orderLines });
+                }
+            }
+        }
     }
 
     getClients = () => {
@@ -33,16 +44,6 @@ export default class VisitSalesScreen extends Component {
             this.setState({ clients: response.data });
         });
     };
-
-    getInfo = () => {
-        //this.setState({employeeId: this.props.route.params.employeeId});
-        if (this.props.route.params.orderLines !== undefined) {
-            this.setState({ orderLines: this.props.route.params.orderLines });
-        }
-        if (this.props.route.params.order !== undefined) {
-            this.setState({ order: this.props.route.params.order });
-        }
-    }
 
     setFilter = (filter) => {
         this.setState({ filter }, () => {
@@ -57,17 +58,25 @@ export default class VisitSalesScreen extends Component {
         } else {
             this.state.allClients.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Name.toUpperCase().includes(filterText) 
-                    || element.Address.toUpperCase().includes(filterText) 
+                if (element.Name.toUpperCase().includes(filterText)
+                    || element.Address.toUpperCase().includes(filterText)
                     || element.City.toUpperCase().includes(filterText)
                     || element.Phone.toUpperCase().includes(filterText)
-                    || element.ContactName.toUpperCase().includes(filterText) ) {
+                    || element.ContactName.toUpperCase().includes(filterText)) {
                     clientList.push(element);
                 }
             });
             this.setState({ clients: clientList });
         }
     };
+
+    navigateJuanjo = (item) => {
+        let screen;
+        if (this.state.toConfirm) screen = 'OrderConfirmsScreen';
+        else screen = 'OrderArticlesScreen';
+        this.setState({ toConfirm: false });
+        this.props.navigation.navigate(screen, { client: item, orderLines: this.state.orderLines });
+    }
 
     render() {
         return (
@@ -85,7 +94,7 @@ export default class VisitSalesScreen extends Component {
                         renderItem={({ item, index }) => {
                             return (
                                 <Pressable
-                                    onPress={() => this.props.navigation.navigate('OrderArticlesScreen', { client: item, employeeId: this.state.employeeId, order: this.state.order, orderLines: this.state.orderLines })}>
+                                    onPress={() => this.navigateJuanjo(item)}>
                                     <ClientCard
                                         index={index}
                                         client={item}

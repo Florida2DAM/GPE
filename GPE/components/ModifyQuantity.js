@@ -6,43 +6,53 @@ export class ModifyQuantity extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            units: 1,
         };
     }
 
     increaseUnits = () => {
-        this.setState({units: this.state.units + 1});
+        this.props.orderLine.Quantity = parseInt(this.props.orderLine.Quantity) + 1;
+        this.updateTotal();
+        this.props.itemChange(this.props.orderLine);
     };
 
     decreaseUnits = () => {
-        if (this.state.units > 1) {
-            this.setState({units: this.state.units - 1});
+        if (this.props.orderLine.Quantity > 1) {
+            this.props.orderLine.Quantity -= 1;
+            this.updateTotal();
+            this.props.itemChange(this.props.orderLine);
         }
     };
+
+    updateTotal = () => {
+        const priceQuantity = this.props.orderLine.Price * this.props.orderLine.Quantity;
+        const priceDiscount = priceQuantity - (priceQuantity * (this.props.orderLine.Discount / 100));
+        const priceIva = priceDiscount + (priceDiscount * (this.props.orderLine.Iva / 100));
+        this.props.orderLine.TotalLine = Math.trunc(priceIva * 100) / 100;
+    }
 
     render() {
         return (
             <View style={styles.container}>
                 <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'column'}}>
-                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.name}</Text>
-                        <Text style={[styles.text, styles.smallText]}>ID: {this.props.id}</Text>
-                        <Text style={[styles.text, styles.smallText]}>Price: {this.props.price}€</Text>
+                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.orderLine.Description}</Text>
+                        <Text style={[styles.text, styles.smallText]}>ID: {this.props.orderLine.ArticleId}</Text>
+                        <Text style={[styles.text, styles.smallText]}>Price: {this.props.orderLine.Price}€</Text>
                     </View>
                     <View style={{alignItems: 'flex-end' }}>
                         <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
                             <Button title='-' type='clear' titleStyle={styles.button}
-                                    onPress={this.decreaseUnits}/>
-                            <Text style={styles.text}>{this.state.units}</Text>
+                                onPress={this.decreaseUnits}/>
+                            <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
                             <Button title='+' type='clear' titleStyle={styles.button}
-                                    onPress={this.increaseUnits}/>
+                                onPress={this.increaseUnits}/>
                         </View>
                     </View>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]}
                             onPress={this.props.remove}/>
-                    <Text style={styles.text}>Total: 20€</Text>
+                    <Text style={styles.text}>Total: {this.props.orderLine.TotalLine}€</Text>
                 </View>
             </View>
         );
