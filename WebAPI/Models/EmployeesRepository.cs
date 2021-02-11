@@ -10,14 +10,15 @@ namespace GPE.Models
         //Show all employees
         internal List<Employee> Retrieve()
         {
-            List<Employee> employees = context.Employees.ToList();
+            List<Employee> employees = context.Employees
+                .Where(e=>e.Enabled)
+                .ToList();
             return employees;
         }
 
         //Add a new employeer
         internal void Save(Employee emp)
         {
-
             context.Employees.Add(emp);
             context.SaveChanges();
         }
