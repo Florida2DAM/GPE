@@ -49,6 +49,14 @@ export default class LoggingScreen extends Component {
         });
     };
 
+    checkEmployeeSelected = () => {
+        if (Object.keys(this.state.employee).length === 0) {
+            alert('First you have to choose your employee');
+        } else {
+            this.gpeLog();
+        }
+    };
+
     render() {
         return (
             <View style={[style.container]}>
@@ -66,7 +74,7 @@ export default class LoggingScreen extends Component {
                     <GPELabel title={'Worker\'s function'} content={this.state.employee.Type}/>
                 </View>
                 <View style={{alignSelf: 'center', marginTop: '5%'}}>
-                    <Pressable style={styles.button} onPress={() => this.gpeLog()}>
+                    <Pressable style={styles.button} onPress={this.checkEmployeeSelected}>
                         <Icon name={'login'} type='material' size={60} color={'#ffcc57'}/>
                     </Pressable>
                 </View>

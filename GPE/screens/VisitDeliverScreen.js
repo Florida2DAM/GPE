@@ -58,6 +58,7 @@ export default class VisitDeliverScreen extends Component {
             this.state.allOrders.forEach(item => {
                 const filterText = this.state.filter.toUpperCase();
                 if (item.Name.toUpperCase().includes(filterText)
+                    || item.OrderNum.includes(filterText)
                     || item.Client.ContactName.toUpperCase().includes(filterText)
                     || item.Client.Phone.includes(filterText)
                     || item.Client.Address.toUpperCase().includes(filterText)
@@ -86,6 +87,8 @@ export default class VisitDeliverScreen extends Component {
                                     <ClientCard
                                         client={item.Client}
                                         index={index}
+                                        orderNum={item.OrderNum}
+                                        screen={'VisitDeliverScreen'}
                                     />
                                 </Pressable>
                             );

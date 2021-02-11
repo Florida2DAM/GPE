@@ -155,7 +155,7 @@ export default class ClientAddScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'navigate-before'} leftIconSize={50}
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.goBack()}
                                pageName={'Add Client'} rightIcon={'done'} rightIconSize={50}
                                pressRightIcon={this.checkFields}/>
