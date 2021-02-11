@@ -160,10 +160,10 @@ export class ClientsView extends React.Component {
                                        disabled={this.state.name || this.state.surname} placeholder='Email'
                                        style={{width: '40%', marginLeft: '1%'}}/>
 
-                            <GPEButton GetIcon='pi pi-refresh' onClick={this.resetStates} variant="outlined"
+                            <GPEButton getIcon='pi pi-refresh' onClick={this.resetStates} variant="outlined"
                                     className='p-GPEButton-warning'
                             />
-                            <GPEButton GetLabel='Filtrar' icon='pi pi-filter' onClick={this.GPEButtonFilter}
+                            <GPEButton getLabel='Filtrar' icon='pi pi-filter' onClick={this.GPEButtonFilter}
                                     className='p-GPEButton-warning' style={{width: '15%', marginLeft: '1%', marginRight: '1%'}}/>
                         </div>
 
