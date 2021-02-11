@@ -9,7 +9,7 @@ import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
 import { GPEModal } from '../components/GPEModal';
 import { axios, GPEApi, style } from '../components/GPEConst';
-import { Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class OrderConfirmsScreen extends Component {
     constructor(props) {
@@ -20,13 +20,20 @@ export default class OrderConfirmsScreen extends Component {
             visibleRemove: false,
             visibleConfirm: false,
             juanjo: 0,
+            employee: {},
         };
     }
 
     componentDidMount() {
         this.updateInfo();
         this.setProductsId();
+        this.restoreEmployee();
     }
+
+    async restoreEmployee() {
+        const jsonValue = await AsyncStorage.getItem('employee');
+        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;        
+    };
 
     addOrder = () => {
         axios.post(GPEApi + 'Orders', {
@@ -38,7 +45,7 @@ export default class OrderConfirmsScreen extends Component {
             Paid: 0.0,
             PayingMethod: null,
             Deliverer: 'Jesus',
-            EmployeeId: 2,
+            EmployeeId: this.state.employee.EmployeeId,
         }).then(this.getOrderId);
     };
 
