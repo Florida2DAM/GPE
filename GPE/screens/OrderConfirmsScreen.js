@@ -19,7 +19,7 @@ export default class OrderConfirmsScreen extends Component {
             itemIdRemove: -1,
             visibleRemove: false,
             visibleConfirm: false,
-            juanjo: 0,
+            cofirmValue: 0,
             employee: {},
         };
     }
@@ -117,9 +117,9 @@ export default class OrderConfirmsScreen extends Component {
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF}
                     change={() => {
-                        this.setState({ juanjo: this.state.juanjo++ });
+                        this.setState({ cofirmValue: this.state.cofirmValue++ });
                         this.props.navigation.navigate('VisitSalesScreen', {
-                            juanjo: this.state.juanjo,
+                            cofirmValue: this.state.cofirmValue,
                             orderLines: this.props.route.params.orderLines, client: this.props.route.params.client
                         });
                     }} />

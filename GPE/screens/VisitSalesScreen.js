@@ -14,7 +14,7 @@ export default class VisitSalesScreen extends Component {
             allClients: [],
             clients: [],
             filter: '',
-            juanjo: -1,
+            cofirmValue: -1,
             toConfirm: false,
             orderLines: [],
         };
@@ -28,8 +28,8 @@ export default class VisitSalesScreen extends Component {
 
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
-            if (this.props.route.params.juanjo !== undefined && this.state.toConfirm === false) {
-                if (this.props.route.params.juanjo !== this.state.juanjo) {
+            if (this.props.route.params.cofirmValue !== undefined && this.state.toConfirm === false) {
+                if (this.props.route.params.cofirmValue !== this.state.cofirmValue) {
                     this.setState({toConfirm: true});
                     this.setState({orderLines: this.props.route.params.orderLines});
                 }
@@ -77,7 +77,7 @@ export default class VisitSalesScreen extends Component {
         }
     };
 
-    navigateJuanjo = (item) => {
+    navigateToScreen = (item) => {
         let screen;
         if (this.state.toConfirm) {
             screen = 'OrderConfirmsScreen';
@@ -104,7 +104,7 @@ export default class VisitSalesScreen extends Component {
                         renderItem={({item, index}) => {
                             return (
                                 <Pressable
-                                    onPress={() => this.navigateJuanjo(item)}>
+                                    onPress={() => this.navigateToScreen(item)}>
                                     <ClientCard
                                         index={index}
                                         client={item}
