@@ -4,13 +4,11 @@ import {ClientCard} from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {axios, GPEApi, style} from '../components/GPEConst';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class VisitSalesScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            employee: {},
             allClients: [],
             clients: [],
             filter: '',
@@ -23,7 +21,6 @@ export default class VisitSalesScreen extends Component {
     // When we navigate to this screen we restore the object employee and get the clientsList
     componentDidMount() {
         this.getClients();
-        this.restoreEmployee();
     }
 
     componentDidUpdate() {
@@ -36,16 +33,6 @@ export default class VisitSalesScreen extends Component {
             }
         }
     }
-
-    componentWillUnmount() {
-
-    }
-
-    // Restro from storage the employee object
-    async restoreEmployee() {
-        const jsonValue = await AsyncStorage.getItem('employee');
-        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
-    };
 
     // Promise used to get all clients and save them into our states to show them as a clientsList
     getClients = () => {
