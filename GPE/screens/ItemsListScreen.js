@@ -21,15 +21,15 @@ export default class ItemsListScreen extends Component {
 
     // Promise to get all items
     getArticles = () => {
-        axios.get(GPEApi + 'articles').then((response) => {
+        axios.get(GPEApi + 'Articles').then((response) => {
             this.setState({allItems: response.data});
             this.setState({items: this.state.allItems});
         });
-    }
+    };
 
     // Methods used to filter items in the screen using the GPEFiler component
-    setFilter = (filter) => {
-        this.setState({filter}, () => {
+    setFilter = (e) => {
+        this.setState({e}, () => {
             this.filter();
         });
     };
@@ -39,13 +39,13 @@ export default class ItemsListScreen extends Component {
         if (this.state.filter === '') {
             this.setState({items: this.state.allItems});
         } else {
-            this.state.allItems.forEach(element => {
+            this.state.allItems.forEach(item => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Description.toUpperCase().includes(filterText)
-                    || element.Brand.toUpperCase().includes(filterText)
-                    || element.Category.toUpperCase().includes(filterText)
-                    || element.ArticleId === filterText) {
-                    itemList.push(element);
+                if (item.Description.toUpperCase().includes(filterText)
+                    || item.Brand.toUpperCase().includes(filterText)
+                    || item.Category.toUpperCase().includes(filterText)
+                    || item.ArticleId === filterText) {
+                    itemList.push(item);
                 }
             });
             this.setState({items: itemList});
@@ -62,7 +62,9 @@ export default class ItemsListScreen extends Component {
                 <FlatList
                     data={this.state.items}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={(item) => (<ItemCard element={item}/>)}
+                    renderItem={({item, index}) => {
+                        return (<ItemCard getArticle={item}/>);
+                    }}
                 />
             </View>
         );

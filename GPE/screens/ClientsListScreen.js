@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {FlatList, View} from 'react-native';
-import ClientCard from '../components/ClientCard';
+import {ClientCard} from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {axios, GPEApi, style} from '../components/GPEConst';
 
 export default class ClientsListScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -40,14 +39,14 @@ export default class ClientsListScreen extends Component {
         if (this.state.filter === '') {
             this.setState({clients: this.state.allClients});
         } else {
-            this.state.allClients.forEach(element => {
+            this.state.allClients.forEach(item => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Name.toUpperCase().includes(filterText)
-                    || element.Address.toUpperCase().includes(filterText)
-                    || element.City.toUpperCase().includes(filterText)
-                    || element.Phone.toUpperCase().includes(filterText)
-                    || element.ContactName.toUpperCase().includes(filterText)) {
-                    clientList.push(element);
+                if (item.Name.toUpperCase().includes(filterText)
+                    || item.Address.toUpperCase().includes(filterText)
+                    || item.City.toUpperCase().includes(filterText)
+                    || item.Phone.toUpperCase().includes(filterText)
+                    || item.ContactName.toUpperCase().includes(filterText)) {
+                    clientList.push(item);
                 }
             });
             this.setState({clients: clientList});
@@ -66,7 +65,7 @@ export default class ClientsListScreen extends Component {
                 <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
                     <FlatList
                         data={this.state.clients}
-                        keyExtractor={(item) => item.ClientId.toString()}
+                        keyExtractor={(item, index) => index.toString()}
                         renderItem={({item, index}) => {
                             return (
                                 <ClientCard

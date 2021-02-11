@@ -19,7 +19,7 @@ const stack = createStackNavigator();
 
 // This is the component used to create the stack navigation, here we have all our screens imported and asigned them
 // a certain name, like the .js
-export class GPENavigation extends Component {
+export default class GPENavigation extends Component {
     render() {
         return (
             <NavigationContainer>
