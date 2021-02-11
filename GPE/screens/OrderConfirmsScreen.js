@@ -44,7 +44,7 @@ export default class OrderConfirmsScreen extends Component {
             Delivered: false,
             Paid: 0.0,
             PayingMethod: null,
-            Deliverer: 'Jesus',
+            Deliverer: this.state.employee.Deliverer,
             EmployeeId: this.state.employee.EmployeeId,
         }).then(this.getOrderId);
     };
