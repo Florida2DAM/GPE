@@ -8,9 +8,7 @@ import { Button } from 'primereact/button';
 import { TabPanel, TabView } from 'primereact/tabview';
 import { Toast } from 'primereact/toast';
 import { GPEApi, axios, moment } from '../components/GPEConst'
-import GPEDatePiker from '../components/GPEDatePicker';
 import { GPEInput } from '../components/GPEInput';
-import Picker from 'react-picker';
 import { Dropdown } from 'primereact/dropdown';
 
 export class LotsView extends React.Component {
@@ -23,15 +21,17 @@ export class LotsView extends React.Component {
             allLots: [],
             date: '',
             filter: '',
-            lotId:'',
-            articleId:'',
-            allArticleId:[]
+            lotId: '',
+            articleId: '',
+            allArticleId: [],
+            stock: 0,
+            visible: true,
+            activeIndex: 0,
         }
     }
 
     componentDidMount() {
         this.getLots();
-      
     }
 
     getLots = () => {
@@ -42,143 +42,61 @@ export class LotsView extends React.Component {
         this.getArticleIds();
     }
     getArticleIds = () => {
-        axios.get(GPEApi + 'Articles').then((response) => {
-            let articleIds=[];
-            response.data.forEach(e=>{articleIds.push(e.ArticleId)})
+        axios.get(GPEApi + 'Articles/BackOffice').then((response) => {
+            let articleIds = [];
+            response.data.forEach(e => { articleIds.push(e.ArticleId) })
             this.setState({ allArticleId: articleIds });
             console.log(articleIds)
         })
     }
+    updateLot = () => {
+        let lot = {
+            ArticleId: this.state.articleId,
+            LotId: this.state.lotId,
+            stock: this.state.stock
+        }
+        axios.put(GPEApi + 'Lots', lot).then(response => {
+            this.visibleHandler();
+            this.getLots();
+            this.clearInputs();
+        }
+        )
 
+    }
+    checkIputs=()=>{
+        if(this.state.stock=='' || this.state.articleId=='' || this.state.lotId==''){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    addLots = () => {
+        if(this.checkIputs()){
+            let lot = {
+                ArticleId: this.state.articleId,
+                LotId: this.state.lotId,
+                stock: this.state.stock
+            }
+            axios.post(GPEApi + 'Lots', lot).then(response => {
+                this.getLots();
+                this.clearInputs();
+                this.setState({ activeIndex: 0 });
+            }
+            )
+        }else{
+            alert("You have to introduce all fields")
+        }
+      
+    }
 
-    // getMarkets = () => {
-    //     axios.get(GPEApi+'Mercados').then((response) => {
-    //         response.data.forEach(item => {
-    //             if (item.Bloqueado === true) {
-    //                 item.Bloqueado = 'Si';
-    //             } else {
-    //                 item.Bloqueado = 'No';
-    //             }
-    //             item.DineroOver += '€';
-    //             item.DineroUnder += '€';
-    //         });
-    //         this.setState({markets: response.data});
-    //     })
-    // }
-    //
-    // filterMail = () => {
-    //     axios.get(GPEApi+'Apuestas/GetEmail?UsuarioId=' + this.state.userId).then((response) => {
-    //         response.data.forEach(item => {
-    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-    //             item.DineroApostado = item.DineroApostado + '€';
-    //         })
-    //         this.setState({bets: response.data});
-    //         this.showSuccessToast();
-    //     })
-    // }
-    // filterMarket = () => {
-    //     axios.get(GPEApi+'Apuestas/GetMercado?MercadoId=' + this.state.marketId).then((response) => {
-    //         response.data.forEach(item => {
-    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-    //             item.DineroApostado = item.DineroApostado + '€';
-    //         })
-    //         this.setState({bets: response.data});
-    //         this.showSuccessToast();
-    //     })
-    // }
-    // filterEvent = () => {
-    //     axios.get(GPEApi+'Apuestas/GetEvento?EventoId=' + this.state.eventId).then((response) => {
-    //         response.data.forEach(item => {
-    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-    //             item.DineroApostado = item.DineroApostado + '€';
-    //         })
-    //         this.setState({bets: response.data});
-    //         this.showSuccessToast();
-    //     })
-    // }
-    // createMarkets = () => {
-    //     axios.post(GPEApi+'Mercados?EventoId=' + this.state.eventId).then(() => {
-    //         this.showInfoSuccessToast('Mercados para el evento ' + this.state.eventId + ' creados');
-    //         this.resetStates();
-    //         this.getMarkets();
-    //     })
-    //         .catch(error => {
-    //             this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que haya introducido el ID de Evento para realizar la inserción de nuevos mercados');
-    //         });
-    // }
-    // lockMarket = () => {
-    //     axios.get(GPEApi+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
-    //         if (response.data.Bloqueado) {
-    //             this.showErrorToast('Este mercado ya esta bloqueado');
-    //             this.resetStates();
-    //         } else {
-    //             axios.put(GPEApi+'Mercados/Lock?MercadoId=' + this.state.marketId).then(() => {
-    //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' bloqueado');
-    //                 this.resetStates();
-    //                 this.getMarkets();
-    //             })
-    //                 .catch(error => {
-    //                     this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a bloquear correcto.');
-    //                 });
-    //         }
-    //     });
-    // }
-    // unlockMarket = () => {
-    //     axios.get(GPEApi+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
-    //         if (!response.data.Bloqueado) {
-    //             this.showErrorToast('Este mercado ya esta desbloqueado');
-    //             this.resetStates();
-    //         } else {
-    //             axios.put(GPEApi+'Mercados/Unlock?MercadoId=' + this.state.marketId).then(() => {
-    //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' desbloqueado');
-    //                 this.resetStates();
-    //                 this.getMarkets();
-    //             })
-    //                 .catch(error => {
-    //                     this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a desbloquear correcto.');
-    //                 });
-    //         }
-    //     });
-    // }
-    //
-
-    //
-    // resetStates = () => {
-    //     this.getLots();
-    //     this.setState({userId: ''});
-    //     this.setState({marketId: ''});
-    //     this.setState({eventId: ''});
-    // }
-    //
-    // filterButton = () => {
-    //     if (this.state.userId) {
-    //         this.filterMail();
-    //     }
-    //     if (this.state.marketId) {
-    //         this.filterMarket();
-    //     }
-    //     if (this.state.eventId) {
-    //         this.filterEvent();
-    //     }
-    // }
-    // showSuccess = () => {
-    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
-    // }
-    //
-    // showInfoSuccess = (detailValue) => {
-    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', detail: detailValue, life: 3000});
-    // }
-    //
-    // showError = (error) => {
-    //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
-    // }
-
-    lotIdHandler= (e) => {
+    lotIdHandler = (e) => {
         this.setState({ lotId: e.target.value });
     };
-
-    articleIdHandler=(e)=>{
-        this.setState({ articleId: e.target.value },console.log(e.target.value));
+    stockHandler = (e) => {
+        this.setState({ stock: e.target.value });
+    };
+    articleIdHandler = (e) => {
+        this.setState({ articleId: e.target.value }, console.log(e.target.value));
     }
     filterHandler = (e) => {
         this.setState({ filter: e.target.value }, () => {
@@ -188,7 +106,7 @@ export class LotsView extends React.Component {
     };
 
     filter = () => {
-        console.log('DEsde filter');
+
         let lotList = [];
         if (this.state.filter === '') {
             this.setState({ lots: this.state.allLots });
@@ -203,52 +121,82 @@ export class LotsView extends React.Component {
             this.setState({ lots: lotList });
         }
     };
+
+    changePage = (rowData) => {
+        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+            className='p-button-secondary p-mr-2'
+            style={{ backgroundColor: '#86AEC2' }} />
+    }
+
+    visibleHandler = () => {
+        this.setState({ visible: !this.state.visible });
+    }
+
+    showInputs = (rowData) => {
+        this.visibleHandler();
+        console.log(rowData)
+        this.setState({ lotId: rowData.LotId });
+        this.setState({ stock: rowData.Stock }, () => console.log(this.state.stock));
+        this.setState({ articleId: rowData.ArticleId });
+    }
+    clearInputs = () => {
+        this.setState({ lotId: '' });
+        this.setState({ stock: '' });
+        this.setState({ articleId: '' });
+    }
+
     render() {
         return (
             <Fragment>
                 <Toast ref={this.GPEAlert} />
-                <TabView>
+                <TabView activeIndex={this.state.activeIndex} onTabChange={(e) => this.setState({ activeIndex: e.index })}>
                     <TabPanel header='Lots'>
-                        <div className='flexCenter'>
-                            <GPEInput title='Filter : ' onChange={this.filterHandler} />
+                        {this.state.visible === true ? <div><div className='flexCenter'>
+                            <GPEInput onChange={this.filterHandler} />
                             <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getLots}
                                 className='p-button-secondary p-mr-2'
                                 style={{ backgroundColor: '#86AEC2' }} />
                         </div>
-                        <div >
-                            <DataTable value={this.state.lots}>
-                                <Column style={{ textAlign: 'center', width: '12%' }} field='ArticleId'
-                                    header='ArticleId' />
-                                <Column style={{ textAlign: 'center', width: '9%' }} field='LotId' header='LotId' />
-                                <Column style={{ textAlign: 'center', width: '11%' }} field='Stock'
-                                    header='Stock' />
-                            </DataTable>
+                            <div>
+                                <DataTable value={this.state.lots}>
+                                    <Column style={{ textAlign: 'center', width: '12%' }} field='ArticleId' header='ArticleId' />
+                                    <Column style={{ textAlign: 'center', width: '9%' }} field='LotId' header='LotId' />
+                                    <Column style={{ textAlign: 'center', width: '11%' }} field='Stock' header='Stock' />
+                                    <Column style={{ textAlign: 'center', width: '11%' }} body={this.changePage} field="Modify" header="Modify"></Column>
+                                </DataTable>
+                            </div>
                         </div>
+                            :
+                            <div>
+                                <Dropdown value={this.state.articleId} options={this.state.allArticleId}
+                                    onChange={this.articleIdHandler} placeholder="Select a Id" />
+                                <InputText value={this.state.lotId} onChange={this.lotIdHandler}
+                                    placeholder='Lot Id' style={{ width: '220px' }} />
+                                <InputText value={this.state.stock} onChange={this.stockHandler}
+                                    placeholder='Stock Number' style={{ width: '220px' }} />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateLot}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                            </div>}
                     </TabPanel>
                     <TabPanel header='New Lot'>
                         <div className='flexCenter'>
                             <div >
-                            <Dropdown  value={this.state.articleId}  options={this.state.allArticleId} 
-                                    onChange={this.articleIdHandler}  placeholder="Select a Id" />
-                                <InputText value={this.state.LotId} onChange={this.lotIdHandler}
-                                    placeholder='Lot Id' style={{ width: '220px' }} />
+                                <Dropdown value={this.state.articleId} options={this.state.allArticleId}
+                                    onChange={this.articleIdHandler} placeholder="Select a Id"  className={this.state.articleId==''&& "p-invalid p-d-block"}/>
+                                <InputText value={this.state.lotId} onChange={this.lotIdHandler}
+                                    placeholder='Lot Id' style={{ width: '220px' }} className={this.state.lotId==''&& "p-invalid p-d-block"}/>
+                                <InputText value={this.state.stock} onChange={this.stockHandler}
+                                    placeholder='Stock Number' style={{ width: '220px' }} className={this.state.stock==''&& "p-invalid p-d-block"} />
                             </div>
-                            <div className='marketsInputs'>
-                                <InputText value={this.state.marketId} onChange={this.handlerMarketId}
-                                    disabled={this.state.eventId}
-                                    placeholder='Id de mercado' style={{ width: '270px' }} />
-                                <div className='flexCenter'>
-                                    <Button label='Bloquear' icon='pi pi-lock' onClick={this.lockMarket}
-                                        className='p-button-secondary p-mr-2' style={{ backgroundColor: '#CA3C25' }} />
-                                    <Button label='Desbloquear' icon='pi pi-unlock' onClick={this.unlockMarket}
-                                        className='p-button-secondary p-mr-2'
-                                        style={{ backgroundColor: '#77FF94', color: 'black' }} />
-                                </div>
+                            <div className='flexCenter'>
+                                <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addLots}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
                             </div>
                         </div>
                     </TabPanel>
                 </TabView>
-
             </Fragment>
         )
     }
