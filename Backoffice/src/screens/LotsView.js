@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {createRef, Fragment} from 'react';
+import { createRef, Fragment } from 'react';
 import '../App.css';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
-import {TabPanel, TabView} from 'primereact/tabview';
-import {Toast} from 'primereact/toast';
-import {GPEApi,axios,moment} from '../components/GPEConst'
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { TabPanel, TabView } from 'primereact/tabview';
+import { Toast } from 'primereact/toast';
+import { GPEApi, axios, moment } from '../components/GPEConst'
+import GPEDatePiker from '../components/GPEDatePicker';
 
 export class LotsView extends React.Component {
 
@@ -16,6 +17,7 @@ export class LotsView extends React.Component {
         this.GPEAlert = createRef();
         this.state = {
             lots: [],
+            date:""
         }
     }
 
@@ -25,9 +27,11 @@ export class LotsView extends React.Component {
 
     getLots = () => {
         axios.get(GPEApi + 'Lots').then((response) => {
-            this.setState({bets: response.data});
+            this.setState({ bets: response.data });
         })
     }
+
+    
     // getMarkets = () => {
     //     axios.get(GPEApi+'Mercados').then((response) => {
     //         response.data.forEach(item => {
@@ -118,15 +122,7 @@ export class LotsView extends React.Component {
     //     });
     // }
     //
-    // handlerEmail = (event) => {
-    //     this.setState({userId: event.target.value});
-    // }
-    // handlerMarketId = (event) => {
-    //     this.setState({marketId: event.target.value});
-    // }
-    // handlerEventId = (event) => {
-    //     this.setState({eventId: event.target.value});
-    // }
+
     //
     // resetStates = () => {
     //     this.getLots();
@@ -158,79 +154,80 @@ export class LotsView extends React.Component {
     //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
     // }
 
+
+    handlerEmail = (event) => {
+        this.setState({ userId: event.target.value });
+    }
+    handlerMarketId = (event) => {
+        this.setState({ marketId: event.target.value });
+    }
+    handlerEventId = (event) => {
+        this.setState({ eventId: event.target.value });
+    }
+
+    handlerDate = (dateTime) => {
+        this.setState({date:moment(dateTime).format('DD/MM/YYYY HH:mm').toString() },()=>console.log(this.state.date));
+    }
+
     render() {
         return (
             <Fragment>
-                <Toast ref={this.GPEAlert}/>
+                <Toast ref={this.GPEAlert} />
                 <TabView>
                     <TabPanel header='Lots'>
                         <div className='flexCenter'>
+                            <GPEDatePiker title="Date Time :" getDate={this.handlerDate}></GPEDatePiker>
                             <InputText value={this.state.userId} onChange={this.handlerEmail}
-                                       disabled={this.state.marketId || this.state.eventId} placeholder='Email'
-                                       style={{width: '40%'}}/>
+                                disabled={this.state.marketId || this.state.eventId} placeholder='Email'
+                                style={{ width: '40%' }} />
                             <InputText value={this.state.marketId} onChange={this.handlerMarketId}
-                                       disabled={this.state.userId || this.state.eventId} placeholder='Id Mercado'/>
+                                disabled={this.state.userId || this.state.eventId} placeholder='Id Mercado' />
                             <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                       disabled={this.state.marketId || this.state.userId}
-                                       placeholder='ID Evento' style={{width: '15%'}}/>
+                                disabled={this.state.marketId || this.state.userId}
+                                placeholder='ID Evento' style={{ width: '15%' }} />
                             <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{backgroundColor: '#86AEC2'}}/>
+                                className='p-button-secondary p-mr-2'
+                                style={{ backgroundColor: '#86AEC2' }} />
                             <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
-                                    className='p-button-secondary p-mr-2'/>
+                                className='p-button-secondary p-mr-2' />
                         </div>
-                        <div>
-                            <DataTable value={this.state.bets}>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='ArticleId'
-                                        header='ArticleId'/>
-                                <Column style={{textAlign: 'center', width: '9%'}} field='LotId' header='LotId'/>
-                                <Column style={{textAlign: 'center', width: '11%'}} field='Stock'
-                                        header='Stock'/>
-                            </DataTable>
-                        </div>
+
                     </TabPanel>
                     <TabPanel header='New Lot'>
                         <div className='flexCenter'>
                             <div className='marketsInputs'>
                                 <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                           disabled={this.state.marketId}
-                                           placeholder='ID Evento' style={{width: '220px'}}/>
+                                    disabled={this.state.marketId}
+                                    placeholder='ID Evento' style={{ width: '220px' }} />
                                 <div className='flexCenter'>
                                     <Button label='Crear Mercados' icon='pi pi-plus' onClick={this.createMarkets}
-                                            className='p-button-secondary p-mr-2' style={{width: '220px'}}/>
+                                        className='p-button-secondary p-mr-2' style={{ width: '220px' }} />
                                 </div>
                             </div>
                             <div className='marketsInputs'>
                                 <InputText value={this.state.marketId} onChange={this.handlerMarketId}
-                                           disabled={this.state.eventId}
-                                           placeholder='Id de mercado' style={{width: '270px'}}/>
+                                    disabled={this.state.eventId}
+                                    placeholder='Id de mercado' style={{ width: '270px' }} />
                                 <div className='flexCenter'>
                                     <Button label='Bloquear' icon='pi pi-lock' onClick={this.lockMarket}
-                                            className='p-button-secondary p-mr-2' style={{backgroundColor: '#CA3C25'}}/>
+                                        className='p-button-secondary p-mr-2' style={{ backgroundColor: '#CA3C25' }} />
                                     <Button label='Desbloquear' icon='pi pi-unlock' onClick={this.unlockMarket}
-                                            className='p-button-secondary p-mr-2'
-                                            style={{backgroundColor: '#77FF94', color: 'black'}}/>
+                                        className='p-button-secondary p-mr-2'
+                                        style={{ backgroundColor: '#77FF94', color: 'black' }} />
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <DataTable value={this.state.markets}>
-                                <Column style={{textAlign: 'center', width: '14%'}} field='MercadoId'
-                                        header='ID Mercado'/>
-                                <Column style={{textAlign: 'center', width: '10%'}} field='OverUnder'
-                                        header='Tipo Mercado'/>
-                                <Column style={{textAlign: 'center'}} field='CuotaOver' header='Cuota Over'/>
-                                <Column style={{textAlign: 'center'}} field='CuotaUnder' header='Cuota Under'/>
-                                <Column style={{textAlign: 'center'}} field='DineroOver' header='Dinero Over'/>
-                                <Column style={{textAlign: 'center'}} field='DineroUnder' header='Dinero Under'/>
-                                <Column style={{textAlign: 'center', width: '14%'}} field='Bloqueado'
-                                        header='Bloqueado'/>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='EventoId'
-                                        header='ID Evento'/>
-                            </DataTable>
-                        </div>
                     </TabPanel>
                 </TabView>
+                <div >
+                    <DataTable value={this.state.bets}>
+                        <Column style={{ textAlign: 'center', width: '12%' }} field='ArticleId'
+                            header='ArticleId' />
+                        <Column style={{ textAlign: 'center', width: '9%' }} field='LotId' header='LotId' />
+                        <Column style={{ textAlign: 'center', width: '11%' }} field='Stock'
+                            header='Stock' />
+                    </DataTable>
+                </div>
             </Fragment>
         )
     }
