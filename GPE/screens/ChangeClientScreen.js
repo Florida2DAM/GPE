@@ -5,7 +5,7 @@ import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {axios, GPEApi, style} from '../components/GPEConst';
 
-export default class ChangeClient extends Component {
+export default class ChangeClientScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {

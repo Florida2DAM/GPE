@@ -124,7 +124,7 @@ export default class OrderConfirmsScreen extends Component {
                 <Divider style={{height: 10, backgroundColor: 'none'}}/>
                 <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF}
                              change={() => {
-                                 this.props.navigation.navigate('ChangeClient', {
+                                 this.props.navigation.navigate('ChangeClientScreen', {
                                      orderLines: this.props.route.params.orderLines
                                  });
                              }}/>

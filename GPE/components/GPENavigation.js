@@ -14,7 +14,7 @@ import ClientsListScreen from '../screens/ClientsListScreen';
 import DeliverCheckScreen from '../screens/DeliverCheckScreen';
 import LoggingScreen from '../screens/LoggingScreen';
 import MainScreen from '../screens/MainScreen';
-import ChangeClient from '../screens/ChangeClient';
+import ChangeClientScreen from '../screens/ChangeClientScreen';
 
 const stack = createStackNavigator();
 
@@ -37,7 +37,7 @@ export default class GPENavigation extends Component {
                     <stack.Screen name='OrderConfirmsScreen' component={OrderConfirmsScreen}/>
                     <stack.Screen name='VisitDeliverScreen' component={VisitDeliverScreen}/>
                     <stack.Screen name='VisitSalesScreen' component={VisitSalesScreen}/>
-                    <stack.Screen name='ChangeClient' component={ChangeClient}/>
+                    <stack.Screen name='ChangeClientScreen' component={ChangeClientScreen}/>
                 </stack.Navigator>
             </NavigationContainer>
         );
