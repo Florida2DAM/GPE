@@ -12,11 +12,21 @@ export default class ClientsListScreen extends Component {
             allClients: [],
             clients: [],
             filter: '',
+            client: []
         };
     }
 
     componentDidMount() {
         this.getClients();
+    }
+
+    componentDidUpdate() {
+        if (this.props.route.params !== undefined) {
+            if (this.state.client !== this.props.route.params.client && this.props.route.params.client !== []) {
+                this.setState({client: this.props.route.params.client});
+                this.getClients();
+            }
+        }
     }
 
     // Promise used to get all clients and save them into our states to show them as a clientsList
@@ -59,7 +69,7 @@ export default class ClientsListScreen extends Component {
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients List'} rightIcon={'add'}
                                rightIconSize={50} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.goBack()}
-                               pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen')}
+                               pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen', { previousScreen: 'ClientsListScreen' })}
                 />
                 <GPEFilter onChange={this.setFilter}/>
                 <View style={[style.container, {flexDirection: 'column', flex: 5}]}>
