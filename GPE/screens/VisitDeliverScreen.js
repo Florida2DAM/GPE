@@ -14,12 +14,23 @@ export default class VisitDeliverScreen extends Component {
             orders: [],
             filter: '',
             employee: {},
+            deliverCheck: ''
         };
     }
 
     // When the screen is mounted we get from the storage the logged employee and after that we charge his orders.
     componentDidMount() {
         this.restoreEmployee().then(this.getOrders());
+    }
+
+    componentDidUpdate() {
+        if (this.props.route.params !== undefined) {
+            if (this.props.route.params.deliverPending !== undefined) {
+                if (this.state.deliverCheck !== this.props.route.params.deliverPending) {                    
+                    this.setState({ deliverCheck: this.props.route.params.deliverPending }, () => this.getOrders());
+                }
+            }
+        }
     }
 
     async restoreEmployee() {
