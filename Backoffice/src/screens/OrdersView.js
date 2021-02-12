@@ -24,6 +24,7 @@ export class OrdersView extends React.Component {
             clientId: 0,
             delivered: '',
             date: '',
+            ordersFilteredDates: [],
         }
     }
 
@@ -75,7 +76,7 @@ export class OrdersView extends React.Component {
         if (this.state.filter == '') {
             this.setState({ orders: this.state.allOrders });
         } else {
-            this.state.allOrders.forEach(element => {
+            this.state.ordersFilteredDates.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
                 if (element.OrderId == (filterText)
                     || element.ClientId == (filterText)
@@ -95,11 +96,11 @@ export class OrdersView extends React.Component {
             this.state.allOrders.forEach(element => {
                 const filterDate = this.state.date;
                 if (element.Date.includes(filterDate)){
-                    console.log("ha pasado");
                     orderList.push(element);
                 }
             });
             this.setState({ orders: orderList });
+            this.setState({ ordersFilteredDates: orderList });
         }
     }
 
@@ -123,7 +124,7 @@ export class OrdersView extends React.Component {
                     <TabPanel header='Orders'>
                         <div className='flexCenter'>
                             <GPEInput onChange={this.filterHandler} />
-                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getOrders}
+                            <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
                             <Checkbox onChange={this.getDelivered} checked={this.state.delivered}></Checkbox>
