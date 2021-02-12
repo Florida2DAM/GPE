@@ -2,11 +2,6 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {GPEButton} from '../components/GPEButton';
 import {GPELogo} from '../components/GPELogo';
-import ItemsListScreen from './ItemsListScreen';
-import LoggingScreen from './LoggingScreen';
-import VisitDeliverScreen from './VisitDeliverScreen';
-import VisitSalesScreen from './VisitSalesScreen';
-import ClientsListScreen from './ClientsListScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {style} from '../components/GPEConst';
 
