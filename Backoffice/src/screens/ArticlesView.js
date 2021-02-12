@@ -28,6 +28,7 @@ export class ArticlesView extends React.Component {
             visible: true,
             activeIndex: 0,
             show: true,
+            visibleModify: false,
         }
     }
 
@@ -42,15 +43,19 @@ export class ArticlesView extends React.Component {
         })
     }
 
-    updateLot = () => {
-        let lot = {
+    updateArticle = () => {
+        let article = {
             ArticleId: this.state.articleId,
-            LotId: this.state.lotId,
-            stock: this.state.stock
+            Description: this.state.descrpition,
+            Price: this.state.price,
+            Brand: this.state.brand,
+            Category: this.state.category,
+            Iva: this.state.iva,
+            Enabled: false,
         }
-        axios.put(GPEApi + 'Lots', lot).then(response => {
+        axios.put(GPEApi + 'Articles', article).then(response => {
             this.visibleHandler();
-            this.getLots();
+            this.getArticles();
             this.clearInputs();
         }
         )
@@ -85,21 +90,38 @@ export class ArticlesView extends React.Component {
     }
 
 
-    lotIdHandler = (e) => {
-        this.setState({ lotId: e.target.value });
-    };
-    stockHandler = (e) => {
-        this.setState({ stock: e.target.value });
-    };
     articleIdHandler = (e) => {
         this.setState({ articleId: e.target.value });
     }
+
+    descrpitionHandler = (e) => {
+        this.setState({ descrpition: e.target.value });
+    };
+    priceHandler = (e) => {
+        this.setState({ price: e.target.value });
+    };
+
+    brandHandler = (e) => {
+        this.setState({ brand: e.target.value });
+    };
+    categoryHandler = (e) => {
+        this.setState({ category: e.target.value });
+    };
+    ivaHandler = (e) => {
+        this.setState({ iva: e.target.value });
+    };
+
+
     filterHandler = (e) => {
         this.setState({ filter: e.target.value }, () => {
             this.filter();
             console.log(this.state.filter);
         });
     };
+
+
+
+
 
     filter = () => {
 
@@ -132,7 +154,7 @@ export class ArticlesView extends React.Component {
                 articleList.push(element);
             }
         });
-        this.setState({ articles: articleList },()=>{this.setState({show:!this.state.show})});
+        this.setState({ articles: articleList }, () => { this.setState({ show: !this.state.show }) });
 
     };
 
@@ -143,7 +165,7 @@ export class ArticlesView extends React.Component {
                 articleList.push(element);
             }
         });
-        this.setState({ articles: articleList },()=>{this.setState({show:!this.state.show})});
+        this.setState({ articles: articleList }, () => { this.setState({ show: !this.state.show }) });
 
     };
 
@@ -154,20 +176,26 @@ export class ArticlesView extends React.Component {
     }
 
     visibleHandler = () => {
-        this.setState({ visible: !this.state.visible });
+        this.setState({ visibleModify: !this.state.visibleModify });
     }
 
     showInputs = (rowData) => {
         this.visibleHandler();
         console.log(rowData)
-        this.setState({ lotId: rowData.LotId });
-        this.setState({ stock: rowData.Stock }, () => console.log(this.state.stock));
         this.setState({ articleId: rowData.ArticleId });
+        this.setState({ descrpition: rowData.Description });
+        this.setState({ price: rowData.Price });
+        this.setState({ brand: rowData.Brand });
+        this.setState({ category: rowData.Category });
+        this.setState({ iva: rowData.Iva });
     }
     clearInputs = () => {
-        this.setState({ lotId: '' });
-        this.setState({ stock: '' });
         this.setState({ articleId: '' });
+        this.setState({ descrpition: '' });
+        this.setState({ price: '' });
+        this.setState({ brand: '' });
+        this.setState({ category: '' });
+        this.setState({ iva: '' });
     }
 
     btnActive = (rowData) => {
@@ -187,44 +215,66 @@ export class ArticlesView extends React.Component {
             <Fragment>
                 <Toast ref={this.GPEAlert} />
                 <TabView activeIndex={this.state.activeIndex}
-                         onTabChange={(e) => this.setState({activeIndex: e.index})}>
+                    onTabChange={(e) => this.setState({ activeIndex: e.index })}>
                     <TabPanel header='Articles'>
-                        <div className='flexCenter'>
-                            <GPEInput onChange={this.filterHandler} />
-                            {this.state.show ? <Button label='Show Enable' onClick={this.showEnable}
-                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                style={{ backgroundColor: '#86AEC2' }} /> :
-                                <Button label='Show Disable' onClick={this.showDisable}
-                                    className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                    style={{ backgroundColor: '#86AEC2' }} />
-                            }
-                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getArticles}
-                                className='p-button-secondary p-mr-2'
-                                style={{ backgroundColor: '#86AEC2' }} />
-                        </div>
-                        <div>
-                            <DataTable value={this.state.articles}>
-                                <Column style={{ textAlign: 'center', width: '15%' }} field='ArticleId'
-                                    header='ArticleId' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Description'
-                                    header='Description' />
-                                <Column style={{ textAlign: 'center', width: '15%' }} field='Price'
-                                    header='Price' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Brand'
-                                    header='Brand' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Category'
-                                    header='Category' />
-                                <Column style={{ textAlign: 'center', width: '10%' }} field='Iva'
-                                    header='Iva' />
-                                <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Enabled'
-                                    header='Enabled' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} body={this.changePage}
-                                    field="Modify" header="Modify"></Column>
-                            </DataTable>
-                        </div>
+                        {this.state.visibleModify ?
+                            <div>
+                                <InputText value={this.state.articleId} disabled onChange={this.articleIdHandler}
+                                    placeholder='Articulo ID' style={{ width: '100px' }} />
+                                <InputText value={this.state.descrpition} onChange={this.descrpitionHandler}
+                                    placeholder='Description' style={{ width: '200px' }} />
+                                <InputText value={this.state.price}  onChange={this.priceHandler}
+                                    placeholder='Price' style={{ width: '200px' }} />
+                                <InputText value={this.state.brand} onChange={this.brandHandler}
+                                    placeholder='Brand' style={{ width: '200px' }} />
+                                <InputText value={this.state.category}  onChange={this.categoryHandler}
+                                    placeholder='Category' style={{ width: '200px' }} />
+                                <InputText value={this.state.iva} onChange={this.ivaHandler}
+                                    placeholder='Iva' style={{ width: '200px' }} />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateArticle}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                            </div>
+                            :
+                            <div>
+                                <div className='flexCenter'>
+                                    <GPEInput onChange={this.filterHandler} />
+                                    {this.state.show ? <Button label='Show Enable' onClick={this.showEnable}
+                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                        style={{ backgroundColor: '#86AEC2' }} /> :
+                                        <Button label='Show Disable' onClick={this.showDisable}
+                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                            style={{ backgroundColor: '#86AEC2' }} />
+                                    }
+                                    <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getArticles}
+                                        className='p-button-secondary p-mr-2'
+                                        style={{ backgroundColor: '#86AEC2' }} />
+                                </div>
+                                <div>
+                                    <DataTable value={this.state.articles}>
+                                        <Column style={{ textAlign: 'center', width: '15%' }} field='ArticleId'
+                                            header='ArticleId' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Description'
+                                            header='Description' />
+                                        <Column style={{ textAlign: 'center', width: '15%' }} field='Price'
+                                            header='Price' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Brand'
+                                            header='Brand' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Category'
+                                            header='Category' />
+                                        <Column style={{ textAlign: 'center', width: '10%' }} field='Iva'
+                                            header='Iva' />
+                                        <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Enabled'
+                                            header='Enabled' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.changePage}
+                                            field="Modify" header="Modify"></Column>
+                                    </DataTable>
+                                </div>
+                            </div>
+                        }
                     </TabPanel>
                     <TabPanel header='New Articles'>
-                    
+
                     </TabPanel>
                 </TabView>
             </Fragment>
