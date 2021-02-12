@@ -188,16 +188,7 @@ export class EmployeesView extends React.Component {
                             <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
                                     className='p-button-secondary p-mr-2'/>
                         </div>
-                        <div>
-                            <DataTable value={this.state.employees}>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
-                                        header='EmployeeId'/>
-                                <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
-                                <Column style={{textAlign: 'center', width: '11%'}} field='Type'
-                                        header='Type'/>
-                                <Column style={{textAlign: 'center', width: '8%'}} field='Enabled' header='Enabled'/>
-                            </DataTable>
-                        </div>
+
                     </TabPanel>
                     <TabPanel header='New Employees'>
                         <div className='flexCenter'>
@@ -223,24 +214,19 @@ export class EmployeesView extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <DataTable value={this.state.markets}>
-                                <Column style={{textAlign: 'center', width: '14%'}} field='MercadoId'
-                                        header='ID Mercado'/>
-                                <Column style={{textAlign: 'center', width: '10%'}} field='OverUnder'
-                                        header='Tipo Mercado'/>
-                                <Column style={{textAlign: 'center'}} field='CuotaOver' header='Cuota Over'/>
-                                <Column style={{textAlign: 'center'}} field='CuotaUnder' header='Cuota Under'/>
-                                <Column style={{textAlign: 'center'}} field='DineroOver' header='Dinero Over'/>
-                                <Column style={{textAlign: 'center'}} field='DineroUnder' header='Dinero Under'/>
-                                <Column style={{textAlign: 'center', width: '14%'}} field='Bloqueado'
-                                        header='Bloqueado'/>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='EventoId'
-                                        header='ID Evento'/>
-                            </DataTable>
-                        </div>
+
                     </TabPanel>
                 </TabView>
+                <div>
+                    <DataTable value={this.state.employees}>
+                        <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
+                                header='EmployeeId'/>
+                        <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
+                        <Column style={{textAlign: 'center', width: '11%'}} field='Type'
+                                header='Type'/>
+                        <Column style={{textAlign: 'center', width: '8%'}} field='Enabled' header='Enabled'/>
+                    </DataTable>
+                </div>
             </Fragment>
         )
     }
