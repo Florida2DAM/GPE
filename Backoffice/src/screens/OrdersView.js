@@ -129,8 +129,8 @@ export class OrdersView extends React.Component {
                             <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
-                            <Checkbox onChange={this.getDelivered} checked={this.state.delivered}></Checkbox>
                             <GPEDatePicker tittle={'Date'} getDate={this.dateHandler}/>
+                            <Checkbox onChange={this.getDelivered} checked={this.state.delivered}></Checkbox>
                         </div>
                         <div>
                             <DataTable value={this.state.orders}>
