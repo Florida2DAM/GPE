@@ -115,7 +115,7 @@ export default class OrderAddItemsScreen extends Component {
         if (this.state.selectedLot === '') {
             alert('You have to select a lot ');
             flag = false;
-        } else if (this.state.units <= 0 || !this.isAnIntNumber(this.state.units)) {
+        } else if (this.state.units <= 0 || !this.isAnIntNumber(this.state.units))  {
             alert('You have to introduce a number over 0 in Units');
             flag = false;
         } else if (this.state.discount < 0 || this.state.discount > 100 || this.state.discount !== ''
@@ -124,9 +124,12 @@ export default class OrderAddItemsScreen extends Component {
             alert('You have to introduce a number between 0-100 in discount');
         }
         if (flag) {
-            this.addItemList();
+            let stock = 0;
+            this.state.article.Lots.forEach(element => { if(element.LotId == this.state.selectedLot) stock = element.Stock; });
+            if (this.state.units > stock) alert("There's no sufficient stock of this product. (Stock: " + stock + ")");
+            else this.addItemList();
         }
-    };
+    };    
 
     render() {
         if (this.state.isReady) {
