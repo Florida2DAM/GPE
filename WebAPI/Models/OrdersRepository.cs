@@ -51,6 +51,7 @@ namespace GPE.Models
         internal void Save(Order order)
         {
             order.Date = DateTime.Now;
+            order.OrderNum = NextOrderNum();
 
             context.Orders.Add(order);
             context.SaveChanges();
@@ -94,12 +95,32 @@ namespace GPE.Models
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Method used to asign the orderLines' orderId
+        /// </summary>
+        /// <returns></returns>
         internal int GetLastOrderId()
         {
             Order order = Retrieve()
                 .LastOrDefault();
 
             return order.OrderId;
+        }
+
+        /// <summary>
+        /// Method used to asing the new OrderNum to the newOrders
+        /// </summary>
+        /// <returns></returns>
+        private string NextOrderNum()
+        {
+            Order order = Retrieve()
+                .LastOrDefault();
+
+            string year = DateTime.Now.Year.ToString();
+            order.OrderId++;
+            string nextNum = year + "/" + order.OrderId.ToString("D5");
+
+            return nextNum;
         }
     }
 }
