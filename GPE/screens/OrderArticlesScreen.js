@@ -99,6 +99,7 @@ export default class OrderArticlesScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Add Items'}
+                               marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.navigate('VisitSalesScreen', {
                                    orderLines: this.state.orderLines,
                                    order: this.state.order,

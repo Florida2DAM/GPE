@@ -117,7 +117,7 @@ export default class OrderConfirmsScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                               rightIcon={'check'} rightIconSize={48}
+                               rightIcon={'check'} rightIconSize={48} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {
                                    newOrderLines: this.props.route.params.orderLines,
                                    client: this.props.route.params.client,
@@ -161,7 +161,7 @@ export default class OrderConfirmsScreen extends Component {
                               this.changeVisibleRemove();
                               this.removeProduct();
                           }}/>
-                <GPEModal isVisible={this.state.visibleConfirm} content='End Order?'
+                <GPEModal isVisible={this.state.visibleConfirm} content='Do you want to end the order?'
                           leftButtonTitle='Cancel' leftButtonPress={this.changeVisibleConfirm}
                           rightButtonTitle='Confirm' rightButtonPress={this.postOrder}/>
             </View>
