@@ -35,6 +35,7 @@ export default class OrderArticlesScreen extends Component {
         this.getInfo();
     }
 
+    // Method that looks if the screen that navigated here gave him orderlines and a client
     componentDidUpdate() {
         if (this.props.route.params.newOrderLines !== undefined) {
             if (this.props.route.params.newOrderLines !== this.state.orderLines) this.setState({orderLines: this.props.route.params.newOrderLines});
@@ -46,6 +47,7 @@ export default class OrderArticlesScreen extends Component {
         }
     }
 
+    // Method that gets every article
     getArticles = () => {
         axios.get(GPEApi + 'articles').then((response) => {
             this.setState({allArticles: response.data});
@@ -55,6 +57,7 @@ export default class OrderArticlesScreen extends Component {
         });
     }
 
+    // Method that get most of the state values if that value is given by the screen that navigated here
     getInfo = () => {
         this.setState({client: this.props.route.params.client});
         this.setState({employeeId: this.props.route.params.employeeId});
@@ -66,12 +69,14 @@ export default class OrderArticlesScreen extends Component {
         }
     }
 
+    // Methods used to filter articles in the screen using the GPEFilter component
     setFilter = (filter) => {
         this.setState({filter}, () => {
             this.filter();
         });
     };
 
+    // Method that filters articles looking their description, brand and ArticleId
     filter = () => {
         let articlesList = [];
         if (this.state.filter === '') {
@@ -79,7 +84,8 @@ export default class OrderArticlesScreen extends Component {
         } else {
             this.state.allArticles.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) || element.ArticleId === filterText) {
+                if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText) 
+                    || element.ArticleId == filterText) {
                     articlesList.push(element);
                 }
             });

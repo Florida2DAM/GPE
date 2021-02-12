@@ -26,6 +26,9 @@ export default class VisitSalesScreen extends Component {
         this.restoreEmployee();
     }
 
+    // This methods looks if the last visited screen was OrderConfirmScreen and in that case changes a variable
+    // to make sure that when the user clicks a user, the app navigates to OrderConfirmScreen instead of navigating
+    // to OrderArticlesScreen
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
             if (this.props.route.params.cofirmValue !== undefined && this.state.toConfirm === false) {
@@ -37,7 +40,7 @@ export default class VisitSalesScreen extends Component {
         }
     }
 
-    // Restro from storage the employee object
+    // Restore from storage the employee object
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
         jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
@@ -77,6 +80,7 @@ export default class VisitSalesScreen extends Component {
         }
     };
 
+    // Method used to choose the screen according to the toConfirm state value
     navigateToScreen = (item) => {
         let screen;
         if (this.state.toConfirm) {

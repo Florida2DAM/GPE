@@ -44,7 +44,7 @@ export default class ItemsListScreen extends Component {
                 if (element.Description.toUpperCase().includes(filterText)
                     || element.Brand.toUpperCase().includes(filterText)
                     || element.Category.toUpperCase().includes(filterText)
-                    || element.ArticleId === filterText) {
+                    || element.ArticleId == filterText) {
                     itemList.push(element);
                 }
             });
