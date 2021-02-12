@@ -1,7 +1,7 @@
 import React from 'react';
 import {Calendar} from 'primereact/calendar';
 
-export default class GPEDatePiker extends React.Component {
+export class GPEDatePicker extends React.Component {
     state = {
         date: ''
     }

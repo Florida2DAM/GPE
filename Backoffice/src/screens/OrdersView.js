@@ -3,12 +3,13 @@ import { createRef, Fragment } from 'react';
 import '../App.css';
 import { TabPanel, TabView } from 'primereact/tabview';
 import { Toast } from "primereact/toast";
-import { InputText } from "primereact/inputtext";
+import {Checkbox} from 'primereact/checkbox';
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { GPEApi, axios, moment } from '../components/GPEConst';
 import { GPEInput } from '../components/GPEInput';
+import { GPEDatePicker } from "../components/GPEDatePicker";
 
 export class OrdersView extends React.Component {
 
@@ -21,6 +22,8 @@ export class OrdersView extends React.Component {
             filter: '',
             orderId: 0,
             clientId: 0,
+            delivered: '',
+            date: '',
         }
     }
 
@@ -56,28 +59,49 @@ export class OrdersView extends React.Component {
         });
     };
 
+    getDelivered = (e) => {
+        if (this.state.delivered) {
+            this.setState({ delivered: 'No' })
+        } else this.setState({ delivered: 'Yes' })   
+    }
+
+    dateHandler = (e) => {
+        e = moment(e).format('YYYY-MM-DD')
+        this.setState({ date: e}, () => this.filterDate())
+    }
+
     filter = () => {
-        console.log(this.state.filter);
-        
         let orderList = [];
         if (this.state.filter == '') {
-            console.log("asdad");
-            
             this.setState({ orders: this.state.allOrders });
         } else {
-            console.log(this.state.allOrders);
             this.state.allOrders.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                console.log(element);
                 if (element.OrderId == (filterText)
-                    || (element.ClientId == (filterText)
-                    || element.Client.City.toUpperCase().includes(filterText))) {
+                    || element.ClientId == (filterText)
+                    || element.Client.City.toUpperCase().includes(filterText) ){
                     orderList.push(element);
                 }
             });
             this.setState({ orders: orderList });
         }
     };
+
+    filterDate = () => {
+        let orderList = [];
+        if (this.state.date === ''){
+            this.setState({ orders: this.state.allOrders });
+        } else {
+            this.state.allOrders.forEach(element => {
+                const filterDate = this.state.date;
+                if (element.Date.includes(filterDate)){
+                    console.log("ha pasado");
+                    orderList.push(element);
+                }
+            });
+            this.setState({ orders: orderList });
+        }
+    }
 
     // showSuccess = () => {
     //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
@@ -99,11 +123,11 @@ export class OrdersView extends React.Component {
                     <TabPanel header='Orders'>
                         <div className='flexCenter'>
                             <GPEInput onChange={this.filterHandler} />
-                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
-                                className='p-button-secondary p-mr-2'
-                                style={{ backgroundColor: '#86AEC2' }} />
-                            <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
-                                className='p-button-secondary p-mr-2' />
+                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getOrders}
+                                            className='p-button-secondary p-mr-2'
+                                            style={{backgroundColor: '#86AEC2'}}/>
+                            <Checkbox onChange={this.getDelivered} checked={this.state.delivered}></Checkbox>
+                            <GPEDatePicker tittle={'Date'} getDate={this.dateHandler}/>
                         </div>
                         <div>
                             <DataTable value={this.state.orders}>
