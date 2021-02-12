@@ -25,7 +25,7 @@ export default class ItemsListScreen extends Component {
             this.setState({allItems: response.data});
             this.setState({items: this.state.allItems});
         });
-    }
+    };
 
     // Methods used to filter items in the screen using the GPEFiler component
     setFilter = (filter) => {
@@ -39,13 +39,13 @@ export default class ItemsListScreen extends Component {
         if (this.state.filter === '') {
             this.setState({items: this.state.allItems});
         } else {
-            this.state.allItems.forEach(element => {
+            this.state.allItems.forEach(items => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.Description.toUpperCase().includes(filterText)
-                    || element.Brand.toUpperCase().includes(filterText)
-                    || element.Category.toUpperCase().includes(filterText)
-                    || element.ArticleId == filterText) {
-                    itemList.push(element);
+                if (items.Description.toUpperCase().includes(filterText)
+                    || items.Brand.toUpperCase().includes(filterText)
+                    || items.Category.toUpperCase().includes(filterText)
+                    || items.ArticleId == filterText) {
+                    itemList.push(items);
                 }
             });
             this.setState({items: itemList});
@@ -62,7 +62,11 @@ export default class ItemsListScreen extends Component {
                 <FlatList
                     data={this.state.items}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={(item) => (<ItemCard element={item}/>)}
+                    renderItem={({item}) => {
+                        return (
+                            <ItemCard getArticle={item}/>
+                        );
+                    }}
                 />
             </View>
         );

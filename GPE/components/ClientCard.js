@@ -14,11 +14,11 @@ export class ClientCard extends Component {
                     <View
                         style={parseInt(this.props.index) % 2 === 0 ? [styles.phoneInfo, {backgroundColor: '#ef802f'}] : [styles.phoneInfo, {backgroundColor: 'white'}]}>
                         <Text
-                            style={parseInt(this.props.index) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text]}>
+                            style={parseInt(this.props.index) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text, {color: 'black'}]}>
                             {client.ContactName}
                         </Text>
                         <Text
-                            style={parseInt(this.props.index) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text]}>
+                            style={parseInt(this.props.index) % 2 === 0 ? [styles.text, {color: 'white'}] : [styles.text, {color: 'black'}]}>
                             {client.Phone}
                         </Text>
                     </View>

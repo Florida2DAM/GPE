@@ -118,7 +118,7 @@ export default class OrderArticlesScreen extends Component {
                     <FlatList
                         data={this.state.articles}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item, index}) => {
+                        renderItem={({item}) => {
                             return (
                                 <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {
                                     article: item,
