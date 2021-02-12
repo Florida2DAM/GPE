@@ -117,8 +117,9 @@ namespace GPE.Models
                 .LastOrDefault();
 
             string year = DateTime.Now.Year.ToString();
-            order.OrderId++;
-            string nextNum = year + "/" + order.OrderId.ToString("D5");
+            int newId = order.OrderId;
+            newId++;
+            string nextNum = year + "/" + newId.ToString("D5");
 
             return nextNum;
         }
