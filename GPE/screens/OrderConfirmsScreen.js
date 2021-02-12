@@ -17,7 +17,6 @@ export default class OrderConfirmsScreen extends Component {
             itemIdRemove: -1,
             visibleRemove: false,
             visibleConfirm: false,
-            confirmValue: 0,
             employee: {},
         };
     }
@@ -74,7 +73,6 @@ export default class OrderConfirmsScreen extends Component {
         let i = 1;
         this.props.route.params.orderLines.forEach(element => {
             element.LineId = i++;
-            ;
         });
     };
 

@@ -87,7 +87,7 @@ export default class OrderArticlesScreen extends Component {
             this.state.allArticles.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
                 if (element.Description.toUpperCase().includes(filterText) || element.Brand.toUpperCase().includes(filterText)
-                    || element.ArticleId == filterText) {
+                    || element.ArticleId == filterText || element.Category.toUpperCase().includes(filterText))  {
                     articlesList.push(element);
                 }
             });
@@ -118,7 +118,7 @@ export default class OrderArticlesScreen extends Component {
                     <FlatList
                         data={this.state.articles}
                         keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item, index}) => {
+                        renderItem={({item}) => {
                             return (
                                 <Pressable onPress={() => this.props.navigation.navigate('OrderAddItemsScreen', {
                                     article: item,

@@ -132,8 +132,8 @@ export default class OrderAddItemsScreen extends Component {
         if (this.state.isReady) {
             return (
                 <View style={style.container}>
-                    <NavigationBar leftIcon={'navigate-before'} leftIconSize={60} rightIcon={'add-circle-outline'}
-                                   rightIconSize={45} pageName={'Add Item'}
+                    <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} rightIcon={'add-circle-outline'}
+                                   rightIconSize={45} pageName={'Add Item'} marginLeft={'2%'} marginRight={'1%'}
                                    pressLeftIcon={() => this.props.navigation.goBack()}
                                    pressRightIcon={this.checkFields}/>
                     <View style={{alignSelf: 'center', marginTop: '5%'}}>
