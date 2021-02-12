@@ -1,14 +1,14 @@
 import * as React from 'react';
-import {createRef, Fragment} from 'react';
+import { createRef, Fragment } from 'react';
 import '../App.css';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
-import {TabPanel, TabView} from 'primereact/tabview';
-import {Toast} from 'primereact/toast';
-
-import {GPEApi,axios,moment} from '../components/GPEConst'
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { TabPanel, TabView } from 'primereact/tabview';
+import { Toast } from 'primereact/toast';
+import { GPEInput } from '../components/GPEInput';
+import { GPEApi, axios, moment } from '../components/GPEConst'
 
 export class ArticlesView extends React.Component {
 
@@ -17,6 +17,17 @@ export class ArticlesView extends React.Component {
         this.GPEAlert = createRef();
         this.state = {
             articles: [],
+            allArticles: [],
+            articleId: '',
+            descrpition: '',
+            price: '',
+            brand: '',
+            category: '',
+            iva: '',
+            enabled: false,
+            visible: true,
+            activeIndex: 0,
+            show: true,
         }
     }
 
@@ -25,18 +36,205 @@ export class ArticlesView extends React.Component {
     }
 
     getArticles = () => {
-        axios.get(GPEApi + 'Articles').then((response) => {
-            response.data.forEach(item => {
-                if (item.Enabled === true) {
-                    item.Enabled = 'Yes';
-                } else {
-                    item.Enabled = 'No';
-                }
-            });
-            this.setState({articles: response.data});
+        axios.get(GPEApi + 'Articles/BackOffice').then((response) => {
+            this.setState({ articles: response.data });
+            this.setState({ allArticles: response.data });
         })
     }
-    // articleById = () => {
+
+    updateLot = () => {
+        let lot = {
+            ArticleId: this.state.articleId,
+            LotId: this.state.lotId,
+            stock: this.state.stock
+        }
+        axios.put(GPEApi + 'Lots', lot).then(response => {
+            this.visibleHandler();
+            this.getLots();
+            this.clearInputs();
+        }
+        )
+
+    }
+
+    checkIputs = () => {
+        if (this.state.stock == '' || this.state.articleId == '' || this.state.lotId == '') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    addLots = () => {
+        if (this.checkIputs()) {
+            let lot = {
+                ArticleId: this.state.articleId,
+                LotId: this.state.lotId,
+                stock: this.state.stock
+            }
+            axios.post(GPEApi + 'Lots', lot).then(response => {
+                this.getLots();
+                this.clearInputs();
+                this.setState({ activeIndex: 0 });
+            }
+            )
+        } else {
+            alert("You have to introduce all fields")
+        }
+
+    }
+
+
+    lotIdHandler = (e) => {
+        this.setState({ lotId: e.target.value });
+    };
+    stockHandler = (e) => {
+        this.setState({ stock: e.target.value });
+    };
+    articleIdHandler = (e) => {
+        this.setState({ articleId: e.target.value });
+    }
+    filterHandler = (e) => {
+        this.setState({ filter: e.target.value }, () => {
+            this.filter();
+            console.log(this.state.filter);
+        });
+    };
+
+    filter = () => {
+
+        let articleList = [];
+        if (this.state.filter === '') {
+            this.setState({ articles: this.state.allArticles });
+        } else {
+            this.state.allArticles.forEach(element => {
+                const filterText = this.state.filter.toUpperCase();
+                if (element.ArticleId == (filterText) ||
+                    element.Description.toUpperCase().includes(filterText) ||
+                    element.Brand.toUpperCase().includes(filterText) ||
+                    element.Category.toUpperCase().includes(filterText) ||
+                    element.Price == (filterText) ||
+                    element.Iva == (filterText)
+                ) {
+                    articleList.push(element);
+                }
+            });
+            this.setState({ articles: articleList });
+        }
+    };
+
+
+    showEnable = () => {
+
+        let articleList = [];
+        this.state.allArticles.forEach(element => {
+            if (element.Enabled == true) {
+                articleList.push(element);
+            }
+        });
+        this.setState({ articles: articleList },()=>{this.setState({show:!this.state.show})});
+
+    };
+
+    showDisable = () => {
+        let articleList = [];
+        this.state.allArticles.forEach(element => {
+            if (element.Enabled == false) {
+                articleList.push(element);
+            }
+        });
+        this.setState({ articles: articleList },()=>{this.setState({show:!this.state.show})});
+
+    };
+
+    changePage = (rowData) => {
+        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+            className='p-button-secondary p-mr-2'
+            style={{ backgroundColor: '#86AEC2' }} />
+    }
+
+    visibleHandler = () => {
+        this.setState({ visible: !this.state.visible });
+    }
+
+    showInputs = (rowData) => {
+        this.visibleHandler();
+        console.log(rowData)
+        this.setState({ lotId: rowData.LotId });
+        this.setState({ stock: rowData.Stock }, () => console.log(this.state.stock));
+        this.setState({ articleId: rowData.ArticleId });
+    }
+    clearInputs = () => {
+        this.setState({ lotId: '' });
+        this.setState({ stock: '' });
+        this.setState({ articleId: '' });
+    }
+
+    btnActive = (rowData) => {
+        return (<>{rowData.Enabled ?
+            <Button label='YES' onClick={() => this.changeArticle(rowData)} className='p-button-success' />
+            :
+            <Button label='NO' onClick={() => this.changeArticle(rowData)} className=' p-button-danger' />
+        }
+        </>)
+    }
+    changeArticle = (articles) => {
+        axios.put(GPEApi + 'Articles/' + articles.ArticleId).then(() => this.getArticles())
+    }
+
+    render() {
+        return (
+            <Fragment>
+                <Toast ref={this.GPEAlert} />
+                <TabView activeIndex={this.state.activeIndex}
+                         onTabChange={(e) => this.setState({activeIndex: e.index})}>
+                    <TabPanel header='Articles'>
+                        <div className='flexCenter'>
+                            <GPEInput onChange={this.filterHandler} />
+                            {this.state.show ? <Button label='Show Enable' onClick={this.showEnable}
+                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                style={{ backgroundColor: '#86AEC2' }} /> :
+                                <Button label='Show Disable' onClick={this.showDisable}
+                                    className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                    style={{ backgroundColor: '#86AEC2' }} />
+                            }
+                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getArticles}
+                                className='p-button-secondary p-mr-2'
+                                style={{ backgroundColor: '#86AEC2' }} />
+                        </div>
+                        <div>
+                            <DataTable value={this.state.articles}>
+                                <Column style={{ textAlign: 'center', width: '15%' }} field='ArticleId'
+                                    header='ArticleId' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Description'
+                                    header='Description' />
+                                <Column style={{ textAlign: 'center', width: '15%' }} field='Price'
+                                    header='Price' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Brand'
+                                    header='Brand' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Category'
+                                    header='Category' />
+                                <Column style={{ textAlign: 'center', width: '10%' }} field='Iva'
+                                    header='Iva' />
+                                <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Enabled'
+                                    header='Enabled' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} body={this.changePage}
+                                    field="Modify" header="Modify"></Column>
+                            </DataTable>
+                        </div>
+                    </TabPanel>
+                    <TabPanel header='New Articles'>
+                    
+                    </TabPanel>
+                </TabView>
+            </Fragment>
+        )
+    }
+}
+
+
+
+  // articleById = () => {
     //     axios.get(GPEApi + 'Articles/GetLocal?Local=' + this.state.local).then((response) => {
     //         response.data.forEach(item => {
     //             item.Fecha = moment(item.Fecha).format('YYYY-MM-DD HH:mm:ss');
@@ -157,110 +355,3 @@ export class ArticlesView extends React.Component {
     // showError = (error) => {
     //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
     // }
-
-    render() {
-        return (
-            <Fragment>
-                <Toast ref={this.GPEAlert}/>
-                <TabView>
-                    <TabPanel header='Articles'>
-                        <div className='flexCenter'>
-                            <InputText value={this.state.local} onChange={this.handlerLocal}
-                                       placeholder='Equipo local'/>
-                            <InputText value={this.state.visitant} onChange={this.handlerVisitant}
-                                       placeholder='Equipo visitante'/>
-                            <InputText value={this.state.date} onChange={this.handlerDate} disabled={this.state.eventId}
-                                       placeholder='Fecha: 2000-01-01 00:00:00' style={{width: '230px'}}/>
-                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{backgroundColor: '#86AEC2'}}/>
-                            <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
-                                    className='p-button-secondary p-mr-2'/>
-                        </div>
-
-                    </TabPanel>
-                    <TabPanel header='New Articles'>
-                        <div className='flexCenter'>
-                            <InputText value={this.state.local} onChange={this.handlerLocal}
-                                       placeholder='Equipo local'/>
-                            <InputText value={this.state.visitant} onChange={this.handlerVisitant}
-                                       placeholder='Equipo visitante'/>
-                            <InputText value={this.state.date} onChange={this.handlerDate}
-                                       placeholder='Fecha Ej: 2000-01-01 00:00:00' style={{width: '230px'}}/>
-                            <Button label='Crear' icon='pi pi-plus' onClick={this.createEvents}
-                                    className='p-button-secondary p-mr-2'/>
-                        </div>
-                        <div>
-                            <DataTable value={this.state.eventos}>
-                                <Column style={{textAlign: 'center', width: '15%'}} field='EventoId'
-                                        header='ID Evento'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Local'
-                                        header='Equipo Local'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Visitante'
-                                        header='Equipo Visitante'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Fecha' header='Fecha'/>
-                            </DataTable>
-                        </div>
-                    </TabPanel>
-                    <TabPanel header='Modify Articles'>
-                        <div className='flexCenter'>
-                            <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                       placeholder='IdEvento'/>
-                            <InputText value={this.state.date} onChange={this.handlerDate}
-                                       placeholder='Fecha Ej: 2000-01-01 00:00:00' style={{width: '230px'}}/>
-                            <Button label='Modificar' icon='pi pi-pencil' onClick={this.updateDate}
-                                    className='p-button-secondary p-mr-2'/>
-                        </div>
-                        <div>
-                            <DataTable value={this.state.eventos}>
-                                <Column style={{textAlign: 'center', width: '15%'}} field='EventoId'
-                                        header='ID Evento'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Local'
-                                        header='Equipo Local'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Visitante'
-                                        header='Equipo Visitante'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Fecha' header='Fecha'/>
-                            </DataTable>
-                        </div>
-                    </TabPanel>
-                    <TabPanel header='Eliminar Articles'>
-                        <div className='flexCenter'>
-                            <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                       placeholder='ID evento'/>
-                            <Button label='Eliminar' icon='pi pi-trash' onClick={this.deleteEvents}
-                                    className='p-button-secondary p-mr-2'/>
-                        </div>
-                        <div>
-                            <DataTable value={this.state.eventos}>
-                                <Column style={{textAlign: 'center', width: '15%'}} field='EventoId'
-                                        header='ID Evento'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Local'
-                                        header='Equipo Local'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Visitante'
-                                        header='Equipo Visitante'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Fecha' header='Fecha'/>
-                            </DataTable>
-                        </div>
-                    </TabPanel>
-                    <div>
-                        <DataTable value={this.state.articles}>
-                            <Column style={{textAlign: 'center', width: '15%'}} field='ArticleId'
-                                    header='Id'/>
-                            <Column style={{textAlign: 'center', width: '25%'}} field='Description'
-                                    header='Description'/>
-                            <Column style={{textAlign: 'center', width: '25%'}} field='Brand'
-                                    header='Brand'/>
-                            <Column style={{textAlign: 'center', width: '25%'}} field='Category'
-                                    header='Category'/>
-                            <Column style={{textAlign: 'center', width: '25%'}} field='Price'
-                                    header='Price'/>
-                            <Column style={{textAlign: 'center', width: '25%'}} field='Iva'
-                                    header='IVA'/>
-                            <Column style={{textAlign: 'center', width: '25%'}} field='Enabled' header='Enabled'/>
-                        </DataTable>
-                    </div>
-                </TabView>
-            </Fragment>
-        )
-    }
-}
