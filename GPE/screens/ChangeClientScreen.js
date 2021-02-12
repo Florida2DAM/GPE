@@ -70,7 +70,7 @@ export default class ChangeClientScreen extends Component {
                         renderItem={({item, index}) => {
                             return (
                                 <Pressable
-                                    onPress={() => this.this.props.navigation.navigate('OrderConfirmsScreen', {
+                                    onPress={() => this.props.navigation.navigate('OrderConfirmsScreen', {
                                         client: item,
                                         orderLines: this.state.orderLines,
                                     })}>

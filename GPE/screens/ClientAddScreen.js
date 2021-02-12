@@ -105,7 +105,7 @@ export default class ClientAddScreen extends Component {
 
     // Promise for insert in the remote server the new client and go back in navigation if this promise worked
     addNewClient = () => {
-        axios.post(GPEApi + 'Clients', {
+        let client = {
             'Name': this.state.name,
             'Address': this.state.address,
             'City': this.state.city,
@@ -116,7 +116,8 @@ export default class ClientAddScreen extends Component {
             'Email': this.state.email,
             'NIF': this.state.nif,
             'ContactName': this.state.contact,
-        }).then(this.props.navigation.goBack());
+        }
+        axios.post(GPEApi + 'Clients', client).then(this.props.navigation.navigate(this.props.route.params.previousScreen, {client}));
     };
 
     // Checking empty/filled inputs, if all inputs are filled it shows a dialog to confirm if we are sure about
@@ -132,7 +133,7 @@ export default class ClientAddScreen extends Component {
         } else if (this.state.nif === '' || this.checkNIF(this.state.nif) === false) {
             flag = false;
             alert('Write a correct Nif');
-        } else if (this.state.phone === '') {
+        } else if (this.state.phone === '' || this.state.phone.length !== 9) {
             flag = false;
         } else if (this.state.address === '') {
             flag = false;
