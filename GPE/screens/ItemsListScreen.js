@@ -56,7 +56,7 @@ export default class ItemsListScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40}
-                               pageName={'Item List'} marginLeft={'2%'}
+                               pageName={'Items List'} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.goBack()}/>
                 <GPEFilter onChange={this.setFilter}/>
                 <FlatList

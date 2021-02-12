@@ -27,7 +27,7 @@ export default class ClientsListScreen extends Component {
         });
     };
 
-    // Methods used to filter items in the screen using the GPEFiler component
+    // Methods used to filter items in the screen using the GPEFilter component
     setFilter = (filter) => {
         this.setState({filter}, () => {
             this.filter();
@@ -56,7 +56,7 @@ export default class ClientsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients'} rightIcon={'add'}
+                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Clients List'} rightIcon={'add'}
                                rightIconSize={50} marginLeft={'2%'}
                                pressLeftIcon={() => this.props.navigation.goBack()}
                                pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen')}
