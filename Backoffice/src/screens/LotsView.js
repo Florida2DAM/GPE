@@ -168,11 +168,11 @@ export class LotsView extends React.Component {
                         </div>
                             :
                             <div>
-                                <Dropdown value={this.state.articleId} options={this.state.allArticleId}
+                                <Dropdown value={this.state.articleId} disabled options={this.state.allArticleId}
                                     onChange={this.articleIdHandler} placeholder="Select a Id" />
-                                <InputText value={this.state.lotId} onChange={this.lotIdHandler}
+                                <InputText value={this.state.lotId} disabled onChange={this.lotIdHandler}
                                     placeholder='Lot Id' style={{ width: '220px' }} />
-                                <InputText value={this.state.stock} onChange={this.stockHandler}
+                                <InputText value={this.state.stock}  onChange={this.stockHandler}
                                     placeholder='Stock Number' style={{ width: '220px' }} />
                                 <Button label='Modify' icon='pi pi-send' onClick={this.updateLot}
                                     className='p-button-secondary p-mr-2'
