@@ -24,6 +24,8 @@ export class EmployeesView extends React.Component {
             enabled:'',
             types : ['Salesman','Deliverer'],
             enableds : ['true','false'],
+            visible:true,
+            employeeId:''
         }
     }
     nameHandler = (e) => {
@@ -53,6 +55,16 @@ export class EmployeesView extends React.Component {
             return true;
         }
     }
+
+    btnActive = (rowData) => {
+        return (<>{rowData.Enabled ?
+            <Button label='YES' onClick={() => this.changeEmployee(rowData)} className='p-button-success' />
+            :
+            <Button label='NO' onClick={() => this.changeEmployee2(rowData)} className=' p-button-danger' />
+        }
+        </>)
+    }
+
     addEmployee = () => {
         if (this.checkIputs()) {
             let employee = {
@@ -96,7 +108,46 @@ export class EmployeesView extends React.Component {
             console.log(this.state.allEmployees);
         });
     };
+    changeEmployee = (employee) => {
+        let emp =  {
+            Name: this.state.name,
+            Type: this.state.type,
+            Enabled: false
+        }
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,emp).then(() => this.getEmployees())
+    }
+    changeEmployee2 = (employee) => {
+        let emp =  {
+            Name: this.state.name,
+            Type: this.state.type,
+            Enabled: true
+        }
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,emp).then(() => this.getEmployees())
+    }
+    updateEmployee = () => {
+        let emp = {
 
+            Name: this.state.name,
+            Type: this.state.type
+        }
+        axios.put(GPEApi + 'Employees/'+this.state.employeeId , emp).then(response => {
+                this.visibleHandler();
+                this.getEmployees();
+                this.clearInputs();
+            }
+        )
+
+    }
+    visibleHandler = () => {
+        this.setState({visible: !this.state.visible});
+    }
+    showInputs = (rowData) => {
+        this.visibleHandler();
+        console.log(rowData)
+        this.setState({employeeId: rowData.EmployeeId});
+        this.setState({name: rowData.Name}, () => console.log(this.state.name));
+        this.setState({enabled: rowData.Enabled});
+    }
     filter = () => {
 
         let employeeList = [];
@@ -116,13 +167,18 @@ export class EmployeesView extends React.Component {
             this.setState({employees: employeeList});
         }
     };
-
+    changePage = (rowData) => {
+        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+                       className='p-button-secondary p-mr-2'
+                       style={{backgroundColor: '#86AEC2'}}/>
+    }
     render() {
         return (
             <Fragment>
                 <Toast ref={this.GPEAlert}/>
                 <TabView>
                     <TabPanel header='Employees Filter'>
+                        {this.state.visible === true ? <div>
                         <div className='flexCenter'>
                             <GPEInput  onChange={this.filterHandler}/>
                             <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
@@ -137,9 +193,25 @@ export class EmployeesView extends React.Component {
                                 <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
                                 <Column style={{textAlign: 'center', width: '11%'}} field='Type'
                                         header='Type'/>
-                                <Column style={{textAlign: 'center', width: '8%'}} field='Enabled' header='Enabled'/>
+                                <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Enabled'
+                                        header='Enabled' />
+                                <Column style={{textAlign: 'center', width: '11%'}} body={this.changePage}
+                                        field="Modify" header="Modify"></Column>
+
                             </DataTable>
                         </div>
+                        </div>          :
+                            <div>
+                                <InputText value={this.state.name} onChange={this.nameHandler}
+                                           placeholder='Name' style={{width: '220px'}}
+                                />
+                                <Dropdown value={this.state.type} options={this.state.types}
+                                          placeholder="Select Type" onChange={this.typeHandler}
+                                />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateEmployee}
+                                        className='p-button-secondary p-mr-2'
+                                        style={{backgroundColor: '#77FF94', color: 'black'}}/>
+                            </div>}
 
                     </TabPanel>
                     <TabPanel header='New Employees'>
