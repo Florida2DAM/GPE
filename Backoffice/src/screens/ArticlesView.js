@@ -51,7 +51,7 @@ export class ArticlesView extends React.Component {
             Brand: this.state.brand,
             Category: this.state.category,
             Iva: this.state.iva,
-            Enabled: false,
+
         }
         axios.put(GPEApi + 'Articles', article).then(response => {
             this.visibleHandler();
@@ -63,22 +63,27 @@ export class ArticlesView extends React.Component {
     }
 
     checkIputs = () => {
-        if (this.state.stock == '' || this.state.articleId == '' || this.state.lotId == '') {
+        if (this.state.descrpition == '' || this.state.price == '' ||
+            this.state.brand == '' || this.state.category == '' || this.state.iva == '') {
             return false;
         } else {
             return true;
         }
     }
 
-    addLots = () => {
+    addArticle = () => {
         if (this.checkIputs()) {
-            let lot = {
+            let article = {
                 ArticleId: this.state.articleId,
-                LotId: this.state.lotId,
-                stock: this.state.stock
+                Description: this.state.descrpition,
+                Price: this.state.price,
+                Brand: this.state.brand,
+                Category: this.state.category,
+                Iva: this.state.iva,
+                Enabled: false,
             }
-            axios.post(GPEApi + 'Lots', lot).then(response => {
-                this.getLots();
+            axios.post(GPEApi + 'Articles', article).then(response => {
+                this.getArticles();
                 this.clearInputs();
                 this.setState({ activeIndex: 0 });
             }
@@ -223,11 +228,11 @@ export class ArticlesView extends React.Component {
                                     placeholder='Articulo ID' style={{ width: '100px' }} />
                                 <InputText value={this.state.descrpition} onChange={this.descrpitionHandler}
                                     placeholder='Description' style={{ width: '200px' }} />
-                                <InputText value={this.state.price}  onChange={this.priceHandler}
+                                <InputText value={this.state.price} onChange={this.priceHandler}
                                     placeholder='Price' style={{ width: '200px' }} />
                                 <InputText value={this.state.brand} onChange={this.brandHandler}
                                     placeholder='Brand' style={{ width: '200px' }} />
-                                <InputText value={this.state.category}  onChange={this.categoryHandler}
+                                <InputText value={this.state.category} onChange={this.categoryHandler}
                                     placeholder='Category' style={{ width: '200px' }} />
                                 <InputText value={this.state.iva} onChange={this.ivaHandler}
                                     placeholder='Iva' style={{ width: '200px' }} />
@@ -274,7 +279,19 @@ export class ArticlesView extends React.Component {
                         }
                     </TabPanel>
                     <TabPanel header='New Articles'>
-
+                        <InputText value={this.state.descrpition} onChange={this.descrpitionHandler}
+                            placeholder='Description' style={{ width: '200px' }} />
+                        <InputText value={this.state.price} onChange={this.priceHandler}
+                            placeholder='Price' style={{ width: '200px' }} />
+                        <InputText value={this.state.brand} onChange={this.brandHandler}
+                            placeholder='Brand' style={{ width: '200px' }} />
+                        <InputText value={this.state.category} onChange={this.categoryHandler}
+                            placeholder='Category' style={{ width: '200px' }} />
+                        <InputText value={this.state.iva} onChange={this.ivaHandler}
+                            placeholder='Iva' style={{ width: '200px' }} />
+                        <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addArticle}
+                            className='p-button-secondary p-mr-2'
+                            style={{ backgroundColor: '#77FF94', color: 'black' }} />
                     </TabPanel>
                 </TabView>
             </Fragment>
