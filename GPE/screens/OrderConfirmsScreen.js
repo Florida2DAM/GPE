@@ -17,7 +17,6 @@ export default class OrderConfirmsScreen extends Component {
             itemIdRemove: -1,
             visibleRemove: false,
             visibleConfirm: false,
-            confirmValue: 0,
             employee: {},
         };
     }
@@ -74,7 +73,6 @@ export default class OrderConfirmsScreen extends Component {
         let i = 1;
         this.props.route.params.orderLines.forEach(element => {
             element.LineId = i++;
-            ;
         });
     };
 
@@ -126,11 +124,8 @@ export default class OrderConfirmsScreen extends Component {
                 <Divider style={{height: 10, backgroundColor: 'none'}}/>
                 <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF}
                              change={() => {
-                                 this.setState({confirmValue: this.state.confirmValue++});
-                                 this.props.navigation.navigate('VisitSalesScreen', {
-                                     confirmValue: this.state.confirmValue,
-                                     orderLines: this.props.route.params.orderLines,
-                                     client: this.props.route.params.client,
+                                 this.props.navigation.navigate('ChangeClient', {
+                                     orderLines: this.props.route.params.orderLines
                                  });
                              }}/>
                 <Divider style={{height: 10, backgroundColor: 'none'}}/>
