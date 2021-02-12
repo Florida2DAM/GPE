@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {createRef, Fragment} from 'react';
+import { createRef, Fragment } from 'react';
 import '../App.css';
-import {TabPanel, TabView} from 'primereact/tabview';
-import {Toast} from "primereact/toast";
-import {InputText} from "primereact/inputtext";
-import {Button} from "primereact/button";
-import {DataTable} from "primereact/datatable";
-import {Column} from "primereact/column";
-import {GPEApi,axios,moment} from '../components/GPEConst'
+import { TabPanel, TabView } from 'primereact/tabview';
+import { Toast } from "primereact/toast";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { GPEApi, axios, moment } from '../components/GPEConst';
+import { GPEInput } from '../components/GPEInput';
 
 export class OrdersView extends React.Component {
 
@@ -16,6 +17,8 @@ export class OrdersView extends React.Component {
         this.GPEAlert = createRef();
         this.state = {
             orders: [],
+            allOrders: [],
+            filter: '',
         }
     }
 
@@ -39,9 +42,33 @@ export class OrdersView extends React.Component {
                     item.Paid = 'No';
                 }
             });
-            this.setState({orders: response.data});
+            this.setState({ orders: response.data });
         })
     }
+
+    filterHandler = (e) => {
+        this.setState({ filter: e.target.value }, () => {
+            this.filter();
+            console.log(this.state.filter);
+        });
+    };
+
+    filter = () => {
+
+        let orderList = [];
+        if (this.state.filter === '') {
+            this.setState({ orders: this.state.allOrders });
+        } else {
+            this.state.allOrders.forEach(element => {
+                const filterText = this.state.filter.toUpperCase();
+                if (element.ArticleId == (filterText)
+                    || element.LotId.toUpperCase().includes(filterText)) {
+                    orderList.push(element);
+                }
+            });
+            this.setState({ orders: orderList });
+        }
+    };
 
     // showSuccess = () => {
     //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
@@ -58,42 +85,30 @@ export class OrdersView extends React.Component {
     render() {
         return (
             <Fragment>
-                <Toast ref={this.GPEAlert}/>
+                <Toast ref={this.GPEAlert} />
                 <TabView>
                     <TabPanel header='Orders'>
                         <div className='flexCenter'>
-                            <InputText value={this.state.local} onChange={this.handlerLocal}
-                                       placeholder='Equipo local'/>
-                            <InputText value={this.state.visitant} onChange={this.handlerVisitant}
-                                       placeholder='Equipo visitante'/>
-                            <InputText value={this.state.date} onChange={this.handlerDate} disabled={this.state.eventId}
-                                       placeholder='Fecha: 2000-01-01 00:00:00' style={{width: '230px'}}/>
+                            <GPEInput onChange={this.filterHandler} />
                             <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{backgroundColor: '#86AEC2'}}/>
+                                className='p-button-secondary p-mr-2'
+                                style={{ backgroundColor: '#86AEC2' }} />
                             <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
-                                    className='p-button-secondary p-mr-2'/>
+                                className='p-button-secondary p-mr-2' />
                         </div>
                         <div>
                             <DataTable value={this.state.orders}>
-                                <Column style={{textAlign: 'center', width: '15%'}} field='OrderId'
-                                        header='OrderId'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='ClientId'
-                                        header='ClientId'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='OrderNum'
-                                        header='OrderNum'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Date'
-                                        header='Date'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='DeriveryDate'
-                                        header='DeriveryDate'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='ContactName'
-                                        header='ContactName'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Total'
-                                        header='Total'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Delivered' header='Delivered'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='Paid' header='Paid'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='PayingMethod' header='PayingMethod'/>
-                                <Column style={{textAlign: 'center', width: '25%'}} field='EmployeeId' header='EmployeeId'/>
+                                <Column style={{ textAlign: 'center', width: '15%' }} field='OrderId' header='OrderId' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='ClientId' header='ClientId' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='ContactName' header='ContactName' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='PayingMethod' header='PayingMethod' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
                             </DataTable>
                         </div>
                     </TabPanel>
