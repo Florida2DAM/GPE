@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     input: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderRadius: 4,
+        borderRadius: 10,
         borderWidth: 2,
         borderColor: '#ffcc57',
         padding: '2%',

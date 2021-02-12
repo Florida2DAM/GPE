@@ -29,14 +29,14 @@ export class ModifyQuantity extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'column'}}>
                         <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.orderLine.Description}</Text>
                         <Text style={[styles.text, styles.smallText]}>ID: {this.props.orderLine.ArticleId}</Text>
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.orderLine.Price}€</Text>
                     </View>
                     <View style={{alignItems: 'flex-end'}}>
-                        <View style={{flexDirection: 'row', alignItems: 'center', height: '50%'}}>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Button title='-' type='clear' titleStyle={styles.button}
                                     onPress={this.decreaseUnits}/>
                             <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
@@ -45,7 +45,7 @@ export class ModifyQuantity extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]}
                             onPress={this.props.remove}/>
                     <Text style={styles.text}>Total: {this.props.orderLine.TotalLine}€</Text>
@@ -62,13 +62,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderColor: '#ffcc57',
         backgroundColor: '#3b3b3b',
-        height: '95%',
-        width: '100%',
-        alignSelf: 'center',
         paddingTop: '2%',
         paddingBottom: '4%',
         paddingLeft: '4%',
         paddingRight: '4%',
+        marginBottom: '1.5%'
     },
     text: {
         color: '#f7f7f7',

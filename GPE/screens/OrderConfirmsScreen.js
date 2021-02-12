@@ -125,29 +125,29 @@ export default class OrderConfirmsScreen extends Component {
                     })}
                     pressRightIcon={this.changeVisibleConfirm} />
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF}
-                    change={() => {
-                        this.props.navigation.navigate('ChangeClientScreen', {
-                            orderLines: this.props.route.params.orderLines,
-                            client: this.props.route.params.client,
-                        });
-                    }} />
-                <Divider style={{ height: 10, backgroundColor: 'none' }} />
-                <FlatList
-                    data={this.props.route.params.orderLines}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => {
-                        return (
-                            <View style={{ flex: 1 }}>
+                <View style={{marginLeft: '2%', marginRight: '2%'}}>
+                    <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF}
+                        change={() => {
+                            this.props.navigation.navigate('ChangeClientScreen', {
+                                orderLines: this.props.route.params.orderLines,
+                                client: this.props.route.params.client,
+                            });
+                        }} />
+                    <Divider style={{ height: 10, backgroundColor: 'none' }} />
+                    <FlatList
+                        data={this.props.route.params.orderLines}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => {
+                            return (
                                 <ModifyQuantity orderLine={item} remove={() => {
                                     this.changeVisibleRemove();
                                     this.setState({ itemIdRemove: item.LineId });
                                 }}
                                     itemChange={this.updateInfo} />
-                            </View>
-                        );
-                    }}
-                />
+                            );
+                        }}
+                    />
+                </View>
                 <View style={{ alignItems: 'center' }}>
                     <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'}
                         content={this.state.total}
