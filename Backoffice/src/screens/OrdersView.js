@@ -19,6 +19,8 @@ export class OrdersView extends React.Component {
             orders: [],
             allOrders: [],
             filter: '',
+            orderId: 0,
+            clientId: 0,
         }
     }
 
@@ -30,7 +32,7 @@ export class OrdersView extends React.Component {
         axios.get(GPEApi + 'Orders').then((response) => {
             response.data.forEach(item => {
                 item.Date = moment(item.Date).format('YYYY-MM-DD');
-                item.DeriveryDate = moment(item.Date).format('YYYY-MM-DD');
+                item.DeliveryDate = moment(item.Date).format('YYYY-MM-DD');
                 if (item.Delivered === true) {
                     item.Delivered = 'Yes';
                 } else {
@@ -43,6 +45,7 @@ export class OrdersView extends React.Component {
                 }
             });
             this.setState({ orders: response.data });
+            this.setState({ allOrders: response.data })
         })
     }
 
@@ -54,15 +57,21 @@ export class OrdersView extends React.Component {
     };
 
     filter = () => {
-
+        console.log(this.state.filter);
+        
         let orderList = [];
-        if (this.state.filter === '') {
+        if (this.state.filter == '') {
+            console.log("asdad");
+            
             this.setState({ orders: this.state.allOrders });
         } else {
+            console.log(this.state.allOrders);
             this.state.allOrders.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.ArticleId == (filterText)
-                    || element.LotId.toUpperCase().includes(filterText)) {
+                console.log(element);
+                if (element.OrderId == (filterText)
+                    || (element.ClientId == (filterText)
+                    || element.Client.City.toUpperCase().includes(filterText))) {
                     orderList.push(element);
                 }
             });
@@ -103,12 +112,13 @@ export class OrdersView extends React.Component {
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='ContactName' header='ContactName' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='PayingMethod' header='PayingMethod' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='PayingMethod' header='Method' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
                             </DataTable>
                         </div>
                     </TabPanel>
