@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,8 +58,15 @@ namespace GPE.Models
         /// <param name="lot"></param>
         internal void Save(Lot lot)
         {
-            context.Lots.Add(lot);
-            context.SaveChanges();
+            Lot lot1 = new Lot();
+            lot1 = context.Lots
+            .Where(l => l.ArticleId == lot.ArticleId && l.LotId == lot.LotId)
+            .FirstOrDefault();
+            if (lot1==null )
+            {
+                context.Lots.Add(lot);
+                context.SaveChanges();
+            }
         }
 
         /// <summary>
