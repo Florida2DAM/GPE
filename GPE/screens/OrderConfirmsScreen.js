@@ -9,7 +9,7 @@ import { Divider } from 'react-native-elements';
 import { GPELabel } from '../components/GPELabel';
 import { GPEModal } from '../components/GPEModal';
 import { axios, GPEApi, style } from '../components/GPEConst';
-import { Button } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class OrderConfirmsScreen extends Component {
     constructor(props) {
@@ -19,35 +19,47 @@ export default class OrderConfirmsScreen extends Component {
             itemIdRemove: -1,
             visibleRemove: false,
             visibleConfirm: false,
-            juanjo: 0,
+            cofirmValue: 0,
+            employee: {},
         };
     }
 
     componentDidMount() {
         this.updateInfo();
         this.setProductsId();
+        this.restoreEmployee();
     }
 
+    // Restore from storage the employee object
+    async restoreEmployee() {
+        const jsonValue = await AsyncStorage.getItem('employee');
+        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;        
+    };
+
+    // Method that creates the order and makes a post to the database, then it calls getOrderId function
     addOrder = () => {
         axios.post(GPEApi + 'Orders', {
             ClientId: this.props.route.params.client.ClientId,
+            OrderNum: '',
             Date: '',
             DeliveryDate: '',
             Total: this.state.total,
             Delivered: false,
             Paid: 0.0,
             PayingMethod: null,
-            Deliverer: 'Jesus',
-            EmployeeId: 2,
+            Deliverer: this.state.employee.Deliverer,
+            EmployeeId: this.state.employee.EmployeeId,
         }).then(this.getOrderId);
     };
 
+    // Given the recently added orderId it gives that value to the orderLines
     getOrderId = () => {
         axios.get(GPEApi + 'Orders/GetLast').then((response) => {
             this.addOrderLines(response.data);
         });
     };
 
+    // Method that creates the orderLines and makes a post to the database
     addOrderLines = (id) => {
         let products = [];
         this.props.route.params.orderLines.forEach(item => {
@@ -56,10 +68,10 @@ export default class OrderConfirmsScreen extends Component {
         });
         this.setState({ orderLines: products });
         let orderLines = this.props.route.params.orderLines;
-        console.log(orderLines);
         axios.post(GPEApi + 'OrderLines', orderLines);
     };
 
+    // Method that gives every orderLines its lineId
     setProductsId = () => {
         let i = 1;
         this.props.route.params.orderLines.forEach(element => {
@@ -67,6 +79,7 @@ export default class OrderConfirmsScreen extends Component {
         });        
     }
 
+    // Method that deletes the orderLine with the same id that the state saves and calls updateInfo function
     removeProduct = () => {
         this.props.route.params.orderLines = this.props.route.params.orderLines.filter((article) => {
             return this.state.itemIdRemove !== article.LineId;
@@ -74,6 +87,7 @@ export default class OrderConfirmsScreen extends Component {
         this.updateInfo();
     }
 
+    // Method that calculates and updates the total state
     updateInfo = () => {
         let total = 0;
         this.props.route.params.orderLines.forEach(element => {
@@ -83,16 +97,19 @@ export default class OrderConfirmsScreen extends Component {
         this.setState({ total });
     }
 
+    // Method that makes the modal invisible, post the order and returns to VisitSalesScreen
     postOrder = () => {
         this.changeVisibleConfirm();
         this.addOrder();
         this.props.navigation.navigate('VisitSalesScreen');        
     };
 
+    // Method that chenges the visibility of the remove modal
     changeVisibleRemove = () => {
         this.setState({ visibleRemove: !this.state.visibleRemove });
     }
 
+    // Method that chenges the visibility of the confirm modal
     changeVisibleConfirm = () => {
         this.setState({ visibleConfirm: !this.state.visibleConfirm });
     };
@@ -110,9 +127,9 @@ export default class OrderConfirmsScreen extends Component {
                 <Divider style={{ height: 10, backgroundColor: 'none' }} />
                 <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF}
                     change={() => {
-                        this.setState({ juanjo: this.state.juanjo++ });
+                        this.setState({ cofirmValue: this.state.cofirmValue++ });
                         this.props.navigation.navigate('VisitSalesScreen', {
-                            juanjo: this.state.juanjo,
+                            cofirmValue: this.state.cofirmValue,
                             orderLines: this.props.route.params.orderLines, client: this.props.route.params.client
                         });
                     }} />

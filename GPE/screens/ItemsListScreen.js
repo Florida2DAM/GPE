@@ -21,11 +21,11 @@ export default class ItemsListScreen extends Component {
 
     // Promise to get all items
     getArticles = () => {
-        axios.get(GPEApi + 'Articles').then((response) => {
+        axios.get(GPEApi + 'articles').then((response) => {
             this.setState({allItems: response.data});
-            this.setState({items: response.data});
+            this.setState({items: this.state.allItems});
         });
-    };
+    }
 
     // Methods used to filter items in the screen using the GPEFiler component
     setFilter = (filter) => {
@@ -39,13 +39,13 @@ export default class ItemsListScreen extends Component {
         if (this.state.filter === '') {
             this.setState({items: this.state.allItems});
         } else {
-            this.state.allItems.forEach(item => {
+            this.state.allItems.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (item.Description.toUpperCase().includes(filterText)
-                    || item.Brand.toUpperCase().includes(filterText)
-                    || item.Category.toUpperCase().includes(filterText)
-                    || item.ArticleId === filterText) {
-                    itemList.push(item);
+                if (element.Description.toUpperCase().includes(filterText)
+                    || element.Brand.toUpperCase().includes(filterText)
+                    || element.Category.toUpperCase().includes(filterText)
+                    || element.ArticleId == filterText) {
+                    itemList.push(element);
                 }
             });
             this.setState({items: itemList});
@@ -55,16 +55,14 @@ export default class ItemsListScreen extends Component {
     render() {
         return (
             <View style={style.container}>
-                <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40}
-                               pageName={'Items List'} marginLeft={'2%'}
+                <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
+                               pageName={'Item List'}
                                pressLeftIcon={() => this.props.navigation.goBack()}/>
                 <GPEFilter onChange={this.setFilter}/>
                 <FlatList
                     data={this.state.items}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item, index}) => {
-                        return (<ItemCard getArticle={item}/>);
-                    }}
+                    renderItem={(item) => (<ItemCard element={item}/>)}
                 />
             </View>
         );

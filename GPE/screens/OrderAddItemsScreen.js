@@ -26,6 +26,7 @@ export default class OrderAddItemsScreen extends Component {
         this.getInfo();
     }
 
+    // Method that gets orderLines, order and article information
     getInfo = () => {
         this.setState({orderLines: this.props.route.params.orderLines});
         this.setState({order: this.props.route.params.order});
@@ -34,6 +35,7 @@ export default class OrderAddItemsScreen extends Component {
         });
     };
 
+    // Method that creates the orderLine and adds it to the orderLines array
     updateOrderLines = () => {
         let orderLine = {
             OrderId: null,
@@ -59,6 +61,7 @@ export default class OrderAddItemsScreen extends Component {
         this.setState({orderLines});
     };
 
+    // Method that calculates the total given the VAT and Discount
     getTotal = () => {
         let priceQuantity = this.state.article.Price * this.state.units;
         let priceDiscount = priceQuantity - (priceQuantity * (this.state.discount / 100));
@@ -87,6 +90,7 @@ export default class OrderAddItemsScreen extends Component {
         this.setState({discount: ''}, () => this.getTotal());
     };
 
+    // Method that calls updateOrderLines function and then navigates to OrderArticlesScreen
     addItemList = () => {
         this.updateOrderLines();
         this.props.navigation.navigate('OrderArticlesScreen', {
@@ -95,15 +99,25 @@ export default class OrderAddItemsScreen extends Component {
         });
     };
 
+    // Method that gets if the number introduced is a valid positive int
+    isAnIntNumber = (number) => {
+        for (let i = 0; i < number.length; i++) {            
+            if (!Number.isInteger(parseInt(number[i]))) return false;
+        }
+        return true;
+    }
+
+    // Method that looks if any of the fields is empty, and in that case creates an alert
     checkFields = () => {
         let flag = true;
         if (this.state.selectedLot === '') {
             alert('You have to select a lot ');
             flag = false;
-        } else if (this.state.units <= 0 || !Number.isInteger(parseInt(this.state.units))) {
+        } else if (this.state.units <= 0 || !this.isAnIntNumber(this.state.units)) {
             alert('You have to introduce a number over 0 in Units');
             flag = false;
-        } else if (this.state.discount < 0 || this.state.discount > 100 || this.state.discount !== '' && !Number.isInteger(parseInt(this.state.discount))) {
+        } else if (this.state.discount < 0 || this.state.discount > 100 || this.state.discount !== '' 
+            && !this.isAnIntNumber(this.state.discount)) {
             flag = false;
             alert('You have to introduce a number between 0-100 in discount');
         }
