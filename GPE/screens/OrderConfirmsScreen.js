@@ -97,7 +97,7 @@ export default class OrderConfirmsScreen extends Component {
     // Method that makes the modal invisible, post the order and returns to VisitSalesScreen
     postOrder = () => {
         this.changeVisibleConfirm();
-        if (this.props.route.params.orderLines.length === 0) alert('First you have to choose your employee');
+        if (this.props.route.params.orderLines.length === 0) alert('First you have to add items to the order');
         else {
             this.addOrder();
             this.props.navigation.navigate('VisitSalesScreen');
