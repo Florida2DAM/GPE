@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
-import ClientCard from '../components/ClientCard';
+import {ClientCard} from '../components/ClientCard';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEFilter} from '../components/GPEFilter';
 import {axios, GPEApi, style} from '../components/GPEConst';

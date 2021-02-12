@@ -1,14 +1,12 @@
-'use strict';
-
-import React, { Component } from 'react';
-import { FlatList, View } from 'react-native';
-import { ModifyQuantity } from '../components/ModifyQuantity';
-import { NavigationBar } from '../components/NavigationBar';
-import { ContactInfo } from '../components/ContactInfo';
-import { Divider } from 'react-native-elements';
-import { GPELabel } from '../components/GPELabel';
-import { GPEModal } from '../components/GPEModal';
-import { axios, GPEApi, style } from '../components/GPEConst';
+import React, {Component} from 'react';
+import {FlatList, View} from 'react-native';
+import {ModifyQuantity} from '../components/ModifyQuantity';
+import {NavigationBar} from '../components/NavigationBar';
+import {ContactInfo} from '../components/ContactInfo';
+import {Divider} from 'react-native-elements';
+import {GPELabel} from '../components/GPELabel';
+import {GPEModal} from '../components/GPEModal';
+import {axios, GPEApi, style} from '../components/GPEConst';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class OrderConfirmsScreen extends Component {
@@ -19,7 +17,7 @@ export default class OrderConfirmsScreen extends Component {
             itemIdRemove: -1,
             visibleRemove: false,
             visibleConfirm: false,
-            cofirmValue: 0,
+            confirmValue: 0,
             employee: {},
         };
     }
@@ -33,7 +31,7 @@ export default class OrderConfirmsScreen extends Component {
     // Restore from storage the employee object
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
-        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;        
+        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
     };
 
     // Method that creates the order and makes a post to the database, then it calls getOrderId function
@@ -66,7 +64,7 @@ export default class OrderConfirmsScreen extends Component {
             item.OrderId = id;
             products.push(item);
         });
-        this.setState({ orderLines: products });
+        this.setState({orderLines: products});
         let orderLines = this.props.route.params.orderLines;
         axios.post(GPEApi + 'OrderLines', orderLines);
     };
@@ -75,9 +73,10 @@ export default class OrderConfirmsScreen extends Component {
     setProductsId = () => {
         let i = 1;
         this.props.route.params.orderLines.forEach(element => {
-            element.LineId = i++;;
-        });        
-    }
+            element.LineId = i++;
+            ;
+        });
+    };
 
     // Method that deletes the orderLine with the same id that the state saves and calls updateInfo function
     removeProduct = () => {
@@ -85,7 +84,7 @@ export default class OrderConfirmsScreen extends Component {
             return this.state.itemIdRemove !== article.LineId;
         });
         this.updateInfo();
-    }
+    };
 
     // Method that calculates and updates the total state
     updateInfo = () => {
@@ -94,71 +93,77 @@ export default class OrderConfirmsScreen extends Component {
             total += element.TotalLine;
         });
         total = Math.trunc(total * 100) / 100;
-        this.setState({ total });
-    }
+        this.setState({total});
+    };
 
     // Method that makes the modal invisible, post the order and returns to VisitSalesScreen
     postOrder = () => {
         this.changeVisibleConfirm();
         this.addOrder();
-        this.props.navigation.navigate('VisitSalesScreen');        
+        this.props.navigation.navigate('VisitSalesScreen');
     };
 
     // Method that chenges the visibility of the remove modal
     changeVisibleRemove = () => {
-        this.setState({ visibleRemove: !this.state.visibleRemove });
-    }
+        this.setState({visibleRemove: !this.state.visibleRemove});
+    };
 
     // Method that chenges the visibility of the confirm modal
     changeVisibleConfirm = () => {
-        this.setState({ visibleConfirm: !this.state.visibleConfirm });
+        this.setState({visibleConfirm: !this.state.visibleConfirm});
     };
 
     render() {
         return (
-            <View style={style.container}>                
+            <View style={style.container}>
                 <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Confirm'}
-                    rightIcon={'check'} rightIconSize={48}
-                    pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {
-                        newOrderLines: this.props.route.params.orderLines,
-                        client: this.props.route.params.client
-                    })}
-                    pressRightIcon={this.changeVisibleConfirm} />
-                <Divider style={{ height: 10, backgroundColor: 'none' }} />
+                               rightIcon={'check'} rightIconSize={48}
+                               pressLeftIcon={() => this.props.navigation.navigate('OrderArticlesScreen', {
+                                   newOrderLines: this.props.route.params.orderLines,
+                                   client: this.props.route.params.client,
+                               })}
+                               pressRightIcon={this.changeVisibleConfirm}/>
+                <Divider style={{height: 10, backgroundColor: 'none'}}/>
                 <ContactInfo name={this.props.route.params.client.Name} dni={this.props.route.params.client.NIF}
-                    change={() => {
-                        this.setState({ cofirmValue: this.state.cofirmValue++ });
-                        this.props.navigation.navigate('VisitSalesScreen', {
-                            cofirmValue: this.state.cofirmValue,
-                            orderLines: this.props.route.params.orderLines, client: this.props.route.params.client
-                        });
-                    }} />
-                <Divider style={{ height: 10, backgroundColor: 'none' }} />
+                             change={() => {
+                                 this.setState({confirmValue: this.state.confirmValue++});
+                                 this.props.navigation.navigate('VisitSalesScreen', {
+                                     confirmValue: this.state.confirmValue,
+                                     orderLines: this.props.route.params.orderLines,
+                                     client: this.props.route.params.client,
+                                 });
+                             }}/>
+                <Divider style={{height: 10, backgroundColor: 'none'}}/>
                 <FlatList
                     data={this.props.route.params.orderLines}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => {
+                    renderItem={({item}) => {
                         return (
-                            <View style={{ flex: 1 }}>
+                            <View style={{flex: 1}}>
                                 <ModifyQuantity orderLine={item} remove={() => {
                                     this.changeVisibleRemove();
-                                    this.setState({ itemIdRemove: item.LineId });
+                                    this.setState({itemIdRemove: item.LineId});
                                 }}
-                                    itemChange={this.updateInfo} />
+                                                itemChange={this.updateInfo}/>
                             </View>
                         );
                     }}
                 />
-                <View style={{ alignItems: 'center' }}>
-                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'} content={this.state.total}
-                        currency='€' />
+                <View style={{alignItems: 'center'}}>
+                    <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'}
+                              content={this.state.total}
+                              currency='€'/>
                 </View>
-                <GPEModal isVisible={this.state.visibleRemove} content='Do you want to delete the item?' leftButtonTitle='Cancel'
-                    rightButtonTitle='Confirm' leftButtonPress={this.changeVisibleRemove}
-                    rightButtonPress={() => { this.changeVisibleRemove(); this.removeProduct(); }} />
+                <GPEModal isVisible={this.state.visibleRemove} content='Do you want to delete the item?'
+                          leftButtonTitle='Cancel'
+                          rightButtonTitle='Confirm' leftButtonPress={this.changeVisibleRemove}
+                          rightButtonPress={() => {
+                              this.changeVisibleRemove();
+                              this.removeProduct();
+                          }}/>
                 <GPEModal isVisible={this.state.visibleConfirm} content='End Order?'
-                    leftButtonTitle='Cancel' leftButtonPress={this.changeVisibleConfirm}
-                    rightButtonTitle='Confirm' rightButtonPress={this.postOrder} />
+                          leftButtonTitle='Cancel' leftButtonPress={this.changeVisibleConfirm}
+                          rightButtonTitle='Confirm' rightButtonPress={this.postOrder}/>
             </View>
         );
     }
