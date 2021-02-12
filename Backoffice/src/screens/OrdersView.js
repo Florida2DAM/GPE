@@ -49,7 +49,8 @@ export class OrdersView extends React.Component {
                 }
             });
             this.setState({ orders: response.data });
-            this.setState({ allOrders: response.data })
+            this.setState({ allOrders: response.data });
+            this.setState({ ordersFilteredDates: response.data });
         })
     }
 
@@ -95,7 +96,8 @@ export class OrdersView extends React.Component {
         } else {
             this.state.allOrders.forEach(element => {
                 const filterDate = this.state.date;
-                if (element.Date.includes(filterDate)){
+                if (element.Date.includes(filterDate)
+                    || element.DeliveryDate.includes(filterDate)){
                     orderList.push(element);
                 }
             });
