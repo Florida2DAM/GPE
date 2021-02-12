@@ -14,7 +14,7 @@ export default class VisitSalesScreen extends Component {
             allClients: [],
             clients: [],
             filter: '',
-            cofirmValue: -1,
+            confirmValue: -1,
             toConfirm: false,
             orderLines: [],
         };
@@ -31,8 +31,8 @@ export default class VisitSalesScreen extends Component {
     // to OrderArticlesScreen
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
-            if (this.props.route.params.cofirmValue !== undefined && this.state.toConfirm === false) {
-                if (this.props.route.params.cofirmValue !== this.state.cofirmValue) {
+            if (this.props.route.params.confirmValue !== undefined && this.state.toConfirm === false) {
+                if (this.props.route.params.confirmValue !== this.state.confirmValue) {
                     this.setState({toConfirm: true});
                     this.setState({orderLines: this.props.route.params.orderLines});
                 }
