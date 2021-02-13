@@ -44,13 +44,22 @@ namespace GPE.Models
         /// adds new client
         /// </summary>
         /// <param name="c">client to add</param>
-        internal void AddClient(Client c)
+        internal void AddClient(Client client)
         {
-            c.Country = "España";
-            c.Enabled = true;
-            c.RegisterDate = DateTime.Now;
-            context.Clients.Add(c);
-            context.SaveChanges();
+
+            Client client1 = new Client();
+            client1 = context.Clients
+            .Where(c => c.NIF == client.NIF )
+            .FirstOrDefault();
+            if (client1 == null)
+            {
+                client.Country = "España";
+                client.Enabled = true;
+                client.RegisterDate = DateTime.Now;
+                context.Clients.Add(client);
+                context.SaveChanges();
+            }
+
         }
 
         /// <summary>
