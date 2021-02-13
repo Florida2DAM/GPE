@@ -3,9 +3,7 @@ import {Fragment} from 'react';
 import '../App.css';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Chart} from 'primereact/chart';
-import {axios, GPEApi,moment} from '../components/GPEConst'
-
-
+import {axios, GPEApi, moment} from '../components/GPEConst'
 
 export class ReportsView extends React.Component {
 
@@ -17,7 +15,6 @@ export class ReportsView extends React.Component {
             clientsDate: [],
             clientsCount: [],
         }
-
     }
 
     componentDidMount() {
@@ -27,49 +24,54 @@ export class ReportsView extends React.Component {
         this.getClientsCount();
     }
 
-    // Llamadas Axios
+    // Here we create all our promises to charge the states and show after that the charts
+    // when we recibe dates we use moment js to set the spanish format
     getOrdersDate = () => {
-        axios.get(GPEApi+'Orders/GetFechas').then((response) => {
-            this.setState({ordersDate: response.data});
+        let newDates = [];
+        axios.get(GPEApi + 'Orders/GetDates').then((response) => {
+            response.data.forEach(item => newDates.push(moment(item).format('DD-MM-YYYY')) );
+            this.setState({ordersDate: newDates});
         })
     }
     getOrdersCount = () => {
-        axios.get(GPEApi+'Orders/GetAltas').then((response) => {
+        axios.get(GPEApi + 'Orders/GetRegisters').then((response) => {
             this.setState({ordersCount: response.data});
         })
     }
     getClientsDate = () => {
-        axios.get(GPEApi+'Clients/GetFechas').then((response) => {
-            this.setState({clientsDate: response.data});
+        let newDates = [];
+        axios.get(GPEApi+'Clients/GetDates').then((response) => {
+            response.data.forEach(item => newDates.push(moment(item).format('DD-MM-YYYY')) );
+            this.setState({clientsDate: newDates});
         })
     }
     getClientsCount = () => {
-        axios.get(GPEApi+'Clients/GetAltas').then((response) => {
+        axios.get(GPEApi+'Clients/GetRegisters').then((response) => {
             this.setState({clientsCount: response.data});
         })
     }
 
     render() {
-        const betsData = {
-            labels: this.state.betsDate,
+        const ordersData = {
+            labels: this.state.ordersDate,
             datasets: [
                 {
-                    label: 'Apuestas',
-                    data: this.state.betsCount,
+                    label: 'Orders',
+                    data: this.state.ordersCount,
                     fill: false,
-                    borderColor: '#42A5F5',
+                    borderColor: '#ffcc57',
                     backgroundColor: '#393e46',
                 }
             ]
         };
-        const usersData = {
-            labels: this.state.usersDate,
+        const clientsData = {
+            labels: this.state.clientsDate,
             datasets: [
                 {
-                    label: 'Usuarios',
-                    data: this.state.usersCount,
+                    label: 'Clients',
+                    data: this.state.clientsCount,
                     fill: false,
-                    borderColor: '#42A5F5',
+                    borderColor: '#ffcc57',
                     backgroundColor: '#393e46'
                 }
             ]
@@ -77,18 +79,18 @@ export class ReportsView extends React.Component {
         const chartOptions = {
             legend: {
                 labels: {
-                    fontColor: '#42A5F5'
+                    fontColor: '#ffcc57'
                 }
             },
             scales: {
                 xAxes: [{
                     ticks: {
-                        fontColor: '#00adb5'
+                        fontColor: '#ffcc57'
                     }
                 }],
                 yAxes: [{
                     ticks: {
-                        fontColor: '#00adb5'
+                        fontColor: '#ffcc57'
                     }
                 }]
             }
@@ -96,14 +98,16 @@ export class ReportsView extends React.Component {
         return (
             <Fragment>
                 <TabView>
-                    <TabPanel header='Apuestas'>
+                    <TabPanel header='Orders'>
                         <div className='chartView'>
-                            <Chart className='chart' type='line' data={betsData} options={chartOptions} width='850%'/>
+                            <Chart className='chart' type='line' data={ordersData} options={chartOptions}
+                                   width='1000%'/>
                         </div>
                     </TabPanel>
-                    <TabPanel header='Usuarios'>
+                    <TabPanel header='Clients'>
                         <div className='chartView'>
-                            <Chart className='chart' type='line' data={usersData} options={chartOptions} width='850%'/>
+                            <Chart className='chart' type='line' data={clientsData} options={chartOptions}
+                                   width='1000%'/>
                         </div>
                     </TabPanel>
                 </TabView>
