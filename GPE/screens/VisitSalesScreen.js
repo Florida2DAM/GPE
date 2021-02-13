@@ -5,6 +5,7 @@ import { NavigationBar } from '../components/NavigationBar';
 import { GPEFilter } from '../components/GPEFilter';
 import { axios, GPEApi, style } from '../components/GPEConst';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GPEActivityIndicator } from '../components/GPEActivityIndicator';
 
 export default class VisitSalesScreen extends Component {
     constructor(props) {
@@ -15,7 +16,8 @@ export default class VisitSalesScreen extends Component {
             clients: [],
             filter: '',
             orderLines: [],
-            client: []
+            client: [],
+            loaded: false
         };
     }
 
@@ -28,7 +30,7 @@ export default class VisitSalesScreen extends Component {
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
             if (this.state.client !== this.props.route.params.client && this.props.route.params.client !== []) {
-                this.setState({client: this.props.route.params.client});
+                this.setState({ client: this.props.route.params.client });
                 this.getClients();
             }
         }
@@ -45,6 +47,7 @@ export default class VisitSalesScreen extends Component {
         axios.get(GPEApi + 'Clients').then((response) => {
             this.setState({ allClients: response.data });
             this.setState({ clients: response.data });
+            this.setState({ loaded: true });
         });
     };
 
@@ -88,23 +91,27 @@ export default class VisitSalesScreen extends Component {
                     pressRightIcon={() => this.props.navigation.navigate('ClientAddScreen', { previousScreen: 'VisitSalesScreen' })}
                 />
                 <GPEFilter onChange={this.setFilter} />
-                <View style={[style.container, { flexDirection: 'column', flex: 5 }]}>
-                    <FlatList
-                        data={this.state.clients}
-                        keyExtractor={(item) => item.ClientId.toString()}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <Pressable
-                                    onPress={() => this.navigateToScreen(item)}>
-                                    <ClientCard
-                                        index={index}
-                                        client={item}
-                                    />
-                                </Pressable>
-                            );
-                        }}
-                    />
-                </View>
+                { this.state.loaded ?
+                    <View style={[style.container, { flexDirection: 'column', flex: 5 }]}>
+                        <FlatList
+                            data={this.state.clients}
+                            keyExtractor={(item) => item.ClientId.toString()}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <Pressable
+                                        onPress={() => this.navigateToScreen(item)}>
+                                        <ClientCard
+                                            index={index}
+                                            client={item}
+                                        />
+                                    </Pressable>
+                                );
+                            }}
+                        />
+                    </View>
+                    :
+                    <GPEActivityIndicator />
+                }
             </View>
         );
     }
