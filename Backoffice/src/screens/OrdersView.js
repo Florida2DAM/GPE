@@ -136,7 +136,7 @@ export class OrdersView extends React.Component {
 
         let orderList = [];
         this.state.allOrders.forEach(element => {
-            if (element.Enabled == true) {
+            if (element.Paid == 'Yes') {
                 orderList.push(element);
             }
         });
@@ -144,27 +144,16 @@ export class OrdersView extends React.Component {
 
     };
 
-    showDisable = () => {
+    showUnpaid = () => {
         let orderList = [];
         this.state.allOrders.forEach(element => {
-            if (element.Enabled == false) {
+            if (element.Paid == 'No') {
                 orderList.push(element);
             }
         });
         this.setState({ orders: orderList }, () => { this.setState({ showPaid: !this.state.showPaid }) });
 
     };
-    // showSuccess = () => {
-    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
-    // }
-    //
-    // showInfoSuccess = (detailValue) => {
-    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', detail: detailValue, life: 3000});
-    // }
-    //
-    // showError = (error) => {
-    //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
-    // }
 
     render() {
         return (
@@ -178,10 +167,10 @@ export class OrdersView extends React.Component {
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
                             <GPEDatePicker tittle={'Date'} getDate={this.dateHandler}/>
-                            {this.state.show ? <Button label='Show Enable' onClick={this.showEnable}
+                            {this.state.showPaid ? <Button label='Show Paid' onClick={this.showPaid}
                                         className='p-button-secondary p-mr-2' icon='pi pi-eye'
                                         style={{ backgroundColor: '#86AEC2' }} /> :
-                                        <Button label='Show Disable' onClick={this.showDisable}
+                                        <Button label='Show Unpaid' onClick={this.showUnpaid}
                                             className='p-button-secondary p-mr-2' icon='pi pi-eye'
                                             style={{ backgroundColor: '#86AEC2' }} />
                                     }
