@@ -1,10 +1,12 @@
-import React, {Component} from 'react';
-import {FlatList, Pressable, View} from 'react-native';
-import {ClientCard} from '../components/ClientCard';
-import {NavigationBar} from '../components/NavigationBar';
-import {GPEFilter} from '../components/GPEFilter';
-import {axios, GPEApi, style} from '../components/GPEConst';
+import React, { Component } from 'react';
+import { FlatList, Pressable, View } from 'react-native';
+import { ClientCard } from '../components/ClientCard';
+import { NavigationBar } from '../components/NavigationBar';
+import { GPEFilter } from '../components/GPEFilter';
+import { axios, GPEApi, style } from '../components/GPEConst';
+import { GPEActivityIndicator } from '../components/GPEActivityIndicator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default class VisitDeliverScreen extends Component {
     constructor(props) {
@@ -14,7 +16,8 @@ export default class VisitDeliverScreen extends Component {
             orders: [],
             filter: '',
             employee: {},
-            deliverCheck: ''
+            deliverCheck: '',
+            loaded: false
         };
     }
 
@@ -26,7 +29,7 @@ export default class VisitDeliverScreen extends Component {
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
             if (this.props.route.params.deliverPending !== undefined) {
-                if (this.state.deliverCheck !== this.props.route.params.deliverPending) {                    
+                if (this.state.deliverCheck !== this.props.route.params.deliverPending) {
                     this.setState({ deliverCheck: this.props.route.params.deliverPending }, () => this.getOrders());
                 }
             }
@@ -35,28 +38,28 @@ export default class VisitDeliverScreen extends Component {
 
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
-        jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
+        jsonValue != null ? this.setState({ employee: JSON.parse(jsonValue) }) : null;
     };
 
     // Here we push into our orders objects only the orders which our employee has to deliver checking the Deliverer field
     // from Order
     getOrders = () => {
         let newOrders = [];
-
         axios.get(GPEApi + 'Orders/GetDeliver').then((response) => {
             response.data.forEach(item => {
                 if (item.Deliverer === this.state.employee.Name) {
                     newOrders.push(item);
                 }
             });
-            this.setState({allOrders: newOrders});
-            this.setState({orders: newOrders});
+            this.setState({ allOrders: newOrders });
+            this.setState({ orders: newOrders });
+            this.setState({ loaded: true })
         });
     };
 
     // Methods used to filter items in the screen using the GPEFiler component
     setFilter = (filter) => {
-        this.setState({filter}, () => {
+        this.setState({ filter }, () => {
             this.filter();
         });
     };
@@ -64,11 +67,11 @@ export default class VisitDeliverScreen extends Component {
     filter = () => {
         let orderList = [];
         if (this.state.filter === '') {
-            this.setState({orders: this.state.allOrders});
+            this.setState({ orders: this.state.allOrders });
         } else {
             this.state.allOrders.forEach(item => {
                 const filterText = this.state.filter.toUpperCase();
-                if (item.Name.toUpperCase().includes(filterText)
+                if (item.Client.Name.toUpperCase().includes(filterText)
                     || item.OrderNum.includes(filterText)
                     || item.Client.ContactName.toUpperCase().includes(filterText)
                     || item.Client.Phone.includes(filterText)
@@ -77,7 +80,7 @@ export default class VisitDeliverScreen extends Component {
                     orderList.push(item);
                 }
             });
-            this.setState({orders: orderList});
+            this.setState({ orders: orderList });
         }
     };
 
@@ -86,24 +89,28 @@ export default class VisitDeliverScreen extends Component {
             <>
                 <View style={style.container}>
                     <NavigationBar leftIcon={'arrow-back-ios'} leftIconSize={40} pageName={'Orders'} marginLeft={'2%'}
-                                   pressLeftIcon={() => this.props.navigation.goBack()}/>
-                    <GPEFilter onChange={this.setFilter}/>
-                    <FlatList
-                        data={this.state.orders}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={({item, index}) => {
-                            return (
-                                <Pressable
-                                    onPress={() => this.props.navigation.navigate('DeliverCheckScreen', {item: item})}>
-                                    <ClientCard
-                                        client={item.Client}
-                                        index={index}
-                                        orderNum={item.OrderNum}
-                                        screen={'VisitDeliverScreen'}
-                                    />
-                                </Pressable>
-                            );
-                        }}/>
+                        pressLeftIcon={() => this.props.navigation.goBack()} />
+                    <GPEFilter onChange={this.setFilter} />
+                    {this.state.loaded ?
+                        <FlatList
+                            data={this.state.orders}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <Pressable
+                                        onPress={() => this.props.navigation.navigate('DeliverCheckScreen', { item: item })}>
+                                        <ClientCard
+                                            client={item.Client}
+                                            index={index}
+                                            orderNum={item.OrderNum}
+                                            screen={'VisitDeliverScreen'}
+                                        />
+                                    </Pressable>
+                                );
+                            }} />
+                        :
+                        <GPEActivityIndicator/>
+                    }
                 </View>
             </>
         );
