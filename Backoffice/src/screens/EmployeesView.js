@@ -113,8 +113,8 @@ export class EmployeesView extends React.Component {
 
 
         axios.put(GPEApi + 'Employees/' + employee.EmployeeId,{
-            "Name": "xd",
-            "Type": "salesman",
+            "Name": employee.Name,
+            "Type": employee.Type,
             "Enabled": false
         }).then(() => this.getEmployees())
     }
@@ -124,7 +124,11 @@ export class EmployeesView extends React.Component {
             Type: this.state.type,
             Enabled: this.state.enabled
         }
-        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,employee).then(() => this.getEmployees())
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,{
+            "Name": employee.Name,
+            "Type": employee.Type,
+            "Enabled": true
+        }).then(() => this.getEmployees())
     }
     updateEmployee = () => {
         let emp = {
