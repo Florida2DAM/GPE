@@ -164,31 +164,31 @@ export default class ClientAddScreen extends Component {
                           leftButtonTitle='Cancel' leftButtonPress={this.hideConfirm}
                           rightButtonTitle='Continue' rightButtonPress={this.addNewClient}/>
                 <ScrollView>
-                    <View style={{alignItems: 'center'}}>
-                        <GPEInput title={'Name'} placeholder={'Name'} height={5} marginTop='10%'
+                    <View style={{marginLeft: '5%', marginRight: '5%'}}>
+                        <GPEInput title={'Name'} placeholder={'Name'} marginTop='5%'
                                   onChangeText={this.nameHandler} delete={this.nameRemove} value={this.state.name}/>
-                        <GPEInput title={'Email'} placeholder={'Email'} height={5} marginTop='5%'
+                        <GPEInput title={'Email'} placeholder={'Email'}  marginTop='5%'
                                   onChangeText={this.emailHandler} delete={this.emailRemove} value={this.state.email}/>
-                        <GPEInput title={'Contact Name'} placeholder={'Contact name'} height={5} marginTop='5%'
+                        <GPEInput title={'Contact Name'} placeholder={'Contact name'}  marginTop='5%'
                                   onChangeText={this.contactHandler} delete={this.contactRemove}
                                   value={this.state.contact}/>
-                        <GPEInput title={'NIF'} placeholder={'NIF'} height={5} marginTop='5%'
+                        <GPEInput title={'NIF'} placeholder={'NIF'}  marginTop='5%'
                                   onChangeText={this.nifHandler} delete={this.nifRemove} value={this.state.nif}/>
-                        <GPEInput title={'Phone number'} placeholder={'Phone number'} height={5} marginTop='5%'
+                        <GPEInput title={'Phone number'} placeholder={'Phone number'}  marginTop='5%'
                                   keyboardType='numeric' onChangeText={this.phoneHandler}
                                   delete={this.phoneRemove} value={this.state.phone}/>
-                        <GPEInput title={'City'} placeholder={'City'} height={5} marginTop='5%'
+                        <GPEInput title={'City'} placeholder={'City'}  marginTop='5%'
                                   onChangeText={this.cityHandler} delete={this.cityRemove} value={this.state.city}/>
-                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'} height={5} marginTop='5%'
+                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'}  marginTop='5%'
                                   keyboardType='numeric'
                                   onChangeText={this.postalCodeHandler} delete={this.postalCodeRemove}
                                   value={this.state.postalCode}/>
-                        <GPEInput title={'Province'} placeholder={'Province'} height={5} marginTop='5%'
+                        <GPEInput title={'Province'} placeholder={'Province'}  marginTop='5%'
                                   onChangeText={this.provinceHandler} delete={this.provinceRemove}
                                   value={this.state.province}/>
-                        <GPEInput title={'Address'} placeholder={'Address'} height={5} marginTop='5%'
+                        <GPEInput title={'Address'} placeholder={'Address'}  marginTop='5%'
                                   onChangeText={this.addressHandler} delete={this.addressRemove}
-                                  value={this.state.address}/>
+                                  value={this.state.address} marginBottom='5%'/>
                     </View>
                 </ScrollView>
             </View>
