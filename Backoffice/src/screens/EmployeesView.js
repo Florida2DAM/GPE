@@ -28,12 +28,15 @@ export class EmployeesView extends React.Component {
             employeeId:''
         }
     }
+    //take the value and save it in the state
     nameHandler = (e) => {
         this.setState({name: e.target.value});
     };
+    //take the value and save it in the state
     typeHandler = (e) => {
         this.setState({type: e.target.value});
     };
+    //take the value and save it in the state
     enabledHandler = (e) => {
 
             this.setState({enabled: e.target.value });
@@ -41,12 +44,14 @@ export class EmployeesView extends React.Component {
 
         };
 
+    //clear imputs value
 
     clearInputs = () => {
         this.setState({name: ''});
         this.setState({type: ''});
     }
 
+    //Check if imputs are empty
 
     checkIputs = () => {
         if ( this.state.name == '' || this.state.type == ''|| this.state.enabled == '') {
@@ -55,7 +60,7 @@ export class EmployeesView extends React.Component {
             return true;
         }
     }
-
+// check the enabled field and shou a green buton if is trua and red buton if is false
     btnActive = (rowData) => {
         console.log(rowData.Enabled);
         return (<>{rowData.Enabled == "Yes"?
@@ -65,7 +70,7 @@ export class EmployeesView extends React.Component {
         }
         </>)
     }
-
+//post a new enployee on data base
     addEmployee = () => {
         if (this.checkIputs()) {
             let employee = {
@@ -88,7 +93,7 @@ export class EmployeesView extends React.Component {
     componentDidMount() {
         this.getEmployees();
     }
-
+// get the data base employees information
     getEmployees = () => {
         axios.get(GPEApi + 'Employees/BackOffice').then((response) => {
             response.data.forEach(item => {
@@ -102,6 +107,7 @@ export class EmployeesView extends React.Component {
             this.setState({allEmployees: response.data});
         })
     }
+    //take the value and save it in the state
     filterHandler = (e) => {
         this.setState({filter: e.target.value}, () => {
             this.filter();
@@ -109,6 +115,7 @@ export class EmployeesView extends React.Component {
             console.log(this.state.allEmployees);
         });
     };
+    // update the abeled employees and turn it disableds
     changeEmployee = (employee) => {
 
 
@@ -118,6 +125,7 @@ export class EmployeesView extends React.Component {
             "Enabled": false
         }).then(() => this.getEmployees())
     }
+    // update the disabeled employees and turn it enableds
     changeEmployee2 = (employee) => {
         let emp =  {
             Name: this.state.name,
@@ -130,6 +138,7 @@ export class EmployeesView extends React.Component {
             "Enabled": true
         }).then(() => this.getEmployees())
     }
+    // update the employee with a new name and new type
     updateEmployee = () => {
         let emp = {
 
@@ -144,9 +153,11 @@ export class EmployeesView extends React.Component {
         )
 
     }
+    // Show and hide the modify screen
     visibleHandler = () => {
         this.setState({visible: !this.state.visible});
     }
+    //take the information of the actual employye and save it in the state for use it later
     showInputs = (rowData) => {
         this.visibleHandler();
         console.log(rowData)
@@ -154,6 +165,8 @@ export class EmployeesView extends React.Component {
         this.setState({name: rowData.Name}, () => console.log(this.state.name));
         this.setState({enabled: rowData.Enabled});
     }
+
+    //that funtion takes the input valua and filtre de array of information using it
     filter = () => {
 
         let employeeList = [];
@@ -173,6 +186,7 @@ export class EmployeesView extends React.Component {
             this.setState({employees: employeeList});
         }
     };
+    //button used for go to the modify screen
     changePage = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
                        className='p-button-secondary p-mr-2'
