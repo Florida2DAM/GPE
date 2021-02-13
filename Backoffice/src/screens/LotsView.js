@@ -175,8 +175,8 @@ export class LotsView extends React.Component {
                             :
                             <div>
                                 <Dropdown value={this.state.articleId} options={this.state.allArticleId}
-                                          onChange={this.articleIdHandler} placeholder="Select a Id"/>
-                                <InputText value={this.state.lotId} onChange={this.lotIdHandler}
+                                          onChange={this.articleIdHandler} disabled placeholder="Select a Id"/>
+                                <InputText value={this.state.lotId} disabled onChange={this.lotIdHandler}
                                            placeholder='Lot Id' style={{width: '220px'}}/>
                                 <InputText value={this.state.stock} onChange={this.stockHandler}
                                            placeholder='Stock Number' style={{width: '220px'}}/>
