@@ -60,7 +60,7 @@ export default class ClientsListScreen extends Component {
                 if (item.Name.toUpperCase().includes(filterText)
                     || item.Address.toUpperCase().includes(filterText)
                     || item.City.toUpperCase().includes(filterText)
-                    || item.Phone.toUpperCase().includes(filterText)
+                    || item.Phone.includes(filterText)
                     || item.ContactName.toUpperCase().includes(filterText)) {
                     clientList.push(item);
                 }

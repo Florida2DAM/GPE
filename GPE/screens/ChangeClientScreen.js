@@ -51,7 +51,7 @@ export default class ChangeClientScreen extends Component {
                 if (element.Name.toUpperCase().includes(filterText)
                     || element.Address.toUpperCase().includes(filterText)
                     || element.City.toUpperCase().includes(filterText)
-                    || element.Phone.toUpperCase().includes(filterText)
+                    || element.Phone.includes(filterText)
                     || element.ContactName.toUpperCase().includes(filterText)) {
                     clientList.push(element);
                 }
