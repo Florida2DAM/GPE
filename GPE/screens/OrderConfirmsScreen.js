@@ -151,7 +151,7 @@ export default class OrderConfirmsScreen extends Component {
                     }}
                 />
 
-                <View style={{ alignItems: 'center' }}>
+                <View style={{ alignItems: 'center', marginTop: '2%' }}>
                     <GPELabel title="Total: " paddingLeft={'2%'} width={'50%'} marginBottom={'4%'}
                         content={this.state.total}
                         currency='€' />

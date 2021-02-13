@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Button, Icon} from 'react-native-elements';
 
 // This component is used in the OrderConfirmScreen, here we can increase/decrease the total units we have in our OrderLines
 // and it changes the orderLines total and the order total.
@@ -32,23 +32,21 @@ export class ModifyQuantity extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.orderLine.Description}</Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'column'}}>
-                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{this.props.orderLine.Description}</Text>
                         <Text style={[styles.text, styles.smallText]}>ID: {this.props.orderLine.ArticleId}</Text>
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.orderLine.Price}€</Text>
                     </View>
-                    <View style={{alignItems: 'flex-end'}}>
-                        <View style={{flexDirection: 'row-reverse', alignItems: 'center'}}>
-                            <Button title='+' type='clear' titleStyle={styles.button}
-                                    onPress={this.increaseUnits}/>
-                            <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
-                            <Button title='-' type='clear' titleStyle={styles.button}
-                                    onPress={this.decreaseUnits}/>
-                        </View>
+                    <View style={{flexDirection: 'row'}}>
+                        <Pressable><Icon name={'remove'} type='material' size={35} color={'#ffcc57'}
+                                         onPress={this.decreaseUnits}/></Pressable>
+                        <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
+                        <Pressable><Icon name={'add'} type='material' size={35} color={'#ffcc57'}
+                                         onPress={this.increaseUnits}/></Pressable>
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Button title='Remove' type='clear' titleStyle={[styles.button, {fontSize: 28}]}
                             onPress={this.props.remove}/>
                     <Text style={styles.text}>Total: {this.props.orderLine.TotalLine}€</Text>
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
         paddingBottom: '4%',
         paddingLeft: '4%',
         paddingRight: '4%',
-        marginBottom: '1.5%'
+        marginBottom: '1.5%',
     },
     text: {
         color: '#f7f7f7',
