@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,38 @@ namespace GPE.Models
                 .ToList();
 
             return order;
+        }
+
+    
+        internal List<string> RetrieveDiasAltas()
+        {
+            List<DateTime> fechaDateTime = new List<DateTime>();
+            List<string> fecha = new List<string>();
+
+            fecha = context.Orders
+                .DistinctBy(o => o.Date.ToShortDateString())
+                .Select(f => f.Date.ToShortDateString())
+                .ToList();
+
+            return fecha;
+        }
+
+        //Obtener nº de altas por dia
+        internal List<int> RetrieveCountAltas()
+        {
+            List<int> countAltas = new List<int>();
+            List<string> fechasDistinct = RetrieveDiasAltas();
+            List<string> fechasAll = context.Orders
+                .Select(f => f.Date.ToShortDateString())
+                .ToList();
+
+            foreach (string fecha in fechasDistinct)
+            {
+                int count = fechasAll.Count(f => f == fecha);
+                countAltas.Add(count);
+            }
+
+            return countAltas;
         }
 
         /// <summary>

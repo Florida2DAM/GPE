@@ -37,6 +37,13 @@ namespace GPE.Controllers
             List<Order> orders = ordersRepository.RetrieveDelivers();
             return orders;
         }
+        // GET: api/Orders NumberList
+        [Route("NumberList"), HttpGet]
+        public List<int> NumberList()
+        {
+            List<int> numList = ordersRepository.RetrieveCountAltas();
+            return numList;
+        }
 
         // POST: api/Orders
         public void Post([FromBody] Order order)
