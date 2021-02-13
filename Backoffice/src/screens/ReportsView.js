@@ -6,45 +6,46 @@ import {Chart} from 'primereact/chart';
 import {axios, GPEApi,moment} from '../components/GPEConst'
 
 
+
 export class ReportsView extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            betsDate: [],
-            betsCount: [],
-            usersDate: [],
-            usersCount: [],
+            ordersDate: [],
+            ordersCount: [],
+            clientsDate: [],
+            clientsCount: [],
         }
 
     }
 
     componentDidMount() {
-        this.getBetsDate();
-        this.getBetsCount();
-        this.getUsersDate();
-        this.getUsersCount();
+        this.getOrdersDate();
+        this.getOrdersCount();
+        this.getClientsDate();
+        this.getClientsCount();
     }
 
     // Llamadas Axios
-    getBetsDate = () => {
-        axios.get(GPEApi+'Apuestas/GetFechas').then((response) => {
-            this.setState({betsDate: response.data});
+    getOrdersDate = () => {
+        axios.get(GPEApi+'Orders/GetFechas').then((response) => {
+            this.setState({ordersDate: response.data});
         })
     }
-    getBetsCount = () => {
-        axios.get(GPEApi+'Apuestas/GetAltas').then((response) => {
-            this.setState({betsCount: response.data});
+    getOrdersCount = () => {
+        axios.get(GPEApi+'Orders/GetAltas').then((response) => {
+            this.setState({ordersCount: response.data});
         })
     }
-    getUsersDate = () => {
-        axios.get(GPEApi+'Usuarios/GetFechas').then((response) => {
-            this.setState({usersDate: response.data});
+    getClientsDate = () => {
+        axios.get(GPEApi+'Clients/GetFechas').then((response) => {
+            this.setState({clientsDate: response.data});
         })
     }
-    getUsersCount = () => {
-        axios.get(GPEApi+'Usuarios/GetAltas').then((response) => {
-            this.setState({usersCount: response.data});
+    getClientsCount = () => {
+        axios.get(GPEApi+'Clients/GetAltas').then((response) => {
+            this.setState({clientsCount: response.data});
         })
     }
 
