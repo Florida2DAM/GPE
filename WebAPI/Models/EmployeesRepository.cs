@@ -46,6 +46,7 @@ namespace GPE.Models
             emp = context.Employees.Where(s => s.EmployeeId == id).FirstOrDefault();
             emp.Name = eventoBody.Name;
             emp.Type = eventoBody.Type;
+            emp.Enabled = eventoBody.Enabled;
             context.SaveChanges();
         }
     }
