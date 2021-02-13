@@ -24,6 +24,7 @@ export class OrdersView extends React.Component {
             delivered: '',
             date: '',
             ordersFilteredDates: [],
+            showPaid: '',
         }
     }
 
@@ -131,6 +132,28 @@ export class OrdersView extends React.Component {
         axios.put(GPEApi + 'Orders/' + orders.OrdersId).then(() => this.getOrders())
     }
 
+    showPaid = () => {
+
+        let orderList = [];
+        this.state.allOrders.forEach(element => {
+            if (element.Enabled == true) {
+                orderList.push(element);
+            }
+        });
+        this.setState({ orders: orderList }, () => { this.setState({ showPaid: !this.state.showPaid }) });
+
+    };
+
+    showDisable = () => {
+        let orderList = [];
+        this.state.allOrders.forEach(element => {
+            if (element.Enabled == false) {
+                orderList.push(element);
+            }
+        });
+        this.setState({ orders: orderList }, () => { this.setState({ showPaid: !this.state.showPaid }) });
+
+    };
     // showSuccess = () => {
     //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
     // }
@@ -155,6 +178,13 @@ export class OrdersView extends React.Component {
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
                             <GPEDatePicker tittle={'Date'} getDate={this.dateHandler}/>
+                            {this.state.show ? <Button label='Show Enable' onClick={this.showEnable}
+                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                        style={{ backgroundColor: '#86AEC2' }} /> :
+                                        <Button label='Show Disable' onClick={this.showDisable}
+                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                            style={{ backgroundColor: '#86AEC2' }} />
+                                    }
                         </div>
                         <div>
                             <DataTable value={this.state.orders}>
