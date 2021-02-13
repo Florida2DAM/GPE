@@ -65,10 +65,10 @@ export default class DeliverPaymentScreen extends Component {
     checkFields() {
         let flag = true;
 
-        if (this.state.selectedMethod === '') {
+        if (this.state.selectedMethod === '' || this.state.selectedMethod === undefined || this.state.selectedMethod === null) {
             flag = false;
         }
-        if ((this.state.paidAmount === '' || !this.isAnIntNumber(this.state.paidAmount)) && this.state.selectedMethod !== 'Pending') {
+        if ((this.state.paidAmount === '' || this.state.paidAmount === undefined || this.state.paidAmount === null) && this.state.selectedMethod !== 'Pending') {
             flag = false;
         }
         if ((this.state.selectedMethod === 'Cash' || this.state.selectedMethod === 'Credit Card') && this.state.paidAmount === '0') {
