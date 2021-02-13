@@ -80,6 +80,11 @@ export default class VisitSalesScreen extends Component {
         }
     };
 
+    // Navigates to OrderArticleScreen and sends the client and the orderlines
+    navigateToScreen = (item) => {
+        this.props.navigation.navigate('OrderArticlesScreen', { client: item, orderLines: this.state.orderLines });
+    };
+
     render() {
         return (
             <View style={style.container}>
@@ -96,8 +101,8 @@ export default class VisitSalesScreen extends Component {
                             keyExtractor={(item) => item.ClientId.toString()}
                             renderItem={({ item, index }) => {
                                 return (
-                                    <Pressable onPress={this.props.navigation.navigate('OrderArticlesScreen', 
-                                            { client: item, orderLines: this.state.orderLines })}>
+                                    <Pressable
+                                        onPress={() => this.navigateToScreen(item)}>
                                         <ClientCard
                                             index={index}
                                             client={item}
