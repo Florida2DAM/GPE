@@ -1,6 +1,6 @@
 html {
     font-size: 16px;
-    color: white;
+    color: #2a2a2a;
     background-color: #1e1e1e;
 }
 
@@ -11,7 +11,8 @@ html {
 
 .navLink{
     display: flex;
-    background-color: #78909c;
+    color: #1e1e1e;
+    background-color: #ffcc57;
     justify-content: center;
     color: #ffffff;
     font-size: 16px;
@@ -34,10 +35,11 @@ html {
 .menu {
     position: fixed;
     top: 25%;
+
 }
 
 .mainWindow {
-    margin-left: 7%;
+    margin-left: 10%;
 }
 
 .flexCenter {

@@ -7,8 +7,9 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {Toast} from 'primereact/toast';
-import {GPEApi,axios,moment} from '../components/GPEConst'
-
+import {axios, GPEApi} from '../components/GPEConst'
+import {GPEInput} from '../components/GPEInput';
+import {Dropdown} from 'primereact/dropdown';
 
 export class EmployeesView extends React.Component {
 
@@ -17,6 +18,76 @@ export class EmployeesView extends React.Component {
         this.GPEAlert = createRef();
         this.state = {
             employees: [],
+            allEmployees: [],
+            name: '',
+            type: '',
+            enabled: '',
+            types: ['Salesman', 'Deliverer'],
+            enabledOptions: ['true', 'false'],
+            visible: true,
+            employeeId: ''
+        }
+    }
+
+    //Take the value and save it in the state
+    nameHandler = (e) => {
+        this.setState({name: e.target.value});
+    };
+    //Take the value and save it in the state
+    typeHandler = (e) => {
+        this.setState({type: e.target.value});
+    };
+    //Take the value and save it in the state
+    enabledHandler = (e) => {
+
+        this.setState({enabled: e.target.value});
+
+
+    };
+
+    //Clear inputs value
+
+    clearInputs = () => {
+        this.setState({name: ''});
+        this.setState({type: ''});
+    }
+
+    //Check if inputs are empty
+
+    checkIputs = () => {
+        if (this.state.name == '' || this.state.type == '' || this.state.enabled == '') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    //Check the enabled field and shou a green button if is true and red button if is false
+    btnActive = (rowData) => {
+        console.log(rowData.Enabled);
+        return (<>{rowData.Enabled == 'Yes' ?
+            <Button label='YES' onClick={() => this.changeEmployee(rowData)} className='p-button-success'/>
+            :
+            <Button label='NO' onClick={() => this.changeEmployee2(rowData)} className=' p-button-danger'/>
+        }
+        </>)
+    }
+    //Post a new employee on data base
+    addEmployee = () => {
+        if (this.checkIputs()) {
+            let employee = {
+
+                Name: this.state.name,
+                Type: this.state.type,
+                Enabled: 0
+            }
+            axios.post(GPEApi + 'Employees', employee).then(response => {
+                    this.getEmployees();
+                    this.clearInputs();
+                    this.setState({activeIndex: 0});
+                }
+            )
+        } else {
+            alert('You have to introduce all fields')
         }
     }
 
@@ -24,8 +95,9 @@ export class EmployeesView extends React.Component {
         this.getEmployees();
     }
 
+    //Get the data base employees information
     getEmployees = () => {
-        axios.get(GPEApi + 'Employee').then((response) => {
+        axios.get(GPEApi + 'Employees/BackOffice').then((response) => {
             response.data.forEach(item => {
                 if (item.Enabled === true) {
                     item.Enabled = 'Yes';
@@ -34,138 +106,92 @@ export class EmployeesView extends React.Component {
                 }
             });
             this.setState({employees: response.data});
+            this.setState({allEmployees: response.data});
         })
     }
-    // getMarkets = () => {
-    //     axios.get(GPEApi+'Mercados').then((response) => {
-    //         response.data.forEach(item => {
-    //             if (item.Bloqueado === true) {
-    //                 item.Bloqueado = 'Si';
-    //             } else {
-    //                 item.Bloqueado = 'No';
-    //             }
-    //             item.DineroOver += '€';
-    //             item.DineroUnder += '€';
-    //         });
-    //         this.setState({markets: response.data});
-    //     })
-    // }
-    //
-    // filterMail = () => {
-    //     axios.get(GPEApi+'Apuestas/GetEmail?UsuarioId=' + this.state.userId).then((response) => {
-    //         response.data.forEach(item => {
-    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-    //             item.DineroApostado = item.DineroApostado + '€';
-    //         })
-    //         this.setState({employees: response.data});
-    //         this.showSuccessToast();
-    //     })
-    // }
-    // filterMarket = () => {
-    //     axios.get(GPEApi+'Apuestas/GetMercado?MercadoId=' + this.state.marketId).then((response) => {
-    //         response.data.forEach(item => {
-    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-    //             item.DineroApostado = item.DineroApostado + '€';
-    //         })
-    //         this.setState({employees: response.data});
-    //         this.showSuccessToast();
-    //     })
-    // }
-    // filterEvent = () => {
-    //     axios.get(GPEApi+'Apuestas/GetEvento?EventoId=' + this.state.eventId).then((response) => {
-    //         response.data.forEach(item => {
-    //             item.FechaApuesta = moment(item.FechaApuesta).format('YYYY-MM-DD');
-    //             item.DineroApostado = item.DineroApostado + '€';
-    //         })
-    //         this.setState({employees: response.data});
-    //         this.showSuccessToast();
-    //     })
-    // }
-    // createMarkets = () => {
-    //     axios.post(GPEApi+'Mercados?EventoId=' + this.state.eventId).then(() => {
-    //         this.showInfoSuccessToast('Mercados para el evento ' + this.state.eventId + ' creados');
-    //         this.resetStates();
-    //         this.getMarkets();
-    //     })
-    //         .catch(error => {
-    //             this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que haya introducido el ID de Evento para realizar la inserción de nuevos mercados');
-    //         });
-    // }
-    // lockMarket = () => {
-    //     axios.get(GPEApi+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
-    //         if (response.data.Bloqueado) {
-    //             this.showErrorToast('Este mercado ya esta bloqueado');
-    //             this.resetStates();
-    //         } else {
-    //             axios.put(GPEApi+'Mercados/Lock?MercadoId=' + this.state.marketId).then(() => {
-    //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' bloqueado');
-    //                 this.resetStates();
-    //                 this.getMarkets();
-    //             })
-    //                 .catch(error => {
-    //                     this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a bloquear correcto.');
-    //                 });
-    //         }
-    //     });
-    // }
-    // unlockMarket = () => {
-    //     axios.get(GPEApi+'Mercados/Locked?MercadoId=' + this.state.marketId).then((response) => {
-    //         if (!response.data.Bloqueado) {
-    //             this.showErrorToast('Este mercado ya esta desbloqueado');
-    //             this.resetStates();
-    //         } else {
-    //             axios.put(GPEApi+'Mercados/Unlock?MercadoId=' + this.state.marketId).then(() => {
-    //                 this.showInfoSuccessToast('Mercado ' + this.state.marketId + ' desbloqueado');
-    //                 this.resetStates();
-    //                 this.getMarkets();
-    //             })
-    //                 .catch(error => {
-    //                     this.showErrorToast(error.message.toString() + '\nCompruebe la conexión y que ha introducido el ID de Mercado a desbloquear correcto.');
-    //                 });
-    //         }
-    //     });
-    // }
-    //
-    // handlerEmail = (event) => {
-    //     this.setState({userId: event.target.value});
-    // }
-    // handlerMarketId = (event) => {
-    //     this.setState({marketId: event.target.value});
-    // }
-    // handlerEventId = (event) => {
-    //     this.setState({eventId: event.target.value});
-    // }
-    //
-    // resetStates = () => {
-    //     this.getEmployees();
-    //     this.setState({userId: ''});
-    //     this.setState({marketId: ''});
-    //     this.setState({eventId: ''});
-    // }
-    //
-    // filterButton = () => {
-    //     if (this.state.userId) {
-    //         this.filterMail();
-    //     }
-    //     if (this.state.marketId) {
-    //         this.filterMarket();
-    //     }
-    //     if (this.state.eventId) {
-    //         this.filterEvent();
-    //     }
-    // }
-    //
-    // showSuccess = () => {
-    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
-    // }
-    //
-    // showInfoSuccess = (detailValue) => {
-    //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', detail: detailValue, life: 3000});
-    // }
-    //
-    // showError = (error) => {
-    //     this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, sticky: true});
-    // }
+    //Take the value and save it in the state
+    filterHandler = (e) => {
+        this.setState({filter: e.target.value}, () => {
+            this.filter();
+            console.log(this.state.filter);
+            console.log(this.state.allEmployees);
+        });
+    };
+    //Update the enabled employees and turn it disabled
+    changeEmployee = (employee) => {
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId, {
+            'Name': employee.Name,
+            'Type': employee.Type,
+            'Enabled': false
+        }).then(() => this.getEmployees())
+    }
+    // update the disabled employees and turn it enabled
+    changeEmployee2 = (employee) => {
+        let emp = {
+            Name: this.state.name,
+            Type: this.state.type,
+            Enabled: this.state.enabled
+        }
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId, {
+            'Name': employee.Name,
+            'Type': employee.Type,
+            'Enabled': true
+        }).then(() => this.getEmployees())
+    }
+    //Update the employee with a new name and new type
+    updateEmployee = () => {
+        let emp = {
+
+            Name: this.state.name,
+            Type: this.state.type
+        }
+        axios.put(GPEApi + 'Employees/' + this.state.employeeId, emp).then(response => {
+                this.visibleHandler();
+                this.getEmployees();
+                this.clearInputs();
+            }
+        )
+
+    }
+    //Show and hide the modify screen
+    visibleHandler = () => {
+        this.setState({visible: !this.state.visible});
+    }
+    //tTake the information of the actual employye and save it in the state for use it later
+    showInputs = (rowData) => {
+        this.visibleHandler();
+        console.log(rowData)
+        this.setState({employeeId: rowData.EmployeeId});
+        this.setState({name: rowData.Name}, () => console.log(this.state.name));
+        this.setState({enabled: rowData.Enabled});
+    }
+
+    //This function takes the input value and filter de array of information using it
+    filter = () => {
+
+        let employeeList = [];
+        if (this.state.filter === '') {
+            this.setState({employees: this.state.allEmployees});
+
+        } else {
+            this.state.allEmployees.forEach(element => {
+                const filterText = this.state.filter.toUpperCase();
+                if (element.EmployeeId == this.state.filter
+                    || element.Name.toUpperCase().includes(this.state.filter.toUpperCase())
+                    || element.Type.toUpperCase().includes(this.state.filter.toUpperCase())
+                    || element.Enabled.toUpperCase().includes(this.state.filter.toUpperCase())) {
+                    employeeList.push(element);
+                }
+            });
+            this.setState({employees: employeeList});
+        }
+    };
+    //Button used for go to the modify screen
+    changePage = (rowData) => {
+        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+                       className='p-button-secondary p-mr-2'
+                       style={{backgroundColor: '#86AEC2'}}/>
+    }
 
     render() {
         return (
@@ -173,71 +199,54 @@ export class EmployeesView extends React.Component {
                 <Toast ref={this.GPEAlert}/>
                 <TabView>
                     <TabPanel header='Employees Filter'>
-                        <div className='flexCenter'>
-                            <InputText value={this.state.userId} onChange={this.handlerEmail}
-                                       disabled={this.state.marketId || this.state.eventId} placeholder='Email'
-                                       style={{width: '40%'}}/>
-                            <InputText value={this.state.marketId} onChange={this.handlerMarketId}
-                                       disabled={this.state.userId || this.state.eventId} placeholder='Id Mercado'/>
-                            <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                       disabled={this.state.marketId || this.state.userId}
-                                       placeholder='ID Evento' style={{width: '15%'}}/>
-                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{backgroundColor: '#86AEC2'}}/>
-                            <Button label='Filtrar' icon='pi pi-filter' onClick={this.filterButton}
-                                    className='p-button-secondary p-mr-2'/>
-                        </div>
-                        <div>
-                            <DataTable value={this.state.employees}>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
-                                        header='EmployeeId'/>
-                                <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
-                                <Column style={{textAlign: 'center', width: '11%'}} field='Type'
-                                        header='Type'/>
-                                <Column style={{textAlign: 'center', width: '8%'}} field='Enabled' header='Enabled'/>
-                            </DataTable>
-                        </div>
+                        {this.state.visible === true ? <div>
+                                <div className='flexCenter'>
+                                    <GPEInput onChange={this.filterHandler}/>
+                                    <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
+                                            className='p-button-secondary p-mr-2'
+                                            style={{backgroundColor: '#86AEC2'}}/>
+                                </div>
+                                <div>
+                                    <DataTable value={this.state.employees}>
+                                        <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
+                                                header='EmployeeId'/>
+                                        <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
+                                        <Column style={{textAlign: 'center', width: '11%'}} field='Type'
+                                                header='Type'/>
+                                        <Column body={this.btnActive} style={{textAlign: 'center', width: '10%'}}
+                                                field='Enabled'
+                                                header='Enabled'/>
+                                        <Column style={{textAlign: 'center', width: '11%'}} body={this.changePage}
+                                                field='Modify' header='Modify'></Column>
+                                    </DataTable>
+                                </div>
+                            </div> :
+                            <div>
+                                <InputText value={this.state.name} onChange={this.nameHandler}
+                                           placeholder='Name' style={{width: '220px'}}
+                                />
+                                <Dropdown value={this.state.type} options={this.state.types}
+                                          placeholder='Select Type' onChange={this.typeHandler}
+                                />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateEmployee}
+                                        className='p-button-secondary p-mr-2'
+                                        style={{backgroundColor: '#77FF94', color: 'black'}}/>
+                            </div>}
                     </TabPanel>
                     <TabPanel header='New Employees'>
-                        <div className='flexCenter'>
-                            <div className='marketsInputs'>
-                                <InputText value={this.state.eventId} onChange={this.handlerEventId}
-                                           disabled={this.state.marketId}
-                                           placeholder='ID Evento' style={{width: '220px'}}/>
-                                <div className='flexCenter'>
-                                    <Button label='Crear Mercados' icon='pi pi-plus' onClick={this.createMarkets}
-                                            className='p-button-secondary p-mr-2' style={{width: '220px'}}/>
-                                </div>
-                            </div>
-                            <div className='marketsInputs'>
-                                <InputText value={this.state.marketId} onChange={this.handlerMarketId}
-                                           disabled={this.state.eventId}
-                                           placeholder='Id de mercado' style={{width: '270px'}}/>
-                                <div className='flexCenter'>
-                                    <Button label='Bloquear' icon='pi pi-lock' onClick={this.lockMarket}
-                                            className='p-button-secondary p-mr-2' style={{backgroundColor: '#CA3C25'}}/>
-                                    <Button label='Desbloquear' icon='pi pi-unlock' onClick={this.unlockMarket}
-                                            className='p-button-secondary p-mr-2'
-                                            style={{backgroundColor: '#77FF94', color: 'black'}}/>
-                                </div>
-                            </div>
-                        </div>
                         <div>
-                            <DataTable value={this.state.markets}>
-                                <Column style={{textAlign: 'center', width: '14%'}} field='MercadoId'
-                                        header='ID Mercado'/>
-                                <Column style={{textAlign: 'center', width: '10%'}} field='OverUnder'
-                                        header='Tipo Mercado'/>
-                                <Column style={{textAlign: 'center'}} field='CuotaOver' header='Cuota Over'/>
-                                <Column style={{textAlign: 'center'}} field='CuotaUnder' header='Cuota Under'/>
-                                <Column style={{textAlign: 'center'}} field='DineroOver' header='Dinero Over'/>
-                                <Column style={{textAlign: 'center'}} field='DineroUnder' header='Dinero Under'/>
-                                <Column style={{textAlign: 'center', width: '14%'}} field='Bloqueado'
-                                        header='Bloqueado'/>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='EventoId'
-                                        header='ID Evento'/>
-                            </DataTable>
+                            <InputText value={this.state.name} onChange={this.nameHandler}
+                                       placeholder='Name' style={{width: '220px'}}
+                            />
+                            <Dropdown value={this.state.type} options={this.state.types}
+                                      placeholder='Select Type' onChange={this.typeHandler}
+                            />
+                            <Dropdown value={this.state.enabled} options={this.state.enabledOptions}
+                                      placeholder='Select if is enabled' onChange={this.enabledHandler}
+                            />
+                            <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addEmployee}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{backgroundColor: '#77FF94', color: 'black'}}/>
                         </div>
                     </TabPanel>
                 </TabView>

@@ -1,5 +1,5 @@
 import './App.css';
-import 'primereact/resources/themes/arya-blue/theme.css';
+import 'primereact/resources/themes/arya-orange/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import * as React from 'react';
