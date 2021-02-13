@@ -19,58 +19,59 @@ export class EmployeesView extends React.Component {
         this.state = {
             employees: [],
             allEmployees: [],
-            name:'',
-            type:'',
-            enabled:'',
-            types : ['Salesman','Deliverer'],
-            enableds : ['true','false'],
-            visible:true,
-            employeeId:''
+            name: '',
+            type: '',
+            enabled: '',
+            types: ['Salesman', 'Deliverer'],
+            enabledOptions: ['true', 'false'],
+            visible: true,
+            employeeId: ''
         }
     }
-    //take the value and save it in the state
+
+    //Take the value and save it in the state
     nameHandler = (e) => {
         this.setState({name: e.target.value});
     };
-    //take the value and save it in the state
+    //Take the value and save it in the state
     typeHandler = (e) => {
         this.setState({type: e.target.value});
     };
-    //take the value and save it in the state
+    //Take the value and save it in the state
     enabledHandler = (e) => {
 
-            this.setState({enabled: e.target.value });
+        this.setState({enabled: e.target.value});
 
 
-        };
+    };
 
-    //clear imputs value
+    //Clear inputs value
 
     clearInputs = () => {
         this.setState({name: ''});
         this.setState({type: ''});
     }
 
-    //Check if imputs are empty
+    //Check if inputs are empty
 
     checkIputs = () => {
-        if ( this.state.name == '' || this.state.type == ''|| this.state.enabled == '') {
+        if (this.state.name == '' || this.state.type == '' || this.state.enabled == '') {
             return false;
         } else {
             return true;
         }
     }
-// check the enabled field and shou a green buton if is trua and red buton if is false
+    //Check the enabled field and shou a green button if is true and red button if is false
     btnActive = (rowData) => {
         console.log(rowData.Enabled);
-        return (<>{rowData.Enabled == "Yes"?
-            <Button label='YES' onClick={() => this.changeEmployee(rowData)} className='p-button-success' />
+        return (<>{rowData.Enabled == 'Yes' ?
+            <Button label='YES' onClick={() => this.changeEmployee(rowData)} className='p-button-success'/>
             :
-            <Button label='NO' onClick={() => this.changeEmployee2(rowData)} className=' p-button-danger' />
+            <Button label='NO' onClick={() => this.changeEmployee2(rowData)} className=' p-button-danger'/>
         }
         </>)
     }
-//post a new enployee on data base
+    //Post a new employee on data base
     addEmployee = () => {
         if (this.checkIputs()) {
             let employee = {
@@ -86,14 +87,15 @@ export class EmployeesView extends React.Component {
                 }
             )
         } else {
-            alert("You have to introduce all fields")
+            alert('You have to introduce all fields')
         }
-
     }
+
     componentDidMount() {
         this.getEmployees();
     }
-// get the data base employees information
+
+    //Get the data base employees information
     getEmployees = () => {
         axios.get(GPEApi + 'Employees/BackOffice').then((response) => {
             response.data.forEach(item => {
@@ -107,7 +109,7 @@ export class EmployeesView extends React.Component {
             this.setState({allEmployees: response.data});
         })
     }
-    //take the value and save it in the state
+    //Take the value and save it in the state
     filterHandler = (e) => {
         this.setState({filter: e.target.value}, () => {
             this.filter();
@@ -115,37 +117,35 @@ export class EmployeesView extends React.Component {
             console.log(this.state.allEmployees);
         });
     };
-    // update the abeled employees and turn it disableds
+    //Update the enabled employees and turn it disabled
     changeEmployee = (employee) => {
-
-
-        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,{
-            "Name": employee.Name,
-            "Type": employee.Type,
-            "Enabled": false
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId, {
+            'Name': employee.Name,
+            'Type': employee.Type,
+            'Enabled': false
         }).then(() => this.getEmployees())
     }
-    // update the disabeled employees and turn it enableds
+    // update the disabled employees and turn it enabled
     changeEmployee2 = (employee) => {
-        let emp =  {
+        let emp = {
             Name: this.state.name,
             Type: this.state.type,
             Enabled: this.state.enabled
         }
-        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,{
-            "Name": employee.Name,
-            "Type": employee.Type,
-            "Enabled": true
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId, {
+            'Name': employee.Name,
+            'Type': employee.Type,
+            'Enabled': true
         }).then(() => this.getEmployees())
     }
-    // update the employee with a new name and new type
+    //Update the employee with a new name and new type
     updateEmployee = () => {
         let emp = {
 
             Name: this.state.name,
             Type: this.state.type
         }
-        axios.put(GPEApi + 'Employees/'+this.state.employeeId , emp).then(response => {
+        axios.put(GPEApi + 'Employees/' + this.state.employeeId, emp).then(response => {
                 this.visibleHandler();
                 this.getEmployees();
                 this.clearInputs();
@@ -153,11 +153,11 @@ export class EmployeesView extends React.Component {
         )
 
     }
-    // Show and hide the modify screen
+    //Show and hide the modify screen
     visibleHandler = () => {
         this.setState({visible: !this.state.visible});
     }
-    //take the information of the actual employye and save it in the state for use it later
+    //tTake the information of the actual employye and save it in the state for use it later
     showInputs = (rowData) => {
         this.visibleHandler();
         console.log(rowData)
@@ -166,7 +166,7 @@ export class EmployeesView extends React.Component {
         this.setState({enabled: rowData.Enabled});
     }
 
-    //that funtion takes the input valua and filtre de array of information using it
+    //This function takes the input value and filter de array of information using it
     filter = () => {
 
         let employeeList = [];
@@ -178,7 +178,7 @@ export class EmployeesView extends React.Component {
                 const filterText = this.state.filter.toUpperCase();
                 if (element.EmployeeId == this.state.filter
                     || element.Name.toUpperCase().includes(this.state.filter.toUpperCase())
-                    ||  element.Type.toUpperCase().includes(this.state.filter.toUpperCase())
+                    || element.Type.toUpperCase().includes(this.state.filter.toUpperCase())
                     || element.Enabled.toUpperCase().includes(this.state.filter.toUpperCase())) {
                     employeeList.push(element);
                 }
@@ -186,12 +186,13 @@ export class EmployeesView extends React.Component {
             this.setState({employees: employeeList});
         }
     };
-    //button used for go to the modify screen
+    //Button used for go to the modify screen
     changePage = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
                        className='p-button-secondary p-mr-2'
                        style={{backgroundColor: '#86AEC2'}}/>
     }
+
     render() {
         return (
             <Fragment>
@@ -199,70 +200,57 @@ export class EmployeesView extends React.Component {
                 <TabView>
                     <TabPanel header='Employees Filter'>
                         {this.state.visible === true ? <div>
-                        <div className='flexCenter'>
-                            <GPEInput  onChange={this.filterHandler}/>
-                            <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{backgroundColor: '#86AEC2'}}/>
-
-                        </div>
-                        <div>
-                            <DataTable value={this.state.employees}>
-                                <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
-                                        header='EmployeeId'/>
-                                <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
-                                <Column style={{textAlign: 'center', width: '11%'}} field='Type'
-                                        header='Type'/>
-                                <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Enabled'
-                                        header='Enabled' />
-                                <Column style={{textAlign: 'center', width: '11%'}} body={this.changePage}
-                                        field="Modify" header="Modify"></Column>
-
-                            </DataTable>
-                        </div>
-                        </div>          :
+                                <div className='flexCenter'>
+                                    <GPEInput onChange={this.filterHandler}/>
+                                    <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
+                                            className='p-button-secondary p-mr-2'
+                                            style={{backgroundColor: '#86AEC2'}}/>
+                                </div>
+                                <div>
+                                    <DataTable value={this.state.employees}>
+                                        <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
+                                                header='EmployeeId'/>
+                                        <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
+                                        <Column style={{textAlign: 'center', width: '11%'}} field='Type'
+                                                header='Type'/>
+                                        <Column body={this.btnActive} style={{textAlign: 'center', width: '10%'}}
+                                                field='Enabled'
+                                                header='Enabled'/>
+                                        <Column style={{textAlign: 'center', width: '11%'}} body={this.changePage}
+                                                field='Modify' header='Modify'></Column>
+                                    </DataTable>
+                                </div>
+                            </div> :
                             <div>
                                 <InputText value={this.state.name} onChange={this.nameHandler}
                                            placeholder='Name' style={{width: '220px'}}
                                 />
                                 <Dropdown value={this.state.type} options={this.state.types}
-                                          placeholder="Select Type" onChange={this.typeHandler}
+                                          placeholder='Select Type' onChange={this.typeHandler}
                                 />
                                 <Button label='Modify' icon='pi pi-send' onClick={this.updateEmployee}
                                         className='p-button-secondary p-mr-2'
                                         style={{backgroundColor: '#77FF94', color: 'black'}}/>
                             </div>}
-
                     </TabPanel>
                     <TabPanel header='New Employees'>
-
-                            <div>
-                                <InputText value={this.state.name} onChange={this.nameHandler}
-                                           placeholder='Name' style={{width: '220px'}}
-                                          />
-                                <Dropdown value={this.state.type} options={this.state.types}
-                                           placeholder="Select Type" onChange={this.typeHandler}
-                                          />
-                                <Dropdown value={this.state.enabled} options={this.state.enableds}
-                                          placeholder="Select if is enabled" onChange={this.enabledHandler}
-                                />
-
-
-                                <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addEmployee}
-                                        className='p-button-secondary p-mr-2'
-                                        style={{backgroundColor: '#77FF94', color: 'black'}}/>
-                            </div>
-
-
+                        <div>
+                            <InputText value={this.state.name} onChange={this.nameHandler}
+                                       placeholder='Name' style={{width: '220px'}}
+                            />
+                            <Dropdown value={this.state.type} options={this.state.types}
+                                      placeholder='Select Type' onChange={this.typeHandler}
+                            />
+                            <Dropdown value={this.state.enabled} options={this.state.enabledOptions}
+                                      placeholder='Select if is enabled' onChange={this.enabledHandler}
+                            />
+                            <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addEmployee}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{backgroundColor: '#77FF94', color: 'black'}}/>
+                        </div>
                     </TabPanel>
                 </TabView>
-
             </Fragment>
         )
     }
-
-
-
-}                                /*<Dropdown  options={this.state.enableds}
-                                          placeholder="Select if is enabled" onChange={this.enabledHandler}
-                                          />*/
+}
