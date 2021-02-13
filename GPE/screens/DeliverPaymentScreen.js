@@ -99,18 +99,18 @@ export default class DeliverPaymentScreen extends Component {
                                   leftButtonTitle='Cancel' leftButtonPress={this.chageConfirmVisibility}
                                   rightButtonTitle='Continue' rightButtonPress={this.updateOrdersState}/>
                         <ScrollView>
-                            <View style={style.flexColumnCenter}>
+                            <View style={{marginLeft: '5%', marginRight: '5%'}}>
                                 <GPEPicker pickerSize={'80%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
                                            getItemsList={this.state.paymentMethod}
                                            getOption={this.selectedOptionHandler}/>
-                                <GPEInput title={'Paid'} placeholder={'0.0€'} width='80%' height={5} marginTop='10%'
+                                <GPEInput title={'Paid'} placeholder={'0.0€'}  marginTop='10%'
                                           onChangeText={this.paidAmountHandler} keyboardType={'numeric'}
-                                          delete={this.paidAmountRemove}/>
-                                <GPELabel title={'Total'} content={this.state.order.Total} width='80%' height={5}
+                                          delete={this.paidAmountRemove} value={this.state.paidAmount}/>
+                                <GPELabel title={'Total'} content={this.state.order.Total} 
                                           marginTop='10%'/>
-                                <GPELabel title={'Client'} width='80%' height={5} marginTop='10%'
+                                <GPELabel title={'Client'}  marginTop='10%'
                                           content={this.state.order.Client.Name}/>
-                                <GPELabel title={'Contact Name'} width='80%' height={5} marginTop='10%'
+                                <GPELabel title={'Contact Name'}  marginTop='10%'
                                           content={this.state.order.Client.ContactName}/>
                             </View>
                         </ScrollView>
