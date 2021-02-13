@@ -39,12 +39,12 @@ export class ModifyQuantity extends Component {
                         <Text style={[styles.text, styles.smallText]}>Price: {this.props.orderLine.Price}€</Text>
                     </View>
                     <View style={{alignItems: 'flex-end'}}>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Button title='-' type='clear' titleStyle={styles.button}
-                                    onPress={this.decreaseUnits}/>
-                            <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
+                        <View style={{flexDirection: 'row-reverse', alignItems: 'center'}}>
                             <Button title='+' type='clear' titleStyle={styles.button}
                                     onPress={this.increaseUnits}/>
+                            <Text style={styles.text}>{this.props.orderLine.Quantity}</Text>
+                            <Button title='-' type='clear' titleStyle={styles.button}
+                                    onPress={this.decreaseUnits}/>
                         </View>
                     </View>
                 </View>

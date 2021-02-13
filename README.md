@@ -7,6 +7,8 @@
 * Vicent Sargues - Contacto: vicentsargues@gmail.com
 * Wei Luo - Contacto: luo.luo.ll14@gmail.com
 
+## ¿Qué es GPE?
+
 ## Trello  📝
 
 https://trello.com/invite/b/kCNYCFNH/e1ea25cac22640321b1b5fade11c0459/proyecto-integrado
