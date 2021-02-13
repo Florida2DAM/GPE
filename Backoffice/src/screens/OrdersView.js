@@ -3,7 +3,6 @@ import { createRef, Fragment } from 'react';
 import '../App.css';
 import { TabPanel, TabView } from 'primereact/tabview';
 import { Toast } from "primereact/toast";
-import {Checkbox} from 'primereact/checkbox';
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -106,6 +105,32 @@ export class OrdersView extends React.Component {
         }
     }
 
+    btnPaid = (rowData) => {
+        return (<>{rowData.Paid ?
+            <Button label='YES' onClick={() => this.changePaid(rowData)} className='p-button-success' />
+            :
+            <Button label='NO' onClick={() => this.changePaid(rowData)} className=' p-button-danger' />
+        }
+        </>)
+    }
+
+    btnDelivered = (rowData) => {
+        return (<>{rowData.Delivered ?
+            <Button label='YES' onClick={() => this.changeDelivered(rowData)} className='p-button-success' />
+            :
+            <Button label='NO' onClick={() => this.changeDelivered(rowData)} className=' p-button-danger' />
+        }
+        </>)
+    }
+
+    changePaid = (orders) => {
+        axios.put(GPEApi + 'Orders/' + orders.OrdersId).then(() => this.getOrders())
+    }
+
+    changeDelivered = (orders) => {
+        axios.put(GPEApi + 'Orders/' + orders.OrdersId).then(() => this.getOrders())
+    }
+
     // showSuccess = () => {
     //     this.GPEAlert.current.show({severity: 'success', summary: 'Hecho', life: 3000});
     // }
@@ -130,20 +155,19 @@ export class OrdersView extends React.Component {
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
                             <GPEDatePicker tittle={'Date'} getDate={this.dateHandler}/>
-                            <Checkbox onChange={this.getDelivered} checked={this.state.delivered}></Checkbox>
                         </div>
                         <div>
                             <DataTable value={this.state.orders}>
-                                <Column style={{ textAlign: 'center', width: '15%' }} field='OrderId' header='OrderId' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='ClientId' header='ClientId' />
+                                <Column style={{ textAlign: 'center', width: '10%' }} field='OrderId' header='OrderId' />
+                                <Column style={{ textAlign: 'center', width: '10%' }} field='ClientId' header='ClientId' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='PayingMethod' header='Method' />
+                                <Column body={this.btnDelivered} style={{ textAlign: 'center', width: '20%' }} field='Delivered' header='Delivered' />
+                                <Column body={this.btnPaid} style={{ textAlign: 'center', width: '20%' }} field='Paid' header='Paid' />
+                                <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
                             </DataTable>
