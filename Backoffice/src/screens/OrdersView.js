@@ -6,9 +6,10 @@ import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { GPEApi, axios, moment } from '../components/GPEConst';
+import { InputText } from 'primereact/inputtext';
 import { GPEInput } from '../components/GPEInput';
 import { GPEDatePicker } from "../components/GPEDatePicker";
+import { GPEApi, axios, moment } from '../components/GPEConst';
 
 export class OrdersView extends React.Component {
 
@@ -26,6 +27,7 @@ export class OrdersView extends React.Component {
             ordersFilteredDates: [],
             showPaid: '',
             showDelivered: '',
+            visibleModify: false,
         }
     }
 
@@ -129,7 +131,7 @@ export class OrdersView extends React.Component {
         this.setState({ orders: orderList }, () => { this.setState({ showPaid: !this.state.showPaid }) });
 
     };
-    
+
     showDelivered = () => {
 
         let orderList = [];
@@ -159,45 +161,68 @@ export class OrdersView extends React.Component {
             <Fragment>
                 <Toast ref={this.GPEAlert} />
                 <TabView>
-                    <TabPanel header='Orders'>
-                        <div className='flexCenter'>
-                            <GPEInput onChange={this.filterHandler} />
-                            <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
-                                className='p-button-secondary p-mr-2'
-                                style={{ backgroundColor: '#86AEC2' }} />
-                            <GPEDatePicker tittle={'Date'} getDate={this.dateHandler} />
+                    <TabPanel header='Orders'>    
+                    {this.state.visibleModify ?
+                        
+                            <div>
+                                <InputText value={this.state.articleId} disabled onChange={this.articleIdHandler}
+                                    placeholder='Articulo ID' style={{ width: '100px' }} />
+                                <InputText value={this.state.descrpition} onChange={this.descrpitionHandler}
+                                    placeholder='Description' style={{ width: '200px' }} />
+                                <InputText value={this.state.price} onChange={this.priceHandler}
+                                    placeholder='Price' style={{ width: '200px' }} />
+                                <InputText value={this.state.brand} onChange={this.brandHandler}
+                                    placeholder='Brand' style={{ width: '200px' }} />
+                                <InputText value={this.state.category} onChange={this.categoryHandler}
+                                    placeholder='Category' style={{ width: '200px' }} />
+                                <InputText value={this.state.iva} onChange={this.ivaHandler}
+                                    placeholder='Iva' style={{ width: '200px' }} />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateArticle}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                            </div>
+                            :
+                            <div>
+                            <div className='flexCenter'>
+                                <GPEInput onChange={this.filterHandler} />
+                                <GPEDatePicker tittle={'Date'} getDate={this.dateHandler} />
+                                <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
+                                   className='p-button-secondary p-mr-2'
+                                    style={{ backgroundColor: '#86AEC2' }} />
 
-                            {this.state.showPaid ? <Button label='Show Paid' onClick={this.showPaid}
-                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                style={{ backgroundColor: '#86AEC2' }} /> :
-                                <Button label='Show unpaid' onClick={this.showUnpaid}
+                                {this.state.showPaid ? <Button label='Show Paid' onClick={this.showPaid}
                                     className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                    style={{ backgroundColor: '#86AEC2' }} />
-                            }
-                            {this.state.showDelivered ? <Button label='Show delivered' onClick={this.showDelivered}
-                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                style={{ backgroundColor: '#86AEC2' }} /> :
-                                <Button label='Show not delivered' onClick={this.showNotDelivered}
+                                    style={{ backgroundColor: '#86AEC2' }} /> :
+                                    <Button label='Show unpaid' onClick={this.showUnpaid}
+                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                        style={{ backgroundColor: '#86AEC2' }} />
+                                }
+                                {this.state.showDelivered ? <Button label='Show delivered' onClick={this.showDelivered}
                                     className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                    style={{ backgroundColor: '#86AEC2' }} />
-                            }
+                                    style={{ backgroundColor: '#86AEC2' }} /> :
+                                    <Button label='Show not delivered' onClick={this.showNotDelivered}
+                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                        style={{ backgroundColor: '#86AEC2' }} />
+                                }
+                            </div>
+                            <div>
+                                <DataTable value={this.state.orders}>
+                                    <Column style={{ textAlign: 'center', width: '10%' }} field='OrderId' header='OrderId' />
+                                    <Column style={{ textAlign: 'center', width: '10%' }} field='ClientId' header='ClientId' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
+                                    <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
+                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
+                                </DataTable>
+                            </div>
                         </div>
-                        <div>
-                            <DataTable value={this.state.orders}>
-                                <Column style={{ textAlign: 'center', width: '10%' }} field='OrderId' header='OrderId' />
-                                <Column style={{ textAlign: 'center', width: '10%' }} field='ClientId' header='ClientId' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
-                                <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
-                                <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
-                            </DataTable>
-                        </div>
+                        }
                     </TabPanel>
                 </TabView>
             </Fragment>
