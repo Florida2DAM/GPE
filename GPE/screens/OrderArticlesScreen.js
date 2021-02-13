@@ -81,7 +81,7 @@ export default class OrderArticlesScreen extends Component {
         });
     };
 
-    // Method that filters articles looking their description, brand and ArticleId
+    // Method that filters articles looking their Description, Brand and ArticleId
     filter = () => {
         let articlesList = [];
         if (this.state.filter === '') {

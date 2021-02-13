@@ -27,6 +27,8 @@ export default class VisitSalesScreen extends Component {
         this.restoreEmployee();
     }
 
+    // When the users navigates to this screen this method looks for a possible client to now if the clients arrays
+    // should be updated
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
             if (this.state.client !== this.props.route.params.client && this.props.route.params.client !== []) {
@@ -58,6 +60,7 @@ export default class VisitSalesScreen extends Component {
         });
     };
 
+    // This filter works with Name, Address, City, Phone, ContactName
     filter = () => {
         let clientList = [];
         if (this.state.filter === '') {
@@ -77,11 +80,6 @@ export default class VisitSalesScreen extends Component {
         }
     };
 
-    //--------------------------------------------------------------------------------------------------------
-    navigateToScreen = (item) => {
-        this.props.navigation.navigate('OrderArticlesScreen', { client: item, orderLines: this.state.orderLines });
-    };
-
     render() {
         return (
             <View style={style.container}>
@@ -98,8 +96,8 @@ export default class VisitSalesScreen extends Component {
                             keyExtractor={(item) => item.ClientId.toString()}
                             renderItem={({ item, index }) => {
                                 return (
-                                    <Pressable
-                                        onPress={() => this.navigateToScreen(item)}>
+                                    <Pressable onPress={this.props.navigation.navigate('OrderArticlesScreen', 
+                                            { client: item, orderLines: this.state.orderLines })}>
                                         <ClientCard
                                             index={index}
                                             client={item}

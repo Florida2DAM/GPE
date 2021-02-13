@@ -64,6 +64,7 @@ export default class VisitDeliverScreen extends Component {
         });
     };
 
+    // This filter works with Name, OrderNum, ContactName, Phone, Address and City
     filter = () => {
         let orderList = [];
         if (this.state.filter === '') {

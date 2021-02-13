@@ -30,13 +30,14 @@ export default class ItemsListScreen extends Component {
         });
     };
 
-    // Methods used to filter items in the screen using the GPEFiler component
+    // Methods used to filter items in the screen using the GPEFilter component
     setFilter = (filter) => {
         this.setState({ filter }, () => {
             this.filter();
         });
     };
 
+    // This filter works with Description, Brand, Category and ArticleId
     filter = () => {
         let itemList = [];
         if (this.state.filter === '') {

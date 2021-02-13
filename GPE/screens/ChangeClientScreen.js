@@ -40,6 +40,7 @@ export default class ChangeClientScreen extends Component {
         });
     };
 
+    // This filter works with Name, Address, City, Phone and ContactName
     filter = () => {
         let clientList = [];
         if (this.state.filter === '') {

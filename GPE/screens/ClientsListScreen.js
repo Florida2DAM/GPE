@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, ActivityIndicator } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { ClientCard } from '../components/ClientCard';
 import { NavigationBar } from '../components/NavigationBar';
 import { GPEFilter } from '../components/GPEFilter';
@@ -22,6 +22,8 @@ export default class ClientsListScreen extends Component {
         this.getClients();
     }
 
+    // When the users navigates to this screen this method looks for a possible client to now if the clients arrays
+    // should be updated
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
             if (this.state.client !== this.props.route.params.client && this.props.route.params.client !== []) {
@@ -47,6 +49,7 @@ export default class ClientsListScreen extends Component {
         });
     };
 
+    // This filter works with Name, Address, City, Phone and ContactName
     filter = () => {
         let clientList = [];
         if (this.state.filter === '') {

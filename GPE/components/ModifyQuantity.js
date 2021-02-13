@@ -5,12 +5,14 @@ import {Button} from 'react-native-elements';
 // This component is used in the OrderConfirmScreen, here we can increase/decrease the total units we have in our OrderLines
 // and it changes the orderLines total and the order total.
 export class ModifyQuantity extends Component {
+    // Method that increases the units and calls the updateTotal function
     increaseUnits = () => {
         this.props.orderLine.Quantity = parseInt(this.props.orderLine.Quantity) + 1;
         this.updateTotal();
         this.props.itemChange(this.props.orderLine);
     };
 
+    // Method that decreases the units and calls the updateTotal function
     decreaseUnits = () => {
         if (this.props.orderLine.Quantity > 1) {
             this.props.orderLine.Quantity -= 1;
@@ -19,6 +21,7 @@ export class ModifyQuantity extends Component {
         }
     };
 
+    // Updates the total value of the items
     updateTotal = () => {
         const priceQuantity = this.props.orderLine.Price * this.props.orderLine.Quantity;
         const priceDiscount = priceQuantity - (priceQuantity * (this.props.orderLine.Discount / 100));

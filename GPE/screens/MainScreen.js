@@ -19,6 +19,7 @@ export default class MainScreen extends Component {
         this.restoreEmployee();
     }
 
+    // Restores the employee from from the async
     async restoreEmployee() {
         const jsonValue = await AsyncStorage.getItem('employee');
         jsonValue != null ? this.setState({employee: JSON.parse(jsonValue)}) : null;
