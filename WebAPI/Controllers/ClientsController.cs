@@ -39,7 +39,7 @@ namespace GPE.Controllers
         }
 
         //GET: api/ClientsRegsiter
-        [Route("api/GetDates"), HttpGet]
+        [Route("GetDates"), HttpGet]
         public IEnumerable<string> GetRegisters()
         {
             List<string> clients = clientsRepository.GetClientsRegister();
@@ -47,11 +47,11 @@ namespace GPE.Controllers
         }
 
         // GET: api/ClientsCountRegisters
-        [Route("api/GetRegisters"), HttpGet]
+        [Route("GetRegisters"), HttpGet]
         public IEnumerable<int> GetCountRegsiters()
         {
-            List<int> apuestas = clientsRepository.RetrieveCountRegisters();
-            return apuestas;
+            List<int> clients = clientsRepository.RetrieveCountRegisters();
+            return clients;
         }
 
         // POST api/Clients

@@ -37,12 +37,20 @@ namespace GPE.Controllers
             List<Order> orders = ordersRepository.RetrieveDelivers();
             return orders;
         }
-        // GET: api/Orders NumberList
-        [Route("NumberList"), HttpGet]
-        public List<int> NumberList()
+
+        // GET: api/Orders
+        [Route("GetDates"), HttpGet]
+        public List<string> OrdersDate()
         {
-            List<int> numList = ordersRepository.RetrieveCountAltas();
-            return numList;
+            List<string> dates = ordersRepository.RetrieveOrdersDate();
+            return dates;
+        }
+        // GET: api/Orders
+        [Route("GetRegisters"), HttpGet]
+        public List<int> OrdersPerDay()
+        {
+            List<int> orders = ordersRepository.RetrieveOrdersCount();
+            return orders;
         }
 
         // POST: api/Orders

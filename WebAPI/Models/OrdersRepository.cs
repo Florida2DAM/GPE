@@ -34,6 +34,10 @@ namespace GPE.Models
             return order;
         }
 
+        /// <summary>
+        /// Get only orders to deliver for the employees
+        /// </summary>
+        /// <returns></returns>
         internal List<Order> RetrieveDelivers()
         {
             List<Order> order = context.Orders
@@ -46,35 +50,41 @@ namespace GPE.Models
         }
 
     
-        internal List<string> RetrieveDiasAltas()
+        /// <summary>
+        /// Get all dates of our orders
+        /// </summary>
+        /// <returns></returns>
+        internal List<string> RetrieveOrdersDate()
         {
-            List<DateTime> fechaDateTime = new List<DateTime>();
-            List<string> fecha = new List<string>();
+            List<string> date = new List<string>();
 
-            fecha = context.Orders
+            date = context.Orders
                 .DistinctBy(o => o.Date.ToShortDateString())
                 .Select(f => f.Date.ToShortDateString())
                 .ToList();
 
-            return fecha;
+            return date;
         }
 
-        //Obtener nº de altas por dia
-        internal List<int> RetrieveCountAltas()
+        /// <summary>
+        /// Get the count of our orders per day
+        /// </summary>
+        /// <returns></returns>
+        internal List<int> RetrieveOrdersCount()
         {
-            List<int> countAltas = new List<int>();
-            List<string> fechasDistinct = RetrieveDiasAltas();
-            List<string> fechasAll = context.Orders
+            List<int> countOrders = new List<int>();
+            List<string> distinctDates = RetrieveOrdersDate();
+            List<string> allDates = context.Orders
                 .Select(f => f.Date.ToShortDateString())
                 .ToList();
 
-            foreach (string fecha in fechasDistinct)
+            foreach (string date in distinctDates)
             {
-                int count = fechasAll.Count(f => f == fecha);
-                countAltas.Add(count);
+                int count = allDates.Count(f => f == date);
+                countOrders.Add(count);
             }
 
-            return countAltas;
+            return countOrders;
         }
 
         /// <summary>
