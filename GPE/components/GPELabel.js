@@ -16,7 +16,7 @@ export class GPELabel extends Component {
                     fontSize: 15,
                     marginLeft: '2%',
                 }}>{this.props.title} {this.props.currency}</Text>
-                <TextInput style={{color: 'white', fontSize: 20, marginLeft: '1%'}}
+                <TextInput style={{color: 'white', fontSize: 18, marginLeft: '1%'}}
                            editable={false}>{this.props.content} {this.props.currency}</TextInput>
             </View>
         );
