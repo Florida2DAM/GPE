@@ -29,6 +29,7 @@ export default class LoggingScreen extends Component {
         }
     };
 
+    // Calls the storeEmployee function and navigates to the main screen
     gpeLog = () => {
         this.storeEmployee(this.state.employee).then(this.props.navigation.navigate('MainScreen'));
     };
@@ -49,6 +50,7 @@ export default class LoggingScreen extends Component {
         });
     };
 
+    // Check if there's an employee selected
     checkEmployeeSelected = () => {
         if (Object.keys(this.state.employee).length === 0) {
             alert('First you have to choose your employee');

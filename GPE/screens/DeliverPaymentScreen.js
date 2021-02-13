@@ -35,8 +35,8 @@ export default class DeliverPaymentScreen extends Component {
 
         if (this.checkFields()) {
             this.state.selectedMethod === 'Pending'
-                ? axios.put(deliverPending).then(this.props.navigation.navigate('VisitDeliverScreen'))
-                : axios.put(deliver).then(this.props.navigation.navigate('VisitDeliverScreen'));
+                ? axios.put(deliverPending).then(this.props.navigation.navigate('VisitDeliverScreen', {deliverPending}))
+                : axios.put(deliver).then(this.props.navigation.navigate('VisitDeliverScreen', {deliverPending}));
         } else {
             alert('Please fill all fields first');
         }

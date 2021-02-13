@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
-import {FlatList, View} from 'react-native';
-import {ItemCard} from '../components/ItemCard';
-import {NavigationBar} from '../components/NavigationBar';
-import {GPEFilter} from '../components/GPEFilter';
-import {axios, GPEApi, style} from '../components/GPEConst';
+import React, { Component } from 'react';
+import { FlatList, View } from 'react-native';
+import { ItemCard } from '../components/ItemCard';
+import { NavigationBar } from '../components/NavigationBar';
+import { GPEFilter } from '../components/GPEFilter';
+import { axios, GPEApi, style } from '../components/GPEConst';
+import { GPEActivityIndicator } from '../components/GPEActivityIndicator';
 
 export default class ItemsListScreen extends Component {
     constructor(props) {
@@ -12,6 +13,7 @@ export default class ItemsListScreen extends Component {
             allItems: [],
             items: [],
             filter: '',
+            loaded: false
         };
     }
 
@@ -22,22 +24,24 @@ export default class ItemsListScreen extends Component {
     // Promise to get all items
     getArticles = () => {
         axios.get(GPEApi + 'articles').then((response) => {
-            this.setState({allItems: response.data});
-            this.setState({items: this.state.allItems});
+            this.setState({ allItems: response.data });
+            this.setState({ items: this.state.allItems });
+            this.setState({ loaded: true });
         });
     };
 
-    // Methods used to filter items in the screen using the GPEFiler component
+    // Methods used to filter items in the screen using the GPEFilter component
     setFilter = (filter) => {
-        this.setState({filter}, () => {
+        this.setState({ filter }, () => {
             this.filter();
         });
     };
 
+    // This filter works with Description, Brand, Category and ArticleId
     filter = () => {
         let itemList = [];
         if (this.state.filter === '') {
-            this.setState({items: this.state.allItems});
+            this.setState({ items: this.state.allItems });
         } else {
             this.state.allItems.forEach(items => {
                 const filterText = this.state.filter.toUpperCase();
@@ -48,7 +52,7 @@ export default class ItemsListScreen extends Component {
                     itemList.push(items);
                 }
             });
-            this.setState({items: itemList});
+            this.setState({ items: itemList });
         }
     };
 
@@ -56,18 +60,22 @@ export default class ItemsListScreen extends Component {
         return (
             <View style={style.container}>
                 <NavigationBar leftIcon={'navigate-before'} leftIconSize={60}
-                               pageName={'Item List'}
-                               pressLeftIcon={() => this.props.navigation.goBack()}/>
-                <GPEFilter onChange={this.setFilter}/>
-                <FlatList
-                    data={this.state.items}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => {
-                        return (
-                            <ItemCard getArticle={item}/>
-                        );
-                    }}
-                />
+                    pageName={'Item List'}
+                    pressLeftIcon={() => this.props.navigation.goBack()} />
+                <GPEFilter onChange={this.setFilter} />
+                { this.state.loaded ?
+                    <FlatList
+                        data={this.state.items}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => {
+                            return (
+                                <ItemCard getArticle={item} />
+                            );
+                        }}
+                    />
+                    :
+                    <GPEActivityIndicator />
+                }
             </View>
         );
     }
