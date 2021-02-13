@@ -52,9 +52,7 @@ export class OrdersView extends React.Component {
                 } else {
                     item.Delivered = 'No';
                 }
-                if (item.Paid === true) {
-                    item.Paid = 'Yes';
-                } else {
+                if (item.Paid === 0) {
                     item.Paid = 'No';
                 }
             });
@@ -77,7 +75,7 @@ export class OrdersView extends React.Component {
         } else this.setState({ delivered: 'Yes' })
     }
 
-    dateHandler = (e) => {
+    dateFilterHandler = (e) => {
         e = moment(e).format('YYYY-MM-DD')
         this.setState({ date: e }, () => this.filterDate())
     }
@@ -114,6 +112,18 @@ export class OrdersView extends React.Component {
             this.setState({ orders: orderList });
             this.setState({ ordersFilteredDates: orderList });
         }
+    }
+
+    btnActive = (rowData) => {
+        return (<>{rowData.Enabled ?
+            <Button label='YES' onClick={() => this.changeDelivered(rowData)} className='p-button-success' />
+            :
+            <Button label='NO' onClick={() => this.changeDelivered(rowData)} className=' p-button-danger' />
+        }
+        </>)
+    }
+    changeDelivered = (order) => {
+        axios.put(GPEApi + 'Order/' + order.OrderId).then(() => this.getOrders())
     }
 
     showPaid = () => {
@@ -178,7 +188,11 @@ export class OrdersView extends React.Component {
         this.setState({ deliverer: rowData.Deliverer });
         this.setState({ payingMethod: rowData.payingMethod });
         this.setState({ employeeId: rowData.EmployeeId });
-        this.setState({ city: rowData.Client.City });
+        if (rowData.Paid == 'No') {
+            this.setState({ paid: 0 });
+        } else {
+            this.setState({ paid: rowData.Paid });
+        }
     }
 
     visibleHandler = () => {
@@ -199,6 +213,12 @@ export class OrdersView extends React.Component {
     delivererHandler = (e) => {
         this.setState({ deliverer: e.target.value });
     }
+    totalHandler = (e) => {
+        this.setState({ total: e.target.value })
+    }
+    paidHandler = (e) => {
+        this.setState({ paid: e.target.value })
+    }
     payingMethodHandler = (e) => {
         this.setState({ payingMethod: e.target.value });
     }
@@ -218,7 +238,7 @@ export class OrdersView extends React.Component {
             Delivered: this.state.delivered,
             Paid: this.state.paid,
             PayingMethod: this.state.payingMethod,
-            EmployeeId: this.state.deliverer,
+            EmployeeId: this.state.employeeId,
         }
         console.log(order);
         axios.put(GPEApi + 'Orders', order).then(response => {
@@ -236,6 +256,7 @@ export class OrdersView extends React.Component {
         this.setState({ date: '' });
         this.setState({ deliveryDate: '' });
         this.setState({ deliverer: '' });
+        this.setState({ paid: 0 })
         this.setState({ total: 0 });
         this.setState({ payingMethod: '' });
         this.setState({ EmployeeId: 0 });
@@ -261,6 +282,10 @@ export class OrdersView extends React.Component {
                                     placeholder='Delivery Date' style={{ width: '200px' }} />
                                 <InputText value={this.state.deliverer} onChange={this.delivererHandler}
                                     placeholder='Deliverer' style={{ width: '200px' }} />
+                                <InputText value={this.state.total} onChange={this.totalHandler}
+                                    placeholder='Total' style={{ width: '200px' }} />
+                                <InputText value={this.state.paid} onChange={this.paidHandler}
+                                    placeholder='Paid' style={{ width: '200px' }} />
                                 <InputText value={this.state.payingMethod} onChange={this.payingMethodHandler}
                                     placeholder='Paying Method' style={{ width: '200px' }} />
                                 <InputText value={this.state.employeeId} onChange={this.employeeIdHandler}
@@ -273,7 +298,7 @@ export class OrdersView extends React.Component {
                             <div>
                                 <div className='flexCenter'>
                                     <GPEInput onChange={this.filterHandler} />
-                                    <GPEDatePicker tittle={'Date'} getDate={this.dateHandler} />
+                                    <GPEDatePicker tittle={'Date'} getDate={this.dateFilterHandler} />
                                     <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
                                         className='p-button-secondary p-mr-2'
                                         style={{ backgroundColor: '#86AEC2' }} />
@@ -302,7 +327,7 @@ export class OrdersView extends React.Component {
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
+                                        <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Delivered' header='Delivered' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
                                         <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
