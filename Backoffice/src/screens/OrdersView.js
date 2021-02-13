@@ -25,12 +25,12 @@ export class OrdersView extends React.Component {
             orderNum: 0,
             date: '',
             deliveryDate: '',
+            deliverer: '',
             total: 0,
             delivered: '',
-            paid: '',
+            paid: 0,
             payingMethod: '',
             employeeId: 0,
-            city: '',
             ordersFilteredDates: [],
             showPaid: '',
             showDelivered: '',
@@ -131,7 +131,7 @@ export class OrdersView extends React.Component {
     showUnpaid = () => {
         let orderList = [];
         this.state.allOrders.forEach(element => {
-            if (element.Paid == 'No') {
+            if (element.Paid === 'No') {
                 orderList.push(element);
             }
         });
@@ -143,7 +143,7 @@ export class OrdersView extends React.Component {
 
         let orderList = [];
         this.state.allOrders.forEach(element => {
-            if (element.Delivered == 'Yes') {
+            if (element.Delivered === 'Yes') {
                 orderList.push(element);
             }
         });
@@ -153,7 +153,7 @@ export class OrdersView extends React.Component {
     showNotDelivered = () => {
         let orderList = [];
         this.state.allOrders.forEach(element => {
-            if (element.Delivered == 'No') {
+            if (element.Delivered === 'No') {
                 orderList.push(element);
             }
         });
@@ -175,15 +175,70 @@ export class OrdersView extends React.Component {
         this.setState({ date: rowData.Date });
         this.setState({ deliveryDate: rowData.DeliveryDate });
         this.setState({ total: rowData.Total });
-        this.setState({ delivered: rowData.Delivered });
-        this.setState({ paid: rowData.Paid });
-        this.setState({ payingMethod: rowData.PaymentMethod });
+        this.setState({ deliverer: rowData.Deliverer });
+        this.setState({ payingMethod: rowData.payingMethod });
         this.setState({ employeeId: rowData.EmployeeId });
         this.setState({ city: rowData.Client.City });
     }
 
     visibleHandler = () => {
         this.setState({ visibleModify: !this.state.visibleModify });
+    }
+    orderIdHandler = (e) => {
+        this.setState({ orderId: e.target.value });
+    }
+    clientIdHandler = (e) => {
+        this.setState({ clientId: e.target.value });
+    }
+    dateHandler = (e) => {
+        this.setState({ date: e.target.value });
+    }
+    deliveryDateHandler = (e) => {
+        this.setState({ deliveryDate: e.target.value });
+    }
+    delivererHandler = (e) => {
+        this.setState({ deliverer: e.target.value });
+    }
+    payingMethodHandler = (e) => {
+        this.setState({ payingMethod: e.target.value });
+    }
+    employeeIdHandler = (e) => {
+        this.setState({ employeeId: e.target.value });
+    }
+
+    updateOrder = () => {
+        let order = {
+            OrderId: this.state.orderId,
+            Clientid: this.state.clientId,
+            OrderNum: this.state.orderNum,
+            Date: this.state.date,
+            DeliveryDate: this.state.deliveryDate,
+            Deliverer: this.state.deliverer,
+            Total: this.state.total,
+            Delivered: this.state.delivered,
+            Paid: this.state.paid,
+            PayingMethod: this.state.payingMethod,
+            EmployeeId: this.state.deliverer,
+        }
+        console.log(order);
+        axios.put(GPEApi + 'Orders', order).then(response => {
+            this.visibleHandler();
+            this.getOrders();
+            this.clearInputs();
+        }
+        )
+    }
+
+    clearInputs = () => {
+        this.setState({ orderId: 0 });
+        this.setState({ clientId: 0 });
+        this.setState({ orderNum: 0 });
+        this.setState({ date: '' });
+        this.setState({ deliveryDate: '' });
+        this.setState({ deliverer: '' });
+        this.setState({ total: 0 });
+        this.setState({ payingMethod: '' });
+        this.setState({ EmployeeId: 0 });
     }
 
 
@@ -196,19 +251,21 @@ export class OrdersView extends React.Component {
                         {this.state.visibleModify ?
 
                             <div>
-                                <InputText value={this.state.articleId} disabled onChange={this.articleIdHandler}
-                                    placeholder='Articulo ID' style={{ width: '100px' }} />
-                                <InputText value={this.state.descrpition} onChange={this.descrpitionHandler}
-                                    placeholder='Description' style={{ width: '200px' }} />
-                                <InputText value={this.state.price} onChange={this.priceHandler}
-                                    placeholder='Price' style={{ width: '200px' }} />
-                                <InputText value={this.state.brand} onChange={this.brandHandler}
-                                    placeholder='Brand' style={{ width: '200px' }} />
-                                <InputText value={this.state.category} onChange={this.categoryHandler}
-                                    placeholder='Category' style={{ width: '200px' }} />
-                                <InputText value={this.state.iva} onChange={this.ivaHandler}
-                                    placeholder='Iva' style={{ width: '200px' }} />
-                                <Button label='Modify' icon='pi pi-send' onClick={this.updateArticle}
+                                <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
+                                    placeholder='Order ID' style={{ width: '100px' }} />
+                                <InputText value={this.state.clientId} onChange={this.clientIdHandler}
+                                    placeholder='Client ID' style={{ width: '200px' }} />
+                                <InputText value={this.state.date} onChange={this.dateHandler}
+                                    placeholder='Date' style={{ width: '200px' }} />
+                                <InputText value={this.state.deliveryDate} onChange={this.deliveryDateHandler}
+                                    placeholder='Delivery Date' style={{ width: '200px' }} />
+                                <InputText value={this.state.deliverer} onChange={this.delivererHandler}
+                                    placeholder='Deliverer' style={{ width: '200px' }} />
+                                <InputText value={this.state.payingMethod} onChange={this.payingMethodHandler}
+                                    placeholder='Paying Method' style={{ width: '200px' }} />
+                                <InputText value={this.state.employeeId} onChange={this.employeeIdHandler}
+                                    placeholder='Employee ID' style={{ width: '200px' }} />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateOrder}
                                     className='p-button-secondary p-mr-2'
                                     style={{ backgroundColor: '#77FF94', color: 'black' }} />
                             </div>
