@@ -1,7 +1,8 @@
 # 🚚 Gestión de Pedidos y Entregas (GPE) 🚚
-##👥Integrantes 👥
+## 👥Integrantes 👥
 
-* Damià Martínez - **Contacto:** damiamartinez94@gmail.com - **Rol:** Scrum master, Product owner y programador.  
+* Damià Martínez  -  **Contacto:** damiamartinez94@gmail.com
+  **Rol:** Scrum master, Product owner y programador.  
   ![Alt text](https://i.ibb.co/Q8HKzxv/Image.png)
 * Jesús Salvador - **Contacto:** xusoop3@gmail.com - **Rol:** Programador.  
   ![Alt text](https://i.ibb.co/VCMMKmr/image.png)
@@ -12,7 +13,7 @@
 * Vicent Sargues - **Contacto:** vicentsargues@gmail.com - **Rol:** Programador.    
   ![Alt text](https://i.ibb.co/vdR3CPM/image.png)
 
-##🙇¿Qué es GPE?🙇
+## 🙇¿Qué es GPE?🙇
 
 GPE, comos sus iniciales indican, es el inicio de un proyecto de gestión de pedidos y entregas creado como solución para la 
 empresa ficticia a la que representamos como departamento de desarrollo.  
@@ -38,7 +39,7 @@ podrán introducir los datos de un nuevo cliente y mandar la información al mom
 Se ha creado la app porque resultaba mucho más barato desarrollarlo con nuestro departamento que externalizandolo a otra
 empresa, además de la personalización y facilidad de contacto de la cual disponemos por ser nuestra propia empresa.
 
-##🤷‍♂️¿Dónde puedo descargar la APK?🤷‍♂️
+## 🤷‍♂️¿Dónde puedo descargar la APK?🤷‍♂️
 
 Facilitamos dos vias para descargar la APK, desde este mismo github o accediendo al google drive de nuestra cuenta para el 
 PI, asimismo podemos utilizar los códigos QR que adjuntamos a continuación:
@@ -53,6 +54,6 @@ Github:
 GoogleDrive:  
 ![Alt text](https://i.ibb.co/88tXTdp/Apk-Google-Drive-QR.png)
 
-##📝Trello📝
+## 📝Trello📝
 
 https://trello.com/invite/b/kCNYCFNH/e1ea25cac22640321b1b5fade11c0459/proyecto-integrado
