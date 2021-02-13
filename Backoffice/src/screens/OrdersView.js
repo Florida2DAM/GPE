@@ -25,6 +25,7 @@ export class OrdersView extends React.Component {
             date: '',
             ordersFilteredDates: [],
             showPaid: '',
+            showDelivered: '',
         }
     }
 
@@ -64,12 +65,12 @@ export class OrdersView extends React.Component {
     getDelivered = (e) => {
         if (this.state.delivered) {
             this.setState({ delivered: 'No' })
-        } else this.setState({ delivered: 'Yes' })   
+        } else this.setState({ delivered: 'Yes' })
     }
 
     dateHandler = (e) => {
         e = moment(e).format('YYYY-MM-DD')
-        this.setState({ date: e}, () => this.filterDate())
+        this.setState({ date: e }, () => this.filterDate())
     }
 
     filter = () => {
@@ -81,7 +82,7 @@ export class OrdersView extends React.Component {
                 const filterText = this.state.filter.toUpperCase();
                 if (element.OrderId == (filterText)
                     || element.ClientId == (filterText)
-                    || element.Client.City.toUpperCase().includes(filterText) ){
+                    || element.Client.City.toUpperCase().includes(filterText)) {
                     orderList.push(element);
                 }
             });
@@ -91,45 +92,19 @@ export class OrdersView extends React.Component {
 
     filterDate = () => {
         let orderList = [];
-        if (this.state.date === ''){
+        if (this.state.date === '') {
             this.setState({ orders: this.state.allOrders });
         } else {
             this.state.allOrders.forEach(element => {
                 const filterDate = this.state.date;
                 if (element.Date.includes(filterDate)
-                    || element.DeliveryDate.includes(filterDate)){
+                    || element.DeliveryDate.includes(filterDate)) {
                     orderList.push(element);
                 }
             });
             this.setState({ orders: orderList });
             this.setState({ ordersFilteredDates: orderList });
         }
-    }
-
-    btnPaid = (rowData) => {
-        return (<>{rowData.Paid ?
-            <Button label='YES' onClick={() => this.changePaid(rowData)} className='p-button-success' />
-            :
-            <Button label='NO' onClick={() => this.changePaid(rowData)} className=' p-button-danger' />
-        }
-        </>)
-    }
-
-    btnDelivered = (rowData) => {
-        return (<>{rowData.Delivered ?
-            <Button label='YES' onClick={() => this.changeDelivered(rowData)} className='p-button-success' />
-            :
-            <Button label='NO' onClick={() => this.changeDelivered(rowData)} className=' p-button-danger' />
-        }
-        </>)
-    }
-
-    changePaid = (orders) => {
-        axios.put(GPEApi + 'Orders/' + orders.OrdersId).then(() => this.getOrders())
-    }
-
-    changeDelivered = (orders) => {
-        axios.put(GPEApi + 'Orders/' + orders.OrdersId).then(() => this.getOrders())
     }
 
     showPaid = () => {
@@ -154,6 +129,30 @@ export class OrdersView extends React.Component {
         this.setState({ orders: orderList }, () => { this.setState({ showPaid: !this.state.showPaid }) });
 
     };
+    
+    showDelivered = () => {
+
+        let orderList = [];
+        this.state.allOrders.forEach(element => {
+            if (element.Delivered == 'Yes') {
+                orderList.push(element);
+            }
+        });
+        this.setState({ orders: orderList }, () => { this.setState({ showDelivered: !this.state.showDelivered }) });
+
+    };
+
+    showNotDelivered = () => {
+        let orderList = [];
+        this.state.allOrders.forEach(element => {
+            if (element.Delivered == 'No') {
+                orderList.push(element);
+            }
+        });
+        this.setState({ orders: orderList }, () => { this.setState({ showDelivered: !this.state.showDelivered }) });
+
+    };
+
 
     render() {
         return (
@@ -164,16 +163,24 @@ export class OrdersView extends React.Component {
                         <div className='flexCenter'>
                             <GPEInput onChange={this.filterHandler} />
                             <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
-                                            className='p-button-secondary p-mr-2'
-                                            style={{backgroundColor: '#86AEC2'}}/>
-                            <GPEDatePicker tittle={'Date'} getDate={this.dateHandler}/>
+                                className='p-button-secondary p-mr-2'
+                                style={{ backgroundColor: '#86AEC2' }} />
+                            <GPEDatePicker tittle={'Date'} getDate={this.dateHandler} />
+
                             {this.state.showPaid ? <Button label='Show Paid' onClick={this.showPaid}
-                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                        style={{ backgroundColor: '#86AEC2' }} /> :
-                                        <Button label='Show Unpaid' onClick={this.showUnpaid}
-                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                            style={{ backgroundColor: '#86AEC2' }} />
-                                    }
+                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                style={{ backgroundColor: '#86AEC2' }} /> :
+                                <Button label='Show unpaid' onClick={this.showUnpaid}
+                                    className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                    style={{ backgroundColor: '#86AEC2' }} />
+                            }
+                            {this.state.showDelivered ? <Button label='Show delivered' onClick={this.showDelivered}
+                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                style={{ backgroundColor: '#86AEC2' }} /> :
+                                <Button label='Show not delivered' onClick={this.showNotDelivered}
+                                    className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                    style={{ backgroundColor: '#86AEC2' }} />
+                            }
                         </div>
                         <div>
                             <DataTable value={this.state.orders}>
@@ -184,8 +191,8 @@ export class OrdersView extends React.Component {
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
-                                <Column body={this.btnDelivered} style={{ textAlign: 'center', width: '20%' }} field='Delivered' header='Delivered' />
-                                <Column body={this.btnPaid} style={{ textAlign: 'center', width: '20%' }} field='Paid' header='Paid' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
+                                <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
                                 <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
                                 <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
