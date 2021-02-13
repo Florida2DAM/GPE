@@ -22,8 +22,15 @@ export class OrdersView extends React.Component {
             filter: '',
             orderId: 0,
             clientId: 0,
-            delivered: '',
+            orderNum: 0,
             date: '',
+            deliveryDate: '',
+            total: 0,
+            delivered: '',
+            paid: '',
+            payingMethod: '',
+            employeeId: 0,
+            city: '',
             ordersFilteredDates: [],
             showPaid: '',
             showDelivered: '',
@@ -141,7 +148,6 @@ export class OrdersView extends React.Component {
             }
         });
         this.setState({ orders: orderList }, () => { this.setState({ showDelivered: !this.state.showDelivered }) });
-
     };
 
     showNotDelivered = () => {
@@ -152,8 +158,33 @@ export class OrdersView extends React.Component {
             }
         });
         this.setState({ orders: orderList }, () => { this.setState({ showDelivered: !this.state.showDelivered }) });
-
     };
+
+    modifyOrder = (rowData) => {
+        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+            className='p-button-secondary p-mr-2'
+            style={{ backgroundColor: '#86AEC2' }} />
+    }
+
+    showInputs = (rowData) => {
+        this.visibleHandler();
+        console.log(rowData)
+        this.setState({ orderId: rowData.OrderId });
+        this.setState({ clientId: rowData.ClientId });
+        this.setState({ orderNum: rowData.OrderNum });
+        this.setState({ date: rowData.Date });
+        this.setState({ deliveryDate: rowData.DeliveryDate });
+        this.setState({ total: rowData.Total });
+        this.setState({ delivered: rowData.Delivered });
+        this.setState({ paid: rowData.Paid });
+        this.setState({ payingMethod: rowData.PaymentMethod });
+        this.setState({ employeeId: rowData.EmployeeId });
+        this.setState({ city: rowData.Client.City });
+    }
+
+    visibleHandler = () => {
+        this.setState({ visibleModify: !this.state.visibleModify });
+    }
 
 
     render() {
@@ -161,9 +192,9 @@ export class OrdersView extends React.Component {
             <Fragment>
                 <Toast ref={this.GPEAlert} />
                 <TabView>
-                    <TabPanel header='Orders'>    
-                    {this.state.visibleModify ?
-                        
+                    <TabPanel header='Orders'>
+                        {this.state.visibleModify ?
+
                             <div>
                                 <InputText value={this.state.articleId} disabled onChange={this.articleIdHandler}
                                     placeholder='Articulo ID' style={{ width: '100px' }} />
@@ -183,45 +214,47 @@ export class OrdersView extends React.Component {
                             </div>
                             :
                             <div>
-                            <div className='flexCenter'>
-                                <GPEInput onChange={this.filterHandler} />
-                                <GPEDatePicker tittle={'Date'} getDate={this.dateHandler} />
-                                <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
-                                   className='p-button-secondary p-mr-2'
-                                    style={{ backgroundColor: '#86AEC2' }} />
+                                <div className='flexCenter'>
+                                    <GPEInput onChange={this.filterHandler} />
+                                    <GPEDatePicker tittle={'Date'} getDate={this.dateHandler} />
+                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
+                                        className='p-button-secondary p-mr-2'
+                                        style={{ backgroundColor: '#86AEC2' }} />
 
-                                {this.state.showPaid ? <Button label='Show Paid' onClick={this.showPaid}
-                                    className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                    style={{ backgroundColor: '#86AEC2' }} /> :
-                                    <Button label='Show unpaid' onClick={this.showUnpaid}
+                                    {this.state.showPaid ? <Button label='Show Paid' onClick={this.showPaid}
                                         className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                        style={{ backgroundColor: '#86AEC2' }} />
-                                }
-                                {this.state.showDelivered ? <Button label='Show delivered' onClick={this.showDelivered}
-                                    className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                    style={{ backgroundColor: '#86AEC2' }} /> :
-                                    <Button label='Show not delivered' onClick={this.showNotDelivered}
+                                        style={{ backgroundColor: '#86AEC2' }} /> :
+                                        <Button label='Show unpaid' onClick={this.showUnpaid}
+                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                            style={{ backgroundColor: '#86AEC2' }} />
+                                    }
+                                    {this.state.showDelivered ? <Button label='Show delivered' onClick={this.showDelivered}
                                         className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                        style={{ backgroundColor: '#86AEC2' }} />
-                                }
+                                        style={{ backgroundColor: '#86AEC2' }} /> :
+                                        <Button label='Show not delivered' onClick={this.showNotDelivered}
+                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                            style={{ backgroundColor: '#86AEC2' }} />
+                                    }
+                                </div>
+                                <div>
+                                    <DataTable value={this.state.orders}>
+                                        <Column style={{ textAlign: 'center', width: '10%' }} field='OrderId' header='OrderId' />
+                                        <Column style={{ textAlign: 'center', width: '10%' }} field='ClientId' header='ClientId' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
+                                        <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrder}
+                                            field="Modify" header="Modify" />
+                                    </DataTable>
+                                </div>
                             </div>
-                            <div>
-                                <DataTable value={this.state.orders}>
-                                    <Column style={{ textAlign: 'center', width: '10%' }} field='OrderId' header='OrderId' />
-                                    <Column style={{ textAlign: 'center', width: '10%' }} field='ClientId' header='ClientId' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Delivered' header='Delivered' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
-                                    <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
-                                    <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
-                                </DataTable>
-                            </div>
-                        </div>
                         }
                     </TabPanel>
                 </TabView>
