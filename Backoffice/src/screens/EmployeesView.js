@@ -57,7 +57,8 @@ export class EmployeesView extends React.Component {
     }
 
     btnActive = (rowData) => {
-        return (<>{rowData.Enabled ?
+        console.log(rowData.Enabled);
+        return (<>{rowData.Enabled == "Yes"?
             <Button label='YES' onClick={() => this.changeEmployee(rowData)} className='p-button-success' />
             :
             <Button label='NO' onClick={() => this.changeEmployee2(rowData)} className=' p-button-danger' />
@@ -71,7 +72,7 @@ export class EmployeesView extends React.Component {
 
                 Name: this.state.name,
                 Type: this.state.type,
-                Enabled: true
+                Enabled: 0
             }
             axios.post(GPEApi + 'Employees', employee).then(response => {
                     this.getEmployees();
@@ -89,7 +90,7 @@ export class EmployeesView extends React.Component {
     }
 
     getEmployees = () => {
-        axios.get(GPEApi + 'Employees').then((response) => {
+        axios.get(GPEApi + 'Employees/BackOffice').then((response) => {
             response.data.forEach(item => {
                 if (item.Enabled === true) {
                     item.Enabled = 'Yes';
@@ -109,20 +110,21 @@ export class EmployeesView extends React.Component {
         });
     };
     changeEmployee = (employee) => {
-        let emp =  {
-            Name: this.state.name,
-            Type: this.state.type,
-            Enabled: false
-        }
-        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,emp).then(() => this.getEmployees())
+
+
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,{
+            "Name": "xd",
+            "Type": "salesman",
+            "Enabled": false
+        }).then(() => this.getEmployees())
     }
     changeEmployee2 = (employee) => {
         let emp =  {
             Name: this.state.name,
             Type: this.state.type,
-            Enabled: true
+            Enabled: this.state.enabled
         }
-        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,emp).then(() => this.getEmployees())
+        axios.put(GPEApi + 'Employees/' + employee.EmployeeId,employee).then(() => this.getEmployees())
     }
     updateEmployee = () => {
         let emp = {
