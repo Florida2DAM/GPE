@@ -18,14 +18,17 @@ export class EmployeesView extends React.Component {
         this.state = {
             employees: [],
             allEmployees: [],
+            deliverers: [],
             name: '',
             type: '',
+            deliverer: '',
             enabled: false,
             types: ['Salesman', 'Deliverer'],
             enabledOptions: ['true', 'false'],
             visible: true,
             activeIndex: 0,
-            employeeId: ''
+            employeeId: '',
+            show: true,
         }
     }
 
@@ -35,11 +38,18 @@ export class EmployeesView extends React.Component {
 
     //Get the data base employees information
     getEmployees = () => {
+        let deliverers = [];
         axios.get(GPEApi + 'Employees/BackOffice').then((response) => {
+            response.data.forEach(e => {
+                if (e.Type == 'Deliverer') {
+                    deliverers.push(e.Name);
+                }
+            });
+            this.setState({ deliverers });
             this.setState({ employees: response.data });
             this.setState({ allEmployees: response.data });
-            console.log(response.data);
         })
+
     }
 
     //Post a new employee on data base
@@ -48,6 +58,7 @@ export class EmployeesView extends React.Component {
             let employee = {
                 Name: this.state.name,
                 Type: this.state.type,
+                Deliverer: this.state.deliverer,
                 Enabled: false,
             }
             axios.post(GPEApi + 'Employees', employee).then(response => {
@@ -62,20 +73,25 @@ export class EmployeesView extends React.Component {
         }
     }
 
-
     //Update the employee with a new name and new type
     updateEmployee = () => {
-        let emp = {
-            Name: this.state.name,
-            Type: this.state.type
+        if (this.checkInputs()) {
+            let emp = {
+                EmployeeId: this.state.employeeId,
+                Name: this.state.name,
+                Type: this.state.type,
+                Deliverer: this.state.deliverer
+            }
+            axios.put(GPEApi + 'Employees', emp).then(response => {
+                this.visibleHandler();
+                this.getEmployees();
+                this.clearInputs();
+                this.GPEShowSuccess('Employee updated');
+            }
+            )
+        } else {
+            this.GPEShowError('You have to introduce all fields')
         }
-        axios.put(GPEApi + 'Employees/' + this.state.employeeId, emp).then(response => {
-            this.visibleHandler();
-            this.getEmployees();
-            this.clearInputs();
-            this.GPEShowSuccess('Employee updated');
-        }
-        )
     }
 
     //Check the enabled field and shou a green button if is true and red button if is false
@@ -96,10 +112,27 @@ export class EmployeesView extends React.Component {
     nameHandler = (e) => {
         this.setState({ name: e.target.value });
     };
+    
+    //Take the value and save it in the state
+    delivererHandler = (e) => {
+        this.setState({ deliverer: e.target.value });
+    };
+    
+    //Take the value and save it in the state
+    employeeIdHandler = (e) => {
+        this.setState({ employeeId: e.target.value });
+    };
+
     //Take the value and save it in the state
     typeHandler = (e) => {
-        this.setState({ type: e.target.value });
+        if (e.target.value == 'Deliverer') {
+            this.setState({ type: e.target.value });
+            this.setState({ deliverer: '' });
+        } else {
+            this.setState({ type: e.target.value });
+        }
     };
+
     //Take the value and save it in the state
     enabledHandler = (e) => {
         this.setState({ enabled: e.target.value });
@@ -113,15 +146,26 @@ export class EmployeesView extends React.Component {
     clearInputs = () => {
         this.setState({ name: '' });
         this.setState({ type: '' });
+        this.setState({ deliverer: '' })
     }
 
+    checkSalesMan = () => {
+        if (this.state.type == 'Salesman' && this.state.deliverer != '') {
+            return true;
+        }
+        if (this.state.type == 'Deliverer' && this.state.deliverer == '') {
+            return true;
+        }
+        return false;
+    }
     //Check if inputs are empty
     checkInputs = () => {
         if (this.state.name == '' || this.state.type == '') {
             return false;
-        } else {
-            return true;
         }
+        if (this.checkSalesMan()) {
+            return true;
+        } else return false
     }
     //tTake the information of the actual employye and save it in the state for use it later
     showInputs = (rowData) => {
@@ -165,9 +209,34 @@ export class EmployeesView extends React.Component {
         }
     };
 
+    showEnable = () => {
+        let employeeList = [];
+        this.state.allEmployees.forEach(element => {
+            if (element.Enabled == true) {
+                employeeList.push(element);
+            }
+        });
+        this.setState({ employees: employeeList }, () => {
+            this.setState({ show: !this.state.show })
+        });
+    };
+
+    showDisable = () => {
+        let employeeList = [];
+        this.state.allEmployees.forEach(element => {
+            if (element.Enabled == false) {
+                employeeList.push(element);
+            }
+        });
+        this.setState({ employees: employeeList }, () => {
+            this.setState({ show: !this.state.show })
+        });
+    };
+
     GPEShowError = (error) => {
         this.GPEAlert.current.show({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
     }
+    
     GPEShowSuccess = (detailValue) => {
         this.GPEAlert.current.show({ severity: 'success', summary: 'Done', detail: detailValue, life: 3000 });
     }
@@ -185,6 +254,14 @@ export class EmployeesView extends React.Component {
                                 <Button label='Refresh' icon='pi pi-refresh' onClick={this.resetStates}
                                     className='p-button-secondary p-mr-2'
                                     style={{ backgroundColor: '#86AEC2' }} />
+                                {this.state.show ?
+                                    <Button label='Show Enable' onClick={this.showEnable}
+                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                        style={{ backgroundColor: '#86AEC2' }} /> :
+                                    <Button label='Show Disable' onClick={this.showDisable}
+                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                        style={{ backgroundColor: '#86AEC2' }} />
+                                }
                             </div>
                             <div>
                                 <DataTable value={this.state.employees}>
@@ -202,16 +279,20 @@ export class EmployeesView extends React.Component {
                                 </DataTable>
                             </div>
                         </div> :
-                            <div>
+                            <div> <InputText value={this.state.employeeId} onChange={this.employeeIdHandler} disabled
+                                placeholder='ID' />
                                 <InputText value={this.state.name} onChange={this.nameHandler}
-                                    placeholder='Name' style={{ width: '220px' }}
-                                />
+                                    placeholder='Name' className={this.state.name == '' && 'p-invalid p-d-block'} />
                                 <Dropdown value={this.state.type} options={this.state.types}
                                     placeholder='Select Type' onChange={this.typeHandler}
-                                />
+                                    className={this.state.type == '' && 'p-invalid p-d-block'} />
+                                {this.state.type == 'Salesman' && <Dropdown value={this.state.deliverer} options={this.state.deliverers}
+                                    placeholder='Select Deliverer' onChange={this.delivererHandler}
+                                    className={this.state.type == '' && 'p-invalid p-d-block'} />}
                                 <Button label='Modify' icon='pi pi-send' onClick={this.updateEmployee}
                                     className='p-button-secondary p-mr-2'
                                     style={{ backgroundColor: '#77FF94', color: 'black' }} />
+
                             </div>}
                     </TabPanel>
                     <TabPanel header='New Employees'>
@@ -221,6 +302,9 @@ export class EmployeesView extends React.Component {
                             <Dropdown value={this.state.type} options={this.state.types}
                                 placeholder='Select Type' onChange={this.typeHandler}
                                 className={this.state.type == '' && 'p-invalid p-d-block'} />
+                            {this.state.type == 'Salesman' && <Dropdown value={this.state.deliverer} options={this.state.deliverers}
+                                placeholder='Select Deliverer' onChange={this.delivererHandler}
+                                className={this.state.type == '' && 'p-invalid p-d-block'} />}
                             <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addEmployee}
                                 className='p-button-secondary p-mr-2'
                                 style={{ backgroundColor: '#77FF94', color: 'black' }} />
