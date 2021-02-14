@@ -48,6 +48,11 @@ export default class OrderArticlesScreen extends Component {
             if (this.props.route.params.client !== undefined && this.state.client.length === 0) {
                 this.setState({ client: this.props.route.params.client });
             }
+            if (this.props.route.params.previousScreen !== undefined) {
+                if (this.props.route.params.previousScreen === 'VisitSalesScreen' && this.state.orderLines.length !== 0) {
+                    this.setState({ orderLines: [] });
+                }
+            }
         }
     }
 

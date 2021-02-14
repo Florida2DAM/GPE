@@ -31,6 +31,7 @@ export default class VisitDeliverScreen extends Component {
             if (this.props.route.params.deliverPending !== undefined) {
                 if (this.state.deliverCheck !== this.props.route.params.deliverPending) {
                     this.setState({ deliverCheck: this.props.route.params.deliverPending }, () => this.getOrders());
+                    while(this.state.allOrders === this.getOrders()){}
                 }
             }
         }
@@ -49,11 +50,12 @@ export default class VisitDeliverScreen extends Component {
             response.data.forEach(item => {
                 if (item.Deliverer === this.state.employee.Name) {
                     newOrders.push(item);
-                }
-            });
+                }                
+            });            
             this.setState({ allOrders: newOrders });
             this.setState({ orders: newOrders });
             this.setState({ loaded: true })
+            return newOrders;
         });
     };
 

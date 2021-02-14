@@ -99,6 +99,7 @@ export default class OrderAddItemsScreen extends Component {
             this.props.navigation.navigate('OrderArticlesScreen', {
                 orderLines: this.state.orderLines,
                 order: this.state.order,
+                previousScreen: 'OrderAddItemsScreen'
             });
         }
     };
