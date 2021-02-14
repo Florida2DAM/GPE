@@ -69,7 +69,7 @@ namespace GPE.Controllers
         public void Put(int id)
         {
             var repo = new OrdersRepository();
-            repo.Update(id);
+            repo.UpdateDelivered(id);
         }
 
         // DELETE: api/Orders/5
