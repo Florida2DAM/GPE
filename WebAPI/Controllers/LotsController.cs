@@ -9,6 +9,7 @@ namespace GPE.Controllers
     {
         LotsRepository lotsRepository = new LotsRepository();
 
+        [Route(""), HttpGet] 
         // GET: api/Lots
         public IEnumerable<Lot> Get()
         {
@@ -16,6 +17,7 @@ namespace GPE.Controllers
             return lot;
         }
 
+        [Route(""), HttpGet]
         // GET: api/Lots/5
         public IEnumerable<Lot> Get(int ArticleId)
         {
@@ -23,6 +25,7 @@ namespace GPE.Controllers
             return lot;
         }
 
+        [Route(""), HttpPost]
         // POST: api/Lots
         public void Post([FromBody]Lot lot)
         {
@@ -30,6 +33,7 @@ namespace GPE.Controllers
 
         }
 
+        [Route(""), HttpPost]
         // PUT: api/Lots/5
         public void Put([FromBody]Lot lot)
         {

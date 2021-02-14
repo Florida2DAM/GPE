@@ -8,6 +8,8 @@ namespace GPE.Controllers
     public class EmployeesController : ApiController
     {
         EmployeesRepository employeesRepository = new EmployeesRepository();
+
+        [Route(""), HttpGet]
         // GET: api/Employee
         public IEnumerable<Employee> Get()
         {
@@ -23,22 +25,25 @@ namespace GPE.Controllers
             return emp;
         }
 
+        [Route(""), HttpPost]
         // POST: api/Employee
         public void Post([FromBody] Employee emp)
         {
             employeesRepository.Save(emp);
         }
 
+        [Route(""), HttpPut]
         // PUT: api/Employee/5
-        public void Put(int id, [FromBody] Employee emp)
+        public void Put(int employeeId, [FromBody] Employee emp)
         {
-            employeesRepository.Update(id, emp);
+            employeesRepository.Update(employeeId, emp);
         }
 
-        // DELETE: api/Employee/5
-        public void Delete(int id)
+        [Route("ChangeState"), HttpPut]
+        // PUT api/Employees
+        public void Put(int employeeId)
         {
-            employeesRepository.Delete(id);
+            employeesRepository.ChangeState(employeeId);
         }
     }
 }

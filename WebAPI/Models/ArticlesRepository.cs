@@ -78,7 +78,7 @@ namespace GPE.Models
         /// Changes the article enabled option to the oposite value
         /// </summary>
         /// <param name="id">The id from the article to update</param>
-        internal void Update(int id)
+        internal void ChangeState(int id)
         {
             Article article = Retrieve(id);
             article.Enabled = !article.Enabled;

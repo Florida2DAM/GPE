@@ -17,7 +17,7 @@ namespace GPE.Controllers
             return orders;
         }
 
-        // GET: 
+        // GET: api/LastOrder
         [Route("GetLast"), HttpGet]
         public int GetLast()
         {

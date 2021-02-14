@@ -9,6 +9,7 @@ namespace GPE.Controllers
     {
         ArticlesRepository articlesRepository = new ArticlesRepository();
 
+        [Route(""), HttpGet]
         // GET: api/Article
         public IEnumerable<Article> Get()
         {
@@ -24,6 +25,7 @@ namespace GPE.Controllers
             return articles;
         }
 
+        [Route(""), HttpGet]
         // GET: api/Article
         public Article Get(int articleId)
         {
@@ -31,22 +33,25 @@ namespace GPE.Controllers
             return article;
         }
 
+        [Route(""), HttpPost]
         // POST: api/Article
         public void Post(Article article)
         {
             articlesRepository.Save(article);
         }
 
-        // PUT: api/Article/ID_Number
-        public void Put(int id)
-        {
-            articlesRepository.Update(id);
-        }
-
+        [Route(""), HttpPut]
         // PUT: api/Articles/
         public void Put([FromBody] Article article)
         {
             articlesRepository.Update(article);
+        }
+
+        [Route("ChangeState"), HttpPut]
+        // PUT: api/Article/ID_Number
+        public void Put(int id)
+        {
+            articlesRepository.ChangeState(id);
         }
     }
 }

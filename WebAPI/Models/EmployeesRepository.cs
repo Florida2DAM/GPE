@@ -30,23 +30,27 @@ namespace GPE.Models
             context.Employees.Add(emp);
             context.SaveChanges();
         }
-        //Delete user by id
-        internal void Delete(int id)
-        {
-            Employee emp;
-            emp = context.Employees.Where(s => s.EmployeeId == id).FirstOrDefault();
-            context.Employees.Remove(emp);
-            context.SaveChanges();
-        }
-        //Update an existent user
-        internal void Update(int id, Employee eventoBody)
+         //Update an existent user
+        internal void Update(int employeeId, Employee eventoBody)
         {
             Employee emp;
 
-            emp = context.Employees.Where(s => s.EmployeeId == id).FirstOrDefault();
+            emp = context.Employees.Where(s => s.EmployeeId == employeeId).FirstOrDefault();
             emp.Name = eventoBody.Name;
             emp.Type = eventoBody.Type;
             emp.Enabled = eventoBody.Enabled;
+            context.SaveChanges();
+        }
+
+        /// <summary>
+        /// changes the state of enabled of a client
+        /// </summary>
+        /// <param name="id">id of the user to update</param>
+        internal void ChangeState(int employeeId)
+        {
+            Employee employee = context.Employees.Find(employeeId);
+            employee.Enabled = !employee.Enabled;
+            context.Employees.Update(employee);
             context.SaveChanges();
         }
     }

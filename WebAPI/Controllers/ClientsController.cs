@@ -9,6 +9,7 @@ namespace GPE.Controllers
     {
         ClientsRepository clientsRepository = new ClientsRepository();
 
+        [Route(""), HttpGet]
         // GET api/Clients
         public IEnumerable<Client> Get()
         {
@@ -24,6 +25,7 @@ namespace GPE.Controllers
             return clients;
         }
 
+        [Route(""), HttpGet]
         // GET api/Clients?name=value
         public IEnumerable<Client> Get(string name)
         {
@@ -31,6 +33,7 @@ namespace GPE.Controllers
             return clients;
         }
 
+        [Route(""), HttpGet]
         // GET api/Clients?clientId=value
         public Client Get(int clientId)
         {
@@ -54,18 +57,21 @@ namespace GPE.Controllers
             return clients;
         }
 
+        [Route(""), HttpPost]
         // POST api/Clients
         public void Post([FromBody] Client client)
         {
             clientsRepository.AddClient(client);
         }
 
+        [Route(""), HttpPut]
         // PUT api/Clients
         public void Put([FromBody] Client client)
         {
             clientsRepository.UpdateClient(client);
         }
 
+        [Route(""), HttpPut]
         // PUT api/Clients/2
         public void Put(int id)
         {
