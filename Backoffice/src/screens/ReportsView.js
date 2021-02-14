@@ -25,7 +25,7 @@ export class ReportsView extends React.Component {
     }
 
     // Here we create all our promises to charge the states and show after that the charts
-    // when we recibe dates we use moment js to set the spanish format
+    // when we receive dates we use moment js to set the spanish format
     getOrdersDate = () => {
         let newDates = [];
         axios.get(GPEApi + 'Orders/GetDates').then((response) => {

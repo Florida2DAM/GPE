@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Fragment} from 'react';
+import {createRef, Fragment} from 'react';
 import '../App.css';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
@@ -8,7 +8,6 @@ import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {GPEInput} from '../components/GPEInput';
 import {axios, GPEApi} from '../components/GPEConst';
-import {createRef} from 'react';
 import {Toast} from 'primereact/toast';
 
 export class ArticlesView extends React.Component {
@@ -31,7 +30,7 @@ export class ArticlesView extends React.Component {
             visibleModify: false,
         }
     }
-    
+
     componentDidMount() {
         this.getArticles();
     }

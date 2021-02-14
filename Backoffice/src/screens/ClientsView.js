@@ -101,7 +101,7 @@ export class ClientsView extends React.Component {
                     this.getClients();
                     this.clearInputs();
                     this.setState({activeIndex: 0});
-                this.GPEShowSuccess('Client inserted');
+                    this.GPEShowSuccess('Client inserted');
                 }
             )
         } else {
