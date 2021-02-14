@@ -67,7 +67,7 @@ html {
     margin-left: 15px;
 }
 
-.marketsArea {
+.orderLinesView {
     display: flex;
     flex-direction: column;
     justify-content: center;
