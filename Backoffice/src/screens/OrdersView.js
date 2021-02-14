@@ -78,6 +78,12 @@ export class OrdersView extends React.Component {
             this.setState({ allOrderLines: response.data });
         })
     }
+    
+    getDelivered = (e) => {
+        if (this.state.delivered) {
+            this.setState({ delivered: 'No' })
+        } else this.setState({ delivered: 'Yes' })
+    }
 
     filterHandler = (e) => {
         this.setState({ filter: e.target.value }, () => {
@@ -92,12 +98,6 @@ export class OrdersView extends React.Component {
             console.log(this.state.filterLine);
         });
     };
-
-    getDelivered = (e) => {
-        if (this.state.delivered) {
-            this.setState({ delivered: 'No' })
-        } else this.setState({ delivered: 'Yes' })
-    }
 
     dateFilterHandler = (e) => {
         e = moment(e).format('DD/MM/YYYY')
@@ -200,6 +200,16 @@ export class OrdersView extends React.Component {
         this.setState({ orders: orderList }, () => { this.setState({ showDelivered: !this.state.showDelivered }) });
     };
 
+    showOrderLine = (id) => {
+        let orderLinesList = [];
+        this.state.allOrderLines.forEach(element => {
+            if (element.OrderId === id) {
+                orderLinesList.push(element);
+            }
+        });
+        this.setState({ orderLines: orderLinesList });
+    }
+
     modifyOrderLine = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputsLines(rowData)}
             className='p-button-secondary p-mr-2'
@@ -213,6 +223,7 @@ export class OrdersView extends React.Component {
     }
 
     showInputs = (rowData) => {
+        this.showOrderLine(rowData.OrderId);
         this.visibleHandler();
         console.log(rowData)
         this.setState({ orderId: rowData.OrderId });
