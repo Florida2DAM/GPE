@@ -46,13 +46,13 @@ PI, asimismo podemos utilizar los códigos QR que adjuntamos a continuación:
 
 - https://github.com/Florida2DAM/GPE/tree/master/APK  
 
-- https://drive.google.com/file/d/1IUk-09Jk5_gIzclsObAtDQSOa-UtBlSp/view?usp=sharing
+- https://drive.google.com/drive/folders/1JALao69KbbxAb7v8tvSUQWaidgutBbKQ
 
 Github:  
 ![Alt text](https://i.ibb.co/rc5JXTF/Apk-Github-QR.png)
 
 GoogleDrive:  
-![Alt text](https://i.ibb.co/88tXTdp/Apk-Google-Drive-QR.png)
+![Alt text](https://i.ibb.co/7zmjrbx/Apk-Google-Drive-QR.png)
 
 ## 📝Trello📝
 
