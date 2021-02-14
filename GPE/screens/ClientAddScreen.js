@@ -1,4 +1,4 @@
-import React, {Component,} from 'react';
+import React, {Component} from 'react';
 import {ScrollView, View} from 'react-native';
 import {NavigationBar} from '../components/NavigationBar';
 import {GPEInput} from '../components/GPEInput';
@@ -18,7 +18,7 @@ export default class ClientAddScreen extends Component {
             province: '',
             postalCode: '',
             city: '',
-            visible: false
+            visible: false,
         };
     }
 
@@ -82,10 +82,10 @@ export default class ClientAddScreen extends Component {
     // Handlers used for hide/show our dialog to finally insert the new client
     showConfirm = () => {
         this.setState({visible: true});
-    }
+    };
     hideConfirm = () => {
         this.setState({visible: false});
-    }
+    };
 
     // Method used for check if the NIF is right
     checkNIF = (nif) => {
@@ -96,7 +96,7 @@ export default class ClientAddScreen extends Component {
         const rightLetter = letters[NIFNumber % 23];
 
         if (NIFLetter.toUpperCase() !== rightLetter) {
-            alert('Letter incorrect' + '\n' + 'Maybe the right one is this: ' + rightLetter);
+            alert('Write a correct NIF\nLetter incorrect\nMaybe the right one is this: ' + rightLetter);
             return false;
         } else {
             return true;
@@ -115,8 +115,8 @@ export default class ClientAddScreen extends Component {
             'Email': this.state.email,
             'NIF': this.state.nif,
             'ContactName': this.state.contact,
-        }
-        axios.post(GPEApi + 'Clients', client).then(this.props.navigation.navigate(this.props.route.params.previousScreen, {client}));
+        };
+        axios.post(GPEApi + 'Clients/AddClient', client).then(this.props.navigation.navigate(this.props.route.params.previousScreen, {client}));
     };
 
     // Checking empty/filled inputs, if all inputs are filled it shows a dialog to confirm if we are sure about
@@ -131,22 +131,22 @@ export default class ClientAddScreen extends Component {
             flag = false;
         } else if (this.state.nif === '' || this.checkNIF(this.state.nif) === false) {
             flag = false;
-            alert('Write a correct Nif');
         } else if (this.state.phone === '' || this.state.phone.length !== 9) {
+            alert('Phone requires 9 numbers');
             flag = false;
         } else if (this.state.address === '') {
             flag = false;
         } else if (this.state.province === '') {
             flag = false;
         } else if (this.state.postalCode === '' || this.state.postalCode.length !== 5) {
-            alert("Postal code requires 5 numbers")
+            alert('Postal code requires 5 numbers');
             flag = false;
         } else if (this.state.city === '') {
             flag = false;
         }
 
         if (flag) {
-            this.showConfirm()
+            this.showConfirm();
         } else {
             alert('Please fill all fields first');
         }
@@ -166,26 +166,26 @@ export default class ClientAddScreen extends Component {
                     <View style={{marginLeft: '5%', marginRight: '5%'}}>
                         <GPEInput title={'Name'} placeholder={'Name'} marginTop='5%'
                                   onChangeText={this.nameHandler} delete={this.nameRemove} value={this.state.name}/>
-                        <GPEInput title={'Email'} placeholder={'Email'}  marginTop='5%'
+                        <GPEInput title={'Email'} placeholder={'Email'} marginTop='5%'
                                   onChangeText={this.emailHandler} delete={this.emailRemove} value={this.state.email}/>
-                        <GPEInput title={'Contact Name'} placeholder={'Contact name'}  marginTop='5%'
+                        <GPEInput title={'Contact Name'} placeholder={'Contact name'} marginTop='5%'
                                   onChangeText={this.contactHandler} delete={this.contactRemove}
                                   value={this.state.contact}/>
-                        <GPEInput title={'NIF'} placeholder={'NIF'}  marginTop='5%'
+                        <GPEInput title={'NIF'} placeholder={'NIF'} marginTop='5%'
                                   onChangeText={this.nifHandler} delete={this.nifRemove} value={this.state.nif}/>
-                        <GPEInput title={'Phone number'} placeholder={'Phone number'}  marginTop='5%'
+                        <GPEInput title={'Phone number'} placeholder={'Phone number'} marginTop='5%'
                                   keyboardType='numeric' onChangeText={this.phoneHandler}
                                   delete={this.phoneRemove} value={this.state.phone}/>
-                        <GPEInput title={'City'} placeholder={'City'}  marginTop='5%'
+                        <GPEInput title={'City'} placeholder={'City'} marginTop='5%'
                                   onChangeText={this.cityHandler} delete={this.cityRemove} value={this.state.city}/>
-                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'}  marginTop='5%'
+                        <GPEInput title={'Postal Code'} placeholder={'Postal Code'} marginTop='5%'
                                   keyboardType='numeric'
                                   onChangeText={this.postalCodeHandler} delete={this.postalCodeRemove}
                                   value={this.state.postalCode}/>
-                        <GPEInput title={'Province'} placeholder={'Province'}  marginTop='5%'
+                        <GPEInput title={'Province'} placeholder={'Province'} marginTop='5%'
                                   onChangeText={this.provinceHandler} delete={this.provinceRemove}
                                   value={this.state.province}/>
-                        <GPEInput title={'Address'} placeholder={'Address'}  marginTop='5%'
+                        <GPEInput title={'Address'} placeholder={'Address'} marginTop='5%'
                                   onChangeText={this.addressHandler} delete={this.addressRemove}
                                   value={this.state.address} marginBottom='5%'/>
                     </View>
