@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { createRef, Fragment } from 'react';
+import {createRef, Fragment} from 'react';
 import '../App.css';
-import { TabPanel, TabView } from 'primereact/tabview';
-import { Toast } from "primereact/toast";
-import { Button } from "primereact/button";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { InputText } from 'primereact/inputtext';
-import { GPEInput } from '../components/GPEInput';
-import { GPEDatePicker } from "../components/GPEDatePicker";
-import { GPEApi, axios, moment } from '../components/GPEConst';
+import {TabPanel, TabView} from 'primereact/tabview';
+import {Toast} from "primereact/toast";
+import {Button} from "primereact/button";
+import {DataTable} from "primereact/datatable";
+import {Column} from "primereact/column";
+import {InputText} from 'primereact/inputtext';
+import {GPEInput} from '../components/GPEInput';
+import {GPEDatePicker} from "../components/GPEDatePicker";
+import {axios, GPEApi, moment} from '../components/GPEConst';
 
 export class OrdersView extends React.Component {
 
@@ -58,11 +58,12 @@ export class OrdersView extends React.Component {
         this.getOrderLines();
     }
 
+    // We get all orders and orderlines info with this promises and save the info into our states
     getOrders = () => {
         axios.get(GPEApi + 'Orders').then((response) => {
             response.data.forEach(item => {
-                item.Date = moment(item.Date).format('YYYY-MM-DD');
-                item.DeliveryDate = moment(item.Date).format('YYYY-MM-DD');
+                item.Date = moment(item.Date).format('DD/MM/YYYY');
+                item.DeliveryDate = moment(item.Date).format('DD/MM/YYYY');
                 if (item.Delivered === true) {
                     item.Delivered = 'Yes';
                 } else {
@@ -106,7 +107,7 @@ export class OrdersView extends React.Component {
     }
 
     dateFilterHandler = (e) => {
-        e = moment(e).format('YYYY-MM-DD')
+        e = moment(e).format('DD/MM/YYYY')
         this.setState({ date: e }, () => this.filterDate())
     }
 
