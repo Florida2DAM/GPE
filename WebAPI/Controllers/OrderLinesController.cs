@@ -33,11 +33,5 @@ namespace GPE.Controllers
         {
             orderLinesRepository.Put(orderLine);
         }
-
-        // DELETE api/OrderLines
-        public void Delete(int orderId, int lineId)
-        {
-            orderLinesRepository.Delete(orderId, lineId);
-        }
     }
 }

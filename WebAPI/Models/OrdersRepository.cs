@@ -24,17 +24,6 @@ namespace GPE.Models
         }
 
         /// <summary>
-        /// get a order by id
-        /// </summary>
-        /// <returns></returns>
-        internal Order Retrieve(int id)
-        {
-            Order order;
-            order = context.Orders.Where(o => o.OrderId == id).FirstOrDefault();
-            return order;
-        }
-
-        /// <summary>
         /// Get only orders to deliver for the employees
         /// </summary>
         /// <returns></returns>
@@ -48,7 +37,6 @@ namespace GPE.Models
 
             return order;
         }
-
     
         /// <summary>
         /// Get all dates of our orders
@@ -135,17 +123,6 @@ namespace GPE.Models
             Order order = Retrieve(id);
             order.Delivered = !order.Delivered;
             context.Orders.Update(order);
-            context.SaveChanges();
-        }
-
-        /// <summary>
-        /// delete a order by id
-        /// </summary>
-        /// <param name="id"></param>
-        internal void Delete(int id)
-        {
-            Order order = Retrieve(id);
-            context.Orders.Remove(order);
             context.SaveChanges();
         }
 

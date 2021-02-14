@@ -9,18 +9,12 @@ namespace GPE.Controllers
     {
         OrdersRepository ordersRepository = new OrdersRepository();
 
+        [Route(""), HttpGet]
         // GET: api/Orders
         public IEnumerable<Order> Get()
         {
             List<Order> orders = ordersRepository.Retrieve();
             return orders;
-        }
-
-        // GET: api/Orders/5
-        public Order Get(int id)
-        {
-            Order order = ordersRepository.Retrieve(id);
-            return order;
         }
 
         // GET: 
@@ -53,12 +47,14 @@ namespace GPE.Controllers
             return orders;
         }
 
+        [Route(""), HttpPost]
         // POST: api/Orders
         public void Post([FromBody] Order order)
         {
             ordersRepository.Save(order);
         }
 
+        [Route(""), HttpPut]
         // PUT: api/Orders/5
         public void Put([FromBody] Order order)
         {
@@ -71,21 +67,5 @@ namespace GPE.Controllers
         {
             ordersRepository.UpdateDeliver(orderId, paid, payingMethod);
         }
-
-        // PUT: api/Article/ID
-        [Route(""), HttpPut]
-        public void Put(int id)
-        {
-            var repo = new OrdersRepository();
-            repo.UpdateDelivered(id);
-        }
-
-        // DELETE: api/Orders/5
-        public void Delete(int id)
-        {
-            ordersRepository.Delete(id);
-        }
-
-        
     }
 }

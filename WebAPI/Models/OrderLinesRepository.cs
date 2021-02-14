@@ -123,23 +123,6 @@ namespace GPE.Models
         }
 
         /// <summary>
-        /// Used for delete a row from the OrderLines table.
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <param name="lineId"></param>
-        internal void Delete(int orderId, int lineId)
-        {
-            OrderLine orderLine = context.OrderLines
-                .Where(o => o.OrderId == orderId && o.LineId == lineId)
-                .FirstOrDefault();
-
-            context.OrderLines.Remove(orderLine);
-            context.SaveChanges();
-
-            changeTotalOrder(orderId);
-        }
-
-        /// <summary>
         /// Method used in Put method for update the totalLine, here we charge an objecte with the same id and after calculate again the total, if we have a discount
         /// we calculate the IVA after applicate the discount, if we dont have discount we just calculate IVA using the priceQuantity.
         /// </summary>
