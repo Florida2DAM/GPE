@@ -23,32 +23,32 @@ export default class ClientAddScreen extends Component {
     }
 
     // All handlers used for save/remove the states inserted by the user
-    nameHandler = (n) => {
-        this.setState({name: n});
+    nameHandler = (e) => {
+        this.setState({name: e});
     };
-    emailHandler = (s) => {
-        this.setState({email: s});
+    emailHandler = (e) => {
+        this.setState({email: e});
     };
-    contactHandler = (b) => {
-        this.setState({contact: b});
+    contactHandler = (e) => {
+        this.setState({contact: e});
     };
-    nifHandler = (n) => {
-        this.setState({nif: n});
+    nifHandler = (e) => {
+        this.setState({nif: e});
     };
-    phoneHandler = (p) => {
-        this.setState({phone: p});
+    phoneHandler = (e) => {
+        this.setState({phone: e});
     };
-    addressHandler = (l) => {
-        this.setState({address: l});
+    addressHandler = (e) => {
+        this.setState({address: e});
     };
-    cityHandler = (l) => {
-        this.setState({city: l});
+    cityHandler = (e) => {
+        this.setState({city: e});
     };
-    postalCodeHandler = (l) => {
-        this.setState({postalCode: l});
+    postalCodeHandler = (e) => {
+        this.setState({postalCode: e});
     };
-    provinceHandler = (l) => {
-        this.setState({province: l});
+    provinceHandler = (e) => {
+        this.setState({province: e});
     };
 
     nameRemove = () => {
