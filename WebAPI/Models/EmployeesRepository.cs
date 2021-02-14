@@ -10,14 +10,23 @@ namespace GPE.Models
         //Show all employees
         internal List<Employee> Retrieve()
         {
-            List<Employee> employees = context.Employees.ToList();
+            List<Employee> employees = context.Employees
+                .Where(e=>e.Enabled)
+                .ToList();
+            return employees;
+        }
+
+        //Show all employees
+        internal List<Employee> RetrieveBackoffice()
+        {
+            List<Employee> employees = context.Employees
+                .ToList();
             return employees;
         }
 
         //Add a new employeer
         internal void Save(Employee emp)
         {
-
             context.Employees.Add(emp);
             context.SaveChanges();
         }
@@ -37,6 +46,7 @@ namespace GPE.Models
             emp = context.Employees.Where(s => s.EmployeeId == id).FirstOrDefault();
             emp.Name = eventoBody.Name;
             emp.Type = eventoBody.Type;
+            emp.Enabled = eventoBody.Enabled;
             context.SaveChanges();
         }
     }

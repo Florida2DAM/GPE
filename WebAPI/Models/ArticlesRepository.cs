@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace GPE.Models
 {
@@ -13,10 +14,25 @@ namespace GPE.Models
         /// <returns>List of articles</returns>
         internal List<Article> Retrieve()
         {
-            List<Article> articles = new List<Article>();
-            articles = context.Articles.ToList();
+            List<Article> articles = context.Articles
+                .Include(l=>l.Lots)
+                .Where(a => a.Enabled)
+                .ToList();
             return articles;
         }
+
+        /// <summary>
+        /// Gives every database article
+        /// </summary>
+        /// <returns>List of articles</returns>
+        internal List<Article> RetrieveBackoffice()
+        {
+            List<Article> articles = context.Articles
+                .Include(l => l.Lots)
+                .ToList();
+            return articles;
+        }
+
 
         /// <summary>
         /// Gives the article with the indicated id

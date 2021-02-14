@@ -7,19 +7,19 @@ namespace GPE.Controllers
     [RoutePrefix("api/Orders")]
     public class OrdersController : ApiController
     {
-        OrdersRepository repo = new OrdersRepository();
+        OrdersRepository ordersRepository = new OrdersRepository();
 
         // GET: api/Orders
         public IEnumerable<Order> Get()
         {
-            List<Order> orders = repo.Retrieve();
+            List<Order> orders = ordersRepository.Retrieve();
             return orders;
         }
 
         // GET: api/Orders/5
         public Order Get(int id)
         {
-            Order order = repo.Retrieve(id);
+            Order order = ordersRepository.Retrieve(id);
             return order;
         }
 
@@ -27,34 +27,41 @@ namespace GPE.Controllers
         [Route("GetLast"), HttpGet]
         public int GetLast()
         {
-            return repo.GetLastOrderId();
+            return ordersRepository.GetLastOrderId();
         }
 
         // GET: api/OrdersByEmployeeAndId
         [Route("GetDeliver"), HttpGet]
         public IEnumerable<Order> GetDeliver()
         {
-            List<Order> orders = repo.RetrieveDelivers();
+            List<Order> orders = ordersRepository.RetrieveDelivers();
             return orders;
+        }
+        // GET: api/Orders NumberList
+        [Route("NumberList"), HttpGet]
+        public List<int> NumberList()
+        {
+            List<int> numList = ordersRepository.RetrieveCountAltas();
+            return numList;
         }
 
         // POST: api/Orders
         public void Post([FromBody] Order order)
         {
-            repo.Save(order);
+            ordersRepository.Save(order);
         }
 
         // PUT: api/Orders/5
         public void Put([FromBody] Order order)
         {
-            repo.Update(order);
+            ordersRepository.Update(order);
         }
 
         // PUT: api/Orders/5
         [Route("Deliver"), HttpPut]
         public void PutDeliver(int orderId, double paid, string payingMethod)
         {
-            repo.UpdateDeliver(orderId, paid, payingMethod);
+            ordersRepository.UpdateDeliver(orderId, paid, payingMethod);
         }
 
         // PUT: api/Article/ID
@@ -68,7 +75,7 @@ namespace GPE.Controllers
         // DELETE: api/Orders/5
         public void Delete(int id)
         {
-            repo.Delete(id);
+            ordersRepository.Delete(id);
         }
 
         

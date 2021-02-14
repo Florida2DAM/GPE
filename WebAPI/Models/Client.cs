@@ -47,7 +47,7 @@ namespace GPE.Models
         [StringLength(50)]
         public string Country { get; set; }
         [Required]
-        [StringLength(13)]
+        [StringLength(9)]
         public string Phone { get; set; }
         [Required]
         [StringLength(50)]

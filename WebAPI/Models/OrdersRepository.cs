@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace GPE.Models
             order = context.Orders
                 .Include(ol => ol.OrderLines)
                 .Include(cl => cl.Client)
-                .Include(em => em.Employee)
                 .ToList();
             return order;
         }
@@ -39,11 +39,42 @@ namespace GPE.Models
             List<Order> order = context.Orders
                 .Include(ol => ol.OrderLines)
                 .Include(cl => cl.Client)
-                .Include(em => em.Employee)
                 .Where(o => o.Delivered == false)
                 .ToList();
 
             return order;
+        }
+
+    
+        internal List<string> RetrieveDiasAltas()
+        {
+            List<DateTime> fechaDateTime = new List<DateTime>();
+            List<string> fecha = new List<string>();
+
+            fecha = context.Orders
+                .DistinctBy(o => o.Date.ToShortDateString())
+                .Select(f => f.Date.ToShortDateString())
+                .ToList();
+
+            return fecha;
+        }
+
+        //Obtener nº de altas por dia
+        internal List<int> RetrieveCountAltas()
+        {
+            List<int> countAltas = new List<int>();
+            List<string> fechasDistinct = RetrieveDiasAltas();
+            List<string> fechasAll = context.Orders
+                .Select(f => f.Date.ToShortDateString())
+                .ToList();
+
+            foreach (string fecha in fechasDistinct)
+            {
+                int count = fechasAll.Count(f => f == fecha);
+                countAltas.Add(count);
+            }
+
+            return countAltas;
         }
 
         /// <summary>
@@ -52,6 +83,9 @@ namespace GPE.Models
         /// <param name="order"></param>
         internal void Save(Order order)
         {
+            order.Date = DateTime.Now;
+            order.OrderNum = NextOrderNum();
+
             context.Orders.Add(order);
             context.SaveChanges();
         }
@@ -82,6 +116,17 @@ namespace GPE.Models
             context.Orders.Update(order);
             context.SaveChanges();
         }
+        /// <summary>
+        /// Updates delivered state in back ofice
+        /// </summary>
+        /// <param name="id">Id of order to update deliver</param>
+        internal void UpdateDelivered(int id)
+        {
+            Order order = Retrieve(id);
+            order.Delivered = !order.Delivered;
+            context.Orders.Update(order);
+            context.SaveChanges();
+        }
 
         /// <summary>
         /// delete a order by id
@@ -93,16 +138,34 @@ namespace GPE.Models
             context.Orders.Remove(order);
             context.SaveChanges();
         }
+
         /// <summary>
         /// Gets the last order added to the database
         /// </summary>
         /// <returns></returns>
         internal int GetLastOrderId()
         {
-            Order order = context.Orders
+            Order order = Retrieve()
                 .LastOrDefault();
 
             return order.OrderId;
+        }
+
+        /// <summary>
+        /// Method used to asing the new OrderNum to the newOrders
+        /// </summary>
+        /// <returns></returns>
+        private string NextOrderNum()
+        {
+            Order order = Retrieve()
+                .LastOrDefault();
+
+            string year = DateTime.Now.Year.ToString();
+            int newId = order.OrderId;
+            newId++;
+            string nextNum = year + "/" + newId.ToString("D5");
+
+            return nextNum;
         }
     }
 }

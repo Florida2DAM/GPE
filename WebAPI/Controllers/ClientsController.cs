@@ -7,29 +7,34 @@ namespace GPE.Controllers
     [RoutePrefix("api/Clients")]
     public class ClientsController : ApiController
     {
-        ClientsRepository model = new ClientsRepository();
+        ClientsRepository clientsRepository = new ClientsRepository();
 
         // GET api/Clients
         public IEnumerable<Client> Get()
         {
-            List<Client> clients = model.GetClients();
+            List<Client> clients = clientsRepository.GetClients();
+            return clients;
+        }
 
+        // GET api/Clients
+        [Route("BackOffice"),HttpGet]
+        public IEnumerable<Client> GetBackoffice()
+        {
+            List<Client> clients = clientsRepository.GetBackoffice();
             return clients;
         }
 
         // GET api/Clients?name=value
         public IEnumerable<Client> Get(string name)
         {
-            List<Client> clients = model.GetClientsByName(name);
-
+            List<Client> clients = clientsRepository.GetClientsByName(name);
             return clients;
         }
 
         // GET api/Clients?clientId=value
         public Client Get(int clientId)
         {
-            Client client = model.GetClientById(clientId);
-
+            Client client = clientsRepository.GetClientById(clientId);
             return client;
         }
 
@@ -37,7 +42,7 @@ namespace GPE.Controllers
         [Route("api/GetDates"), HttpGet]
         public IEnumerable<string> GetRegisters()
         {
-            List<string> clients = model.GetClientsRegister();
+            List<string> clients = clientsRepository.GetClientsRegister();
             return clients;
         }
 
@@ -45,32 +50,26 @@ namespace GPE.Controllers
         [Route("api/GetRegisters"), HttpGet]
         public IEnumerable<int> GetCountRegsiters()
         {
-            List<int> apuestas = model.RetrieveCountRegisters();
+            List<int> apuestas = clientsRepository.RetrieveCountRegisters();
             return apuestas;
         }
 
         // POST api/Clients
         public void Post([FromBody] Client client)
         {
-            model.AddClient(client);
+            clientsRepository.AddClient(client);
         }
 
         // PUT api/Clients
         public void Put([FromBody] Client client)
         {
-            model.UpdateClient(client);
+            clientsRepository.UpdateClient(client);
         }
 
         // PUT api/Clients/2
         public void Put(int id)
         {
-            model.UpdateBlockedClient(id);
+            clientsRepository.UpdateBlockedClient(id);
         }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
-
     }
 }
