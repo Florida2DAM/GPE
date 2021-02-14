@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Fragment} from 'react';
+import {createRef, Fragment} from 'react';
 import '../App.css';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
@@ -8,7 +8,6 @@ import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
 import {GPEInput} from '../components/GPEInput';
 import {axios, GPEApi} from '../components/GPEConst';
-import {createRef} from 'react';
 import {Toast} from 'primereact/toast';
 
 export class ArticlesView extends React.Component {
@@ -36,6 +35,7 @@ export class ArticlesView extends React.Component {
         this.getArticles();
     }
 
+    // This promise gets all articles
     getArticles = () => {
         axios.get(GPEApi + 'Articles/BackOffice').then((response) => {
             this.setState({articles: response.data});
@@ -43,6 +43,7 @@ export class ArticlesView extends React.Component {
         })
     }
 
+    // This function call checkInputs and if every input is okay makes a put with that information
     updateArticle = () => {
         if (this.checkInputs()) {
             let article = {
@@ -52,7 +53,6 @@ export class ArticlesView extends React.Component {
                 Brand: this.state.brand,
                 Category: this.state.category,
                 Iva: this.state.iva,
-
             }
             axios.put(GPEApi + 'Articles', article).then(response => {
                     this.visibleHandler();
@@ -66,6 +66,7 @@ export class ArticlesView extends React.Component {
 
     }
 
+    // Checks if every input has a valid value
     checkInputs = () => {
         if (this.state.description == '' || this.state.price == '' ||
             this.state.brand == '' || this.state.category == '' || this.state.iva == '') {
@@ -75,6 +76,7 @@ export class ArticlesView extends React.Component {
         }
     }
 
+    // This function call checkInputs and if every input is okay makes a post with that information
     addArticle = () => {
         if (this.checkInputs()) {
             let article = {
@@ -98,7 +100,7 @@ export class ArticlesView extends React.Component {
         }
     }
 
-
+    // This are the handlers we use to set every state
     articleIdHandler = (e) => {
         this.setState({articleId: e.target.value});
     }
@@ -123,6 +125,7 @@ export class ArticlesView extends React.Component {
         });
     };
 
+    // This filters works with ArticleId, Description, Brand, Category, Price and Iva
     filter = () => {
         let articleList = [];
         if (this.state.filter === '') {
@@ -144,9 +147,8 @@ export class ArticlesView extends React.Component {
         }
     };
 
-
+    // Shows every enabled article
     showEnable = () => {
-
         let articleList = [];
         this.state.allArticles.forEach(element => {
             if (element.Enabled == true) {
@@ -156,9 +158,9 @@ export class ArticlesView extends React.Component {
         this.setState({articles: articleList}, () => {
             this.setState({show: !this.state.show})
         });
-
     };
 
+    // Shows every not enabled article
     showDisable = () => {
         let articleList = [];
         this.state.allArticles.forEach(element => {
@@ -169,19 +171,21 @@ export class ArticlesView extends React.Component {
         this.setState({articles: articleList}, () => {
             this.setState({show: !this.state.show})
         });
-
     };
 
+    // This method is used to create a button with the call of showInputs in onClick method, it was created to generate this in a table column
     changePage = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
                        className='p-button-secondary p-mr-2'
                        style={{backgroundColor: '#86AEC2'}}/>
     }
 
+    // Changes visibleModify state to alter between the table and the inputs visibility
     visibleHandler = () => {
         this.setState({visibleModify: !this.state.visibleModify});
     }
 
+    // Sets every input with the given values an call visibleHandler
     showInputs = (rowData) => {
         this.visibleHandler();
         this.setState({articleId: rowData.ArticleId});
@@ -191,6 +195,7 @@ export class ArticlesView extends React.Component {
         this.setState({category: rowData.Category});
         this.setState({iva: rowData.Iva});
     }
+    // Clears every input value
     clearInputs = () => {
         this.setState({articleId: ''});
         this.setState({description: ''});
@@ -200,6 +205,8 @@ export class ArticlesView extends React.Component {
         this.setState({iva: ''});
     }
 
+    // This method is used to create a button with the call of changeArticle in onClick method, it was created to generate this in a table column,
+    // and it changes it's label depending on the rowData.Enabled value
     btnActive = (rowData) => {
         return (<>{rowData.Enabled ?
             <Button label='YES' onClick={() => this.changeArticle(rowData)} className='p-button-success'/>
@@ -208,13 +215,17 @@ export class ArticlesView extends React.Component {
         }
         </>)
     }
-    changeArticle = (articles) => {
-        axios.put(GPEApi + 'Articles/' + articles.ArticleId).then(() => this.getArticles())
+
+    // This promise makes a put of the given article using it's ArticleId
+    changeArticle = (article) => {
+        axios.put(GPEApi + 'Articles/' + article.ArticleId).then(() => this.getArticles())
     }
 
+    // Creates a GPEAlert error with the given details
     GPEShowError = (error) => {
         this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, life: 3000});
     }
+    // Creates a GPEAlert succes with the given details
     GPEShowSuccess = (detailValue) => {
         this.GPEAlert.current.show({severity: 'success', summary: 'Done', detail: detailValue, life: 3000});
     }

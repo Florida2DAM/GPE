@@ -34,6 +34,7 @@ export class LotsView extends React.Component {
         this.getLots();
     }
 
+    // This promise gets all lots
     getLots = () => {
         axios.get(GPEApi + 'Lots').then((response) => {
             this.setState({allLots: response.data});
@@ -41,6 +42,8 @@ export class LotsView extends React.Component {
         })
         this.getArticleIds();
     }
+
+    // This promise gets all articles ArticleId
     getArticleIds = () => {
         axios.get(GPEApi + 'Articles/BackOffice').then((response) => {
             let articleIds = [];
@@ -50,20 +53,26 @@ export class LotsView extends React.Component {
             this.setState({allArticleId: articleIds});
         })
     }
+
+    // This function call checkInputs and if every input is okay makes a put with that information
     updateLot = () => {
-        let lot = {
-            ArticleId: this.state.articleId,
-            LotId: this.state.lotId,
-            stock: this.state.stock
-        }
-        axios.put(GPEApi + 'Lots', lot).then(response => {
-                this.visibleHandler();
-                this.getLots();
-                this.clearInputs();
-                this.GPEShowSuccess('Lot updated');
+        if (this.checkInputs()) {
+            let lot = {
+                ArticleId: this.state.articleId,
+                LotId: this.state.lotId,
+                stock: this.state.stock
             }
-        )
+            axios.put(GPEApi + 'Lots', lot).then(response => {
+                    this.visibleHandler();
+                    this.getLots();
+                    this.clearInputs();
+                    this.GPEShowSuccess('Lot updated');
+                }
+            )
+        } else this.GPEShowError('You have to introduce all fields');
     }
+
+    // Checks if every input has a valid value
     checkInputs = () => {
         if (this.state.stock == '' || this.state.articleId == '' || this.state.lotId == '') {
             return false;
@@ -71,6 +80,8 @@ export class LotsView extends React.Component {
             return true;
         }
     }
+
+    // This function call checkInputs and if every input is okay makes a post with that information
     addLots = () => {
         if (this.checkInputs()) {
             let lot = {
@@ -90,6 +101,7 @@ export class LotsView extends React.Component {
         }
     }
 
+    // This are the handlers we use to set every state
     lotIdHandler = (e) => {
         this.setState({lotId: e.target.value});
     };
@@ -105,6 +117,7 @@ export class LotsView extends React.Component {
         });
     };
 
+    // This filters works with ArticleId, LotId and lotList
     filter = () => {
         let lotList = [];
         if (this.state.filter === '') {
@@ -121,31 +134,37 @@ export class LotsView extends React.Component {
         }
     };
 
+    // This method is used to create a button with the call of showInputs in onClick method, it was created to generate this in a table column
     changePage = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
                        className='p-button-secondary p-mr-2'
                        style={{backgroundColor: '#86AEC2'}}/>
     }
 
+    // Changes visible state to alter between the table and the inputs visibility
     visibleHandler = () => {
         this.setState({visible: !this.state.visible});
     }
 
+    // Sets every input with the given values an call visibleHandler
     showInputs = (rowData) => {
         this.visibleHandler();
         this.setState({lotId: rowData.LotId});
         this.setState({stock: rowData.Stock});
         this.setState({articleId: rowData.ArticleId});
     }
+    // Clears every input value
     clearInputs = () => {
         this.setState({lotId: ''});
         this.setState({stock: ''});
         this.setState({articleId: ''});
     }
 
+    // Creates a GPEAlert error with the given details
     GPEShowError = (error) => {
         this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, life: 3000});
     }
+    // Creates a GPEAlert success with the given details
     GPEShowSuccess = (detailValue) => {
         this.GPEAlert.current.show({severity: 'success', summary: 'Done', detail: detailValue, life: 3000});
     }
