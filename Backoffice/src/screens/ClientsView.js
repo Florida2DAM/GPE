@@ -39,6 +39,7 @@ export class ClientsView extends React.Component {
         this.getClients();
     }
 
+    // This promise gets all clients
     getClients = () => {
         axios.get(GPEApi + 'Clients/BackOffice').then((response) => {
             response.data.forEach(item => {
@@ -50,6 +51,7 @@ export class ClientsView extends React.Component {
         })
     }
 
+    // Makes a put with the inputs values if everyInput has a valid value
     updateClient = () => {
         if (this.checkInputs()) {
             let client = {
@@ -78,6 +80,7 @@ export class ClientsView extends React.Component {
         }
     }
 
+    // Makes a post with the inputs values if everyInput has a valid value
     addClient = () => {
         if (this.checkInputs()) {
             let client = {
@@ -106,13 +109,13 @@ export class ClientsView extends React.Component {
         }
     }
 
+    // Checks if the given NIF is correct
     checkNIF = (nif) => {
         const NIF = nif;
         const NIFLetter = NIF.substring(8, 9);
         const NIFNumber = parseInt(NIF.substring(0, 8));
         const letters = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E', 'T'];
         const rightLetter = letters[NIFNumber % 23];
-
         if (NIFLetter.toUpperCase() !== rightLetter) {
             alert('Letter incorrect' + '\n' + 'Maybe the right one is this: ' + rightLetter);
             return false;
@@ -121,6 +124,7 @@ export class ClientsView extends React.Component {
         }
     };
 
+    // Checks if every input has a valid value
     checkInputs = () => {
         if (this.state.name == '' || this.state.email == '' ||
             this.state.contact == '' || this.state.nif == '' ||
@@ -133,6 +137,7 @@ export class ClientsView extends React.Component {
         }
     }
 
+    // This are the handlers we use to set every state
     nameHandler = (n) => {
         this.setState({name: n.target.value});
     };
@@ -166,6 +171,7 @@ export class ClientsView extends React.Component {
         });
     };
 
+    // This filters works with NIF, Name, City, Province and ClientId
     filter = () => {
         let clientList = [];
         if (this.state.filter === '') {
@@ -186,6 +192,7 @@ export class ClientsView extends React.Component {
         }
     };
 
+    // Shows every enabled client
     showEnable = () => {
         let clientList = [];
         this.state.allClients.forEach(element => {
@@ -198,6 +205,7 @@ export class ClientsView extends React.Component {
         });
     };
 
+    // Shows every not enabled client
     showDisable = () => {
         let clientList = [];
         this.state.allClients.forEach(element => {
@@ -210,16 +218,19 @@ export class ClientsView extends React.Component {
         });
     };
 
+    // This method is used to create a button with the call of showInputs in onClick method, it was created to generate this in a table column
     changePage = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
                        className='p-button-secondary p-mr-2'
                        style={{backgroundColor: '#86AEC2'}}/>
     }
 
+    // Changes visibleModify state to alter between the table and the inputs visibility
     visibleHandler = () => {
         this.setState({visibleModify: !this.state.visibleModify});
     }
 
+    // Sets every input with the given values an call visibleHandler
     showInputs = (rowData) => {
         this.visibleHandler();
         this.setState({clientId: rowData.ClientId});
@@ -233,6 +244,7 @@ export class ClientsView extends React.Component {
         this.setState({postalCode: rowData.PostalCode});
         this.setState({province: rowData.Province});
     }
+    // Clears every input value
     clearInputs = () => {
         this.setState({name: ''});
         this.setState({email: ''});
@@ -245,6 +257,8 @@ export class ClientsView extends React.Component {
         this.setState({province: ''});
     }
 
+    // This method is used to create a button with the call of changeEnabled in onClick method, it was created to generate this in a table column,
+    // and it changes it's label depending on the rowData.Enabled value
     btnActive = (rowData) => {
         return (<>{rowData.Enabled ?
             <Button label='YES' onClick={() => this.changeEnabled(rowData)} className='p-button-success'/>
@@ -253,13 +267,17 @@ export class ClientsView extends React.Component {
         }
         </>)
     }
+
+    // This promise makes a put of the given client using it's ClientId
     changeEnabled = (clients) => {
         axios.put(GPEApi + 'Clients/' + clients.ClientId).then(() => this.getClients())
     }
 
+    // Creates a GPEAlert error with the given details
     GPEShowError = (error) => {
         this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, life: 3000});
     }
+    // Creates a GPEAlert succes with the given details
     GPEShowSuccess = (detailValue) => {
         this.GPEAlert.current.show({severity: 'success', summary: 'Done', detail: detailValue, life: 3000});
     }

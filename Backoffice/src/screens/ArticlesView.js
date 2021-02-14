@@ -67,7 +67,7 @@ export class ArticlesView extends React.Component {
 
     }
 
-    // Cheks if every input has a valid value
+    // Checks if every input has a valid value
     checkInputs = () => {
         if (this.state.description == '' || this.state.price == '' ||
             this.state.brand == '' || this.state.category == '' || this.state.iva == '') {
@@ -100,7 +100,6 @@ export class ArticlesView extends React.Component {
             this.GPEShowError('You have to introduce all fields');
         }
     }
-
 
     // This are the handlers we use to set every state
     articleIdHandler = (e) => {
@@ -149,7 +148,7 @@ export class ArticlesView extends React.Component {
         }
     };
 
-    // Show every enabled article
+    // Shows every enabled article
     showEnable = () => {
         let articleList = [];
         this.state.allArticles.forEach(element => {
@@ -162,7 +161,7 @@ export class ArticlesView extends React.Component {
         });
     };
 
-    // Show every not enabled article
+    // Shows every not enabled article
     showDisable = () => {
         let articleList = [];
         this.state.allArticles.forEach(element => {
@@ -187,7 +186,7 @@ export class ArticlesView extends React.Component {
         this.setState({visibleModify: !this.state.visibleModify});
     }
 
-    // Gives every input the value given
+    // Sets every input with the given values an call visibleHandler
     showInputs = (rowData) => {
         this.visibleHandler();
         this.setState({articleId: rowData.ArticleId});
@@ -197,7 +196,6 @@ export class ArticlesView extends React.Component {
         this.setState({category: rowData.Category});
         this.setState({iva: rowData.Iva});
     }
-
     // Clears every input value
     clearInputs = () => {
         this.setState({articleId: ''});
