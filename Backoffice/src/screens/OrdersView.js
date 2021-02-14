@@ -22,6 +22,7 @@ export class OrdersView extends React.Component {
             orderLines: [],
             allOrderLines: [],
             filter: '',
+            filterLine: '',
             orderId: 0,
             clientId: 0,
             orderNum: 0,
@@ -37,8 +38,18 @@ export class OrdersView extends React.Component {
             showPaid: '',
             showDelivered: '',
             visibleModify: false,
-            showOrderLines: false,
-            orderLineId: 0,
+            visibleModifyLines: false,
+            lineId: 0,
+            articleId: 0,
+            lotId: '',
+            description: '',
+            price: 0,
+            brand: '',
+            category: '',
+            quantity: 0,
+            iva: 0,
+            discount: 0,
+            totalLine: 0,
         }
     }
 
@@ -81,6 +92,13 @@ export class OrdersView extends React.Component {
         });
     };
 
+    filterLineHandler = (e) => {
+        this.setState({ filterLine: e.target.value }, () => {
+            this.filterLines();
+            console.log(this.state.filterLine);
+        });
+    };
+
     getDelivered = (e) => {
         if (this.state.delivered) {
             this.setState({ delivered: 'No' })
@@ -106,6 +124,21 @@ export class OrdersView extends React.Component {
                 }
             });
             this.setState({ orders: orderList });
+        }
+    };
+
+    filterLines = () => {
+        let lineList = [];
+        if (this.state.filterLines == '') {
+            this.setState({ orderLines: this.state.allOrderLines });
+        } else {
+            this.state.orderLines.forEach(element => {
+                const filterText = this.state.filterLine;
+                if (element.OrderId == (filterText)) {
+                    lineList.push(element);
+                }
+            });
+            this.setState({ orderLines: lineList });
         }
     };
 
@@ -188,6 +221,12 @@ export class OrdersView extends React.Component {
             style={{ backgroundColor: '#86AEC2' }} />
     }
 
+    modifyOrderLine = (rowData) => {
+        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputsLines(rowData)}
+            className='p-button-secondary p-mr-2'
+            style={{ backgroundColor: '#86AEC2' }} />
+    }
+
     showInputs = (rowData) => {
         this.visibleHandler();
         console.log(rowData)
@@ -207,8 +246,28 @@ export class OrdersView extends React.Component {
         }
     }
 
+    showInputsLines = (rowData) => {
+        this.visibleHandlerLines();
+        console.log(rowData)
+        this.setState({ orderId: rowData.OrderId });
+        this.setState({ lineId: rowData.LineId });
+        this.setState({ articleId: rowData.ArticleId });
+        this.setState({ lotId: rowData.LotId });
+        this.setState({ description: rowData.Description });
+        this.setState({ price: rowData.Price });
+        this.setState({ brand: rowData.Brand });
+        this.setState({ category: rowData.Category });
+        this.setState({ quantity: rowData.Quantity });
+        this.setState({ iva: rowData.Iva })
+        this.setState({ discount: rowData.Discount });
+        this.setState({ totalLine: rowData.TotalLine });
+    }
+
     visibleHandler = () => {
         this.setState({ visibleModify: !this.state.visibleModify });
+    }
+    visibleHandlerLines = () => {
+        this.setState({ visibleModifyLines: !this.state.visibleModifyLines });
     }
     orderIdHandler = (e) => {
         this.setState({ orderId: e.target.value });
@@ -237,6 +296,39 @@ export class OrdersView extends React.Component {
     employeeIdHandler = (e) => {
         this.setState({ employeeId: e.target.value });
     }
+    lineIdHandler = (e) => {
+        this.setState({ lineId: e.target.value });
+    }
+    articleIdHandler = (e) => {
+        this.setState({ articleId: e.target.value });
+    }
+    lotIdHandler = (e) => {
+        this.setState({ lotId: e.target.value });
+    }
+    descriptionHandler = (e) => {
+        this.setState({ description: e.target.value });
+    }
+    priceHandler = (e) => {
+        this.setState({ price: e.target.value });
+    }
+    brandHandler = (e) => {
+        this.setState({ brand: e.target.value });
+    }
+    categoryHandler = (e) => {
+        this.setState({ category: e.target.value });
+    }
+    quantityHandler = (e) => {
+        this.setState({ quantity: e.target.value });
+    }
+    ivaHandler = (e) => {
+        this.setState({ iva: e.target.value });
+    }
+    discountHandler = (e) => {
+        this.setState({ discount: e.target.value });
+    }
+    totalLineHandler = (e) => {
+        this.setState({ totalLine: e.target.value });
+    }
 
     updateOrder = () => {
         let order = {
@@ -261,6 +353,30 @@ export class OrdersView extends React.Component {
         )
     }
 
+    updateOrderLine = () => {
+        let orderLine = {
+            OrderId: this.state.orderId,
+            LineId: this.state.lineId,
+            ArticleId: this.state.articleId,
+            LotId: this.state.lotId,
+            Description: this.state.description,
+            Price: this.state.price,
+            Brand: this.state.brand,
+            Category: this.state.category,
+            Quantity: this.state.quantity,
+            Iva: this.state.iva,
+            Discount: this.state.discount,
+            TotalLine: this.state.totalLine,
+        }
+        console.log(orderLine);
+        axios.put(GPEApi + 'OrderLines', orderLine).then(response => {
+            this.visibleHandlerLines();
+            this.getOrderLines();
+            this.clearInputs();
+        }
+        )
+    }
+
     clearInputs = () => {
         this.setState({ orderId: 0 });
         this.setState({ clientId: 0 });
@@ -272,6 +388,17 @@ export class OrdersView extends React.Component {
         this.setState({ total: 0 });
         this.setState({ payingMethod: '' });
         this.setState({ EmployeeId: 0 });
+        this.setState({ lineId: 0 });
+        this.setState({ articleId: 0 });
+        this.setState({ lotId: '' });
+        this.setState({ description: '' });
+        this.setState({ price: 0 });
+        this.setState({ brand: '' });
+        this.setState({ category: '' });
+        this.setState({ quantity: 0 });
+        this.setState({ iva: 0 })
+        this.setState({ discount: 0 });
+        this.setState({ totalLine: 0 });
     }
 
 
@@ -351,40 +478,49 @@ export class OrdersView extends React.Component {
                         }
                     </TabPanel>
                     <TabPanel header='Order Lines'>
-                        {this.state.visibleModify ?
+                        {this.state.visibleModifyLines ?
                             <div>
                                 <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
                                     placeholder='Order ID' style={{ width: '100px' }} />
-                                <InputText value={this.state.clientId} onChange={this.clientIdHandler}
-                                    placeholder='Client ID' style={{ width: '200px' }} />
-                                <InputText value={this.state.date} onChange={this.dateHandler}
-                                    placeholder='Date' style={{ width: '200px' }} />
-                                <InputText value={this.state.deliveryDate} onChange={this.deliveryDateHandler}
-                                    placeholder='Delivery Date' style={{ width: '200px' }} />
-                                <InputText value={this.state.deliverer} onChange={this.delivererHandler}
-                                    placeholder='Deliverer' style={{ width: '200px' }} />
-                                <InputText value={this.state.total} onChange={this.totalHandler}
-                                    placeholder='Total' style={{ width: '200px' }} />
-                                <InputText value={this.state.paid} onChange={this.paidHandler}
-                                    placeholder='Paid' style={{ width: '200px' }} />
-                                <InputText value={this.state.payingMethod} onChange={this.payingMethodHandler}
-                                    placeholder='Paying Method' style={{ width: '200px' }} />
-                                <InputText value={this.state.employeeId} onChange={this.employeeIdHandler}
-                                    placeholder='Employee ID' style={{ width: '200px' }} />
-                                <Button label='Modify' icon='pi pi-send' onClick={this.updateOrder}
+                                <InputText value={this.state.lineId} onChange={this.lineIdHandler}
+                                    placeholder='Line ID' style={{ width: '200px' }} />
+                                <InputText value={this.state.articleId} onChange={this.articleIdHandler}
+                                    placeholder='Article ID' style={{ width: '200px' }} />
+                                <InputText value={this.state.lotId} onChange={this.lotIdHandler}
+                                    placeholder='Lot Id' style={{ width: '200px' }} />
+                                <InputText value={this.state.description} onChange={this.descriptionHandler}
+                                    placeholder='Description' style={{ width: '200px' }} />
+                                <InputText value={this.state.price} onChange={this.priceHandler}
+                                    placeholder='Price' style={{ width: '200px' }} />
+                                <InputText value={this.state.paid} onChange={this.brandHandler}
+                                    placeholder='Brand' style={{ width: '200px' }} />
+                                <InputText value={this.state.category} onChange={this.categoryHandler}
+                                    placeholder='Category' style={{ width: '200px' }} />
+                                <InputText value={this.state.quantity} onChange={this.quantityHandler}
+                                    placeholder='Quantity' style={{ width: '200px' }} />
+                                <InputText value={this.state.iva} onChange={this.ivaHandler}
+                                    placeholder='Iva' style={{ width: '200px' }} />
+                                <InputText value={this.state.discount} onChange={this.discountHandler}
+                                    placeholder='Discount' style={{ width: '200px' }} />
+                                <InputText value={this.state.totalLine} onChange={this.totalLineHandler}
+                                    placeholder='Total Line' style={{ width: '200px' }} />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateOrderLine}
                                     className='p-button-secondary p-mr-2'
                                     style={{ backgroundColor: '#77FF94', color: 'black' }} />
                             </div>
                             :
                             <div>
                                 <div className='flexCenter'>
-                                    <GPEInput onChange={this.filterHandler} />
+                                    <GPEInput onChange={this.filterLineHandler} />
+                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrderLines}
+                                        className='p-button-secondary p-mr-2'
+                                        style={{ backgroundColor: '#86AEC2' }} />
                                 </div>
                                 <div>
                                     <DataTable value={this.state.orderLines}>
-                                        <Column style={{ textAlign: 'center', width: '10%' }} field='OrderId' header='OrderId' />
-                                        <Column style={{ textAlign: 'center', width: '10%' }} field='LineId' header='LineId' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='ArticleId' header='ArticleId' />
+                                        <Column style={{ textAlign: 'center', width: '20%' }} field='OrderId' header='OrderId' />
+                                        <Column style={{ textAlign: 'center', width: '20%' }} field='LineId' header='LineId' />
+                                        <Column style={{ textAlign: 'center', width: '20%' }} field='ArticleId' header='ArticleId' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='LotId' header='LotId' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Description' header='Description' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Price' header='Price' />
@@ -394,7 +530,7 @@ export class OrdersView extends React.Component {
                                         <Column style={{ textAlign: 'center', width: '30%' }} field='Iva' header='Iva' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Discount' header='Discount' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='TotalLine' header='TotalLine' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrder}
+                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrderLine}
                                             field="Modify" header="Modify" />
                                     </DataTable>
                                 </div>
