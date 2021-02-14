@@ -52,8 +52,16 @@ namespace GPE.Models
         /// <param name="article">The article to add</param>
         internal void Save(Article article)
         {
-            context.Articles.Add(article);
-            context.SaveChanges();
+            Article article1 = new Article();
+            article1 = context.Articles
+            .Where(a => a.Description == article.Description && a.Brand == article.Brand)
+            .FirstOrDefault();
+            if (article1 == null)
+            {
+                context.Articles.Add(article);
+                context.SaveChanges();
+            }
+          
         }
 
         /// <summary>
