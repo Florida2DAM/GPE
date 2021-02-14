@@ -43,6 +43,18 @@ namespace GPE.Models
         internal void Save(List<OrderLine> orderLines)
         {
             LotsRepository lotsRepository = new LotsRepository();
+            OrderLine line1 = new OrderLine();
+
+            foreach (OrderLine line in orderLines)
+            {
+                line1 = context.OrderLines
+                .Where(a => a.OrderId == line.OrderId && a.LineId == line.LineId)
+                .FirstOrDefault();
+                if (line1 != null)
+                {
+                    orderLines.Remove(line);
+                }
+            }
 
             context.OrderLines.AddRange(orderLines);
             context.SaveChanges();
