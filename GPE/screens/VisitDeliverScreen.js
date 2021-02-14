@@ -17,21 +17,24 @@ export default class VisitDeliverScreen extends Component {
             filter: '',
             employee: {},
             deliverCheck: '',
-            loaded: false
+            loaded: false,
+            oldOrders: []
         };
     }
 
     // When the screen is mounted we get from the storage the logged employee and after that we charge his orders.
     componentDidMount() {
         this.restoreEmployee().then(this.getOrders());
+        this.setState({ oldOrders: this.state.allOrders });
     }
 
     componentDidUpdate() {
         if (this.props.route.params !== undefined) {
             if (this.props.route.params.deliverPending !== undefined) {
                 if (this.state.deliverCheck !== this.props.route.params.deliverPending) {
-                    this.setState({ deliverCheck: this.props.route.params.deliverPending }, () => this.getOrders());
-                    while(this.state.allOrders === this.getOrders()){}
+                    this.setState({ deliverCheck: this.props.route.params.deliverPending }, 
+                        () => { while (this.state.oldOrders === this.getOrders()) { } });
+                    this.setState({ oldOrders: this.state.allOrders });
                 }
             }
         }
@@ -50,8 +53,8 @@ export default class VisitDeliverScreen extends Component {
             response.data.forEach(item => {
                 if (item.Deliverer === this.state.employee.Name) {
                     newOrders.push(item);
-                }                
-            });            
+                }
+            });
             this.setState({ allOrders: newOrders });
             this.setState({ orders: newOrders });
             this.setState({ loaded: true })
@@ -112,7 +115,7 @@ export default class VisitDeliverScreen extends Component {
                                 );
                             }} />
                         :
-                        <GPEActivityIndicator/>
+                        <GPEActivityIndicator />
                     }
                 </View>
             </>
