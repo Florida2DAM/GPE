@@ -64,7 +64,7 @@ export default class DeliverPaymentScreen extends Component {
         if (this.state.selectedMethod === '') {
             flag = false;
         }
-        if ((this.state.paidAmount === '' || !this.isAFloatNumber(this.state.paidAmount) 
+        if ((this.state.paidAmount === '' || !this.isAFloatNumber(this.state.paidAmount)
             || this.state.paidAmount > this.state.order.Total) && this.state.selectedMethod !== 'Pending') {
             flag = false;
         }
@@ -100,13 +100,13 @@ export default class DeliverPaymentScreen extends Component {
                                   rightButtonTitle='Continue' rightButtonPress={this.updateOrdersState}/>
                         <ScrollView>
                             <View style={{marginLeft: '5%', marginRight: '5%'}}>
-                                <GPEPicker pickerSize={'80%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
+                                <GPEPicker pickerSize={'100%'} marginTop={'10%'} getScreen={'DeliverPaymentScreen'}
                                            getItemsList={this.state.paymentMethod}
                                            getOption={this.selectedOptionHandler}/>
                                 <GPEInput title={'Paid'} placeholder={'0.0€'}  marginTop='10%'
                                           onChangeText={this.paidAmountHandler} keyboardType={'numeric'}
                                           delete={this.paidAmountRemove} value={this.state.paidAmount}/>
-                                <GPELabel title={'Total'} content={this.state.order.Total} 
+                                <GPELabel title={'Total'} content={this.state.order.Total}
                                           marginTop='10%'/>
                                 <GPELabel title={'Client'}  marginTop='10%'
                                           content={this.state.order.Client.Name}/>

@@ -66,17 +66,17 @@ export default class LoggingScreen extends Component {
                     <View style={{margin: '10%'}}>
                         <GPELogo/>
                     </View>
-                    <GPEPicker pickerSize={'75%'} sendIcon={'perm-identity'} getItemsList={this.state.employees}
+                    <GPEPicker pickerSize={'100%'} sendIcon={'perm-identity'} getItemsList={this.state.employees}
                                getOption={this.employeeHandler} getScreen={'LoggingScreen'}/>
                 </View>
-                <View style={{margin: '5%'}}>
+                <View style={{margin: '5%', }}>
                     <GPELabel title={'Worker\'s name'} content={this.state.employee.Name}/>
                 </View>
                 <View style={{marginLeft: '5%', marginRight: '5%'}}>
                     <GPELabel title={'Worker\'s function'} content={this.state.employee.Type}/>
                 </View>
-                <View style={{alignSelf: 'center', marginTop: '5%'}}>
-                    <Pressable style={styles.button} onPress={this.checkEmployeeSelected}>
+                <View style={[styles.button,{marginTop: '10%'}]}>
+                    <Pressable onPress={this.checkEmployeeSelected}>
                         <Icon name={'login'} type='material' size={60} color={'#ffcc57'}/>
                     </Pressable>
                 </View>
@@ -87,12 +87,11 @@ export default class LoggingScreen extends Component {
 
 const styles = StyleSheet.create({
     button: {
-        alignItems: 'center',
+        alignSelf: 'center',
         borderRadius: 4,
         borderWidth: 2,
         borderColor: '#ffcc57',
-        paddingRight: '8%',
-        paddingLeft: '6%',
-        marginTop: '15%',
+        width: '20%',
+        marginTop: '10%'
     },
 });
