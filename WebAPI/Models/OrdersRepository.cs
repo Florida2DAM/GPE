@@ -24,6 +24,17 @@ namespace GPE.Models
         }
 
         /// <summary>
+        /// get a order by id
+        /// </summary>
+        /// <returns></returns>
+        internal Order Retrieve(int id)
+        {
+            Order order;
+            order = context.Orders.Where(o => o.OrderId == id).FirstOrDefault();
+            return order;
+        }
+
+        /// <summary>
         /// Get only orders to deliver for the employees
         /// </summary>
         /// <returns></returns>
