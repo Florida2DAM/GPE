@@ -301,9 +301,9 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
-    <Compile Include="Migrations\20210213181525_gpe1.cs" />
-    <Compile Include="Migrations\20210213181525_gpe1.Designer.cs">
-      <DependentUpon>20210213181525_gpe1.cs</DependentUpon>
+    <Compile Include="Migrations\20210214175432_gp1.cs" />
+    <Compile Include="Migrations\20210214175432_gp1.designer.cs">
+      <DependentUpon>20210214175432_gp1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\GPEContextModelSnapshot.cs" />
     <Compile Include="Models\ClientsRepository.cs" />

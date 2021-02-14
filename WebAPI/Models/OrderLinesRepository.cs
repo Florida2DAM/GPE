@@ -74,52 +74,44 @@ namespace GPE.Models
         /// <param name="orderL">Object that we need to work with the correct orderLine</param>
         internal void Put(OrderLine orderL)
         {
-            OrderLine existingLine = context.OrderLines
-            .Where(a => a.OrderId == orderL.OrderId && a.LineId == orderL.LineId)
-            .FirstOrDefault();
+            OrderLine orderLine = context.OrderLines
+                .Where(o => o.OrderId == orderL.OrderId && o.LineId == orderL.LineId)
+                .FirstOrDefault();
 
-            if (existingLine == null)
+            Order order = context.Orders
+                .Where(or => or.OrderId == orderL.OrderId)
+                .FirstOrDefault();
+
+            if (orderL.LotId != orderLine.LotId)
             {
-                OrderLine orderLine = context.OrderLines
-                    .Where(o => o.OrderId == orderL.OrderId && o.LineId == orderL.LineId)
-                    .FirstOrDefault();
-
-                Order order = context.Orders
-                    .Where(or => or.OrderId == orderL.OrderId)
-                    .FirstOrDefault();
-
-                if (orderL.LotId != orderLine.LotId)
-                {
-                    changeLot(orderLine.LotId, orderL.LotId, orderLine.Quantity, orderL.Quantity);
-                    orderLine.LotId = orderL.LotId;
-                }
-
-                if (orderL.Price != orderLine.Price)
-                {
-                    changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
-                    orderLine.Price = orderL.Price;
-                    changeTotalOrder(order.OrderId);
-                }
-
-                if (orderL.Quantity != orderLine.Quantity)
-                {
-                    changeStock(orderL.LotId, orderL.Quantity);
-                    orderLine.Quantity = orderL.Quantity;
-                    changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
-                    changeTotalOrder(order.OrderId);
-                }
-
-                if (orderL.Discount != orderLine.Discount)
-                {
-                    changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
-                    orderLine.Discount = orderL.Discount;
-                    changeTotalOrder(order.OrderId);
-                }
-
-                context.OrderLines.Update(orderLine);
-                context.SaveChanges();
-
+                changeLot(orderLine.LotId, orderL.LotId, orderLine.Quantity, orderL.Quantity);
+                orderLine.LotId = orderL.LotId;
             }
+
+            if (orderL.Price != orderLine.Price)
+            {
+                changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
+                orderLine.Price = orderL.Price;
+                changeTotalOrder(order.OrderId);
+            }
+
+            if (orderL.Quantity != orderLine.Quantity)
+            {
+                changeStock(orderL.LotId, orderL.Quantity);
+                orderLine.Quantity = orderL.Quantity;
+                changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
+                changeTotalOrder(order.OrderId);
+            }
+
+            if (orderL.Discount != orderLine.Discount)
+            {
+                changeTotalLine(orderL.OrderId, orderL.LineId, orderL.Price, orderL.Quantity, orderL.Discount, orderL.Iva);
+                orderLine.Discount = orderL.Discount;
+                changeTotalOrder(order.OrderId);
+            }
+
+            context.OrderLines.Update(orderLine);
+            context.SaveChanges();
         }
 
         /// <summary>
