@@ -19,6 +19,8 @@ export class OrdersView extends React.Component {
         this.state = {
             orders: [],
             allOrders: [],
+            orderLines: [],
+            allOrderLines: [],
             filter: '',
             orderId: 0,
             clientId: 0,
@@ -35,11 +37,14 @@ export class OrdersView extends React.Component {
             showPaid: '',
             showDelivered: '',
             visibleModify: false,
+            showOrderLines: false,
+            orderLineId: 0,
         }
     }
 
     componentDidMount() {
         this.getOrders();
+        this.getOrderLines();
     }
 
     getOrders = () => {
@@ -59,6 +64,13 @@ export class OrdersView extends React.Component {
             this.setState({ orders: response.data });
             this.setState({ allOrders: response.data });
             this.setState({ ordersFilteredDates: response.data });
+        })
+    }
+
+    getOrderLines = () => {
+        axios.get(GPEApi + 'OrderLines').then((response) => {
+            this.setState({ orderLines: response.data });
+            this.setState({ allOrderLines: response.data });
         })
     }
 
@@ -270,7 +282,6 @@ export class OrdersView extends React.Component {
                 <TabView>
                     <TabPanel header='Orders'>
                         {this.state.visibleModify ?
-
                             <div>
                                 <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
                                     placeholder='Order ID' style={{ width: '100px' }} />
@@ -332,6 +343,57 @@ export class OrdersView extends React.Component {
                                         <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrder}
+                                            field="Modify" header="Modify" />
+                                    </DataTable>
+                                </div>
+                            </div>
+                        }
+                    </TabPanel>
+                    <TabPanel header='Order Lines'>
+                        {this.state.visibleModify ?
+                            <div>
+                                <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
+                                    placeholder='Order ID' style={{ width: '100px' }} />
+                                <InputText value={this.state.clientId} onChange={this.clientIdHandler}
+                                    placeholder='Client ID' style={{ width: '200px' }} />
+                                <InputText value={this.state.date} onChange={this.dateHandler}
+                                    placeholder='Date' style={{ width: '200px' }} />
+                                <InputText value={this.state.deliveryDate} onChange={this.deliveryDateHandler}
+                                    placeholder='Delivery Date' style={{ width: '200px' }} />
+                                <InputText value={this.state.deliverer} onChange={this.delivererHandler}
+                                    placeholder='Deliverer' style={{ width: '200px' }} />
+                                <InputText value={this.state.total} onChange={this.totalHandler}
+                                    placeholder='Total' style={{ width: '200px' }} />
+                                <InputText value={this.state.paid} onChange={this.paidHandler}
+                                    placeholder='Paid' style={{ width: '200px' }} />
+                                <InputText value={this.state.payingMethod} onChange={this.payingMethodHandler}
+                                    placeholder='Paying Method' style={{ width: '200px' }} />
+                                <InputText value={this.state.employeeId} onChange={this.employeeIdHandler}
+                                    placeholder='Employee ID' style={{ width: '200px' }} />
+                                <Button label='Modify' icon='pi pi-send' onClick={this.updateOrder}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                            </div>
+                            :
+                            <div>
+                                <div className='flexCenter'>
+                                    <GPEInput onChange={this.filterHandler} />
+                                </div>
+                                <div>
+                                    <DataTable value={this.state.orderLines}>
+                                        <Column style={{ textAlign: 'center', width: '10%' }} field='OrderId' header='OrderId' />
+                                        <Column style={{ textAlign: 'center', width: '10%' }} field='LineId' header='LineId' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='ArticleId' header='ArticleId' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='LotId' header='LotId' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Description' header='Description' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Price' header='Price' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Brand' header='Brand' />
+                                        <Column style={{ textAlign: 'center', width: '10%' }} field='Category' header='Category' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Quantity' header='Quantity' />
+                                        <Column style={{ textAlign: 'center', width: '30%' }} field='Iva' header='Iva' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Discount' header='Discount' />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} field='TotalLine' header='TotalLine' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrder}
                                             field="Modify" header="Modify" />
                                     </DataTable>
