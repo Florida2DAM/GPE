@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {GPELabel} from '../components/GPELabel';
-import {GPEInput} from '../components/GPEInput';
-import {GPEPicker} from '../components/GPEPicker';
-import {NavigationBar} from '../components/NavigationBar';
-import {style} from '../components/GPEConst';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { GPELabel } from '../components/GPELabel';
+import { GPEInput } from '../components/GPEInput';
+import { GPEPicker } from '../components/GPEPicker';
+import { NavigationBar } from '../components/NavigationBar';
+import { style } from '../components/GPEConst';
 
 export default class OrderAddItemsScreen extends Component {
     constructor(props) {
@@ -19,6 +19,7 @@ export default class OrderAddItemsScreen extends Component {
             article: {},
             order: {},
             isReady: false,
+            added: false
         };
     }
 
@@ -28,10 +29,10 @@ export default class OrderAddItemsScreen extends Component {
 
     // Method that gets orderLines, order and article information
     getInfo = () => {
-        this.setState({orderLines: this.props.route.params.orderLines});
-        this.setState({order: this.props.route.params.order});
-        this.setState({article: this.props.route.params.article}, () => {
-            this.setState({isReady: true});
+        this.setState({ orderLines: this.props.route.params.orderLines });
+        this.setState({ order: this.props.route.params.order });
+        this.setState({ article: this.props.route.params.article }, () => {
+            this.setState({ isReady: true });
         });
     };
 
@@ -58,7 +59,7 @@ export default class OrderAddItemsScreen extends Component {
             orderLines = [];
         }
         orderLines.push(orderLine);
-        this.setState({orderLines});
+        this.setState({ orderLines });
     };
 
     // Method that calculates the total given the VAT and Discount
@@ -67,36 +68,39 @@ export default class OrderAddItemsScreen extends Component {
         let priceDiscount = priceQuantity - (priceQuantity * (this.state.discount / 100));
         let priceIva = priceDiscount + (priceDiscount * (this.state.article.Iva / 100));
         let priceDecimals = Math.trunc(priceIva * 100) / 100;
-        this.setState({total: priceDecimals});
+        this.setState({ total: priceDecimals });
     };
 
     getLot = (e) => {
-        this.setState({selectedLot: e});
+        this.setState({ selectedLot: e });
     };
 
     changeUnits = (units) => {
-        this.setState({units}, () => this.getTotal());
+        this.setState({ units }, () => this.getTotal());
     };
 
     changeDiscount = (discount) => {
-        this.setState({discount}, () => this.getTotal());
+        this.setState({ discount }, () => this.getTotal());
     };
 
     deleteUnits = () => {
-        this.setState({units: ''}, () => this.getTotal());
+        this.setState({ units: '' }, () => this.getTotal());
     };
 
     deleteDiscount = () => {
-        this.setState({discount: ''}, () => this.getTotal());
+        this.setState({ discount: '' }, () => this.getTotal());
     };
 
     // Method that calls updateOrderLines function and then navigates to OrderArticlesScreen
     addItemList = () => {
-        this.updateOrderLines();
-        this.props.navigation.navigate('OrderArticlesScreen', {
-            orderLines: this.state.orderLines,
-            order: this.state.order,
-        });
+        if (!this.state.added) {
+            this.setState({added: true});
+            this.updateOrderLines();
+            this.props.navigation.navigate('OrderArticlesScreen', {
+                orderLines: this.state.orderLines,
+                order: this.state.order,
+            });
+        }
     };
 
     // Method that gets if the number introduced is a valid positive int
@@ -146,22 +150,22 @@ export default class OrderAddItemsScreen extends Component {
                                    rightIconSize={45} pageName={'Add Item'} marginLeft={'2%'} marginRight={'1%'}
                                    pressLeftIcon={() => this.props.navigation.goBack()}
                                    pressRightIcon={this.checkFields}/>
-                    <View style={{alignSelf: 'center', marginTop: '5%'}}>
+                    <View style={{margin: '5%'}}>
                         <Text style={styles.text}>{this.state.article.Description}</Text>
-                        <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize='69%'
+                        <GPEPicker sendIcon={'table-rows'} getOption={this.getLot} pickerSize={'100%'}
                                    getScreen={'OrderAddItemsScreen'} getItemsList={this.state.article.Lots}/>
                         <GPEInput title={'Units'} placeholder={'0'} onChangeText={this.changeUnits}
                                   delete={this.deleteUnits} value={this.state.units}
-                                  width='90%' height={5} marginTop='2%' keyboardType='numeric'/>
+                                  marginTop='2%' keyboardType='numeric'/>
                         <GPELabel title={'Unit price'} content={this.state.article.Price}
-                                  width='90%' height={5} marginTop='2%'/>
-                        <GPEInput title={'Discount'} placeholder={'0'} width='90%' height={5} marginTop='2%'
+                                  marginTop='2%'/>
+                        <GPEInput title={'Discount'} placeholder={'0'} marginTop='2%'
                                   marginBottom='2%'
                                   onChangeText={this.changeDiscount} delete={this.deleteDiscount}
                                   value={this.state.discount} keyboardType='numeric'/>
                         <GPELabel title={'Total (IVA applied: ' + this.state.article.Iva + '%)'}
                                   content={this.state.total}
-                                  width='90%' height={5} marginTop='10%'/>
+                                  marginTop='10%'/>
                     </View>
                 </View>
             );
