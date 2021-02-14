@@ -1,15 +1,15 @@
 import * as React from 'react';
-import {createRef, Fragment} from 'react';
+import { createRef, Fragment } from 'react';
 import '../App.css';
-import {TabPanel, TabView} from 'primereact/tabview';
-import {Toast} from "primereact/toast";
-import {Button} from "primereact/button";
-import {DataTable} from "primereact/datatable";
-import {Column} from "primereact/column";
-import {InputText} from 'primereact/inputtext';
-import {GPEInput} from '../components/GPEInput';
-import {GPEDatePicker} from "../components/GPEDatePicker";
-import {axios, GPEApi, moment} from '../components/GPEConst';
+import { TabPanel, TabView } from 'primereact/tabview';
+import { Toast } from "primereact/toast";
+import { Button } from "primereact/button";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { InputText } from 'primereact/inputtext';
+import { GPEInput } from '../components/GPEInput';
+import { GPEDatePicker } from "../components/GPEDatePicker";
+import { axios, GPEApi, moment } from '../components/GPEConst';
 
 export class OrdersView extends React.Component {
 
@@ -22,7 +22,6 @@ export class OrdersView extends React.Component {
             orderLines: [],
             allOrderLines: [],
             filter: '',
-            filterLine: '',
             orderId: 0,
             clientId: 0,
             orderNum: 0,
@@ -30,7 +29,7 @@ export class OrdersView extends React.Component {
             deliveryDate: '',
             deliverer: '',
             total: 0,
-            delivered: '',
+            delivered: true,
             paid: 0,
             payingMethod: '',
             employeeId: 0,
@@ -58,91 +57,56 @@ export class OrdersView extends React.Component {
         this.getOrderLines();
     }
 
-    // We get all orders and orderlines info with this promises and save the info into our states
+    // We get all orders info with this promises and save the info into our states
     getOrders = () => {
         axios.get(GPEApi + 'Orders').then((response) => {
             response.data.forEach(item => {
                 item.Date = moment(item.Date).format('DD/MM/YYYY');
                 item.DeliveryDate = moment(item.Date).format('DD/MM/YYYY');
-                if (item.Delivered === true) {
-                    item.Delivered = 'Yes';
-                } else {
-                    item.Delivered = 'No';
-                }
-                if (item.Paid === 0) {
-                    item.Paid = 'No';
-                }
             });
             this.setState({ orders: response.data });
             this.setState({ allOrders: response.data });
             this.setState({ ordersFilteredDates: response.data });
+            console.log(response.data)
         })
     }
 
-    getOrderLines = () => {
+    // Gets all orderLines and saves it in our states
+    getOrderLines = (orderId) => {
+        let orderLinesList=[];
         axios.get(GPEApi + 'OrderLines').then((response) => {
-            this.setState({ orderLines: response.data });
+            response.data.forEach(o=>{
+                if(o.OrderId===orderId){
+                    orderLinesList.push(o);
+                }
+            })
+            
             this.setState({ allOrderLines: response.data });
-        })
+            this.setState({ orderLines: orderLinesList });
+        },)
     }
 
-    filterHandler = (e) => {
-        this.setState({ filter: e.target.value }, () => {
-            this.filter();
-            console.log(this.state.filter);
-        });
-    };
-
-    filterLineHandler = (e) => {
-        this.setState({ filterLine: e.target.value }, () => {
-            this.filterLines();
-            console.log(this.state.filterLine);
-        });
-    };
-
-    getDelivered = (e) => {
-        if (this.state.delivered) {
-            this.setState({ delivered: 'No' })
-        } else this.setState({ delivered: 'Yes' })
-    }
-
-    dateFilterHandler = (e) => {
-        e = moment(e).format('DD/MM/YYYY')
-        this.setState({ date: e }, () => this.filterDate())
-    }
-
+    //Filters Orders data table content
     filter = () => {
         let orderList = [];
-        if (this.state.filter == '') {
+        if (this.state.filter === '') {
             this.setState({ orders: this.state.allOrders });
         } else {
             this.state.ordersFilteredDates.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
-                if (element.OrderId == (filterText)
-                    || element.ClientId == (filterText)
-                    || element.Client.City.toUpperCase().includes(filterText)) {
+                if (element.OrderId === (filterText)
+                    || element.ClientId === (filterText)
+                    || element.EmployeeId === (filterText)
+                    || element.OrderNum === (filterText)
+                    || element.Deliverer.toUpperCase().includes(filterText)
+                    || element.Client.City.toUpperCase().includes(filterText)
+                ) {
                     orderList.push(element);
                 }
             });
             this.setState({ orders: orderList });
         }
     };
-
-    filterLines = () => {
-        let lineList = [];
-        if (this.state.filterLines == '') {
-            this.setState({ orderLines: this.state.allOrderLines });
-        } else {
-            this.state.orderLines.forEach(element => {
-                const filterText = this.state.filterLine;
-                if (element.OrderId == (filterText)) {
-                    lineList.push(element);
-                }
-            });
-            this.setState({ orderLines: lineList });
-        }
-    };
-
     filterDate = () => {
         let orderList = [];
         if (this.state.date === '') {
@@ -160,75 +124,63 @@ export class OrdersView extends React.Component {
         }
     }
 
+    //Returns buttons to show delivered data table
     btnActive = (rowData) => {
-        return (<>{rowData.Enabled ?
-            <Button label='YES' onClick={() => this.changeDelivered(rowData)} className='p-button-success' />
+        return (<>{rowData.Delivered ?
+            <Button label='YES' className='p-button-success' />
             :
-            <Button label='NO' onClick={() => this.changeDelivered(rowData)} className=' p-button-danger' />
+            <Button label='NO' className=' p-button-danger' />
         }
         </>)
     }
-    changeDelivered = (order) => {
-        axios.put(GPEApi + 'Order/' + order.OrderId).then(() => this.getOrders())
-    }
 
-    showPaid = () => {
-
-        let orderList = [];
-        this.state.allOrders.forEach(element => {
-            if (element.Paid == 'Yes') {
-                orderList.push(element);
-            }
-        });
-        this.setState({ orders: orderList }, () => { this.setState({ showPaid: !this.state.showPaid }) });
-
-    };
-
-    showUnpaid = () => {
-        let orderList = [];
-        this.state.allOrders.forEach(element => {
-            if (element.Paid === 'No') {
-                orderList.push(element);
-            }
-        });
-        this.setState({ orders: orderList }, () => { this.setState({ showPaid: !this.state.showPaid }) });
-
-    };
-
+    //Filters Orders by delivered
     showDelivered = () => {
 
         let orderList = [];
         this.state.allOrders.forEach(element => {
-            if (element.Delivered === 'Yes') {
+            if (element.Delivered === true) {
                 orderList.push(element);
             }
         });
         this.setState({ orders: orderList }, () => { this.setState({ showDelivered: !this.state.showDelivered }) });
     };
-
     showNotDelivered = () => {
         let orderList = [];
         this.state.allOrders.forEach(element => {
-            if (element.Delivered === 'No') {
+            if (element.Delivered === false) {
                 orderList.push(element);
             }
         });
         this.setState({ orders: orderList }, () => { this.setState({ showDelivered: !this.state.showDelivered }) });
     };
 
+    //This will show the orderLines of an specific Order
+    showOrderLine = (id) => {
+        let orderLinesList = [];
+        this.state.allOrderLines.forEach(element => {
+            if (element.OrderId === id) {
+                orderLinesList.push(element);
+            }
+        });
+        this.setState({ orderLines: orderLinesList });
+    }
+
+    //Returns a button to use in Orders and OrderLines data table
     modifyOrder = (rowData) => {
-        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+        return <Button label='View' icon='pi pi-eye' onClick={() => this.showInputs(rowData)}
             className='p-button-secondary p-mr-2'
             style={{ backgroundColor: '#86AEC2' }} />
     }
-
     modifyOrderLine = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputsLines(rowData)}
             className='p-button-secondary p-mr-2'
             style={{ backgroundColor: '#86AEC2' }} />
     }
 
+    //This will show inputs to modify Orders
     showInputs = (rowData) => {
+        this.showOrderLine(rowData.OrderId);
         this.visibleHandler();
         console.log(rowData)
         this.setState({ orderId: rowData.OrderId });
@@ -238,15 +190,13 @@ export class OrdersView extends React.Component {
         this.setState({ deliveryDate: rowData.DeliveryDate });
         this.setState({ total: rowData.Total });
         this.setState({ deliverer: rowData.Deliverer });
-        this.setState({ payingMethod: rowData.payingMethod });
+        this.setState({ delivered: rowData.Delivered });
+        this.setState({ payingMethod: rowData.PayingMethod });
         this.setState({ employeeId: rowData.EmployeeId });
-        if (rowData.Paid == 'No') {
-            this.setState({ paid: 0 });
-        } else {
-            this.setState({ paid: rowData.Paid });
-        }
+        this.setState({ paid: rowData.Paid });
     }
 
+    //This will show inputs to modify OrderLines
     showInputsLines = (rowData) => {
         this.visibleHandlerLines();
         console.log(rowData)
@@ -264,6 +214,17 @@ export class OrdersView extends React.Component {
         this.setState({ totalLine: rowData.TotalLine });
     }
 
+    //All the handlers we use
+    filterHandler = (e) => {
+        this.setState({ filter: e.target.value }, () => {
+            this.filter();
+            console.log(this.state.filter);
+        });
+    };
+    dateFilterHandler = (e) => {
+        e = moment(e).format('DD/MM/YYYY')
+        this.setState({ date: e }, () => this.filterDate())
+    }
     visibleHandler = () => {
         this.setState({ visibleModify: !this.state.visibleModify });
     }
@@ -284,6 +245,9 @@ export class OrdersView extends React.Component {
     }
     delivererHandler = (e) => {
         this.setState({ deliverer: e.target.value });
+    }
+    deliveredHandler = () => {
+        this.setState({ delivered: !this.state.delivered });
     }
     totalHandler = (e) => {
         this.setState({ total: e.target.value })
@@ -331,6 +295,7 @@ export class OrdersView extends React.Component {
         this.setState({ totalLine: e.target.value });
     }
 
+    //Updates Order and OrderLine info to the db
     updateOrder = () => {
         let order = {
             OrderId: this.state.orderId,
@@ -353,7 +318,6 @@ export class OrdersView extends React.Component {
         }
         )
     }
-
     updateOrderLine = () => {
         let orderLine = {
             OrderId: this.state.orderId,
@@ -369,15 +333,15 @@ export class OrdersView extends React.Component {
             Discount: this.state.discount,
             TotalLine: this.state.totalLine,
         }
-        console.log(orderLine);
         axios.put(GPEApi + 'OrderLines', orderLine).then(response => {
             this.visibleHandlerLines();
-            this.getOrderLines();
-            this.clearInputs();
+            this.getOrderLines(this.state.orderId)
+            this.showOrderLine(this.state.orderId)
         }
         )
     }
 
+    //Clears all inputs used to update Orders and OrderLines
     clearInputs = () => {
         this.setState({ orderId: 0 });
         this.setState({ clientId: 0 });
@@ -402,7 +366,6 @@ export class OrdersView extends React.Component {
         this.setState({ totalLine: 0 });
     }
 
-
     render() {
         return (
             <Fragment>
@@ -411,44 +374,94 @@ export class OrdersView extends React.Component {
                     <TabPanel header='Orders'>
                         {this.state.visibleModify ?
                             <div>
-                                <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
-                                    placeholder='Order ID' style={{ width: '100px' }} />
-                                <InputText value={this.state.clientId} onChange={this.clientIdHandler}
-                                    placeholder='Client ID' style={{ width: '200px' }} />
-                                <InputText value={this.state.date} onChange={this.dateHandler}
-                                    placeholder='Date' style={{ width: '200px' }} />
-                                <InputText value={this.state.deliveryDate} onChange={this.deliveryDateHandler}
-                                    placeholder='Delivery Date' style={{ width: '200px' }} />
-                                <InputText value={this.state.deliverer} onChange={this.delivererHandler}
-                                    placeholder='Deliverer' style={{ width: '200px' }} />
-                                <InputText value={this.state.total} onChange={this.totalHandler}
-                                    placeholder='Total' style={{ width: '200px' }} />
-                                <InputText value={this.state.paid} onChange={this.paidHandler}
-                                    placeholder='Paid' style={{ width: '200px' }} />
-                                <InputText value={this.state.payingMethod} onChange={this.payingMethodHandler}
-                                    placeholder='Paying Method' style={{ width: '200px' }} />
-                                <InputText value={this.state.employeeId} onChange={this.employeeIdHandler}
-                                    placeholder='Employee ID' style={{ width: '200px' }} />
-                                <Button label='Modify' icon='pi pi-send' onClick={this.updateOrder}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                                <div className='orderLinesView'>
+                                    <InputText value={this.state.orderId} onChange={this.orderIdHandler} disabled
+                                        placeholder='Order ID' style={{ width: '100px' }} />
+                                    <InputText value={this.state.clientId} onChange={this.clientIdHandler} disabled
+                                        placeholder='Client ID' style={{ width: '200px' }} />
+                                    <InputText value={this.state.date} onChange={this.dateHandler} disabled
+                                        placeholder='Date' style={{ width: '200px' }} />
+                                    <InputText value={this.state.deliveryDate} onChange={this.deliveryDateHandler} disabled
+                                        placeholder='Delivery Date' style={{ width: '200px' }} />
+                                    <InputText value={this.state.deliverer} onChange={this.delivererHandler} disabled
+                                        placeholder='Deliverer' style={{ width: '200px' }} />
+                                    <InputText value={this.state.total} onChange={this.totalHandler} disabled
+                                        placeholder='Total' style={{ width: '200px' }} />
+                                    <InputText value={this.state.paid} onChange={this.paidHandler}
+                                        placeholder='Paid' style={{ width: '200px' }} />
+                                    <InputText value={this.state.payingMethod} onChange={this.payingMethodHandler}
+                                        placeholder='Paying Method' style={{ width: '200px' }} />
+                                    <InputText value={this.state.employeeId} onChange={this.employeeIdHandler} disabled
+                                        placeholder='Employee ID' style={{ width: '200px' }} />
+                                    {this.state.delivered ?
+                                        <Button label='YES' onClick={this.deliveredHandler} className='p-button-success' />
+                                        :
+                                        <Button label='NO' onClick={this.deliveredHandler} className=' p-button-danger' />
+                                    }
+                                    <Button label='Modify' icon='pi pi-send' onClick={this.updateOrder}
+                                        className='p-button-secondary p-mr-2'
+                                        style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                                </div>
+                                {this.state.visibleModifyLines ?
+                                    <div>
+                                        <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
+                                            placeholder='Order ID' style={{ width: '100px' }} />
+                                        <InputText value={this.state.lineId} disabled onChange={this.lineIdHandler}
+                                            placeholder='Line ID' style={{ width: '200px' }} />
+                                        <InputText value={this.state.articleId} disabled onChange={this.articleIdHandler}
+                                            placeholder='Article ID' style={{ width: '200px' }} />
+                                        <InputText value={this.state.lotId} onChange={this.lotIdHandler}
+                                            placeholder='Lot Id' style={{ width: '200px' }} />
+                                        <InputText value={this.state.description} disabled onChange={this.descriptionHandler}
+                                            placeholder='Description' style={{ width: '200px' }} />
+                                        <InputText value={this.state.price} onChange={this.priceHandler}
+                                            placeholder='Price' style={{ width: '200px' }} />
+                                        <InputText value={this.state.paid} disabled onChange={this.brandHandler}
+                                            placeholder='Brand' style={{ width: '200px' }} />
+                                        <InputText value={this.state.category} disabled onChange={this.categoryHandler}
+                                            placeholder='Category' style={{ width: '200px' }} />
+                                        <InputText value={this.state.quantity} onChange={this.quantityHandler}
+                                            placeholder='Quantity' style={{ width: '200px' }} />
+                                        <InputText value={this.state.iva} disabled onChange={this.ivaHandler}
+                                            placeholder='Iva' style={{ width: '200px' }} />
+                                        <InputText value={this.state.discount} onChange={this.discountHandler}
+                                            placeholder='Discount' style={{ width: '200px' }} />
+                                        <InputText value={this.state.totalLine} disabled onChange={this.totalLineHandler}
+                                            placeholder='Total Line' style={{ width: '200px' }} />
+                                        <Button label='Modify' icon='pi pi-send' onClick={this.updateOrderLine}
+                                            className='p-button-secondary p-mr-2'
+                                            style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                                    </div>
+                                    :
+                                    <div>
+                                        <DataTable value={this.state.orderLines}>
+                                            <Column style={{ textAlign: 'center', width: '20%' }} field='OrderId' header='OrderId' />
+                                            <Column style={{ textAlign: 'center', width: '20%' }} field='LineId' header='LineId' />
+                                            <Column style={{ textAlign: 'center', width: '20%' }} field='ArticleId' header='ArticleId' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='LotId' header='LotId' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Description' header='Description' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Price' header='Price' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Brand' header='Brand' />
+                                            <Column style={{ textAlign: 'center', width: '10%' }} field='Category' header='Category' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Quantity' header='Quantity' />
+                                            <Column style={{ textAlign: 'center', width: '30%' }} field='Iva' header='Iva' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Discount' header='Discount' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='TotalLine' header='TotalLine' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrderLine}
+                                                field="Modify" header="Modify" />
+                                        </DataTable>
+                                    </div>
+                                }
                             </div>
                             :
                             <div>
-                                <div className='flex-center'>
+                                <div className='flexCenter'>
                                     <GPEInput onChange={this.filterHandler} />
                                     <GPEDatePicker tittle={'Date'} getDate={this.dateFilterHandler} />
                                     <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
                                         className='p-button-secondary p-mr-2'
                                         style={{ backgroundColor: '#86AEC2' }} />
 
-                                    {this.state.showPaid ? <Button label='Show Paid' onClick={this.showPaid}
-                                        className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                        style={{ backgroundColor: '#86AEC2' }} /> :
-                                        <Button label='Show unpaid' onClick={this.showUnpaid}
-                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                            style={{ backgroundColor: '#86AEC2' }} />
-                                    }
                                     {this.state.showDelivered ? <Button label='Show delivered' onClick={this.showDelivered}
                                         className='p-button-secondary p-mr-2' icon='pi pi-eye'
                                         style={{ backgroundColor: '#86AEC2' }} /> :
@@ -464,75 +477,14 @@ export class OrdersView extends React.Component {
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='OrderNum' header='OrderNum' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='Date' header='Date' />
                                         <Column style={{ textAlign: 'center', width: '25%' }} field='DeliveryDate' header='DeliveryDate' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Deliverer' header='Deliverer' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Total' header='Total' />
+                                        <Column style={{ textAlign: 'center', width: '10%' }} field='Deliverer' header='Deliverer' />
+                                        <Column style={{ textAlign: 'center', width: '15%' }} field='Total' header='Total' />
+                                        <Column style={{ textAlign: 'center', width: '15%' }} field='Paid' header='Paid' />
+                                        <Column style={{ textAlign: 'center', width: '20%' }} field='PayingMethod' header='Method' />
+                                        <Column style={{ textAlign: 'center', width: '20%' }} field='EmployeeId' header='EmployeeId' />
+                                        <Column style={{ textAlign: 'center', width: '20%' }} field='Client.City' header='City' />
                                         <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Delivered' header='Delivered' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Paid' header='Paid' />
-                                        <Column style={{ textAlign: 'center', width: '30%' }} field='PayingMethod' header='Method' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='EmployeeId' header='EmployeeId' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Client.City' header='City' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrder}
-                                            field="Modify" header="Modify" />
-                                    </DataTable>
-                                </div>
-                            </div>
-                        }
-                    </TabPanel>
-                    <TabPanel header='Order Lines'>
-                        {this.state.visibleModifyLines ?
-                            <div>
-                                <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
-                                    placeholder='Order ID' style={{ width: '100px' }} />
-                                <InputText value={this.state.lineId} onChange={this.lineIdHandler}
-                                    placeholder='Line ID' style={{ width: '200px' }} />
-                                <InputText value={this.state.articleId} onChange={this.articleIdHandler}
-                                    placeholder='Article ID' style={{ width: '200px' }} />
-                                <InputText value={this.state.lotId} onChange={this.lotIdHandler}
-                                    placeholder='Lot Id' style={{ width: '200px' }} />
-                                <InputText value={this.state.description} onChange={this.descriptionHandler}
-                                    placeholder='Description' style={{ width: '200px' }} />
-                                <InputText value={this.state.price} onChange={this.priceHandler}
-                                    placeholder='Price' style={{ width: '200px' }} />
-                                <InputText value={this.state.paid} onChange={this.brandHandler}
-                                    placeholder='Brand' style={{ width: '200px' }} />
-                                <InputText value={this.state.category} onChange={this.categoryHandler}
-                                    placeholder='Category' style={{ width: '200px' }} />
-                                <InputText value={this.state.quantity} onChange={this.quantityHandler}
-                                    placeholder='Quantity' style={{ width: '200px' }} />
-                                <InputText value={this.state.iva} onChange={this.ivaHandler}
-                                    placeholder='Iva' style={{ width: '200px' }} />
-                                <InputText value={this.state.discount} onChange={this.discountHandler}
-                                    placeholder='Discount' style={{ width: '200px' }} />
-                                <InputText value={this.state.totalLine} onChange={this.totalLineHandler}
-                                    placeholder='Total Line' style={{ width: '200px' }} />
-                                <Button label='Modify' icon='pi pi-send' onClick={this.updateOrderLine}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
-                            </div>
-                            :
-                            <div>
-                                <div className='flex-center'>
-                                    <GPEInput onChange={this.filterLineHandler} />
-                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrderLines}
-                                        className='p-button-secondary p-mr-2'
-                                        style={{ backgroundColor: '#86AEC2' }} />
-                                </div>
-                                <div>
-                                    <DataTable value={this.state.orderLines}>
-                                        <Column style={{ textAlign: 'center', width: '20%' }} field='OrderId' header='OrderId' />
-                                        <Column style={{ textAlign: 'center', width: '20%' }} field='LineId' header='LineId' />
-                                        <Column style={{ textAlign: 'center', width: '20%' }} field='ArticleId' header='ArticleId' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='LotId' header='LotId' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Description' header='Description' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Price' header='Price' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Brand' header='Brand' />
-                                        <Column style={{ textAlign: 'center', width: '10%' }} field='Category' header='Category' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Quantity' header='Quantity' />
-                                        <Column style={{ textAlign: 'center', width: '30%' }} field='Iva' header='Iva' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Discount' header='Discount' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='TotalLine' header='TotalLine' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrderLine}
-                                            field="Modify" header="Modify" />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrder} field="View" header="View Lines" />
                                     </DataTable>
                                 </div>
                             </div>
