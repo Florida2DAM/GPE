@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { Fragment } from 'react';
+import {createRef, Fragment} from 'react';
 import '../App.css';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
-import { GPEButton } from '../components/GPEButton';
-import { TabPanel, TabView } from 'primereact/tabview';
-import { Toast } from 'primereact/toast';
-import { createRef } from 'react';
-import { Button } from 'primereact/button';
-import { axios, GPEApi } from '../components/GPEConst'
-import { GPEInput } from '../components/GPEInput';
-const moment = require('moment');
-
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {InputText} from 'primereact/inputtext';
+import {TabPanel, TabView} from 'primereact/tabview';
+import {Button} from 'primereact/button';
+import {axios, GPEApi, moment} from '../components/GPEConst'
+import {GPEInput} from '../components/GPEInput';
+import {Toast} from 'primereact/toast';
 
 export class ClientsView extends React.Component {
-
     constructor(props) {
         super(props);
         this.GPEAlert = createRef();
@@ -44,20 +39,19 @@ export class ClientsView extends React.Component {
         this.getClients();
     }
 
-
     getClients = () => {
         axios.get(GPEApi + 'Clients/BackOffice').then((response) => {
             response.data.forEach(item => {
                 item.RegisterDate = moment(item.RegisterDate).format('DD/MM/YYYY');
             });
 
-            this.setState({ clients: response.data });
-            this.setState({ allClients: response.data });
+            this.setState({clients: response.data});
+            this.setState({allClients: response.data});
         })
     }
 
     updateClient = () => {
-        if (this.checkIputs()) {
+        if (this.checkInputs()) {
             let client = {
                 clientId: this.state.clientId,
                 Name: this.state.name,
@@ -65,7 +59,7 @@ export class ClientsView extends React.Component {
                 City: this.state.city,
                 PostalCode: this.state.postalCode,
                 Province: this.state.province,
-                Country: "Spain",
+                Country: 'Spain',
                 Phone: this.state.phone,
                 Email: this.state.email,
                 NIF: this.state.nif,
@@ -73,15 +67,45 @@ export class ClientsView extends React.Component {
                 Enabled: this.state.enabled
             }
             axios.put(GPEApi + 'Clients', client).then(response => {
-                this.visibleHandler();
-                this.getClients();
-                this.clearInputs();
-            }
+                    this.visibleHandler();
+                    this.getClients();
+                    this.clearInputs();
+                    this.GPEShowSuccess('Client updated');
+                }
             )
         } else {
-            alert("You have to introduce all fields")
+            this.GPEShowError('You have to introduce all fields');
         }
     }
+
+    addClient = () => {
+        if (this.checkInputs()) {
+            let client = {
+                clientId: this.state.clientId,
+                Name: this.state.name,
+                Address: this.state.address,
+                City: this.state.city,
+                PostalCode: this.state.postalCode,
+                Province: this.state.province,
+                Country: 'Spain',
+                Phone: this.state.phone,
+                Email: this.state.email,
+                NIF: this.state.nif,
+                ContactName: this.state.contact,
+                Enabled: this.state.enabled
+            }
+            axios.post(GPEApi + 'Clients', client).then(response => {
+                    this.getClients();
+                    this.clearInputs();
+                    this.setState({activeIndex: 0});
+                this.GPEShowSuccess('Client inserted');
+                }
+            )
+        } else {
+            this.GPEShowError('You have to introduce all fields');
+        }
+    }
+
     checkNIF = (nif) => {
         const NIF = nif;
         const NIFLetter = NIF.substring(8, 9);
@@ -96,7 +120,8 @@ export class ClientsView extends React.Component {
             return true;
         }
     };
-    checkIputs = () => {
+
+    checkInputs = () => {
         if (this.state.name == '' || this.state.email == '' ||
             this.state.contact == '' || this.state.nif == '' ||
             this.state.phone == '' || this.state.address == '' ||
@@ -108,72 +133,43 @@ export class ClientsView extends React.Component {
         }
     }
 
-    addClient = () => {
-        if (this.checkIputs()) {
-            let client = {
-                clientId: this.state.clientId,
-                Name: this.state.name,
-                Address: this.state.address,
-                City: this.state.city,
-                PostalCode: this.state.postalCode,
-                Province: this.state.province,
-                Country: "Spain",
-                Phone: this.state.phone,
-                Email: this.state.email,
-                NIF: this.state.nif,
-                ContactName: this.state.contact,
-                Enabled: this.state.enabled
-            }
-            axios.post(GPEApi + 'Clients', client).then(response => {
-                this.getClients();
-                this.clearInputs();
-                this.setState({ activeIndex: 0 });
-            }
-            )
-        } else {
-            alert("You have to introduce all fields")
-        }
-    }
-
-
     nameHandler = (n) => {
-        this.setState({ name: n.target.value });
+        this.setState({name: n.target.value});
     };
     emailHandler = (s) => {
-        this.setState({ email: s.target.value });
+        this.setState({email: s.target.value});
     };
     contactHandler = (b) => {
-        this.setState({ contact: b.target.value });
+        this.setState({contact: b.target.value});
     };
     nifHandler = (n) => {
-        this.setState({ nif: n.target.value });
+        this.setState({nif: n.target.value});
     };
     phoneHandler = (p) => {
-        this.setState({ phone: p.target.value });
+        this.setState({phone: p.target.value});
     };
     addressHandler = (l) => {
-        this.setState({ address: l.target.value });
+        this.setState({address: l.target.value});
     };
     cityHandler = (l) => {
-        this.setState({ city: l.target.value });
+        this.setState({city: l.target.value});
     };
     postalCodeHandler = (l) => {
-        this.setState({ postalCode: l.target.value });
+        this.setState({postalCode: l.target.value});
     };
     provinceHandler = (l) => {
-        this.setState({ province: l.target.value });
+        this.setState({province: l.target.value});
     };
     filterHandler = (e) => {
-        this.setState({ filter: e.target.value }, () => {
+        this.setState({filter: e.target.value}, () => {
             this.filter();
         });
     };
 
     filter = () => {
-
         let clientList = [];
         if (this.state.filter === '') {
-            this.setState({ clients: this.state.allClients });
+            this.setState({clients: this.state.allClients});
         } else {
             this.state.allClients.forEach(element => {
                 const filterText = this.state.filter.toUpperCase();
@@ -186,23 +182,20 @@ export class ClientsView extends React.Component {
                     clientList.push(element);
                 }
             });
-            this.setState({ clients: clientList });
+            this.setState({clients: clientList});
         }
     };
 
-
     showEnable = () => {
-
         let clientList = [];
         this.state.allClients.forEach(element => {
             if (element.Enabled == true) {
                 clientList.push(element);
             }
         });
-        this.setState({ clients: clientList }, () => {
-            this.setState({ show: !this.state.show })
+        this.setState({clients: clientList}, () => {
+            this.setState({show: !this.state.show})
         });
-
     };
 
     showDisable = () => {
@@ -212,54 +205,51 @@ export class ClientsView extends React.Component {
                 clientList.push(element);
             }
         });
-        this.setState({ clients: clientList }, () => {
-            this.setState({ show: !this.state.show })
+        this.setState({clients: clientList}, () => {
+            this.setState({show: !this.state.show})
         });
-
     };
 
     changePage = (rowData) => {
         return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
-            className='p-button-secondary p-mr-2'
-            style={{ backgroundColor: '#86AEC2' }} />
+                       className='p-button-secondary p-mr-2'
+                       style={{backgroundColor: '#86AEC2'}}/>
     }
 
     visibleHandler = () => {
-        this.setState({ visibleModify: !this.state.visibleModify });
+        this.setState({visibleModify: !this.state.visibleModify});
     }
 
     showInputs = (rowData) => {
         this.visibleHandler();
-        console.log(rowData);
-        this.setState({ clientId: rowData.ClientId });
-        this.setState({ name: rowData.Name });
-        this.setState({ email: rowData.Email });
-        this.setState({ contact: rowData.ContactName });
-        this.setState({ nif: rowData.NIF });
-        this.setState({ phone: rowData.Phone });
-        this.setState({ address: rowData.Address });
-        this.setState({ city: rowData.City });
-        this.setState({ postalCode: rowData.PostalCode });
-        this.setState({ province: rowData.Province });
-
+        this.setState({clientId: rowData.ClientId});
+        this.setState({name: rowData.Name});
+        this.setState({email: rowData.Email});
+        this.setState({contact: rowData.ContactName});
+        this.setState({nif: rowData.NIF});
+        this.setState({phone: rowData.Phone});
+        this.setState({address: rowData.Address});
+        this.setState({city: rowData.City});
+        this.setState({postalCode: rowData.PostalCode});
+        this.setState({province: rowData.Province});
     }
     clearInputs = () => {
-        this.setState({ name: '' });
-        this.setState({ email: '' });
-        this.setState({ contact: '' });
-        this.setState({ nif: '' });
-        this.setState({ phone: '' });
-        this.setState({ address: '' });
-        this.setState({ city: '' });
-        this.setState({ postalCode: '' });
-        this.setState({ province: '' });
+        this.setState({name: ''});
+        this.setState({email: ''});
+        this.setState({contact: ''});
+        this.setState({nif: ''});
+        this.setState({phone: ''});
+        this.setState({address: ''});
+        this.setState({city: ''});
+        this.setState({postalCode: ''});
+        this.setState({province: ''});
     }
 
     btnActive = (rowData) => {
         return (<>{rowData.Enabled ?
-            <Button label='YES' onClick={() => this.changeEnabled(rowData)} className='p-button-success' />
+            <Button label='YES' onClick={() => this.changeEnabled(rowData)} className='p-button-success'/>
             :
-            <Button label='NO' onClick={() => this.changeEnabled(rowData)} className=' p-button-danger' />
+            <Button label='NO' onClick={() => this.changeEnabled(rowData)} className=' p-button-danger'/>
         }
         </>)
     }
@@ -267,106 +257,128 @@ export class ClientsView extends React.Component {
         axios.put(GPEApi + 'Clients/' + clients.ClientId).then(() => this.getClients())
     }
 
+    GPEShowError = (error) => {
+        this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, life: 3000});
+    }
+    GPEShowSuccess = (detailValue) => {
+        this.GPEAlert.current.show({severity: 'success', summary: 'Done', detail: detailValue, life: 3000});
+    }
+
     render() {
         return (
             <Fragment>
-                <Toast ref={this.GPEAlert} />
+                <Toast ref={this.GPEAlert}/>
                 <TabView activeIndex={this.state.activeIndex}
-                    onTabChange={(e) => this.setState({ activeIndex: e.index })}>
+                         onTabChange={(e) => this.setState({activeIndex: e.index})}>
                     <TabPanel header='Clients'>
                         {this.state.visibleModify ?
-                            <div className='marketsArea'>
+                            <div className='clients-area'>
                                 <InputText value={this.state.clientId} disabled
-                                    placeholder='Client ID' style={{ width: '100px' }} />
-                                <InputText value={this.state.name} onChange={this.nameHandler} className={this.state.name == '' && "p-invalid p-d-block"}
-                                    placeholder='Name' style={{ width: '200px' }} />
-                                <InputText value={this.state.address} onChange={this.addressHandler} className={this.state.address == '' && "p-invalid p-d-block"}
-                                    placeholder='Address' style={{ width: '200px' }} />
-                                <InputText value={this.state.city} onChange={this.cityHandler} className={this.state.city == '' && "p-invalid p-d-block"}
-                                    placeholder='City' style={{ width: '200px' }} />
-                                <InputText value={this.state.postalCode} onChange={this.postalCodeHandler} className={this.state.postalCode == '' && "p-invalid p-d-block"}
-                                    placeholder='Code Postal' style={{ width: '200px' }} />
-                                <InputText value={this.state.province} onChange={this.provinceHandler} className={this.state.province == '' && "p-invalid p-d-block"}
-                                    placeholder='Provincie' style={{ width: '200px' }} />
-                                <InputText value={this.state.phone} onChange={this.phoneHandler} className={this.state.phone == '' && "p-invalid p-d-block"}
-                                    placeholder='Phone' style={{ width: '200px' }} />
-                                <InputText value={this.state.email} onChange={this.emailHandler} className={this.state.email == '' && "p-invalid p-d-block"}
-                                    placeholder='Email' style={{ width: '200px' }} />
-                                <InputText value={this.state.nif} onChange={this.nifHandler} className={this.state.nif == '' && "p-invalid p-d-block"}
-                                    placeholder='Nif' style={{ width: '200px' }} />
-                                <InputText value={this.state.contact} onChange={this.contactHandler} className={this.state.contact == '' && "p-invalid p-d-block"}
-                                    placeholder='ContactName' style={{ width: '200px' }} />
+                                           placeholder='Client ID'/>
+                                <InputText value={this.state.name} onChange={this.nameHandler}
+                                           className={this.state.name == '' && 'p-invalid p-d-block'}
+                                           placeholder='Name'/>
+                                <InputText value={this.state.address} onChange={this.addressHandler}
+                                           className={this.state.address == '' && 'p-invalid p-d-block'}
+                                           placeholder='Address'/>
+                                <InputText value={this.state.city} onChange={this.cityHandler}
+                                           className={this.state.city == '' && 'p-invalid p-d-block'}
+                                           placeholder='City'/>
+                                <InputText value={this.state.postalCode} onChange={this.postalCodeHandler}
+                                           className={this.state.postalCode == '' && 'p-invalid p-d-block'}
+                                           placeholder='Code Postal'/>
+                                <InputText value={this.state.province} onChange={this.provinceHandler}
+                                           className={this.state.province == '' && 'p-invalid p-d-block'}
+                                           placeholder='Provincie'/>
+                                <InputText value={this.state.phone} onChange={this.phoneHandler}
+                                           className={this.state.phone == '' && 'p-invalid p-d-block'}
+                                           placeholder='Phone'/>
+                                <InputText value={this.state.email} onChange={this.emailHandler}
+                                           className={this.state.email == '' && 'p-invalid p-d-block'}
+                                           placeholder='Email'/>
+                                <InputText value={this.state.nif} onChange={this.nifHandler}
+                                           className={this.state.nif == '' && 'p-invalid p-d-block'}
+                                           placeholder='Nif'/>
+                                <InputText value={this.state.contact} onChange={this.contactHandler}
+                                           className={this.state.contact == '' && 'p-invalid p-d-block'}
+                                           placeholder='ContactName'/>
                                 <Button label='Modify' icon='pi pi-send' onClick={this.updateClient}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                                        className='p-button-secondary p-mr-2'
+                                        style={{backgroundColor: '#77FF94', color: 'black'}}/>
                             </div>
                             :
                             <div>
-                                <div className='flexCenter'>
-                                    <GPEInput onChange={this.filterHandler} />
+                                <div className='flex-center'>
+                                    <GPEInput onChange={this.filterHandler}/>
                                     {this.state.show ?
                                         <Button label='Show Enable' onClick={this.showEnable}
-                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                            style={{ backgroundColor: '#86AEC2' }} /> :
+                                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                                style={{backgroundColor: '#86AEC2'}}/> :
                                         <Button label='Show Disable' onClick={this.showDisable}
-                                            className='p-button-secondary p-mr-2' icon='pi pi-eye'
-                                            style={{ backgroundColor: '#86AEC2' }} />
+                                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
+                                                style={{backgroundColor: '#86AEC2'}}/>
                                     }
-                                    <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getClients}
-                                        className='p-button-secondary p-mr-2'
-                                        style={{ backgroundColor: '#86AEC2' }} />
+                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.getClients}
+                                            className='p-button-secondary p-mr-2'
+                                            style={{backgroundColor: '#86AEC2'}}/>
                                 </div>
                                 <div>
                                     <DataTable value={this.state.clients}>
-                                        <Column field='ClientId' header='ClientId' style={{ textAlign: 'center', width: '5%' }} />
-                                        <Column field='Name' header='Name' style={{ textAlign: 'center', width: '15%' }} />
-                                        <Column field='Address' header='Address'
-                                            style={{ textAlign: 'center', width: '20%' }} />
-                                        <Column field='City' header='City' style={{ textAlign: 'center', width: '10%' }} />
-                                        <Column field='Province' header='Province' style={{ textAlign: 'center', width: '15%' }} />
-                                        <Column field='Phone' header='Phone' style={{ textAlign: 'center', width: '15%' }} />
-                                        <Column field='NIF' header='NIF' style={{ textAlign: 'center', width: '15%' }} />
-                                        <Column field='ContactName' header='ContactName' style={{ textAlign: 'center', width: '15%' }} />
-                                        <Column field='RegisterDate' header='RegisterDate' style={{ textAlign: 'center', width: '15%' }} />
-                                        <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }}
-                                            field='Enabled'
-                                            header='Enabled' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.changePage}
-                                            field="Modify" header="Modify" />
+                                        <Column field='ClientId' header='ClientId' style={{textAlign: 'center'}}/>
+                                        <Column field='Name' header='Name' style={{textAlign: 'center'}}/>
+                                        <Column field='Address' header='Address' style={{textAlign: 'center'}}/>
+                                        <Column field='City' header='City' style={{textAlign: 'center'}}/>
+                                        <Column field='Province' header='Province' style={{textAlign: 'center'}}/>
+                                        <Column field='Phone' header='Phone' style={{textAlign: 'center'}}/>
+                                        <Column field='NIF' header='NIF' style={{textAlign: 'center'}}/>
+                                        <Column field='ContactName' header='ContactName' style={{textAlign: 'center'}}/>
+                                        <Column field='RegisterDate' header='RegisterDate'
+                                                style={{textAlign: 'center'}}/>
+                                        <Column body={this.btnActive} style={{textAlign: 'center'}} field='Enabled'
+                                                header='Enabled'/>
+                                        <Column style={{textAlign: 'center'}} body={this.changePage} field='Modify'
+                                                header='Modify'/>
                                     </DataTable>
                                 </div>
                             </div>}
                     </TabPanel>
                     <TabPanel header='Add New Client'>
-                        <div className='marketsArea'>
-                            <InputText value={this.state.clientId} disabled
-                                placeholder='Client ID' style={{ width: '100px' }} />
-                            <InputText value={this.state.name} onChange={this.nameHandler} className={this.state.name == '' && "p-invalid p-d-block"}
-                                placeholder='Name' style={{ width: '200px' }} />
-                            <InputText value={this.state.address} onChange={this.addressHandler} className={this.state.address == '' && "p-invalid p-d-block"}
-                                placeholder='Address' style={{ width: '200px' }} />
-                            <InputText value={this.state.city} onChange={this.cityHandler} className={this.state.city == '' && "p-invalid p-d-block"}
-                                placeholder='City' style={{ width: '200px' }} />
-                            <InputText value={this.state.postalCode} onChange={this.postalCodeHandler} className={this.state.postalCode == '' && "p-invalid p-d-block"}
-                                placeholder='Code Postal' style={{ width: '200px' }} />
-                            <InputText value={this.state.province} onChange={this.provinceHandler} className={this.state.province == '' && "p-invalid p-d-block"}
-                                placeholder='Provincie' style={{ width: '200px' }} />
-                            <InputText value={this.state.phone} onChange={this.phoneHandler} className={this.state.phone == '' && "p-invalid p-d-block"}
-                                placeholder='Phone' style={{ width: '200px' }} />
-                            <InputText value={this.state.email} onChange={this.emailHandler} className={this.state.email == '' && "p-invalid p-d-block"}
-                                placeholder='Email' style={{ width: '200px' }} />
-                            <InputText value={this.state.nif} onChange={this.nifHandler} className={this.state.nif == '' && "p-invalid p-d-block"}
-                                placeholder='Nif' style={{ width: '200px' }} />
-                            <InputText value={this.state.contact} onChange={this.contactHandler} className={this.state.contact == '' && "p-invalid p-d-block"}
-                                placeholder='ContactName' style={{ width: '200px' }} />
+                        <div className='clients-area'>
+                            <InputText value={this.state.name} onChange={this.nameHandler}
+                                       className={this.state.name == '' && 'p-invalid p-d-block'}
+                                       placeholder='Name'/>
+                            <InputText value={this.state.address} onChange={this.addressHandler}
+                                       className={this.state.address == '' && 'p-invalid p-d-block'}
+                                       placeholder='Address'/>
+                            <InputText value={this.state.city} onChange={this.cityHandler}
+                                       className={this.state.city == '' && 'p-invalid p-d-block'}
+                                       placeholder='City'/>
+                            <InputText value={this.state.postalCode} onChange={this.postalCodeHandler}
+                                       className={this.state.postalCode == '' && 'p-invalid p-d-block'}
+                                       placeholder='Code Postal'/>
+                            <InputText value={this.state.province} onChange={this.provinceHandler}
+                                       className={this.state.province == '' && 'p-invalid p-d-block'}
+                                       placeholder='Provincie'/>
+                            <InputText value={this.state.phone} onChange={this.phoneHandler}
+                                       className={this.state.phone == '' && 'p-invalid p-d-block'}
+                                       placeholder='Phone'/>
+                            <InputText value={this.state.email} onChange={this.emailHandler}
+                                       className={this.state.email == '' && 'p-invalid p-d-block'}
+                                       placeholder='Email'/>
+                            <InputText value={this.state.nif} onChange={this.nifHandler}
+                                       className={this.state.nif == '' && 'p-invalid p-d-block'}
+                                       placeholder='Nif'/>
+                            <InputText value={this.state.contact} onChange={this.contactHandler}
+                                       className={this.state.contact == '' && 'p-invalid p-d-block'}
+                                       placeholder='ContactName'/>
                             <Button label=' New Client' icon='pi pi-plus-circle' onClick={this.addClient}
-                                className='p-button-secondary p-mr-2'
-                                style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                                    className='p-button-secondary p-mr-2'
+                                    style={{backgroundColor: '#77FF94', color: 'black'}}/>
                         </div>
                     </TabPanel>
                 </TabView>
-
             </Fragment>
         )
     }
+
 }

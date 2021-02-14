@@ -12,7 +12,6 @@ import {GPEInput} from '../components/GPEInput';
 import {Dropdown} from 'primereact/dropdown';
 
 export class EmployeesView extends React.Component {
-
     constructor(props) {
         super(props);
         this.GPEAlert = createRef();
@@ -21,12 +20,74 @@ export class EmployeesView extends React.Component {
             allEmployees: [],
             name: '',
             type: '',
-            enabled: '',
+            enabled: false,
             types: ['Salesman', 'Deliverer'],
             enabledOptions: ['true', 'false'],
             visible: true,
             employeeId: ''
         }
+    }
+
+    componentDidMount() {
+        this.getEmployees();
+    }
+
+    //Get the data base employees information
+    getEmployees = () => {
+        axios.get(GPEApi + 'Employees/BackOffice').then((response) => {
+            this.setState({employees: response.data});
+            this.setState({allEmployees: response.data});
+        })
+    }
+
+    //Post a new employee on data base
+    addEmployee = () => {
+        if (this.checkInputs()) {
+            let employee = {
+                Name: this.state.name,
+                Type: this.state.type,
+                Enabled: false,
+            }
+            axios.post(GPEApi + 'Employees', employee).then(response => {
+                    this.getEmployees();
+                    this.clearInputs();
+                    this.setState({activeIndex: 0});
+                    this.GPEShowSuccess('Employee inserted');
+                }
+            )
+        } else {
+            this.GPEShowError('You have to introduce all fields')
+        }
+    }
+
+
+    //Update the employee with a new name and new type
+    updateEmployee = () => {
+        let emp = {
+            Name: this.state.name,
+            Type: this.state.type
+        }
+        axios.put(GPEApi + 'Employees/' + this.state.employeeId, emp).then(response => {
+                this.visibleHandler();
+                this.getEmployees();
+                this.clearInputs();
+            this.GPEShowSuccess('Employee updated');
+            }
+        )
+    }
+
+    //Check the enabled field and shou a green button if is true and red button if is false
+    btnActive = (rowData) => {
+        return (<>{rowData.Enabled ?
+            <Button label='YES' onClick={() => this.changeEnabled(rowData)} className='p-button-success'/>
+            :
+            <Button label='NO' onClick={() => this.changeEnabled(rowData)} className=' p-button-danger'/>
+        }
+        </>)
+    }
+
+    changeEnabled = (employees) => {
+        axios.put(GPEApi + 'Employees/' + employees.EmployeeId).then(() => this.getEmployees())
     }
 
     //Take the value and save it in the state
@@ -39,136 +100,51 @@ export class EmployeesView extends React.Component {
     };
     //Take the value and save it in the state
     enabledHandler = (e) => {
-
         this.setState({enabled: e.target.value});
-
-
     };
+    //Show and hide the modify screen
+    visibleHandler = () => {
+        this.setState({visible: !this.state.visible});
+    }
 
     //Clear inputs value
-
     clearInputs = () => {
         this.setState({name: ''});
         this.setState({type: ''});
     }
 
     //Check if inputs are empty
-
-    checkIputs = () => {
+    checkInputs = () => {
         if (this.state.name == '' || this.state.type == '' || this.state.enabled == '') {
             return false;
         } else {
             return true;
         }
     }
-    //Check the enabled field and shou a green button if is true and red button if is false
-    btnActive = (rowData) => {
-        console.log(rowData.Enabled);
-        return (<>{rowData.Enabled == 'Yes' ?
-            <Button label='YES' onClick={() => this.changeEmployee(rowData)} className='p-button-success'/>
-            :
-            <Button label='NO' onClick={() => this.changeEmployee2(rowData)} className=' p-button-danger'/>
-        }
-        </>)
-    }
-    //Post a new employee on data base
-    addEmployee = () => {
-        if (this.checkIputs()) {
-            let employee = {
-
-                Name: this.state.name,
-                Type: this.state.type,
-                Enabled: 0
-            }
-            axios.post(GPEApi + 'Employees', employee).then(response => {
-                    this.getEmployees();
-                    this.clearInputs();
-                    this.setState({activeIndex: 0});
-                }
-            )
-        } else {
-            alert('You have to introduce all fields')
-        }
+    //tTake the information of the actual employye and save it in the state for use it later
+    showInputs = (rowData) => {
+        this.visibleHandler();
+        this.setState({employeeId: rowData.EmployeeId});
+        this.setState({name: rowData.Name});
+        this.setState({enabled: rowData.Enabled});
     }
 
-    componentDidMount() {
-        this.getEmployees();
+    //Button used for go to the modify screen
+    changePage = (rowData) => {
+        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+                       className='p-button-secondary p-mr-2'
+                       style={{backgroundColor: '#86AEC2'}}/>
     }
 
-    //Get the data base employees information
-    getEmployees = () => {
-        axios.get(GPEApi + 'Employees/BackOffice').then((response) => {
-            response.data.forEach(item => {
-                if (item.Enabled === true) {
-                    item.Enabled = 'Yes';
-                } else {
-                    item.Enabled = 'No';
-                }
-            });
-            this.setState({employees: response.data});
-            this.setState({allEmployees: response.data});
-        })
-    }
     //Take the value and save it in the state
     filterHandler = (e) => {
         this.setState({filter: e.target.value}, () => {
             this.filter();
-            console.log(this.state.filter);
-            console.log(this.state.allEmployees);
         });
     };
-    //Update the enabled employees and turn it disabled
-    changeEmployee = (employee) => {
-        axios.put(GPEApi + 'Employees/' + employee.EmployeeId, {
-            'Name': employee.Name,
-            'Type': employee.Type,
-            'Enabled': false
-        }).then(() => this.getEmployees())
-    }
-    // update the disabled employees and turn it enabled
-    changeEmployee2 = (employee) => {
-        let emp = {
-            Name: this.state.name,
-            Type: this.state.type,
-            Enabled: this.state.enabled
-        }
-        axios.put(GPEApi + 'Employees/' + employee.EmployeeId, {
-            'Name': employee.Name,
-            'Type': employee.Type,
-            'Enabled': true
-        }).then(() => this.getEmployees())
-    }
-    //Update the employee with a new name and new type
-    updateEmployee = () => {
-        let emp = {
-
-            Name: this.state.name,
-            Type: this.state.type
-        }
-        axios.put(GPEApi + 'Employees/' + this.state.employeeId, emp).then(response => {
-                this.visibleHandler();
-                this.getEmployees();
-                this.clearInputs();
-            }
-        )
-
-    }
-    //Show and hide the modify screen
-    visibleHandler = () => {
-        this.setState({visible: !this.state.visible});
-    }
-    //tTake the information of the actual employye and save it in the state for use it later
-    showInputs = (rowData) => {
-        this.visibleHandler();
-        console.log(rowData)
-        this.setState({employeeId: rowData.EmployeeId});
-        this.setState({name: rowData.Name}, () => console.log(this.state.name));
-        this.setState({enabled: rowData.Enabled});
-    }
 
     //This function takes the input value and filter de array of information using it
     filter = () => {
-
         let employeeList = [];
         if (this.state.filter === '') {
             this.setState({employees: this.state.allEmployees});
@@ -186,11 +162,12 @@ export class EmployeesView extends React.Component {
             this.setState({employees: employeeList});
         }
     };
-    //Button used for go to the modify screen
-    changePage = (rowData) => {
-        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
-                       className='p-button-secondary p-mr-2'
-                       style={{backgroundColor: '#86AEC2'}}/>
+
+    GPEShowError = (error) => {
+        this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, life: 3000});
+    }
+    GPEShowSuccess = (detailValue) => {
+        this.GPEAlert.current.show({severity: 'success', summary: 'Done', detail: detailValue, life: 3000});
     }
 
     render() {
@@ -200,24 +177,23 @@ export class EmployeesView extends React.Component {
                 <TabView>
                     <TabPanel header='Employees Filter'>
                         {this.state.visible === true ? <div>
-                                <div className='flexCenter'>
+                                <div className='flex-center'>
                                     <GPEInput onChange={this.filterHandler}/>
-                                    <Button label='Actualizar' icon='pi pi-refresh' onClick={this.resetStates}
+                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.resetStates}
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
                                 </div>
                                 <div>
                                     <DataTable value={this.state.employees}>
-                                        <Column style={{textAlign: 'center', width: '12%'}} field='EmployeeId'
+                                        <Column style={{textAlign: 'center'}} field='EmployeeId'
                                                 header='EmployeeId'/>
-                                        <Column style={{textAlign: 'center', width: '9%'}} field='Name' header='Name'/>
-                                        <Column style={{textAlign: 'center', width: '11%'}} field='Type'
+                                        <Column style={{textAlign: 'center'}} field='Name' header='Name'/>
+                                        <Column style={{textAlign: 'center'}} field='Type'
                                                 header='Type'/>
-                                        <Column body={this.btnActive} style={{textAlign: 'center', width: '10%'}}
-                                                field='Enabled'
-                                                header='Enabled'/>
-                                        <Column style={{textAlign: 'center', width: '11%'}} body={this.changePage}
-                                                field='Modify' header='Modify'></Column>
+                                        <Column body={this.btnActive} style={{textAlign: 'center'}}
+                                                field='Enabled' header='Enabled'/>
+                                        <Column style={{textAlign: 'center'}} body={this.changePage}
+                                                field='Modify' header='Modify'/>
                                     </DataTable>
                                 </div>
                             </div> :
@@ -236,14 +212,10 @@ export class EmployeesView extends React.Component {
                     <TabPanel header='New Employees'>
                         <div>
                             <InputText value={this.state.name} onChange={this.nameHandler}
-                                       placeholder='Name' style={{width: '220px'}}
-                            />
+                                       placeholder='Name' className={this.state.name == '' && 'p-invalid p-d-block'}/>
                             <Dropdown value={this.state.type} options={this.state.types}
                                       placeholder='Select Type' onChange={this.typeHandler}
-                            />
-                            <Dropdown value={this.state.enabled} options={this.state.enabledOptions}
-                                      placeholder='Select if is enabled' onChange={this.enabledHandler}
-                            />
+                                      className={this.state.type == '' && 'p-invalid p-d-block'}/>
                             <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addEmployee}
                                     className='p-button-secondary p-mr-2'
                                     style={{backgroundColor: '#77FF94', color: 'black'}}/>

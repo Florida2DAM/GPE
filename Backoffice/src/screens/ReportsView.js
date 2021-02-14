@@ -99,15 +99,13 @@ export class ReportsView extends React.Component {
             <Fragment>
                 <TabView>
                     <TabPanel header='Orders'>
-                        <div className='chartView'>
-                            <Chart className='chart' type='line' data={ordersData} options={chartOptions}
-                                   width='1000%'/>
+                        <div className='chart'>
+                            <Chart className='chart' type='line' data={ordersData} options={chartOptions}/>
                         </div>
                     </TabPanel>
                     <TabPanel header='Clients'>
-                        <div className='chartView'>
-                            <Chart className='chart' type='line' data={clientsData} options={chartOptions}
-                                   width='1000%'/>
+                        <div className='chart'>
+                            <Chart className='chart' type='line' data={clientsData} options={chartOptions}/>
                         </div>
                     </TabPanel>
                 </TabView>

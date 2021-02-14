@@ -10,47 +10,39 @@ import {ReportsView} from './screens/ReportsView';
 import {ClientsView} from './screens/ClientsView';
 import {EmployeesView} from "./screens/EmployeesView";
 import {OrdersView} from "./screens/OrdersView";
+import gpe from "./assets/gpe.png"
 
 export default class App extends React.Component {
     render() {
         return (
             <HashRouter>
-                <div className='container'>
-                    <div className='menu'>
-                        <nav>
-                            <div>
-                                <NavLink to='/articles' activeClassName='selectedLink' className='navLink'>
-                                    Articles
-                                </NavLink>
-                            </div>
-                            <div>
-                                <NavLink to='/lots' activeClassName='selectedLink' className='navLink'>
-                                    Lots
-                                </NavLink>
-                            </div>
-                            <div>
-                                <NavLink to='/orders' activeClassName='selectedLink' className='navLink'>
-                                    Orders
-                                </NavLink>
-                            </div>
-                            <div>
-                                <NavLink to='/clients' activeClassName='selectedLink' className='navLink'>
-                                    Clients
-                                </NavLink>
-                            </div>
-                            <div>
-                                <NavLink to='/employees' activeClassName='selectedLink' className='navLink'>
-                                    Employees
-                                </NavLink>
-                            </div>
-                            <div>
-                                <NavLink to='/reports' activeClassName='selectedLink' className='navLink'>
-                                    Reports
-                                </NavLink>
-                            </div>
+                <div>
+                    <div style={{display:"flex", flexDirection:'row'}}>
+                        <div style={{marginRight:'8%', marginLeft:'1%', marginTop:'1%', marginBottom: '1%'}}>
+                        <img src={gpe} alt='logo'/>
+                        </div>
+                        <nav style={{display: 'flex',flexDirection: 'row', alignItems: 'flex-end'}}>
+                            <NavLink to='/articles' activeClassName='selectedLink' className='nav-link'>
+                                Articles
+                            </NavLink>
+                            <NavLink to='/lots' activeClassName='selectedLink' className='nav-link'>
+                                Lots
+                            </NavLink>
+                            <NavLink to='/orders' activeClassName='selectedLink' className='nav-link'>
+                                Orders
+                            </NavLink>
+                            <NavLink to='/clients' activeClassName='selectedLink' className='nav-link'>
+                                Clients
+                            </NavLink>
+                            <NavLink to='/employees' activeClassName='selectedLink' className='nav-link'>
+                                Employees
+                            </NavLink>
+                            <NavLink to='/reports' activeClassName='selectedLink' className='nav-link'>
+                                Reports
+                            </NavLink>
                         </nav>
                     </div>
-                    <div className='mainWindow'>
+                    <div>
                         <Switch>
                             <Route path='/articles'>
                                 <ArticlesView/>

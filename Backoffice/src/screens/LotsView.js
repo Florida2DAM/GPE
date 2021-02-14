@@ -48,7 +48,6 @@ export class LotsView extends React.Component {
                 articleIds.push(e.ArticleId)
             })
             this.setState({allArticleId: articleIds});
-            console.log(articleIds)
         })
     }
     updateLot = () => {
@@ -61,11 +60,11 @@ export class LotsView extends React.Component {
                 this.visibleHandler();
                 this.getLots();
                 this.clearInputs();
+                this.GPEShowSuccess('Lot updated');
             }
         )
-
     }
-    checkIputs = () => {
+    checkInputs = () => {
         if (this.state.stock == '' || this.state.articleId == '' || this.state.lotId == '') {
             return false;
         } else {
@@ -73,7 +72,7 @@ export class LotsView extends React.Component {
         }
     }
     addLots = () => {
-        if (this.checkIputs()) {
+        if (this.checkInputs()) {
             let lot = {
                 ArticleId: this.state.articleId,
                 LotId: this.state.lotId,
@@ -83,12 +82,12 @@ export class LotsView extends React.Component {
                     this.getLots();
                     this.clearInputs();
                     this.setState({activeIndex: 0});
+                    this.GPEShowSuccess('Lot inserted')
                 }
             )
         } else {
-            alert("You have to introduce all fields")
+            this.GPEShowError('You have to introduce all fields')
         }
-
     }
 
     lotIdHandler = (e) => {
@@ -98,17 +97,15 @@ export class LotsView extends React.Component {
         this.setState({stock: e.target.value});
     };
     articleIdHandler = (e) => {
-        this.setState({articleId: e.target.value}, console.log(e.target.value));
+        this.setState({articleId: e.target.value});
     }
     filterHandler = (e) => {
         this.setState({filter: e.target.value}, () => {
             this.filter();
-            console.log(this.state.filter);
         });
     };
 
     filter = () => {
-
         let lotList = [];
         if (this.state.filter === '') {
             this.setState({lots: this.state.allLots});
@@ -136,15 +133,21 @@ export class LotsView extends React.Component {
 
     showInputs = (rowData) => {
         this.visibleHandler();
-        console.log(rowData)
         this.setState({lotId: rowData.LotId});
-        this.setState({stock: rowData.Stock}, () => console.log(this.state.stock));
+        this.setState({stock: rowData.Stock});
         this.setState({articleId: rowData.ArticleId});
     }
     clearInputs = () => {
         this.setState({lotId: ''});
         this.setState({stock: ''});
         this.setState({articleId: ''});
+    }
+
+    GPEShowError = (error) => {
+        this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, life: 3000});
+    }
+    GPEShowSuccess = (detailValue) => {
+        this.GPEAlert.current.show({severity: 'success', summary: 'Done', detail: detailValue, life: 3000});
     }
 
     render() {
@@ -155,50 +158,51 @@ export class LotsView extends React.Component {
                          onTabChange={(e) => this.setState({activeIndex: e.index})}>
                     <TabPanel header='Lots'>
                         {this.state.visible === true ? <div>
-                                <div className='flexCenter'>
+                                <div className='flex-center'>
                                     <GPEInput onChange={this.filterHandler}/>
-                                    <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getLots}
+                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.getLots}
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
                                 </div>
                                 <div>
                                     <DataTable value={this.state.lots}>
-                                        <Column style={{textAlign: 'center', width: '12%'}} field='ArticleId'
+                                        <Column style={{textAlign: 'center'}} field='ArticleId'
                                                 header='ArticleId'/>
-                                        <Column style={{textAlign: 'center', width: '9%'}} field='LotId' header='LotId'/>
-                                        <Column style={{textAlign: 'center', width: '11%'}} field='Stock' header='Stock'/>
-                                        <Column style={{textAlign: 'center', width: '11%'}} body={this.changePage}
-                                                field="Modify" header="Modify"></Column>
+                                        <Column style={{textAlign: 'center'}} field='LotId' header='LotId'/>
+                                        <Column style={{textAlign: 'center'}} field='Stock' header='Stock'/>
+                                        <Column style={{textAlign: 'center'}} body={this.changePage}
+                                                field='Modify' header='Modify'/>
                                     </DataTable>
                                 </div>
                             </div>
                             :
                             <div>
                                 <Dropdown value={this.state.articleId} options={this.state.allArticleId}
-                                          onChange={this.articleIdHandler} disabled placeholder="Select a Id"/>
+                                          onChange={this.articleIdHandler} disabled placeholder='Select a Id'/>
                                 <InputText value={this.state.lotId} disabled onChange={this.lotIdHandler}
-                                           placeholder='Lot Id' style={{width: '220px'}}/>
+                                           placeholder='Lot Id'/>
                                 <InputText value={this.state.stock} onChange={this.stockHandler}
-                                           placeholder='Stock Number' style={{width: '220px'}}/>
+                                           placeholder='Stock Number'
+                                           className={this.state.stock == '' && 'p-invalid p-d-block'}/>
                                 <Button label='Modify' icon='pi pi-send' onClick={this.updateLot}
                                         className='p-button-secondary p-mr-2'
                                         style={{backgroundColor: '#77FF94', color: 'black'}}/>
                             </div>}
                     </TabPanel>
                     <TabPanel header='New Lot'>
-                        <div className='flexCenter'>
+                        <div className='flex-center'>
                             <div>
                                 <Dropdown value={this.state.articleId} options={this.state.allArticleId}
-                                          onChange={this.articleIdHandler} placeholder="Select a Id"
-                                          className={this.state.articleId == '' && "p-invalid p-d-block"}/>
+                                          onChange={this.articleIdHandler} placeholder='Select a Id'
+                                          className={this.state.articleId == '' && 'p-invalid p-d-block'}/>
                                 <InputText value={this.state.lotId} onChange={this.lotIdHandler}
-                                           placeholder='Lot Id' style={{width: '220px'}}
-                                           className={this.state.lotId == '' && "p-invalid p-d-block"}/>
+                                           placeholder='Lot Id'
+                                           className={this.state.lotId == '' && 'p-invalid p-d-block'}/>
                                 <InputText value={this.state.stock} onChange={this.stockHandler}
-                                           placeholder='Stock Number' style={{width: '220px'}}
-                                           className={this.state.stock == '' && "p-invalid p-d-block"}/>
+                                           placeholder='Stock Number'
+                                           className={this.state.stock == '' && 'p-invalid p-d-block'}/>
                             </div>
-                            <div className='flexCenter'>
+                            <div className='flex-center'>
                                 <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addLots}
                                         className='p-button-secondary p-mr-2'
                                         style={{backgroundColor: '#77FF94', color: 'black'}}/>

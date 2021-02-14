@@ -1,14 +1,15 @@
 import * as React from 'react';
-import {createRef, Fragment} from 'react';
+import {Fragment} from 'react';
 import '../App.css';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {TabPanel, TabView} from 'primereact/tabview';
-import {Toast} from 'primereact/toast';
 import {GPEInput} from '../components/GPEInput';
-import {axios, GPEApi} from '../components/GPEConst'
+import {axios, GPEApi} from '../components/GPEConst';
+import {createRef} from 'react';
+import {Toast} from 'primereact/toast';
 
 export class ArticlesView extends React.Component {
     constructor(props) {
@@ -43,24 +44,29 @@ export class ArticlesView extends React.Component {
     }
 
     updateArticle = () => {
-        let article = {
-            ArticleId: this.state.articleId,
-            Description: this.state.description,
-            Price: this.state.price,
-            Brand: this.state.brand,
-            Category: this.state.category,
-            Iva: this.state.iva,
+        if (this.checkInputs()) {
+            let article = {
+                ArticleId: this.state.articleId,
+                Description: this.state.description,
+                Price: this.state.price,
+                Brand: this.state.brand,
+                Category: this.state.category,
+                Iva: this.state.iva,
 
-        }
-        axios.put(GPEApi + 'Articles', article).then(response => {
-                this.visibleHandler();
-                this.getArticles();
-                this.clearInputs();
             }
-        )
+            axios.put(GPEApi + 'Articles', article).then(response => {
+                    this.visibleHandler();
+                    this.getArticles();
+                    this.clearInputs();
+                }
+            )
+        } else {
+            this.GPEShowError('You have to introduce all fields');
+        }
+
     }
 
-    checkIputs = () => {
+    checkInputs = () => {
         if (this.state.description == '' || this.state.price == '' ||
             this.state.brand == '' || this.state.category == '' || this.state.iva == '') {
             return false;
@@ -70,7 +76,7 @@ export class ArticlesView extends React.Component {
     }
 
     addArticle = () => {
-        if (this.checkIputs()) {
+        if (this.checkInputs()) {
             let article = {
                 ArticleId: this.state.articleId,
                 Description: this.state.description,
@@ -84,10 +90,11 @@ export class ArticlesView extends React.Component {
                     this.getArticles();
                     this.clearInputs();
                     this.setState({activeIndex: 0});
+                    this.GPEShowSuccess('Article inserted');
                 }
             )
         } else {
-            alert("You have to introduce all fields")
+            this.GPEShowError('You have to introduce all fields');
         }
     }
 
@@ -117,7 +124,6 @@ export class ArticlesView extends React.Component {
     };
 
     filter = () => {
-
         let articleList = [];
         if (this.state.filter === '') {
             this.setState({articles: this.state.allArticles});
@@ -178,7 +184,6 @@ export class ArticlesView extends React.Component {
 
     showInputs = (rowData) => {
         this.visibleHandler();
-        console.log(rowData)
         this.setState({articleId: rowData.ArticleId});
         this.setState({description: rowData.Description});
         this.setState({price: rowData.Price});
@@ -207,6 +212,13 @@ export class ArticlesView extends React.Component {
         axios.put(GPEApi + 'Articles/' + articles.ArticleId).then(() => this.getArticles())
     }
 
+    GPEShowError = (error) => {
+        this.GPEAlert.current.show({severity: 'error', summary: 'Error', detail: error, life: 3000});
+    }
+    GPEShowSuccess = (detailValue) => {
+        this.GPEAlert.current.show({severity: 'success', summary: 'Done', detail: detailValue, life: 3000});
+    }
+
     render() {
         return (
             <Fragment>
@@ -217,24 +229,28 @@ export class ArticlesView extends React.Component {
                         {this.state.visibleModify ?
                             <div>
                                 <InputText value={this.state.articleId} disabled onChange={this.articleIdHandler}
-                                           placeholder='Articulo ID' style={{width: '100px'}}/>
+                                           placeholder='Article ID' style={{width: '5%'}}/>
                                 <InputText value={this.state.description} onChange={this.descriptionHandler}
-                                           placeholder='Description' style={{width: '200px'}}/>
+                                           placeholder='Description'
+                                           className={this.state.description == '' && 'p-invalid p-d-block'}/>
                                 <InputText value={this.state.price} onChange={this.priceHandler}
-                                           placeholder='Price' style={{width: '200px'}}/>
+                                           placeholder='Price'
+                                           className={this.state.price == '' && 'p-invalid p-d-block'}/>
                                 <InputText value={this.state.brand} onChange={this.brandHandler}
-                                           placeholder='Brand' style={{width: '200px'}}/>
+                                           placeholder='Brand'
+                                           className={this.state.brand == '' && 'p-invalid p-d-block'}/>
                                 <InputText value={this.state.category} onChange={this.categoryHandler}
-                                           placeholder='Category' style={{width: '200px'}}/>
+                                           placeholder='Category'
+                                           className={this.state.category == '' && 'p-invalid p-d-block'}/>
                                 <InputText value={this.state.iva} onChange={this.ivaHandler}
-                                           placeholder='Iva' style={{width: '200px'}}/>
+                                           placeholder='Iva' className={this.state.iva == '' && 'p-invalid p-d-block'}/>
                                 <Button label='Modify' icon='pi pi-send' onClick={this.updateArticle}
                                         className='p-button-secondary p-mr-2'
                                         style={{backgroundColor: '#77FF94', color: 'black'}}/>
                             </div>
                             :
                             <div>
-                                <div className='flexCenter'>
+                                <div className='flex-center'>
                                     <GPEInput onChange={this.filterHandler}/>
                                     {this.state.show ? <Button label='Show Enable' onClick={this.showEnable}
                                                                className='p-button-secondary p-mr-2' icon='pi pi-eye'
@@ -243,48 +259,52 @@ export class ArticlesView extends React.Component {
                                                 className='p-button-secondary p-mr-2' icon='pi pi-eye'
                                                 style={{backgroundColor: '#86AEC2'}}/>
                                     }
-                                    <Button label='Actualizar' icon='pi pi-refresh' onClick={this.getArticles}
+                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.getArticles}
                                             className='p-button-secondary p-mr-2'
                                             style={{backgroundColor: '#86AEC2'}}/>
                                 </div>
                                 <div>
                                     <DataTable value={this.state.articles}>
-                                        <Column style={{textAlign: 'center', width: '15%'}} field='ArticleId'
+                                        <Column style={{textAlign: 'center'}} field='ArticleId'
                                                 header='ArticleId'/>
-                                        <Column style={{textAlign: 'center', width: '25%'}} field='Description'
+                                        <Column style={{textAlign: 'center'}} field='Description'
                                                 header='Description'/>
-                                        <Column style={{textAlign: 'center', width: '15%'}} field='Price'
+                                        <Column style={{textAlign: 'center'}} field='Price'
                                                 header='Price'/>
-                                        <Column style={{textAlign: 'center', width: '25%'}} field='Brand'
+                                        <Column style={{textAlign: 'center'}} field='Brand'
                                                 header='Brand'/>
-                                        <Column style={{textAlign: 'center', width: '25%'}} field='Category'
+                                        <Column style={{textAlign: 'center'}} field='Category'
                                                 header='Category'/>
-                                        <Column style={{textAlign: 'center', width: '10%'}} field='Iva'
+                                        <Column style={{textAlign: 'center'}} field='Iva'
                                                 header='Iva'/>
-                                        <Column body={this.btnActive} style={{textAlign: 'center', width: '10%'}}
+                                        <Column body={this.btnActive} style={{textAlign: 'center'}}
                                                 field='Enabled'
                                                 header='Enabled'/>
-                                        <Column style={{textAlign: 'center', width: '25%'}} body={this.changePage}
-                                                field="Modify" header="Modify"/>
+                                        <Column style={{textAlign: 'center'}} body={this.changePage}
+                                                field='Modify' header='Modify'/>
                                     </DataTable>
                                 </div>
                             </div>
                         }
                     </TabPanel>
                     <TabPanel header='New Articles'>
-                        <InputText value={this.state.description} onChange={this.descriptionHandler}
-                                   placeholder='Description' style={{width: '200px'}}/>
-                        <InputText value={this.state.price} onChange={this.priceHandler}
-                                   placeholder='Price' style={{width: '200px'}}/>
-                        <InputText value={this.state.brand} onChange={this.brandHandler}
-                                   placeholder='Brand' style={{width: '200px'}}/>
-                        <InputText value={this.state.category} onChange={this.categoryHandler}
-                                   placeholder='Category' style={{width: '200px'}}/>
-                        <InputText value={this.state.iva} onChange={this.ivaHandler}
-                                   placeholder='Iva' style={{width: '200px'}}/>
-                        <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addArticle}
-                                className='p-button-secondary p-mr-2'
-                                style={{backgroundColor: '#77FF94', color: 'black'}}/>
+                        <div className='flex-center'>
+                            <InputText value={this.state.description} onChange={this.descriptionHandler}
+                                       placeholder='Description'
+                                       className={this.state.description == '' && 'p-invalid p-d-block'}/>
+                            <InputText value={this.state.price} onChange={this.priceHandler}
+                                       placeholder='Price' className={this.state.price == '' && 'p-invalid p-d-block'}/>
+                            <InputText value={this.state.brand} onChange={this.brandHandler}
+                                       placeholder='Brand' className={this.state.brand == '' && 'p-invalid p-d-block'}/>
+                            <InputText value={this.state.category} onChange={this.categoryHandler}
+                                       placeholder='Category'
+                                       className={this.state.category == '' && 'p-invalid p-d-block'}/>
+                            <InputText value={this.state.iva} onChange={this.ivaHandler}
+                                       placeholder='Iva' className={this.state.iva == '' && 'p-invalid p-d-block'}/>
+                            <Button label=' New Lot' icon='pi pi-plus-circle' onClick={this.addArticle}
+                                    className='p-button-secondary p-mr-2'
+                                    style={{backgroundColor: '#77FF94', color: 'black'}}/>
+                        </div>
                     </TabPanel>
                 </TabView>
             </Fragment>

@@ -435,7 +435,7 @@ export class OrdersView extends React.Component {
                             </div>
                             :
                             <div>
-                                <div className='flexCenter'>
+                                <div className='flex-center'>
                                     <GPEInput onChange={this.filterHandler} />
                                     <GPEDatePicker tittle={'Date'} getDate={this.dateFilterHandler} />
                                     <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrders}
@@ -511,7 +511,7 @@ export class OrdersView extends React.Component {
                             </div>
                             :
                             <div>
-                                <div className='flexCenter'>
+                                <div className='flex-center'>
                                     <GPEInput onChange={this.filterLineHandler} />
                                     <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrderLines}
                                         className='p-button-secondary p-mr-2'

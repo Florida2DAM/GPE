@@ -4,79 +4,30 @@ html {
     background-color: #1e1e1e;
 }
 
-.nav{
+.flex-center {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
 }
 
-.navLink{
-    display: flex;
-    color: #1e1e1e;
+.nav-link {
     background-color: #ffcc57;
-    justify-content: center;
     color: #ffffff;
-    font-size: 16px;
-    margin-left: 20%;
-    margin-bottom: 20%;
-    padding-top: 20%;
-    padding-bottom: 20%;
-    text-decoration: none;
+    font-size: 28px;
     border-radius: 7px;
-    border-width: 2px;
-    border-color: white;
-    width: 140%;
+    text-decoration: none;
+    padding-bottom: 1%;
+    padding-left: 2%;
+    padding-right: 2%;
+    margin-right: 5%;
 }
 
-.container {
-    display: flex;
-    flex-direction: row;
-}
-
-.menu {
-    position: fixed;
-    top: 25%;
-
-}
-
-.mainWindow {
-    margin-left: 10%;
-}
-
-.flexCenter {
-    display: flex;
-    justify-content: center;
-}
-
-.searchEventArea {
-    display: flex;
-    justify-content: space-between;
-}
-
-.tableReportArea {
-    display: flex;
-}
-
-.pwdArea {
+.clients-area {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: available;
+    width: 25%;
 }
 
-.eventsArea {
-    margin-left: 15px;
-}
-
-.marketsArea {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.chartView {
-    display: flex;
+.chart {
     background-color: #393e46;
-}
-.tabReports{
-    width: 100%;
 }
