@@ -31,14 +31,9 @@ namespace GPE.Models
             context.SaveChanges();
         }
          //Update an existent user
-        internal void Update(int employeeId, Employee eventoBody)
+        internal void Update(Employee employee)
         {
-            Employee emp;
-
-            emp = context.Employees.Where(s => s.EmployeeId == employeeId).FirstOrDefault();
-            emp.Name = eventoBody.Name;
-            emp.Type = eventoBody.Type;
-            emp.Enabled = eventoBody.Enabled;
+            context.Employees.Update(employee);
             context.SaveChanges();
         }
 

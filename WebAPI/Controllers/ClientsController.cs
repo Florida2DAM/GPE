@@ -57,7 +57,7 @@ namespace GPE.Controllers
             return clients;
         }
 
-        [Route("AddClient"), HttpPost]
+        [Route(""), HttpPost]
         // POST api/Clients
         public void Post([FromBody] Client client)
         {
