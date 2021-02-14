@@ -26,6 +26,13 @@ html {
     flex-direction: column;
     justify-content: center;
     width: 25%;
+    margin-left: 38%;
+}
+
+.order-lines-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .chart {
