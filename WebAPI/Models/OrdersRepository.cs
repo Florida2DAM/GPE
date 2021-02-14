@@ -93,7 +93,10 @@ namespace GPE.Models
             context.Orders.Remove(order);
             context.SaveChanges();
         }
-
+        /// <summary>
+        /// Gets the last order added to the database
+        /// </summary>
+        /// <returns></returns>
         internal int GetLastOrderId()
         {
             Order order = context.Orders
