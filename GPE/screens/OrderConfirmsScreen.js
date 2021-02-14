@@ -100,7 +100,7 @@ export default class OrderConfirmsScreen extends Component {
         if (this.props.route.params.orderLines.length === 0) alert('First you have to add items to the order');
         else {
             this.addOrder();
-            this.props.navigation.navigate('VisitSalesScreen');
+            this.props.navigation.navigate('VisitSalesScreen', {orderLines: []});
         }
     };
 

@@ -82,7 +82,8 @@ export default class VisitSalesScreen extends Component {
 
     // Navigates to OrderArticleScreen and sends the client and the orderlines
     navigateToScreen = (item) => {
-        this.props.navigation.navigate('OrderArticlesScreen', { client: item, orderLines: this.state.orderLines });
+        this.props.navigation.navigate('OrderArticlesScreen', { previousScreen: 'VisitSalesScreen', client: item,
+            orderLines: this.state.orderLines });
     };
 
     render() {
