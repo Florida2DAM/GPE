@@ -33,10 +33,10 @@ namespace GPE.Controllers
         }
 
         [Route(""), HttpPut]
-        // PUT: api/Employee/5
-        public void Put(int employeeId, [FromBody] Employee emp)
+        // PUT: api/Employee
+        public void Put([FromBody] Employee employee)
         {
-            employeesRepository.Update(employeeId, emp);
+            employeesRepository.Update(employee);
         }
 
         [Route("ChangeState"), HttpPut]
