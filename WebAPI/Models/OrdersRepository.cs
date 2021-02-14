@@ -126,6 +126,17 @@ namespace GPE.Models
             context.Orders.Update(order);
             context.SaveChanges();
         }
+        /// <summary>
+        /// Updates delivered state in back ofice
+        /// </summary>
+        /// <param name="id">Id of order to update deliver</param>
+        internal void UpdateDelivered(int id)
+        {
+            Order order = Retrieve(id);
+            order.Delivered = !order.Delivered;
+            context.Orders.Update(order);
+            context.SaveChanges();
+        }
 
         /// <summary>
         /// delete a order by id
@@ -139,7 +150,7 @@ namespace GPE.Models
         }
 
         /// <summary>
-        /// Method used to asign the orderLines' orderId
+        /// Gets the last order added to the database
         /// </summary>
         /// <returns></returns>
         internal int GetLastOrderId()
