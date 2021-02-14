@@ -78,7 +78,7 @@ export class OrdersView extends React.Component {
             this.setState({ allOrderLines: response.data });
         })
     }
-    
+
     getDelivered = (e) => {
         if (this.state.delivered) {
             this.setState({ delivered: 'No' })
@@ -217,7 +217,7 @@ export class OrdersView extends React.Component {
     }
 
     changePage = (rowData) => {
-        return <Button label='Modify' icon='pi pi-pencil' onClick={() => this.showInputs(rowData)}
+        return <Button label='View' icon='pi pi-eye' onClick={() => this.showInputs(rowData)}
             className='p-button-secondary p-mr-2'
             style={{ backgroundColor: '#86AEC2' }} />
     }
@@ -367,8 +367,8 @@ export class OrdersView extends React.Component {
         console.log(orderLine);
         axios.put(GPEApi + 'OrderLines', orderLine).then(response => {
             this.visibleHandlerLines();
-            this.getOrderLines();
-            this.clearInputs();
+            //this.getOrderLines();
+            //this.clearInputs();
         }
         )
     }
@@ -433,24 +433,57 @@ export class OrdersView extends React.Component {
                                         className='p-button-secondary p-mr-2'
                                         style={{ backgroundColor: '#77FF94', color: 'black' }} />
                                 </div>
-                                <div>
-                                    <DataTable value={this.state.orderLines}>
-                                        <Column style={{ textAlign: 'center', width: '20%' }} field='OrderId' header='OrderId' />
-                                        <Column style={{ textAlign: 'center', width: '20%' }} field='LineId' header='LineId' />
-                                        <Column style={{ textAlign: 'center', width: '20%' }} field='ArticleId' header='ArticleId' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='LotId' header='LotId' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Description' header='Description' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Price' header='Price' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Brand' header='Brand' />
-                                        <Column style={{ textAlign: 'center', width: '10%' }} field='Category' header='Category' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Quantity' header='Quantity' />
-                                        <Column style={{ textAlign: 'center', width: '30%' }} field='Iva' header='Iva' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='Discount' header='Discount' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} field='TotalLine' header='TotalLine' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrderLine}
-                                            field="Modify" header="Modify" />
-                                    </DataTable>
-                                </div>
+                                {this.state.visibleModifyLines ?
+                                    <div>
+                                        <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
+                                            placeholder='Order ID' style={{ width: '100px' }} />
+                                        <InputText value={this.state.lineId} onChange={this.lineIdHandler}
+                                            placeholder='Line ID' style={{ width: '200px' }} />
+                                        <InputText value={this.state.articleId} onChange={this.articleIdHandler}
+                                            placeholder='Article ID' style={{ width: '200px' }} />
+                                        <InputText value={this.state.lotId} onChange={this.lotIdHandler}
+                                            placeholder='Lot Id' style={{ width: '200px' }} />
+                                        <InputText value={this.state.description} onChange={this.descriptionHandler}
+                                            placeholder='Description' style={{ width: '200px' }} />
+                                        <InputText value={this.state.price} onChange={this.priceHandler}
+                                            placeholder='Price' style={{ width: '200px' }} />
+                                        <InputText value={this.state.paid} onChange={this.brandHandler}
+                                            placeholder='Brand' style={{ width: '200px' }} />
+                                        <InputText value={this.state.category} onChange={this.categoryHandler}
+                                            placeholder='Category' style={{ width: '200px' }} />
+                                        <InputText value={this.state.quantity} onChange={this.quantityHandler}
+                                            placeholder='Quantity' style={{ width: '200px' }} />
+                                        <InputText value={this.state.iva} onChange={this.ivaHandler}
+                                            placeholder='Iva' style={{ width: '200px' }} />
+                                        <InputText value={this.state.discount} onChange={this.discountHandler}
+                                            placeholder='Discount' style={{ width: '200px' }} />
+                                        <InputText value={this.state.totalLine} onChange={this.totalLineHandler}
+                                            placeholder='Total Line' style={{ width: '200px' }} />
+                                        <Button label='Modify' icon='pi pi-send' onClick={this.updateOrderLine}
+                                            className='p-button-secondary p-mr-2'
+                                            style={{ backgroundColor: '#77FF94', color: 'black' }} />
+                                        
+                                    </div>
+                                    :
+                                    <div>
+                                        <DataTable value={this.state.orderLines}>
+                                            <Column style={{ textAlign: 'center', width: '20%' }} field='OrderId' header='OrderId' />
+                                            <Column style={{ textAlign: 'center', width: '20%' }} field='LineId' header='LineId' />
+                                            <Column style={{ textAlign: 'center', width: '20%' }} field='ArticleId' header='ArticleId' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='LotId' header='LotId' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Description' header='Description' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Price' header='Price' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Brand' header='Brand' />
+                                            <Column style={{ textAlign: 'center', width: '10%' }} field='Category' header='Category' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Quantity' header='Quantity' />
+                                            <Column style={{ textAlign: 'center', width: '30%' }} field='Iva' header='Iva' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='Discount' header='Discount' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} field='TotalLine' header='TotalLine' />
+                                            <Column style={{ textAlign: 'center', width: '25%' }} body={this.modifyOrderLine}
+                                                field="Modify" header="Modify" />
+                                        </DataTable>
+                                    </div>
+                                }
                             </div>
                             :
                             <div>
@@ -483,57 +516,15 @@ export class OrdersView extends React.Component {
                                         <Column style={{ textAlign: 'center', width: '20%' }} field='EmployeeId' header='EmployeeId' />
                                         <Column style={{ textAlign: 'center', width: '20%' }} field='Client.City' header='City' />
                                         <Column body={this.btnActive} style={{ textAlign: 'center', width: '10%' }} field='Delivered' header='Delivered' />
-                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.changePage} field="Modify" header="Modify" />
+                                        <Column style={{ textAlign: 'center', width: '25%' }} body={this.changePage} field="View" header="View Lines" />
                                     </DataTable>
                                 </div>
-                            </div>
-                        }
-                    </TabPanel>
-                    <TabPanel header='Order Lines'>
-                        {this.state.visibleModifyLines ?
-                            <div>
-                                <InputText value={this.state.orderId} disabled onChange={this.orderIdHandler}
-                                    placeholder='Order ID' style={{ width: '100px' }} />
-                                <InputText value={this.state.lineId} onChange={this.lineIdHandler}
-                                    placeholder='Line ID' style={{ width: '200px' }} />
-                                <InputText value={this.state.articleId} onChange={this.articleIdHandler}
-                                    placeholder='Article ID' style={{ width: '200px' }} />
-                                <InputText value={this.state.lotId} onChange={this.lotIdHandler}
-                                    placeholder='Lot Id' style={{ width: '200px' }} />
-                                <InputText value={this.state.description} onChange={this.descriptionHandler}
-                                    placeholder='Description' style={{ width: '200px' }} />
-                                <InputText value={this.state.price} onChange={this.priceHandler}
-                                    placeholder='Price' style={{ width: '200px' }} />
-                                <InputText value={this.state.paid} onChange={this.brandHandler}
-                                    placeholder='Brand' style={{ width: '200px' }} />
-                                <InputText value={this.state.category} onChange={this.categoryHandler}
-                                    placeholder='Category' style={{ width: '200px' }} />
-                                <InputText value={this.state.quantity} onChange={this.quantityHandler}
-                                    placeholder='Quantity' style={{ width: '200px' }} />
-                                <InputText value={this.state.iva} onChange={this.ivaHandler}
-                                    placeholder='Iva' style={{ width: '200px' }} />
-                                <InputText value={this.state.discount} onChange={this.discountHandler}
-                                    placeholder='Discount' style={{ width: '200px' }} />
-                                <InputText value={this.state.totalLine} onChange={this.totalLineHandler}
-                                    placeholder='Total Line' style={{ width: '200px' }} />
-                                <Button label='Modify' icon='pi pi-send' onClick={this.updateOrderLine}
-                                    className='p-button-secondary p-mr-2'
-                                    style={{ backgroundColor: '#77FF94', color: 'black' }} />
-                            </div>
-                            :
-                            <div>
-                                <div className='flexCenter'>
-                                    <GPEInput onChange={this.filterLineHandler} />
-                                    <Button label='Refresh' icon='pi pi-refresh' onClick={this.getOrderLines}
-                                        className='p-button-secondary p-mr-2'
-                                        style={{ backgroundColor: '#86AEC2' }} />
-                                </div>
-                                <div>
 
-                                </div>
                             </div>
                         }
                     </TabPanel>
+
+
                 </TabView>
             </Fragment>
         )
