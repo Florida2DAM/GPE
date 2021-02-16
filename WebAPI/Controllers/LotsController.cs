@@ -33,7 +33,7 @@ namespace GPE.Controllers
 
         }
 
-        [Route(""), HttpPost]
+        [Route(""), HttpPut]
         // PUT: api/Lots/5
         public void Put([FromBody]Lot lot)
         {
