@@ -97,7 +97,7 @@ export class ClientsView extends React.Component {
                 ContactName: this.state.contact,
                 Enabled: this.state.enabled
             }
-            axios.post(GPEApi + 'Clients', client).then(response => {
+            axios.post(GPEApi + 'Clients/AddClient', client).then(response => {
                     this.getClients();
                     this.clearInputs();
                     this.setState({activeIndex: 0});
