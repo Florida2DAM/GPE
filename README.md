@@ -52,7 +52,7 @@ Github:
 ![Alt text](https://i.ibb.co/rc5JXTF/Apk-Github-QR.png)
 
 GoogleDrive:  
-![Alt text](https://i.ibb.co/7zmjrbx/Apk-Google-Drive-QR.png)
+![Alt text](https://i.ibb.co/5rJ1t6T/Apk-Google-Drive-QR.png)
 
 ## 📝Trello📝
 
